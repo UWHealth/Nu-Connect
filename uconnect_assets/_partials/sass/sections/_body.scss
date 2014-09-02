@@ -1,0 +1,115 @@
+//Everything is scoped to body content from here forward.
+// Only applies to editor-defined areas.
+
+.body_content{
+	mark{
+		background-color: darken(color(primary_alt,lightest), 5%);
+	}
+	figure {
+		border-bottom: 2px solid $gray_color;
+		@extend %smalls_one_whole;
+		float: none;
+		& img{
+			display: block;
+			margin: 0 auto;
+			float: none;
+		}
+	}
+	figcaption {
+		display: table;
+		overflow: visible !important;
+	}
+	p{
+		max-width: 47em;
+	}
+	h1, .heading{
+		@extend %heading;
+		& + h2, & + .sub_heading{
+			@extend %negative_top;
+		}
+	}
+	h2, .sub_heading{
+		@extend %sub_heading;
+	}
+
+	h3, h4, h5, h6{
+		@extend %txt_sans;
+		@include type_font_size(modular-scale(-1));
+		@extend %txt_bold;
+	}
+}
+main {
+	transform: translateZ(0);
+	position: relative;
+	z-index: 0;
+	.tabs {
+	    width: 100%;
+	}
+	.tab_content{
+		border-top-style: solid;
+	}
+	.tab {
+		float: left;
+		@extend %pad_l;
+		padding-right: 6%;
+		@extend %icon;
+		& span{
+			position: relative;
+			padding-left: .25em;
+			left: .25em;
+		}
+		&:before {
+			@extend %space_neg_l_half;
+		}
+		@include media-query(smalls){
+			@include rems_important(padding, $gutter*1.25);
+			&:before {
+				@include type_font_size(ceil(modular-scale(2)));
+				margin: -14px;
+			}
+			span {
+				display: none;
+			}
+		}
+		&[href*="#focus"], &[href*="#Focus"] {
+			@extend %icon_type_article;
+		}
+		&[href="#faq"], &[href="#FAQ"] {
+			@extend %icon_info_faq;
+		}
+		&[href*="#resource"], &[href*="#Resource"] {
+			@extend %icon_file_resource;
+		}
+		&[href*="#Relate"], &[href*="#relate"] {
+			@extend %icon_network;
+		}
+		&#dir_link{
+			margin-left: 0;
+			display: block;
+			@extend %icon_directory_logo;
+			margin-right: 2%;
+			@include mq(smalls){
+				margin-left: 10%;
+				float: left !important;
+			}
+		}
+	}
+	.tabbed{
+		@extend %space_b_2;
+
+		.controls{
+			@extend %bigs_space_neg_l;
+			@extend %space_neg_l_half;
+			box-sizing: content-box;
+			width: 100%;
+			@extend %bigs_pad_l;
+			@extend %bigs_pad_r;
+			@extend %pad_l_half;
+			@extend %pad_r_half;
+
+			.no-js &{
+				display: none;
+			}
+		}
+	}
+}

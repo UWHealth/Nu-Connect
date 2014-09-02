@@ -1,0 +1,466 @@
+//------------------------------------
+//    $Typography
+//------------------------------------
+
+ // CONTENTS
+ // INTRODUCTION.........How the type system works.
+ // VARIABLES............Your settings.
+ // SETUP................Silent classes and functions.
+ // BASE.................Additional normalization for HTML and BODY
+ // HEADINGS.............Create the headings with modular scale or pre-defined sizes
+ // LISTS................Add typographic rhythm principles to lists.
+ // PARAGRAPHS...........Paragraph, and paragraph-like elements.
+ // QUOTES...............Blockquote styling.
+ // NORMALIZE............Type-specific definitions pulled from normalize.css.
+
+
+//------------------------------------\\
+//    $INTRODUCTION
+//------------------------------------\\
+
+// Based on https://github.com/csswizardry/typecsset;
+// A small, unopinionated library for creating beautifully set type
+// on the web. Typecsset gives perfect vertical rhythm at any configurable font
+// size, as well as many other typographical niceties.
+
+
+
+//------------------------------------\\
+//    $VARIABLES
+//------------------------------------\\
+
+//!!!! NOTE: All of the real variables are in /utilities/_variables.scss \\
+//!!!! What follows is just for reference. !!!!! \\
+
+// What would you like your base font_size to be? Define in pixels; the library
+// will convert measurements to the most appropriate units (rems or unitless).
+//$base_font_size:      14px !default;
+//$base_line_height:    22px !default;
+
+// Heading sizes if you'd rather set them yourself (set $auto_scale_type to false).
+//$type_h1_size:             50px !default;
+//$type_h2_size:             44px !default;
+//$type_h3_size:             33px !default;
+//$type_h4_size:             22px !default;
+//$type_h5_size:             21px !default;
+//$type_h6_size:             18px !default;
+
+// Would you like indented (rather than spaced) paragraph delimiting?
+//$indented_paragraphs: false !default;
+
+// Set the ratio by which your type should grow.
+// Accepts two numbers, representing a ratio, typically associated with
+// music intervals. You may also use floats (1.33).
+// Common intervals: Perfect fourth (4,3)[default], Perfect Fifth (3,2),
+// Perfect Octave (2,1), Major Third (5,4), Major Sixth (5,3).
+// The Golden Ratio is (1.618,1).
+//$scale_ratio:               4,3   !default;
+
+// Would you like to show a baseline grid? This is handy during development.
+//$show_baseline:       false !default;
+
+
+
+
+/*-----------------------------------
+    $SETUP
+------------------------------------*/
+
+// Just here for reference.
+// Real functions live within utilities/_functions.scss
+
+// @mixin type_font_size($font_size, $line-height: true) {
+//    font-size: $font_size;
+//    font-size: ($font_size / $typecsset_base_font_size) * 1rem;
+
+//    @if $line_height == true {
+//        line-height: ceil($font_size / $typecsset_base_line_height) * ($typecsset_base_line_height / $font_size);
+//    }
+//
+// }
+
+// A small, internally-used function to remove the units from a given value.
+// @function typecsset_strip_units($number) {
+//    @return $number / ($number * 0 + 1);
+// }
+
+%type_vertical_rhythm {
+    @extend %space_reset;
+    @extend %space_b;
+}
+%type_space_v{
+	@extend %space_b;
+}
+%type_space_v_half{
+    @extend %space_b_half;
+}
+%type_space_v_quarter{
+    @extend %space_b_quarter;
+}
+
+//-----------------------------------
+//    $BASE
+//------------------------------------
+ html {
+   @extend %space_reset;
+   font-size: percentage(14px / 16px);
+   text-size-adjust: 100%;
+
+// If you have chosen to display a baseline grid, we turn it on here.
+   @if $show_baseline == true {
+        $type_baseline_size: strip_units($type_magic_number);
+        &.baseline_on{
+			background-image: url(http://basehold.it/i/#{$type_baseline_size}); // [3]
+			background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) 0 0 / auto $type_magic_ratio * 1em;
+        }
+    }
+}
+body {
+	font-size: 1em;
+	line-height: $base-line-height/$base-font-size;
+	@extend %space_reset;
+
+}
+
+
+//Allow a toggle for baseline image
+@if $show_baseline == true {
+    .baseline_off{
+        background-image:none;
+    }
+}
+%type_family_secondary{
+    font-family: $secondary_font_stack;
+}
+%type_family_primary{
+    font-family: $primary_font_stack;
+}
+%type_family_icon{
+    font-family: $icon_font_stack;
+}
+
+//------------------------------------
+//    $HEADINGS
+//------------------------------------
+@if $auto_scale_type == true {
+	@include headings(1,6){
+		margin-top: 0;
+		padding-bottom:0;
+	}
+    @include headings_scale($scale_ratio);
+}
+@else{
+    h1, %h1{
+		@extend %txt_serif_normal;
+		@extend %type_vertical_rhythm;
+        @include type_font_size($type_h1_size);
+		@extend %type_family_secondary;
+
+        & + p{
+            @extend %negative_top; //[6]
+        }
+    }
+    @if $type_scale_classes == true{
+        .h1{
+            @extend %h1;
+        }
+    }
+    h2, %h2 {
+		@extend %txt_serif_normal;
+		@extend %type_vertical_rhythm;
+        @include type_font_size($type_h2_size);
+		@extend %type_family_secondary;
+        & + p{
+            @extend %negative_top; //[6]
+        }
+    }
+    @if $type_scale_classes == true{
+        .h2{
+            @extend %h2;
+        }
+    }
+    h3, %h3 {
+		@extend %txt_serif_normal;
+		@extend %type_vertical_rhythm;
+        @include type_font_size($type_h3_size);
+        & + p{
+            @extend %negative_top; //[6]
+        }
+    }
+    @if $type_scale_classes == true{
+        .h3{
+            @extend %h3;
+        }
+    }
+    h4, %h4 {
+		@extend %txt_serif_normal;
+		@extend %type_vertical_rhythm;
+        @include type_font_size($type_h4_size);
+        & + p{
+            @extend %negative_top; //[6]
+        }
+    }
+    @if $type_scale_classes == true{
+        .h4{
+            @extend %h4;
+        }
+    }
+    h5, %h5 {
+		@extend %txt_serif_normal;
+		@extend %type_vertical_rhythm;
+        @include type_font_size($type_h5_size);
+        & + p{
+            @extend %negative_top; //[6]
+        }
+    }
+    @if $type_scale_classes == true{
+        .h5{
+            @extend %h5;
+        }
+    }
+    h6, %h6 {
+		@extend %txt_serif_normal;
+		@extend %type_vertical_rhythm;
+        @include type_font_size($type_h6_size);
+        & + p{
+            @extend %negative_top; //[6]
+        }
+    }
+    @if $type_scale_classes == true{
+        .h6{
+            @extend %h6;
+        }
+    }
+}
+@include mq(smallish){
+    @include headings-scale(1.2, smallish);
+}
+@include mq(small){
+    @include headings-scale(1.17, small);
+}
+.heading, %heading{
+	@include type_font_size(ceil(modular-scale(1)));
+    @extend %txt_serif;
+
+	& + .sub_heading, & + %sub_heading{
+		color: color(label);
+	}
+}
+.sub_heading, %sub_heading{
+	@include type_font_size(modular-scale(-1));
+    font-weight: bold;
+    font-family: $primary_font_stack;
+	@extend %txt_upper;
+}
+.header_gray, %header_gray {
+    @extend %sub_heading;
+    color: color(label) !important;
+    margin-bottom: 0;
+}
+
+//-------------------------------
+//    $PARAGRAPHS
+//-------------------------------
+p, .p, %p {
+    @extend %type_vertical_rhythm;
+	font-size: inherit;
+	line-height: inherit;
+    @if $indented_paragraphs == true {
+        + p, .p, %p {
+            @include type_space(text-indent);
+            @extend %space_negative;
+        }
+    }
+}
+//
+// Not strictly a paragraph, but probably doesn’t need its own section.
+//
+address {
+    @extend %type_vertical_rhythm;
+}
+pre {
+    @extend %type_vertical_rhythm;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+}
+// 1. Fix an odd quirk whereby, without this, code blocks are rendered at a
+//    font_size smaller than 1em.
+code,
+kbd,
+pre,
+samp {
+    font-family: $monospace_font_stack;
+    _font-family: 'courier new', monospace;
+    font-size: 1em; // [1]
+}
+/*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+//-------------------------------
+//   $LISTS
+//-------------------------------
+ul, ol, dd, menu {
+    margin-top: 0;
+	padding: 0;
+    margin-bottom: $type_magic_number;
+    margin-bottom: $type_magic_ratio * 1rem;
+}
+.content_extended {
+    margin-left: $gutter !important;
+}
+
+li > ul,
+li > ol {
+    @extend %space_l;
+    @extend %space_n_v;
+}
+
+/*-------------------------------
+    $QUOTES
+-------------------------------*/
+//
+// 1. Hang the opening quote of the blockquote.
+//
+blockquote {
+    text-indent: -0.41em; // [1]
+}
+blockquote {
+    @extend %space_l;
+    @extend %type_vertical_rhythm;
+    quotes: '“' '”';
+    p {
+        &:before {
+            content: "“";
+            content: open-quote;
+        }
+        &:after {
+            content: "";
+            content: no-close-quote;
+        }
+        &:last-of-type:after {
+            content: "”";
+            content: close-quote;
+        }
+    }
+}
+q   {
+    quotes: "‘" "’" "“" "”";
+    overflow: visible;
+    &:before {
+        content: "‘";
+        content: open-quote;
+    }
+    &:after {
+        content: "’";
+        content: close-quote;
+    }
+    q:before {
+        content: "“";
+        content: open-quote;
+    }
+    q:after{
+        content: "”";
+        content: close-quote;
+    }
+    //
+    // If an element opens with an inline quote, let’s hang that.
+    //
+    &:first-child {
+        display: inline-block;
+        text-indent: -0.22em;
+    }
+}
+
+/*-------------------------------*/
+/*    $NORMALIZE                 */
+/*-------------------------------*/
+b, strong, .bold, .strong {
+    @extend %txt_bold;
+}
+dfn, i, .italic {
+    @extend %txt_italic;
+}
+small {
+    @extend %txt_small;
+}
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+sup {
+    top: -0.5em;
+}
+sub {
+    bottom: -0.25em;
+}
+
+////////////////////////
+// Typography
+////////////////////////
+//.link_naked{
+//    color: inherit;
+//    text-decoration: none;
+//    &:hover, &:focus{
+//        color: inherit;
+//        text-decoration: none;
+//    }
+//}
+$readability: 44rem;
+.readability{
+    max-width: $readability;
+}
+.readability_padded{
+    max-width: (($gutter*2)/($base_font_size)) + $readability;
+}
+.readability_double_padded{
+    max-width: (($gutter*4)/($base_font_size)) + $readability;
+}
+
+// Font family declaration.
+// Allows for cleaner, consolodated code.
+
+//
+// A lot of elements in typography need to share some declarations (mainly for
+// vertical rhythm), so we `@extend` some silent classes.
+//
+%type_reset {
+    margin:  0;
+    padding: 0;
+}
+.white_space_nowrap, %white_space_nowrap {
+    white-space: nowrap;
+}
+@include mq(smalls){
+	.tabs{
+		min-height: 44px;
+	}
+	.tab{
+		min-height: 46px;
+	}
+	h1, h6{
+		@include type-font-size(modular-scale(1, 1.17));
+	}
+	h2{
+		@include type-font-size(modular-scale(5, 1.17));
+	}
+	h3{
+		@include type-font-size(modular-scale(4, 1.17));
+	}
+	h4{
+		@include type-font-size(modular-scale(3, 1.17));
+	}
+	h5{
+		@include type-font-size(modular-scale(2, 1.17));
+	}
+}
+@include mq(desk){
+	html{
+		font-size: 16px;
+	}
+}

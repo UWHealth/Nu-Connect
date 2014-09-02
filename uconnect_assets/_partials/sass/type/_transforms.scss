@@ -1,0 +1,60 @@
+.txt_normal, %txt_normal {
+	text-transform: none;
+	letter-spacing: none;
+	font-weight: 400 !important;
+}
+.txt_upper, %txt_upper {
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+.txt_bold, %txt_bold {
+	font-weight: bold;
+}
+.txt_italic, %txt_italic {
+	font-style: italic;
+}
+.txt_small, %txt_small {
+	@include type-font-size(modular-scale(-1));
+}
+.txt_label, %txt_label, %txt_sans {
+	@extend %type_family_primary;
+}
+.txt_serif, %txt_serif {
+	@extend %type_family_secondary;
+}
+%txt_serif_normal{
+	@extend %txt_serif;
+	font-weight: 400;
+}
+.txt_truncate, %txt_truncate {
+	@include rems(height, type_space(2));
+	@extend %o_hide;
+	position: relative;
+	&:after{
+		@extend %display_inline;
+		content: "...";
+		background-color: #fff;
+		padding: 0 1em;
+		position: absolute;
+		right: 0;
+		bottom: 0;
+	}
+}
+// .txt_shadow, %txt_shadow {
+// 	text-shadow: 0 0 5px rgba(0,0,0,.5);
+// 	&_med {
+// 		text-shadow: 0 0 10px rgba(0,0,0,.5);
+// 	}
+// 	&_big {
+// 		text-shadow: 0 0 25px rgba(0,0,0,.5);
+// 	}
+// }
+// .txt_left, %txt_left {
+// 	text-align: left;
+// }
+// .txt_right, %txt_right {
+// 	text-align: right;
+// }
+// .txt_center, %txt_center {
+// 	text-align: center;
+// }

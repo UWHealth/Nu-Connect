@@ -1,0 +1,199 @@
+//$base_font_size:             16px !default;
+//$base_line_height:           24px !default;
+//$primary_font_stack:      	'opensans', verdana, helvetica, arial, sans-serif;
+//$secondary_font_stack:     	'bitter', Georgia, serif;
+//$monospace_font_stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+//$icon_font_stack:			'uconnect';
+//$gutter:                 	28px;
+@import "../utilities/_functions";
+@import "../base/_config";
+@import "../colors/_colors";
+@import "../colors/_blendmodes";
+
+.wrap {
+	min-width: 860px !important;
+}
+.no_lte_ie8 {
+	display: none !important;
+}
+///////////////////////////////////////////////////////////////////
+// Forms
+///////////////////////////////////////////////////////////////////
+input, textarea {
+	background-color: color(form);
+    background: transparent url(../../img/bg/bg_black_10.png) top left repeat;
+	&:hover{
+		border-top-color: $soft_action_color;
+        border-right-color: $soft_action_color_light;
+        border-bottom-color: $soft_action_color_lighter;
+        border-left-color: $soft_action_color_light;
+	}
+	&:focus{
+		background-color: white;
+	}
+}
+.box_panel {
+    .button_inside {
+        &:after {
+        	left:-80%;
+        }
+    }
+}
+///////////////////////////////////////////////////////////////////
+// Header
+///////////////////////////////////////////////////////////////////
+.mega_buttons, .utilities, .utility_nav, .utility_options, .search_close {
+	display: none !important;
+	width: 0 !important;
+}
+.mega_menu {
+	// display: block !important;
+	position: relative !important;
+	// visibility: visible !important;
+	> .tabbed {
+		width: 96%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.tab_button {
+		display: block !important;
+	}
+}
+.utility { 
+	.icon_menu {
+		.visually_hidden {
+			position: relative !important;
+			width: auto !important;
+		}
+	}
+	.utility_search {
+		padding: 6px;
+		width: 75%;
+	}
+}
+.search_button, .search_icon {
+	line-height: 38px !important;
+}
+.search_button {
+	min-width: 0 !important;
+	right: 2px !important;
+}
+.search_icon {
+	color: white !important;
+	font-size: 14px !important;
+	left: 7% !important;
+	margin-top: 0 !important;
+}
+.search_shade {
+	display: none !important;
+}
+.search_active {
+	display: none !important;
+}
+.reveal_header {
+	display: none !important;
+}
+.overview {
+	max-height: none !important;
+	padding-bottom: 0 !important;
+	p {
+		max-width: none !important;
+	}
+}
+.mask {
+	mask: none !important;
+}
+header {
+	.side_content {
+		display: none !important;
+	}
+}
+.img_header {
+	.header_icon {
+		display: none;
+	}
+}
+#tagline {
+	.icon_before {
+		&:before {
+			content: 'tag' !important;
+		}
+	}
+}
+///////////////////////////////////////////////////////////////////
+// Sidebar
+///////////////////////////////////////////////////////////////////
+.sidebar_button {
+	.visually_hidden {
+		position: relative !important;
+	}
+	&.active {
+		background-color: #e4f1f9;
+		border-color: #5d9bc0;
+		color: #5d9bc0;
+		&:after {
+			color: #5d9bc0;
+		}		
+	}
+}
+#hffy_cart_js {
+	margin-bottom: 48px;
+}
+///////////////////////////////////////////////////////////////////
+// Main Content
+///////////////////////////////////////////////////////////////////
+.h5.header_gray {
+	text-transform: uppercase;
+}
+.tab {
+	&:before {
+		content: '' !important;
+	}
+}
+#controls {
+	display: none !important;
+}
+.magnific_popup_iframe {
+	display: none !important;
+}
+.slider {
+	margin-top: 24px !important;
+	max-height: none !important;
+}
+.slide {
+	padding-bottom: 48px;
+}
+.promo {
+	margin-right:5% !important;
+	width: 45% !important;
+}
+.bg_ghost {
+	overflow: hidden;
+}
+.box_glass{
+	background-color: #fff;
+}
+.build_flat_accordion .column > ul > li > ul > li {
+	margin-right: $gutter/2;
+	width: 48%;
+	> a {
+		max-width: 75%;
+	}
+}
+.body_content .tab_topline > .tab_content{
+	border-bottom: 2px solid color(subtle);
+}
+.third {
+	width: 33%;
+}
+.tabbed {
+	margin-bottom: 48px;
+}
+///////////////////////////////////////////////////////////////////
+// Footer
+///////////////////////////////////////////////////////////////////
+.footer_utility_nav {
+	p {
+		display: inline-block;
+	}
+}

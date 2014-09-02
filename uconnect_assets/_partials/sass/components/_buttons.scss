@@ -1,0 +1,211 @@
+@mixin button(
+    $flat_button: true,
+    $button_color_bg: colors(link),
+    $button_color_secondary: colors(link,dark),
+    $button_color_text: #fff,
+    $border_radius: 2px,
+    $hover_box_shadow: false,
+    $has_border: false,
+	$reversed: false
+    )
+{
+	color: $button_color_text;
+    cursor: pointer;
+    vertical-align: middle;
+    user-select: none;
+    display: inline-block;
+    border-radius: $border_radius;
+    text-decoration: none;
+    text-align: center;
+    background-color: $button_color_bg;
+    @if $flat_button == true{
+        box-shadow: none;
+        @if $has_border == true {
+            border: 1px solid $button_color_text;
+        } @else {
+            border-top: 1px solid $button_color_secondary;
+        }
+    } @else {
+        background-image: linear-gradient(top, $button_color_bg 0.05%, $button_color_secondary 100% );
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='$button_color_bg', endColorstr='$button_color_secondary');
+        box-shadow:inset 0px -1px 0px 0px lighten($button_color_bg, 10%);
+        text-shadow: 1px 1px 0px pick_best_color($button_color_text,($button_color_secondary,darken($button_color_text,25%),lighten($button_color_text,25%),darken($button_color_bg,25%),lighten($button_color_bg,25%)));
+    }
+    &:hover, &:focus {
+        @if $flat_button == true{
+            @if $hover_box_shadow == false{
+                box-shadow: none !important;
+            }
+            @if $has_border == true {
+                background-color: tint(color(highlight), 75%);
+                border-color: color(soft_action);
+                box-shadow: 0 1px 5px .3px rgba(color(link), .15),
+                  inset 0 0 2px 1px white,
+                  inset 0 -1px 0 0 color(link);
+                color: mix($button_color_text, lighten($button_color_bg, 5%), 95%);
+            } @else {
+                background-color: lighten($button_color_bg, 10%);
+                box-shadow: 0 2px 3px 0 rgba(color(text), .1),
+					0 1px 2px 1px rgba(color(text), .2);
+				// Double shadow for realisitic depth.
+                color: $button_color_text;
+            }
+        } @else {
+			color: mix($button_color_text, $button_color_secondary, 95%);
+            background-color: $button_color_secondary;
+            background: linear-gradient( top, $button_color_secondary 0.05%, $button_color_bg 100% );
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='$button_color_secondary', endColorstr='$button_color_bg');
+        }
+    }
+    &:active, &.active {
+        position:relative;
+        @if $flat_button == true{
+            @if $has_border == true {
+                background-color: #fff;
+                border-top-width: 1px;
+                border-bottom-width: 1px;
+                border-color: color(select);
+                box-shadow: inset 0 1px 0 0 blend_linearburn(color(select), color(select));
+                color: color(select);
+            } @else {
+                background-color: darken($button_color_bg, 5%);
+                border-color: darken($button_color_text, 12%);
+                border-top-color: transparent;
+				border-top-width: 1px;
+                border-bottom-width: 1px;
+                box-shadow: inset 0 2px 0px darken($button_color_bg, 15%);
+                color: mix($button_color_text, darken($button_color_bg, 5%), 80%);
+            }
+        } @else {
+			color: mix($button_color_text, darken($button_color_secondary, 2%), 80%);
+			background-color: darken($button_color_secondary, 2%);
+            background: linear-gradient( top, darken($button_color_secondary, 5%) 0.05%, darken($button_color_bg, 5%)100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($button_color_secondary ,  5%)', endColorstr='darken($button_color_bg, 5%)');
+            box-shadow: inset 0px 1px 0px 0px darken($button_color_secondary, 8%);
+            text-shadow: -1px -1px 0px pick_best_color(darken($button_color_text, 10%),($button_color_secondary,darken($button_color_text,25%),lighten($button_color_text,25%),darken($button_color_bg,25%),lighten($button_color_bg,25%)));
+            border-color: lighten($button_color_bg, 2%);
+        }
+    }
+    &::selection{background: transparent;}
+	&::-moz-selection{background: transparent;}
+	&::-moz-focus-inner{border: 0}
+}
+%button, .button {
+    @include button(true, #0c639a, blend_colordodge(#808080,#0c639a), #ebfbff, 2px, true);
+	line-height: normal;
+	@include rems(padding-top, (($base-line-height/4) - 3px));
+    @include rems(padding-bottom, (($base-line-height/4) - 2px));
+    @extend %txt_bold;
+	transition: border 35ms ease-out, background 50ms ease-out, color 60ms ease-in, box-shadow 100ms ease-in;
+	&:active{
+		outline: none;
+	}
+}
+%button_soft, .button_soft {
+	line-height: normal;
+    @include button(true, $highlight_color, $soft_action_color, $soft_action_color, 2px, true, true);
+    font-weight: bold !important;
+	transition: border 35ms ease-out, background 50ms ease-out, color 60ms ease-in, box-shadow 100ms ease-in;
+}
+
+%button_disabled, .button_disabled {
+	line-height: normal;
+    @include button(true, $form_color, $label_color, $label_color, 2px, true);
+    cursor: default !important;
+    &:hover, &:focus, &:active, &.active, &:visited {
+        background-color: $form_color !important;
+        border: 1px solid $label_color !important;
+        box-shadow: inset 0 2px $label_color !important;
+        color: $label_color !important;
+    }
+}
+%button_transparent, .button_transparent {
+	background-color: transparent !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+}
+%button_big, .button_big {
+    @include type_font_size(modular_scale(1), false);
+    @include rems(padding-top, (($base-line-height/1.5) - 3px));
+	@include rems(padding-bottom, (($base-line-height/1.5) - 2px));
+	&.button_soft{
+		@include rems(padding-bottom, (($base-line-height/1.5) - 3px));
+	}
+	@include rems(margin-bottom, 4px);
+	@include type-space(padding-left, 1);
+	@include type-space(padding-right, 1);
+}
+%button_med, .button_med{
+	@include rems(padding-top, (($base-line-height/2.35) - 3px));
+	@include rems(padding-bottom, (($base-line-height/2.35) - 2px));
+	&.button_soft{
+		@include rems(padding-bottom, (($base-line-height/2.35) - 3px));
+	}
+	@include rems(margin-bottom, 4px);
+	@extend %pad_h_half;
+}
+%button_small, .button_small {
+	@include rems(padding-top, (($base-line-height/4) - 3px));
+    @include rems(padding-bottom, (($base-line-height/4) - 2px));
+	&.button_soft{
+		@include rems(padding-bottom, (($base-line-height/4) - 3px));
+	}
+	@include rems(margin-bottom, 4px);
+    @extend %pad_h_half;
+    @extend %txt_small;
+    @extend %vertical_align_middle;
+}
+%button_wide, .button_wide {
+    @extend %one_whole;
+}
+%button_quarter, .button_quarter {
+    @extend %one_quarter;
+}
+////////////////////////
+// Button Group
+////////////////////////
+.button_group {
+	display: table-row;
+	overflow: visible;
+    .button {
+		@extend %txt_upper;
+		display: table-cell;
+        border-radius: 0;
+        // margin-left: -1px;
+        &:first-child {
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+            margin-left: 0;
+        }
+        &:last-child {
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
+    }
+    .icon[data-icon="arrow right"] {
+        @include type_font_size(modular-scale(-2));
+        @extend %space_neg_l_quarter;
+        line-height: 0;
+    }
+}
+
+.button_txt_to_icon {
+
+	&:before{
+		@extend %bigs_hide;
+		padding: 0 !important;
+		@include type_space(line-height, 1);
+		@include mq(smalls){
+			text-align: center;
+			display: inline-block !important;
+		}
+	}
+	@include mq(smalls){
+		@include type_font_size(modular-scale(2));
+		white-space: nowrap;
+		text-align: center;
+	}
+}
+.button_icon_to_txt{
+
+}

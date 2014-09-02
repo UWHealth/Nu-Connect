@@ -1,0 +1,117 @@
+$alignment_output: true;
+
+@if $include_alignment_classes == true{
+	$alignment_output: false !global;
+}
+
+//---Absolute centring only works if the container has a defined height---//
+.abs_center, %abs_center{
+	display: table;
+	height: 100%;
+	position: absolute;
+
+	span, .abs_center_body, %abs_center_body{
+		display: table-cell;
+		vertical-align: middle;
+	}
+}
+
+@mixin responsive_alignment(
+	$namespace: "",
+	$silent: false
+)
+{
+	$selector: unquote(", .");
+
+    @if $silent == true{
+        $selector: unquote("//");
+    }
+
+	%#{$namespace}align_left#{$selector}#{$namespace}align_left
+	{
+		float: left !important;
+		@include type_space(margin-right, 1);
+	}
+	%#{$namespace}align_right#{$selector}#{$namespace}align_right
+	{
+		float: right !important;
+		@include type_space(margin-left, 1);
+	}
+	%#{$namespace}align_center#{$selector}#{$namespace}align_center
+	{
+		float: none !important;
+		margin: 0 auto;
+		display: block;
+	}
+	%#{$namespace}align_none#{$selector}#{$namespace}align_none
+	{
+		float: none !important;
+		margin: 0;
+	}
+	%#{$namespace}float_left#{$selector}#{$namespace}float_left
+	{
+		float: left !important;
+	}
+	%#{$namespace}float_right#{$selector}#{$namespace}float_right
+	{
+		float: right !important;
+	}
+	%#{$namespace}float_none#{$selector}#{$namespace}float_none
+	{
+		float: none !important;
+	}
+	%#{$namespace}inline#{$selector}#{$namespace}inline
+	{
+		display: inline;
+	}
+	%#{$namespace}inline_block#{$selector}#{$namespace}inline_block
+	{
+		display: inline-block;
+	}
+	%#{$namespace}block#{$selector}#{$namespace}block
+	{
+		display: block;
+	}
+	%#{$namespace}table_cell#{$selector}#{$namespace}table_cell
+	{
+		display: table_cell;
+	}
+	%#{$namespace}txt_left#{$selector}#{$namespace}txt_left
+	{
+		text-align: left !important;
+	}
+	%#{$namespace}txt_right#{$selector}#{$namespace}txt_right
+	{
+		text-align: right !important;
+	}
+	%#{$namespace}txt_center#{$selector}#{$namespace}txt_center
+	{
+		text-align: center !important;
+	}
+	%#{$namespace}vertical_align_top#{$selector}#{$namespace}vertical_align_top
+	{
+		vertical-align: top !important;
+	}
+	%#{$namespace}vertical_align_middle#{$selector}#{$namespace}vertical_align_middle
+	{
+		vertical-align: middle !important;
+	}
+	%#{$namespace}vertical_align_bottom#{$selector}#{$namespace}vertical_align_bottom
+	{
+		vertical-align: bottom !important;
+	}
+	%#{$namespace}vertical_align_baseline#{$selector}#{$namespace}vertical_align_baseline
+	{
+		vertical-align: baseline !important;
+	}
+}
+
+@include responsive_alignment("", $alignment_output);
+
+@if $responsive == true{
+    @each $name in $breakpoint_has_helpers {
+        @include mq($name) {
+           @include responsive_alignment('#{$name}_', $alignment_output);
+        }
+    }
+}

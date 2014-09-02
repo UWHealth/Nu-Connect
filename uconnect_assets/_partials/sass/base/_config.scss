@@ -1,0 +1,173 @@
+//Typography
+
+$base_font_size:             16px !default;
+$base_line_height:           24px !default;
+$auto_scale_type:           false !default;
+$scale_ratio:               1.214 !default;
+
+$primary_font_stack:      	'opensans', verdana, helvetica, arial, sans-serif;
+$secondary_font_stack:     	'bitter', Georgia, serif;
+$monospace_font_stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+$icon_font_stack:			'uconnect';
+
+$use_web_fonts: 		true     !default;
+$font_file_location: 	'fonts'  !default;
+$font-file-name: 		'bitter','opensans','uconnect';
+$font-italics: 			(true,false), (false, true, true), false;
+$font-weights: 			(400,700),(200,400,700),400;
+$font_include_eot: 		true 	 !default;
+
+// Show baseline grid for easier alignment;
+$show_baseline:       true;
+
+//Used if auto_scale_type is not in use.
+//Since functions are called before config,
+//we can use functions to calculate our values.
+$type_h1_size:             ceil(modular_scale(1));
+$type_h2_size:             ceil(modular_scale(5));
+$type_h3_size:             ceil(modular_scale(4));
+$type_h4_size:             ceil(modular_scale(3));
+$type_h5_size:             ceil(modular_scale(2));
+$type_h6_size:             ceil(modular_scale(1));
+
+//Grid
+
+$gutter:                 28px;
+$use_silent_classes:     true;
+$push:                   true;
+$pull:                   true;
+$use_markup_fix:        false; //Setting this to true and floats to false means there can be no whitespce between grid items.
+$use_floats:            false;
+$columns:                  12; //Using anything other than 12 may cause a bit of slow down during processing.
+
+$breakpoints: (
+    'smalls' '(max-width:640px)',
+	//Everything up to 640px. Mostly phones.
+    'small' '(max-width: 480px)',
+	//Up to 480px. Overrides Smalls. Small Phones, including iPhone.
+    'smallish''(min-width: 481px) and (max-width: 640px)',
+	//Between 480 and 640px. Overrides Smalls. Large phones/phablets.
+    'lap' '(min-width: 641px) and (max-width: 940px)',
+	//640-940px. Overrides Bigs. Mostly Tablets and small laptops.
+    'desk' '(min-width: 941px)',
+	//940 and Up. Overrides Bigs. Large Tablets and Desktops.
+	'wide' '(min-width: 1100px)',
+	//Wide Monitors
+	'bigs' '(min-width: 641px)'
+	//Everything larger than 640px. Tablets and Desktops.
+	//Must be at the end to be abstracted into a variable.
+	//Position within this list doesn't effect cascade.
+);
+
+// Give grid-abilities to breakpoints.
+// The more breakpoints defined here will result in longer preprocessing times.
+// Position within this list determines cascade.
+$breakpoint_has_widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk', 'wide');
+$breakpoint_has_push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk', 'wide');
+$breakpoint_has_pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk', 'wide');
+
+
+//Colors - based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
+//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
+//The darker and ligher variations are defined in utilities/variables
+
+$colors: (
+	primary: (
+		base: #063b6d
+	),
+	primary_alt: (
+		base: #5f82a3
+	),
+	accent: (
+		base: #c21235
+	),
+	accent_alt: (
+		base: #fe0202
+	),
+	action: (
+		base: #4c7659
+	),
+	function: (
+		base: #d4c9ad
+	),
+	alert: (
+		base: #b22727
+	),
+	gray: (
+		base: #9da9b3
+	),
+	text: (
+		base: #031522
+	),
+	link: (
+		base: #0c639a
+	),
+	label: (
+		base: #9da9b3
+	),
+	soft_action: (
+		base: #5d9bc0
+	),
+	form: (
+		base: #d7dde5
+	),
+	subtle: (
+		base: #f3f5f8
+	),
+	select: (
+		base: #c21235
+	),
+	highlight: (
+		base: #e4f1f9
+	)
+);
+
+$link_color: 						colors(link) !default; // #063b6d; // darken(#d40026, 5%);         //It's rare that you need to make this something other than one of the above variables.
+
+$background_color: 					colors(subtle) !default;
+// $header_tag_bar_color: 			primary_alt;
+
+
+//Output helpers as actual classes?
+//These will be output for every breakpoint.
+
+$include_spacing_classes: 			false;
+$include_alignment_classes: 		true;
+
+//Limit the output of spacing and alignment classes.
+$breakpoint_has_helpers: 			('smalls', 'small', 'bigs', 'desk');
+
+//Slider/Carousel settings
+//A.K.A. Slick: http://kenwheeler.github.io/slick/
+//Output Slider/Carousel?
+$include_slider: 					true;
+
+$slick_font_path: 					"fonts/";
+$slick_loader_path: 				"../images/";
+$slick_arrow_color: 				white;
+$slick_dot_color: 					black;
+$slick_prev_character: 				'\2190';
+$slick_next_character: 				'\2192';
+$slick_dot_character: 				'\2022';
+
+//Tab-box settings
+
+//Do you want to create styles for tabs?
+//Might be unnecessary for certain projects.
+$output_tabs: 						true;
+
+$tab_invert_active:                 false;
+$tab_border:                        color(soft_action);
+$tab_button_bg:                     color(select);
+$tab_button_secondary: 				color(soft_action);
+$tab_content_bg:                    #fff;
+$tab_button_text:                   #fff;
+$tab_border_radius:        			2px;
+$tab_spacing:                       2px;
+
+//General Border settings
+$include_border_classes: 			false;
+$border_width: 						2px;
+$border_style: 						solid;
+$border_color: 						color(form);
+$border_radius:        				2px;

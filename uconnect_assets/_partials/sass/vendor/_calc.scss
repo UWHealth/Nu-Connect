@@ -1,0 +1,21 @@
+//************************************************************************//
+// Calculate percent minus px
+//************************************************************************//
+@function calc-percent-minus-px ($percent, $px) {
+	@return ($percent - $px);
+}
+
+@mixin calc($property, $expression) { 
+  #{$property}: calc(#{$expression}); 
+} 
+
+@mixin calcImportant($property, $expression) { 
+  #{$property}: calc(#{$expression}) !important; 
+}
+
+// @mixin calc($percent, $math, $px) {
+// 	@return width: calc($percent $math $px);	
+// }
+// @mixin calcImportant($percent, $math, $px) {
+//   @return width: calc($percent $math $px) !important; 
+// }

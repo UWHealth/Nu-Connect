@@ -1,0 +1,1324 @@
+{
+  "id": "6530b95b",
+  "cfgVersion": 1,
+  "name": "Nu-Connect",
+  "files": {
+    "8a4a5c62": {
+      "id": "8a4a5c62",
+      "pid": "6530b95b",
+      "name": "analytics.js",
+      "input": "_partials/js/analytics.js",
+      "customOutput": "_partials/js/analytics.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": false,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "74325f40": {
+      "id": "74325f40",
+      "pid": "6530b95b",
+      "name": "app.js",
+      "input": "_partials/js/app.js",
+      "customOutput": "_partials/js/app.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "0c9c26cb": {
+      "id": "0c9c26cb",
+      "pid": "6530b95b",
+      "name": "avoid_console_conflicts.js",
+      "input": "_partials/js/avoid_console_conflicts.js",
+      "customOutput": "_partials/js/avoid_console_conflicts.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "e184bc82": {
+      "id": "e184bc82",
+      "pid": "6530b95b",
+      "name": "breadcrumbs.js",
+      "input": "_partials/js/breadcrumbs.js",
+      "customOutput": "_partials/js/breadcrumbs.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "edbdd409": {
+      "id": "edbdd409",
+      "pid": "6530b95b",
+      "name": "clickable.js",
+      "input": "_partials/js/clickable.js",
+      "customOutput": "_partials/js/clickable.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "05c76cab": {
+      "id": "05c76cab",
+      "pid": "6530b95b",
+      "name": "colors.js",
+      "input": "_partials/js/colors.js",
+      "customOutput": "_partials/js/colors.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "d68f1b75": {
+      "id": "d68f1b75",
+      "pid": "6530b95b",
+      "name": "dev_only.js",
+      "input": "_partials/js/dev_only.js",
+      "customOutput": "_partials/js/dev_only.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "08166997": {
+      "id": "08166997",
+      "pid": "6530b95b",
+      "name": "directory.js",
+      "input": "_partials/js/directory.js",
+      "customOutput": "_partials/js/directory.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "c0f7e852": {
+      "id": "c0f7e852",
+      "pid": "6530b95b",
+      "name": "faq.js",
+      "input": "_partials/js/faq.js",
+      "customOutput": "_partials/js/faq.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "619a4ee8": {
+      "id": "619a4ee8",
+      "pid": "6530b95b",
+      "name": "footer.js",
+      "input": "_partials/js/footer.js",
+      "customOutput": "_partials/js/footer.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "efcd507c": {
+      "id": "efcd507c",
+      "pid": "6530b95b",
+      "name": "general_functions.js",
+      "input": "_partials/js/general_functions.js",
+      "customOutput": "_partials/js/general_functions.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "8f648dca": {
+      "id": "8f648dca",
+      "pid": "6530b95b",
+      "name": "menu.js",
+      "input": "_partials/js/menu.js",
+      "customOutput": "_partials/js/menu.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "ae6a0d3e": {
+      "id": "ae6a0d3e",
+      "pid": "6530b95b",
+      "name": "mixitup_init.js",
+      "input": "_partials/js/mixitup_init.js",
+      "customOutput": "_partials/js/mixitup_init.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "679c5ac7": {
+      "id": "679c5ac7",
+      "pid": "6530b95b",
+      "name": "polyfills.js",
+      "input": "_partials/js/polyfills.js",
+      "customOutput": "_partials/js/polyfills.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "547d24ec": {
+      "id": "547d24ec",
+      "pid": "6530b95b",
+      "name": "polyfills_lte_ie8.js",
+      "input": "_partials/js/polyfills_lte_ie8.js",
+      "customOutput": "_partials/js/polyfills_lte_ie8.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "21c6038a": {
+      "id": "21c6038a",
+      "pid": "6530b95b",
+      "name": "search.js",
+      "input": "_partials/js/search.js",
+      "customOutput": "_partials/js/search.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "ef84c63b": {
+      "id": "ef84c63b",
+      "pid": "6530b95b",
+      "name": "slider.js",
+      "input": "_partials/js/slider.js",
+      "customOutput": "_partials/js/slider.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "889df7e3": {
+      "id": "889df7e3",
+      "pid": "6530b95b",
+      "name": "tables.js",
+      "input": "_partials/js/tables.js",
+      "customOutput": "_partials/js/tables.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "1c73ca1b": {
+      "id": "1c73ca1b",
+      "pid": "6530b95b",
+      "name": "tabs.js",
+      "input": "_partials/js/tabs.js",
+      "customOutput": "_partials/js/tabs.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "ce1c983b": {
+      "id": "ce1c983b",
+      "pid": "6530b95b",
+      "name": "toggle.js",
+      "input": "_partials/js/toggle.js",
+      "customOutput": "_partials/js/toggle.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "50ef0fa9": {
+      "id": "50ef0fa9",
+      "pid": "6530b95b",
+      "name": "main.js",
+      "input": "js/main.js",
+      "customOutput": "js/main.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "3ff0fbb5": {
+      "id": "3ff0fbb5",
+      "pid": "6530b95b",
+      "name": "npmloader.js",
+      "input": "js/npmloader.js",
+      "customOutput": "js/npmloader.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "2be6fee7": {
+      "id": "2be6fee7",
+      "pid": "6530b95b",
+      "name": "additional_methods.js",
+      "input": "js/vendor/additional_methods.js",
+      "customOutput": "js/vendor/additional_methods.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "213d1df0": {
+      "id": "213d1df0",
+      "pid": "6530b95b",
+      "name": "background_size.js",
+      "input": "js/vendor/background_size.js",
+      "customOutput": "js/vendor/background_size.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "4a0078c3": {
+      "id": "4a0078c3",
+      "pid": "6530b95b",
+      "name": "handlebars.js",
+      "input": "js/vendor/handlebars.js",
+      "customOutput": "js/vendor/handlebars.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "08c2c0f3": {
+      "id": "08c2c0f3",
+      "pid": "6530b95b",
+      "name": "hover_intent.js",
+      "input": "js/vendor/hover_intent.js",
+      "customOutput": "js/vendor/hover_intent.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "6195fbe5": {
+      "id": "6195fbe5",
+      "pid": "6530b95b",
+      "name": "jbreadcrumb.js",
+      "input": "js/vendor/jbreadcrumb.js",
+      "customOutput": "js/vendor/jbreadcrumb.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "d4cf93fd": {
+      "id": "d4cf93fd",
+      "pid": "6530b95b",
+      "name": "jquery.js",
+      "input": "js/vendor/jquery.js",
+      "customOutput": "js/vendor/jquery.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "094df6ef": {
+      "id": "094df6ef",
+      "pid": "6530b95b",
+      "name": "magnific.js",
+      "input": "js/vendor/magnific.js",
+      "customOutput": "js/vendor/magnific.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "385a6592": {
+      "id": "385a6592",
+      "pid": "6530b95b",
+      "name": "mixitup.js",
+      "input": "js/vendor/mixitup.js",
+      "customOutput": "js/vendor/mixitup.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "918e61ee": {
+      "id": "918e61ee",
+      "pid": "6530b95b",
+      "name": "mixitup_debug.js",
+      "input": "js/vendor/mixitup_debug.js",
+      "customOutput": "js/vendor/mixitup_debug.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "a164490f": {
+      "id": "a164490f",
+      "pid": "6530b95b",
+      "name": "modernizr.js",
+      "input": "js/vendor/modernizr.js",
+      "customOutput": "js/vendor/modernizr.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "09383a90": {
+      "id": "09383a90",
+      "pid": "6530b95b",
+      "name": "placeholder.js",
+      "input": "js/vendor/placeholder.js",
+      "customOutput": "js/vendor/placeholder.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "08c11972": {
+      "id": "08c11972",
+      "pid": "6530b95b",
+      "name": "require.js",
+      "input": "js/vendor/require.js",
+      "customOutput": "js/vendor/require.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "fd45df93": {
+      "id": "fd45df93",
+      "pid": "6530b95b",
+      "name": "main.scss",
+      "input": "_partials/sass/main.scss",
+      "customOutput": "css/main.css",
+      "type": "Scss",
+      "config": {
+        "autoCompile": true,
+        "lineNumbers": false,
+        "unixNewlines": false,
+        "sourcemaps": false,
+        "debug": false,
+        "compass": false,
+        "fullCompass": false,
+        "outputStyle": "compact",
+        "autoprefixer": true
+      }
+    },
+    "e1096910": {
+      "id": "e1096910",
+      "pid": "6530b95b",
+      "name": "main_lte_ie8.scss",
+      "input": "_partials/sass/polyfill/main_lte_ie8.scss",
+      "customOutput": "css/polyfills/main_lte_ie8.css",
+      "type": "Scss",
+      "config": {
+        "autoCompile": true,
+        "lineNumbers": false,
+        "unixNewlines": false,
+        "sourcemaps": false,
+        "debug": false,
+        "compass": false,
+        "fullCompass": false,
+        "outputStyle": "compact",
+        "autoprefixer": true
+      }
+    },
+    "bcba8a93": {
+      "id": "bcba8a93",
+      "pid": "6530b95b",
+      "name": "print.scss",
+      "input": "_partials/sass/print.scss",
+      "customOutput": false,
+      "type": "Scss",
+      "config": {
+        "autoCompile": true,
+        "lineNumbers": false,
+        "unixNewlines": false,
+        "sourcemaps": false,
+        "debug": false,
+        "compass": false,
+        "fullCompass": false,
+        "outputStyle": "compact",
+        "autoprefixer": true
+      }
+    },
+    "7a52c09f": {
+      "id": "7a52c09f",
+      "pid": "6530b95b",
+      "name": "slick.bak.js",
+      "input": "js/vendor/slick.bak.js",
+      "customOutput": "js/vendor/slick.bak.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "594b85e5": {
+      "id": "594b85e5",
+      "pid": "6530b95b",
+      "name": "slick.js",
+      "input": "js/vendor/slick.js",
+      "customOutput": "js/vendor/slick.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "8a6a0c02": {
+      "id": "8a6a0c02",
+      "pid": "6530b95b",
+      "name": "text.js",
+      "input": "js/vendor/text.js",
+      "customOutput": "js/vendor/text.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "e2c614bb": {
+      "id": "e2c614bb",
+      "pid": "6530b95b",
+      "name": "validate.js",
+      "input": "js/vendor/validate.js",
+      "customOutput": "js/vendor/validate.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "84a77491": {
+      "id": "84a77491",
+      "pid": "6530b95b",
+      "name": "velocity.js",
+      "input": "js/vendor/velocity.js",
+      "customOutput": "js/vendor/velocity.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "dde3d27f": {
+      "id": "dde3d27f",
+      "pid": "6530b95b",
+      "name": "velocity_ui.js",
+      "input": "js/vendor/velocity_ui.js",
+      "customOutput": "js/vendor/velocity_ui.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": false,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "a73186fa": {
+      "id": "a73186fa",
+      "pid": "6530b95b",
+      "name": "header.js",
+      "input": "_partials/js/header.js",
+      "customOutput": false,
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": false,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "d2535f39": {
+      "id": "d2535f39",
+      "pid": "6530b95b",
+      "name": "iframe_embed.js",
+      "input": "_partials/js/iframe_embed.js",
+      "customOutput": false,
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": false,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "9e321683": {
+      "id": "9e321683",
+      "pid": "6530b95b",
+      "name": "magnific_init.js",
+      "input": "_partials/js/magnific_init.js",
+      "customOutput": false,
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": false,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "754e4fed": {
+      "id": "754e4fed",
+      "pid": "6530b95b",
+      "name": "select_dropdown.js",
+      "input": "_partials/js/select_dropdown.js",
+      "customOutput": "_partials/js/select_dropdown.js",
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": false,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    }
+  },
+  "imports": {
+    "61066587": {
+      "id": "61066587",
+      "pid": "6530b95b",
+      "path": "_partials/sass/utilities/_functions.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "a147c13d": {
+      "id": "a147c13d",
+      "pid": "6530b95b",
+      "path": "_partials/sass/colors/_blendmodes.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "6d964ee4": {
+      "id": "6d964ee4",
+      "pid": "6530b95b",
+      "path": "_partials/sass/base/_config.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "03f366b1": {
+      "id": "03f366b1",
+      "pid": "6530b95b",
+      "path": "_partials/sass/utilities/_variables.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "4a2a99af": {
+      "id": "4a2a99af",
+      "pid": "6530b95b",
+      "path": "_partials/sass/colors/_colors.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "b3bd3d3b": {
+      "id": "b3bd3d3b",
+      "pid": "6530b95b",
+      "path": "_partials/sass/type/_fonts.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "e3dafaf0": {
+      "id": "e3dafaf0",
+      "pid": "6530b95b",
+      "path": "_partials/sass/utilities/_helpers.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "51929ea6": {
+      "id": "51929ea6",
+      "pid": "6530b95b",
+      "path": "_partials/sass/utilities/_easings.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "f31bfafc": {
+      "id": "f31bfafc",
+      "pid": "6530b95b",
+      "path": "_partials/sass/layout/_import.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "12f8021d": {
+      "id": "12f8021d",
+      "pid": "6530b95b",
+      "path": "_partials/sass/layout/_grids.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "fbf140d1": {
+      "id": "fbf140d1",
+      "pid": "6530b95b",
+      "path": "_partials/sass/layout/_alignment.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "09f39804": {
+      "id": "09f39804",
+      "pid": "6530b95b",
+      "path": "_partials/sass/layout/_spacing.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "beae85f3": {
+      "id": "beae85f3",
+      "pid": "6530b95b",
+      "path": "_partials/sass/type/_typography.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "05d942cd": {
+      "id": "05d942cd",
+      "pid": "6530b95b",
+      "path": "_partials/sass/type/_transforms.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "8efecbf3": {
+      "id": "8efecbf3",
+      "pid": "6530b95b",
+      "path": "_partials/sass/vendor/_calc.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "293aabec": {
+      "id": "293aabec",
+      "pid": "6530b95b",
+      "path": "_partials/sass/vendor/_normalize.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "dacdeb34": {
+      "id": "dacdeb34",
+      "pid": "6530b95b",
+      "path": "_partials/sass/components/_import.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "9e49fbfa": {
+      "id": "9e49fbfa",
+      "pid": "6530b95b",
+      "path": "_partials/sass/components/_buttons.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "ead02c02": {
+      "id": "ead02c02",
+      "pid": "6530b95b",
+      "path": "_partials/sass/components/_lists.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "a26e4f54": {
+      "id": "a26e4f54",
+      "pid": "6530b95b",
+      "path": "_partials/sass/components/_tabs.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "2d32bc55": {
+      "id": "2d32bc55",
+      "pid": "6530b95b",
+      "path": "_partials/sass/components/_tables.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "b121f4cd": {
+      "id": "b121f4cd",
+      "pid": "6530b95b",
+      "path": "_partials/sass/components/_boxes.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "c1bae7e3": {
+      "id": "c1bae7e3",
+      "pid": "6530b95b",
+      "path": "_partials/sass/components/_forms.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "0e2b5915": {
+      "id": "0e2b5915",
+      "pid": "6530b95b",
+      "path": "_partials/sass/components/_mixitup.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "059a4415": {
+      "id": "059a4415",
+      "pid": "6530b95b",
+      "path": "_partials/sass/vendor/_slick.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "fd93d9d9": {
+      "id": "fd93d9d9",
+      "pid": "6530b95b",
+      "path": "_partials/sass/sections/_import.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "35cd1c6a": {
+      "id": "35cd1c6a",
+      "pid": "6530b95b",
+      "path": "_partials/sass/sections/_directory.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "92782de0": {
+      "id": "92782de0",
+      "pid": "6530b95b",
+      "path": "_partials/sass/sections/_header.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "962cf0ee": {
+      "id": "962cf0ee",
+      "pid": "6530b95b",
+      "path": "_partials/sass/sections/_footer.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "6ea42cea": {
+      "id": "6ea42cea",
+      "pid": "6530b95b",
+      "path": "_partials/sass/type/_icons.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "7d3464df": {
+      "id": "7d3464df",
+      "pid": "6530b95b",
+      "path": "_partials/sass/base/_app.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "4d3a5eb9": {
+      "id": "4d3a5eb9",
+      "pid": "6530b95b",
+      "path": "_partials/sass/vendor/_magnific.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    }
+  },
+  "images": {
+    "820c1883": {
+      "id": "820c1883",
+      "pid": "6530b95b",
+      "path": "img/breadcrumb.png",
+      "size": 1098,
+      "name": "breadcrumb.png",
+      "type": "Png",
+      "initialSize": 1098,
+      "status": "NOT_OPTIMIZED"
+    },
+    "560e51e3": {
+      "id": "560e51e3",
+      "pid": "6530b95b",
+      "path": "img/breadcrumb_ellipse.png",
+      "size": 1126,
+      "name": "breadcrumb_ellipse.png",
+      "type": "Png",
+      "initialSize": 1126,
+      "status": "NOT_OPTIMIZED"
+    },
+    "d45cdc6b": {
+      "id": "d45cdc6b",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-114x114-precomposed.png",
+      "size": 3449,
+      "name": "apple-touch-icon-114x114-precomposed.png",
+      "type": "Png",
+      "initialSize": 3449,
+      "status": "NOT_OPTIMIZED"
+    },
+    "5d6a056b": {
+      "id": "5d6a056b",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-120x120-precomposed.png",
+      "size": 3783,
+      "name": "apple-touch-icon-120x120-precomposed.png",
+      "type": "Png",
+      "initialSize": 3783,
+      "status": "NOT_OPTIMIZED"
+    },
+    "6a067740": {
+      "id": "6a067740",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-144x144-precomposed.png",
+      "size": 5067,
+      "name": "apple-touch-icon-144x144-precomposed.png",
+      "type": "Png",
+      "initialSize": 5067,
+      "status": "NOT_OPTIMIZED"
+    },
+    "9c4458fa": {
+      "id": "9c4458fa",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-152x152-precomposed.png",
+      "size": 5138,
+      "name": "apple-touch-icon-152x152-precomposed.png",
+      "type": "Png",
+      "initialSize": 5138,
+      "status": "NOT_OPTIMIZED"
+    },
+    "d5056360": {
+      "id": "d5056360",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-57x57-precomposed.png",
+      "size": 951,
+      "name": "apple-touch-icon-57x57-precomposed.png",
+      "type": "Png",
+      "initialSize": 951,
+      "status": "NOT_OPTIMIZED"
+    },
+    "14f18a27": {
+      "id": "14f18a27",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-60x60-precomposed.png",
+      "size": 1011,
+      "name": "apple-touch-icon-60x60-precomposed.png",
+      "type": "Png",
+      "initialSize": 1011,
+      "status": "NOT_OPTIMIZED"
+    },
+    "c026f1b5": {
+      "id": "c026f1b5",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-72x72-precomposed.png",
+      "size": 1741,
+      "name": "apple-touch-icon-72x72-precomposed.png",
+      "type": "Png",
+      "initialSize": 1741,
+      "status": "NOT_OPTIMIZED"
+    },
+    "551362ee": {
+      "id": "551362ee",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-76x76-precomposed.png",
+      "size": 2003,
+      "name": "apple-touch-icon-76x76-precomposed.png",
+      "type": "Png",
+      "initialSize": 2003,
+      "status": "NOT_OPTIMIZED"
+    },
+    "55e7b0b7": {
+      "id": "55e7b0b7",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon-precomposed.png",
+      "size": 6739,
+      "name": "apple-touch-icon-precomposed.png",
+      "type": "Png",
+      "initialSize": 6739,
+      "status": "NOT_OPTIMIZED"
+    },
+    "d6d33a83": {
+      "id": "d6d33a83",
+      "pid": "6530b95b",
+      "path": "img/favicons/apple-touch-icon.png",
+      "size": 5138,
+      "name": "apple-touch-icon.png",
+      "type": "Png",
+      "initialSize": 5138,
+      "status": "NOT_OPTIMIZED"
+    },
+    "cc4dc119": {
+      "id": "cc4dc119",
+      "pid": "6530b95b",
+      "path": "img/favicons/favicon-160x160.png",
+      "size": 5871,
+      "name": "favicon-160x160.png",
+      "type": "Png",
+      "initialSize": 5871,
+      "status": "NOT_OPTIMIZED"
+    },
+    "0dee69c8": {
+      "id": "0dee69c8",
+      "pid": "6530b95b",
+      "path": "img/favicons/favicon-16x16.png",
+      "size": 243,
+      "name": "favicon-16x16.png",
+      "type": "Png",
+      "initialSize": 243,
+      "status": "NOT_OPTIMIZED"
+    },
+    "195f368d": {
+      "id": "195f368d",
+      "pid": "6530b95b",
+      "path": "img/favicons/favicon-196x196.png",
+      "size": 10535,
+      "name": "favicon-196x196.png",
+      "type": "Png",
+      "initialSize": 10535,
+      "status": "NOT_OPTIMIZED"
+    },
+    "dacfea5b": {
+      "id": "dacfea5b",
+      "pid": "6530b95b",
+      "path": "img/favicons/favicon-32x32.png",
+      "size": 496,
+      "name": "favicon-32x32.png",
+      "type": "Png",
+      "initialSize": 496,
+      "status": "NOT_OPTIMIZED"
+    },
+    "cc3ac0e8": {
+      "id": "cc3ac0e8",
+      "pid": "6530b95b",
+      "path": "img/favicons/favicon-96x96.png",
+      "size": 2795,
+      "name": "favicon-96x96.png",
+      "type": "Png",
+      "initialSize": 2795,
+      "status": "NOT_OPTIMIZED"
+    },
+    "2a0ba7e5": {
+      "id": "2a0ba7e5",
+      "pid": "6530b95b",
+      "path": "img/favicons/large.png",
+      "size": 114699,
+      "name": "large.png",
+      "type": "Png",
+      "initialSize": 114699,
+      "status": "NOT_OPTIMIZED"
+    },
+    "4ee3aeb9": {
+      "id": "4ee3aeb9",
+      "pid": "6530b95b",
+      "path": "img/favicons/mstile-144x144.png",
+      "size": 4221,
+      "name": "mstile-144x144.png",
+      "type": "Png",
+      "initialSize": 4221,
+      "status": "NOT_OPTIMIZED"
+    },
+    "dbb4c69b": {
+      "id": "dbb4c69b",
+      "pid": "6530b95b",
+      "path": "img/favicons/mstile-150x150.png",
+      "size": 3934,
+      "name": "mstile-150x150.png",
+      "type": "Png",
+      "initialSize": 3934,
+      "status": "NOT_OPTIMIZED"
+    },
+    "aefff843": {
+      "id": "aefff843",
+      "pid": "6530b95b",
+      "path": "img/favicons/mstile-310x150.png",
+      "size": 4374,
+      "name": "mstile-310x150.png",
+      "type": "Png",
+      "initialSize": 4374,
+      "status": "NOT_OPTIMIZED"
+    },
+    "cb3da1f3": {
+      "id": "cb3da1f3",
+      "pid": "6530b95b",
+      "path": "img/favicons/mstile-310x310.png",
+      "size": 15263,
+      "name": "mstile-310x310.png",
+      "type": "Png",
+      "initialSize": 15263,
+      "status": "NOT_OPTIMIZED"
+    },
+    "da797c4e": {
+      "id": "da797c4e",
+      "pid": "6530b95b",
+      "path": "img/favicons/mstile-70x70.png",
+      "size": 2631,
+      "name": "mstile-70x70.png",
+      "type": "Png",
+      "initialSize": 2631,
+      "status": "NOT_OPTIMIZED"
+    },
+    "ec6f27eb": {
+      "id": "ec6f27eb",
+      "pid": "6530b95b",
+      "path": "img/favicons/square.png",
+      "size": 36123,
+      "name": "square.png",
+      "type": "Png",
+      "initialSize": 36123,
+      "status": "NOT_OPTIMIZED"
+    },
+    "bd147195": {
+      "id": "bd147195",
+      "pid": "6530b95b",
+      "path": "img/favicons/tiny.png",
+      "size": 11179,
+      "name": "tiny.png",
+      "type": "Png",
+      "initialSize": 11179,
+      "status": "NOT_OPTIMIZED"
+    },
+    "1b95be5e": {
+      "id": "1b95be5e",
+      "pid": "6530b95b",
+      "path": "img/favicons/wide.png",
+      "size": 64437,
+      "name": "wide.png",
+      "type": "Png",
+      "initialSize": 64437,
+      "status": "NOT_OPTIMIZED"
+    },
+    "e2522ee0": {
+      "id": "e2522ee0",
+      "pid": "6530b95b",
+      "path": "img/github.png",
+      "size": 2625,
+      "name": "github.png",
+      "type": "Png",
+      "initialSize": 2625,
+      "status": "NOT_OPTIMIZED"
+    },
+    "cd2c8e6d": {
+      "id": "cd2c8e6d",
+      "pid": "6530b95b",
+      "path": "img/header.jpg",
+      "size": 10676,
+      "name": "header.jpg",
+      "type": "Jpg",
+      "initialSize": 10676,
+      "status": "NOT_OPTIMIZED"
+    },
+    "8a04bd49": {
+      "id": "8a04bd49",
+      "pid": "6530b95b",
+      "path": "img/header1-hover.png",
+      "size": 2029,
+      "name": "header1-hover.png",
+      "type": "Png",
+      "initialSize": 2029,
+      "status": "NOT_OPTIMIZED"
+    },
+    "7cb1ea56": {
+      "id": "7cb1ea56",
+      "pid": "6530b95b",
+      "path": "img/img.png",
+      "size": 19502,
+      "name": "img.png",
+      "type": "Png",
+      "initialSize": 19502,
+      "status": "NOT_OPTIMIZED"
+    },
+    "fd7675f3": {
+      "id": "fd7675f3",
+      "pid": "6530b95b",
+      "path": "img/logo.png",
+      "size": 951,
+      "name": "logo.png",
+      "type": "Png",
+      "initialSize": 951,
+      "status": "NOT_OPTIMIZED"
+    },
+    "707b9c70": {
+      "id": "707b9c70",
+      "pid": "6530b95b",
+      "path": "img/logo_main - Copy.png",
+      "size": 3870,
+      "name": "logo_main - Copy.png",
+      "type": "Png",
+      "initialSize": 3870,
+      "status": "NOT_OPTIMIZED"
+    },
+    "84c78837": {
+      "id": "84c78837",
+      "pid": "6530b95b",
+      "path": "img/logo_main.png",
+      "size": 4126,
+      "name": "logo_main.png",
+      "type": "Png",
+      "initialSize": 4126,
+      "status": "NOT_OPTIMIZED"
+    },
+    "a06d5079": {
+      "id": "a06d5079",
+      "pid": "6530b95b",
+      "path": "img/logo_uwhealth.png",
+      "size": 4340,
+      "name": "logo_uwhealth.png",
+      "type": "Png",
+      "initialSize": 4340,
+      "status": "NOT_OPTIMIZED"
+    },
+    "166bd73e": {
+      "id": "166bd73e",
+      "pid": "6530b95b",
+      "path": "img/picnic2012.jpg",
+      "size": 1829156,
+      "name": "picnic2012.jpg",
+      "type": "Jpg",
+      "initialSize": 1829156,
+      "status": "NOT_OPTIMIZED"
+    }
+  },
+  "config": {
+    "watch": false,
+    "liveRefresh": true,
+    "liveRefreshDelay": 0,
+    "filterPatterns": "",
+    "useCustomServer": true,
+    "customServerUrl": "http://localhost:8888/",
+    "cssPath": "../css/",
+    "jsPath": "../../js/vendor/",
+    "htmlPath": "html/",
+    "minJsPath": "../../js/vendor/min/",
+    "htmlExtension": ".html",
+    "cssPathType": "REPLACE_TYPE",
+    "htmlPathType": "REPLACE_TYPE",
+    "jsPathType": "RELATIVE_FILEDIR",
+    "minJsPathType": "SIDE_BY_FILE",
+    "htmlTypes": "jade, haml, slim, markdown, md",
+    "cssTypes": "less, sass, stylus, scss, styl",
+    "jsTypes": "coffee, coffeescript, coffeescripts, ls, livescript, livescripts",
+    "cssPreprocessorPath": "",
+    "htmlPreprocessorPath": "",
+    "jsPreprocessorPath": "",
+    "minJsPreprocessorPath": "",
+    "autoprefixerBrowsers": "ff 3.5, ff >=16, last 2 versions, ie >= 8, android >=2.3, > 1%",
+    "ftpHost": "",
+    "ftpPort": "21",
+    "ftpRemotePath": "",
+    "ftpIgnorePreprocessorFiles": true,
+    "ftpType": "FTP",
+    "ftpExcludePatterns": "",
+    "ftpSecure": false,
+    "ftpPassword": "",
+    "ftpUsername": ""
+  }
+}

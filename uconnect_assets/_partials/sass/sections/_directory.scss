@@ -1,0 +1,138 @@
+////////////////////////////////////////////////////////////////////////
+#directory {
+////////////////////////
+// General
+////////////////////////
+	@include type_font_size(modular-scale(0));
+	color: $color_black;
+	h1, h2, h3, h4, h5, h6, #top .top-right:before {
+		@include type_space(padding-left, 1.5);
+		@extend %type_family_primary;
+		@extend %txt_upper;
+		@extend %display_block;
+		@extend %txt_bold;
+		// @extend %pad_l;
+		color: $gray_color !important;
+	}
+	a {
+		color: $primary_color;
+	}
+	ul{
+	    list-style: none !important;
+	    margin-left: 0;
+	    overflow-x: auto;
+		overflow-y: hidden;
+	}
+////////////////////////
+// Specific Components
+////////////////////////
+	#top {
+		h1 {
+			display: none;
+		}
+		@include type_space(padding-bottom, 2);
+		border-bottom: 2px solid $gray_color;
+		.top-right {
+			@extend %display_inline_block;
+			@extend %icon;
+			@extend %icon_directory_location;
+			@extend %pad_t;
+			position: relative;
+			width: 32%;
+			&:before {
+				@include type_font_size(36px);
+				@include type_space(margin-left, -2);
+				color: $gray_color !important;
+				position: absolute;
+				top: -$base_line_height/2;
+			}
+			&:after {
+				@include type_space(padding-left, 1.5);
+				@extend %header_gray;
+				@extend %txt_bold;
+				content: 'Location';
+				letter-spacing: 0.1em !important;
+				position: absolute;
+				text-transform: uppercase !important;
+				top: 0;
+			}
+			p {
+				@extend %display_block;
+				@include type_space(padding-left, 1.5);
+				margin-bottom: 0;
+			}
+		}
+		.gray-bar {
+			background-color: transparent;
+			border-bottom: 0;
+			display: inline-block !important;
+			margin: 0;
+			margin-left: 6% !important;
+			padding-right: 0;
+			vertical-align: top;
+			width: 60% !important;
+			label {
+				@extend %header_gray;
+				display: inline-block;
+				min-width: 65px;
+			}
+			p {
+				border-right: 0;
+				display: inline-block;
+				margin: 0;
+				max-width: 100%;
+				padding: 0;
+				width: 100%;
+			}
+		}
+	}
+	.inline-block {
+		@extend %pad_v;
+		border-bottom: 2px solid $gray_color;
+		h2 {
+			@extend %icon;
+			@extend %icon_info_info;
+			position: relative;
+			&:before {
+				@include type_font_size(36px);
+				left: -4px;
+				position: absolute;
+				top: -14px;
+			}
+		}
+		&:last-child {
+			border-bottom: 0;
+			h2 {
+				@extend %icon_users_multiple;
+			}
+		}
+	}
+	#listing-container {
+		li {
+			@include type_space(padding-left, 1);
+			border-bottom: 1px solid $gray_color_light;
+			padding-bottom: 0;
+			line-height: 2.3em !important;
+			&:nth-of-type(odd) {
+				background-color: transparent;
+				border-bottom: 1px solid $gray_color_light;
+			}
+			&:last-child {
+				border-bottom: 0;
+			}
+		}
+	}
+	.searchResults-leftCol {
+		display: inline-block;
+		line-height: $base_line_height;
+		padding: 5px 0;
+		width: 66%;
+	}
+	.phonenumber-wrapper, .li-right-col {
+		display: inline-block;
+		max-width: 32%;
+	}
+	.infopod {
+		display: none;
+	}
+}

@@ -1,0 +1,226 @@
+//----------------------------------
+//    SLICK SLIDER/CAROUSEL
+//----------------------------------
+//http://kenwheeler.github.io/slick/
+// Default Variables
+$include_slider:        true !default;
+$slick_font_path: $font_file_location + "/" !default;
+$slick_loader_path: "../img/" !default;
+$slick_arrow_color: $soft_action_color;
+$slick_dot_color: $soft_action_color;
+$slick_dot_character: '\2022' !default;
+@function slick-image-url($url) {
+    @if function-exists(image-url) {
+        @return image-url($url);
+    }
+    @else {
+        @return url($slick_loader_path + $url);
+    }
+}
+@function slick-font-url($url) {
+    @if function-exists(font-url) {
+        @return imag-url($url);
+    }
+    @else {
+        @return url($slick_font_path + $url);
+    }
+}
+////////////////////////
+// Slider
+////////////////////////
+@if $include_slider == true{
+.slider {
+	@include type_space(max-height, 14);
+	@extend %space_b;
+}
+.slick-slider {
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -ms-touch-action: none;
+    touch-action: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+	text-align: right;
+	z-index: 0;
+	@extend %o_hide;
+	@extend %cf;
+}
+.slick-list {
+	position: relative;
+	@extend %space_b;
+    display: block;
+    padding: 0;
+	z-index: 1;
+    &:focus {
+        outline: none;
+    }
+    .slick-loading & {
+        background: #fff url("../img/ajax-loader.gif") center center no-repeat;
+    }
+    &.dragging {
+        cursor: pointer;
+        cursor: hand;
+    }
+}
+.slick-slider .slick-list,
+.slick-track,
+.slick-slide,
+.slick-slide img {
+    transform: translate3d(0, 0, 0);
+}
+.slick-track {
+	text-align: left;
+    *zoom: 1;
+    .slick-loading & {
+        visibility: hidden;
+    }
+	&:after{
+		content: '';
+		width: 0;
+		height: 0;
+		clear: both;
+		display: table;
+	}
+}
+.slick-slide {
+	white-space: normal;
+    float: left;
+	display: none;
+    min-height: 1px;
+	z-index: 10;
+    img {
+        display: block;
+    }
+    &.slick-loading img {
+        display: none;
+    }
+
+    &.dragging img {
+        pointer-events: none;
+    }
+    .slick-initialized & {
+        display: inline-block;
+    }
+    .slick-loading & {
+        visibility: hidden;
+    }
+    .slick-vertical & {
+        display: block;
+        height: auto;
+        border: 1px solid transparent;
+    }
+	.box_card{
+		position: relative;
+		z-index: 5;
+	}
+
+}
+////////////////////////
+// Icons
+////////////////////////
+// @font-face {
+//     font-family:"slick";
+//     src:    slick-font-url("slick.eot");
+//     src:    slick-font-url("slick.eot?#iefix") format("embedded-opentype"),
+//             slick-font-url("slick.woff") format("woff"),
+//             slick-font-url("slick.ttf") format("truetype"),
+//             slick-font-url("slick.svg#slick") format("svg");
+//     font-weight: normal;
+//     font-style: normal;
+// }
+////////////////////////
+// Arrows
+////////////////////////
+.slick-prev, .slick-next {
+//    @extend %button;
+    @extend %button_soft;
+    display: inline-block !important;
+    height: 40px;
+    width: 40px;
+    line-height: 0;
+    font-size: 0;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+
+    &:focus {
+        outline: none;
+    }
+    &.slick-disabled:before {
+        opacity: 0.25;
+    }
+    &:before {
+        @extend %icon:before;
+        margin: -14px;
+        @include type_font_size(modular-scale(3),false);
+        line-height: 1;
+    }
+}
+.slick-prev {
+    @extend %icon_arrow_left;
+    @extend %space_r_half;
+}
+.slick-next {
+    @extend %icon_arrow_right;
+    right: 0;
+    &:before {
+        display: block;
+		margin: auto;
+    }
+}
+////////////////////////
+// Dots
+////////////////////////
+.slick-dots {
+	position: relative;
+    list-style: none;
+    float: left;
+    text-align: left;
+    padding: 0px;
+    width: auto;
+    margin-left: 0;
+	z-index: 1;
+
+    li {
+        position: relative;
+        display: inline-block;
+        height: 20px;
+        width: 20px;
+        margin: 0 $gutter 0 0;
+        cursor: pointer;
+        button {
+            @include button(true, $highlight_color, $soft_action_color, $soft_action_color, 50%, true, true);
+            border-width: 1px;
+            color: transparent !important;
+            cursor: pointer;
+            display: block;
+            height: 20px;
+            left: 5px;
+            outline: 0;
+            padding: 10px;
+            position: absolute;
+            top: 4px;
+            width: 20px;
+            &:active, &.active {
+                position: absolute;
+                top: 5px;
+            }
+        }
+        &.slick-active button {
+            background-color: $alert_color !important;
+            border-color: $alert_color !important;
+            box-shadow: none !important;
+            cursor: default !important;
+            &:active, &.active {
+                top: 4px;
+            }
+        }
+    }
+}
+} // End IF include

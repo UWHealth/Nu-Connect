@@ -1,0 +1,222 @@
+.footer {
+	@include type_font_size(modular-scale(0));
+	.logo {
+		text-align: left;
+		@include mq(desk){
+			@include type-space(height, 3);
+		}
+		@include mq(lap){
+			@include type-space(height, 2.5);
+			padding-top: 0;
+		}
+		.logo_wrap{
+			text-align: left;
+		}
+	}
+}
+////////////////////////
+// Date Last Modified
+////////////////////////
+.footer_last_modified {
+	color: color(label);
+	.report_out_of_date {
+		@include media-query(small){
+			float: left !important;
+			display: block;
+			margin-left: 0;
+			padding-left: 0;
+			margin: $base_line_height/2 0;
+		}
+	}
+}
+////////////////////////
+// Breadcrumbs
+////////////////////////
+.footer_breadcrumbs {
+	background-color: #f5fbfe;
+	color: $link_color;
+	.wide_content {
+		@extend %overflow_hidden;
+		width: 100%;
+		@media screen and (min-width: 1114px) {
+			width: 75%;
+		}
+	}
+	.breadcrumbs {
+        @extend %txt_bold;
+        overflow-x: auto;
+		overflow-y: hidden;
+		li {
+			margin: 0;
+			padding-right: 0;
+			position: relative;
+			z-index: 0;
+			a {
+                @extend %link_naked;
+                @extend %o_hide;
+                @extend %pad_v_half;
+                background: none;
+                margin: 0;
+			}
+			span {
+                @extend %o_hide;
+                display: block;
+			}
+			&.first {
+				padding: 0;
+				display: none;
+				.breadcrumb_ellipse {
+					display: none;
+				}
+				a {
+					margin: 0 5px 0 0px;
+				}
+			}
+			&.current_page { // &:last-child {
+				color: color(alert);
+				a {
+					color: color(alert);
+					cursor: default;
+				}
+			}
+		}
+		@include media-query(bigs){
+			overflow: hidden;
+		}
+		&.has_ellipse {
+			@extend %one_whole;
+			li {
+				@extend %o_hide;
+				@extend %pad_n;
+				span {
+					@extend %display_inline_block;
+				}
+			}
+			@include media-query(bigs){
+				position: relative;
+				top: 2px;
+				width: 9999px;
+				li {
+					padding: 10px 17px 4px 0 !important;
+					top: 0;
+					&:after {
+						content: none !important;
+					}
+					span {
+						display: block;
+					}
+				}
+			}
+			@include media-query(smalls){
+				li {
+					span {
+						width: auto !important;
+					}
+				}
+			}
+		}
+	}
+	.breadcrumb_ellipse {
+		background: none;
+		display: none;
+		height: 18px;
+		margin: 0;
+		position: absolute;
+		right: 5px;
+		top: 14px;
+		width: 30px;
+		z-index: 0;
+		@include media-query(bigs){
+			background: url(../img/breadcrumb_ellipse.png) no-repeat 0px 0px;
+		}
+	}
+}
+////////////////////////
+// Updates
+////////////////////////
+.footer_updates {
+	background-color: #dff0fb;
+	> .wrap {
+        @include type_space(padding-top, .5);
+	}
+	.tagged ul {
+		padding: 2px 28px 0 14px;
+	}
+}
+.no-js {
+	.footer_updates {
+		.h5.header_gray {
+			display: none;
+		}
+	}
+	#sidebar_footer {
+		width: 100%;
+	}
+	.uconnect_updates {
+		display: none;
+	}
+}
+.sidebar_footer_content {
+	label {
+		@include type_space(padding-bottom, 2);
+		@include mq(smalls){
+			@include type_space(padding-bottom, 1);
+		}
+	}
+}
+.uconnect_updates {
+	@include type_space(margin-bottom, 1);
+	// height: 249px;
+	overflow: visible; // hidden;
+	.box_card {
+        @include type_space(margin-top, .5);
+	}
+	.third {
+		display: none;
+		&:nth-child(1), &:nth-child(2), &:nth-child(3) {
+			display: inline-block;
+		}
+		@include media-query((lap,smalls)){
+			&:nth-child(3) {
+				display: none;
+			}
+		}
+		@include media-query(smalls){
+			&:nth-child(2) {
+				display: none;
+			}
+		}
+	}
+	@include media-query((lap,smalls)){
+		@include type_space(margin-bottom, .5);
+	}
+}
+////////////////////////
+// Utility Nav
+////////////////////////
+.footer_utility_nav {
+	> .wrap {
+        @include type_space(padding-bottom, 0);
+	}
+	> .row {
+		width: 100%;
+	}
+	div {
+		display: inline-block;
+	}
+	p {
+		display: inline-block;
+		&:last-child {
+			@include type_space(padding-right, 0);
+		}
+	}
+	a {
+        @include type_space(padding, .5);
+	}
+}
+.logo_uwhealth {
+	@include type_space_sc(padding, 0, 1, .5, 0);
+	@include mq(smalls){
+		@include type_space(padding-left, .5);
+	}
+}

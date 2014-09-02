@@ -1,0 +1,53 @@
+//$base_font_size:             16px !default;
+//$base_line_height:           24px !default;
+//$primary_font_stack:      	'opensans', verdana, helvetica, arial, sans-serif;
+//$secondary_font_stack:     	'bitter', Georgia, serif;
+//$monospace_font_stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+//$icon_font_stack:			'uconnect';
+//$gutter:                 	28px;
+// @import "../utilities/_functions";
+// @import "../base/_config";
+// @import "../colors/_colors";
+// @import "../colors/_blendmodes";
+
+///////////////////////////////////////////////////////////////////
+// Forms
+///////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////
+// Header
+///////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////
+// Main Content
+///////////////////////////////////////////////////////////////////
+// .txt_shadow, %txt_shadow {
+	// filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=1)";
+	// &_med {
+	// 	filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=5)";
+	// }
+	// &_big {
+		// filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=10)";
+	// }
+// }
+
+
+///////////////////////////////////////////////////////////////////
+// Footer
+///////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////
+// Media Queries
+///////////////////////////////////////////////////////////////////
+// media-query(smalls)
+@media only screen and (max-width:640px) {
+}
+// media-query(lap)
+@media only screen and (min-width: 641px) and (max-width: 940px) {
+}

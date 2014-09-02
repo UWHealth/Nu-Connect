@@ -1,0 +1,469 @@
+$classtype: unquote(", .");
+
+@if $include_spacing_classes == false{
+	$classtype: unquote("//") !global;
+}
+
+@mixin spacing_helpers($namespace:""){
+
+	%#{$namespace}space_reset{
+		margin: 0;
+    	padding: 0;
+	}
+
+    %#{$namespace}pad_t#{$classtype}#{$namespace}pad_t
+	{
+        @include type_space(padding-top, 1);
+		@at-root &_2{
+			@include type_space(padding-top, 2);
+		}
+		@at-root &_half{
+			@include type_space(padding-top, .5);
+		}
+		@at-root &_quarter{
+			@include type_space(padding-top, .25);
+		}
+		@at-root &_3_quarters{
+			@include type_space(padding-top, .75);
+		}
+    }
+    %#{$namespace}pad_b#{$classtype}#{$namespace}pad_b
+	{
+        @include type_space(padding-bottom, 1);
+		@at-root &_2{
+			@include type_space(padding-bottom, 2);
+		}
+		@at-root &_half{
+			@include type_space(padding-bottom, .5);
+		}
+		@at-root &_quarter{
+			@include type_space(padding-bottom, .25);
+		}
+		@at-root &_3_quarters{
+			@include type_space(padding-bottom, .75);
+		}
+    }
+    %#{$namespace}pad_r#{$classtype}#{$namespace}pad_r
+	{
+        @include rems(padding-right, $gutter);
+		@at-root &_2{
+			@include rems(padding-right, ($gutter * 2) );
+		}
+		@at-root &_half{
+			@include rems(padding-right, ($gutter / 2) );
+		}
+		@at-root &_quarter{
+			@include rems(padding-right, ($gutter / 4) );
+		}
+		@at-root &_3_quarters{
+			@include rems(padding-right, ($gutter * .75) );
+		}
+    }
+    %#{$namespace}pad_l#{$classtype}#{$namespace}pad_l
+	{
+        @include rems(padding-left, $gutter);
+		@at-root &_2{
+			@include rems(padding-left, ($gutter * 2) );
+		}
+		@at-root &_half{
+			@include rems(padding-left, ($gutter / 2) );
+		}
+		@at-root &_quarter{
+			@include rems(padding-left, ($gutter / 4) );
+		}
+		@at-root &_3_quarters{
+			@include rems(padding-left, ($gutter * .75) );
+		}
+		@at-root &_1_half{
+			@include rems(padding-left, ($gutter * 1.5) );
+		}
+    }
+    %#{$namespace}pad_v#{$classtype}#{$namespace}pad_v
+	{
+        @extend %#{$namespace}pad_t;
+        @extend %#{$namespace}pad_b;
+		@at-root &_2{
+			@extend %#{$namespace}pad_t_2;
+        	@extend %#{$namespace}pad_b_2;
+		}
+		@at-root &_half{
+			@extend %#{$namespace}pad_t_half;
+        	@extend %#{$namespace}pad_b_half;
+		}
+		@at-root &_quarter{
+			@extend %#{$namespace}pad_t_quarter;
+        	@extend %#{$namespace}pad_b_quarter;
+		}
+		@at-root &_3_quarters{
+			@extend %#{$namespace}pad_t_3_quarters;
+        	@extend %#{$namespace}pad_b_3_quarters;
+		}
+    }
+    %#{$namespace}pad_h#{$classtype}#{$namespace}pad_h
+	{
+        @extend %#{$namespace}pad_l;
+        @extend %#{$namespace}pad_r;
+		@at-root &_2{
+			@extend %#{$namespace}pad_l_2;
+        	@extend %#{$namespace}pad_r_2;
+		}
+		@at-root &_half{
+			@extend %#{$namespace}pad_l_half;
+        	@extend %#{$namespace}pad_r_half;
+		}
+		@at-root &_quarter{
+			@extend %#{$namespace}pad_l_quarter;
+        	@extend %#{$namespace}pad_r_quarter;
+		}
+		@at-root &_3_quarters{
+			@extend %#{$namespace}pad_l_3_quarters;
+        	@extend %#{$namespace}pad_r_3_quarters;
+		}
+    }
+    %#{$namespace}pad#{$classtype}#{$namespace}pad
+	{
+        @extend %#{$namespace}pad_h;
+        @extend %#{$namespace}pad_v;
+		@at-root &_2{
+			@extend %#{$namespace}pad_h_2;
+			@extend %#{$namespace}pad_v_2;
+		}
+		@at-root &_half{
+			@extend %#{$namespace}pad_h_half;
+			@extend %#{$namespace}pad_v_half;
+		}
+		@at-root &_quarter{
+			@extend %#{$namespace}pad_h_quarter;
+			@extend %#{$namespace}pad_v_quarter;
+		}
+		@at-root &_3_quarters{
+			@extend %#{$namespace}pad_h_3_quarters;
+        	@extend %#{$namespace}pad_v_3_quarters;
+		}
+    }
+    %#{$namespace}pad_n_v#{$classtype}#{$namespace}pad_n_v
+	{
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    %#{$namespace}pad_n_h#{$classtype}#{$namespace}pad_n_h
+	{
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+    %#{$namespace}pad_n_t#{$classtype}#{$namespace}pad_n_t
+	{
+        padding-top: 0 !important;
+    }
+    %#{$namespace}pad_n_r#{$classtype}#{$namespace}pad_n_r
+	{
+        padding-right: 0 !important;
+    }
+    %#{$namespace}pad_n_b#{$classtype}#{$namespace}pad_n_b
+	{
+        padding-bottom: 0 !important;
+    }
+    %#{$namespace}pad_n_l#{$classtype}#{$namespace}pad_n_l
+	{
+        padding-left: 0 !important;
+    }
+    %#{$namespace}pad_n#{$classtype}#{$namespace}pad_n
+	{
+        @extend %#{$namespace}pad_n_v;
+        @extend %#{$namespace}pad_n_h;
+    }
+    %#{$namespace}space_t#{$classtype}#{$namespace}space_t
+	{
+        @include type_space(margin-top, 1);
+		@at-root &_2{
+			@include type_space(margin-top, 2);
+		}
+		@at-root &_half{
+			@include type_space(margin-top, .5);
+		}
+		@at-root &_quarter{
+			@include type_space(margin-top, .25);
+		}
+		@at-root &_3_quarters{
+			@include type_space(margin-top, .75);
+		}
+    }
+    %#{$namespace}space_r#{$classtype}#{$namespace}space_r
+	{
+        @include rems(margin-right, $gutter);
+		@at-root &_2{
+			@include rems(margin-right, ($gutter * 2) );
+		}
+		@at-root &_half{
+			@include rems(margin-right, ($gutter / 2) );
+		}
+		@at-root &_quarter{
+			@include rems(margin-right, ($gutter / 4) );
+		}
+		@at-root &_3_quarters{
+			@include rems(margin-right, ($gutter * .75) );
+		}
+    }
+    %#{$namespace}space_b#{$classtype}#{$namespace}space_b
+	{
+        @include rems(margin-bottom, $gutter);
+		@at-root &_2{
+			@include rems(margin-bottom, ($gutter * 2) );
+		}
+		@at-root &_half{
+			@include rems(margin-bottom, ($gutter / 2) );
+		}
+		@at-root &_quarter{
+			@include rems(margin-bottom, ($gutter / 4) );
+		}
+		@at-root &_3_quarters{
+			@include rems(margin-bottom, ($gutter * .75) );
+		}
+    }
+    %#{$namespace}space_l#{$classtype}#{$namespace}space_l
+	{
+        @include rems(margin-left, $gutter);
+		@at-root &_2{
+			@include rems(margin-left, ($gutter * 2) );
+		}
+		@at-root &_half{
+			@include rems(margin-left, ($gutter / 2) );
+		}
+		@at-root &_quarter{
+			@include rems(margin-left, ($gutter / 4) );
+		}
+		@at-root &_3_quarters{
+			@include rems(margin-left, ($gutter * .75) );
+		}
+    }
+    %#{$namespace}space#{$classtype}#{$namespace}space
+	{
+        @extend %#{$namespace}space_v;
+        @extend %#{$namespace}space_l;
+        @extend %#{$namespace}space_r;
+    }
+    %#{$namespace}space_h#{$classtype}#{$namespace}space_h
+	{
+		@extend %#{$namespace}space_r;
+		@extend %#{$namespace}space_l;
+		@at-root &_2{
+			@extend %#{$namespace}space_r_2;
+			@extend %#{$namespace}space_l_2;
+		}
+		@at-root &_half{
+			@extend %#{$namespace}space_r_half;
+			@extend %#{$namespace}space_l_half;
+		}
+		@at-root &_quarter{
+			@extend %#{$namespace}space_r_quarter;
+			@extend %#{$namespace}space_l_quarter;
+		}
+		@at-root &_3_quarters{
+			@extend %#{$namespace}space_r_3_quarters;
+			@extend %#{$namespace}space_l_3_quarters;
+		}
+    }
+    %#{$namespace}space_v#{$classtype}#{$namespace}space_v
+	{
+		@extend %#{$namespace}space_t;
+		@extend %#{$namespace}space_b;
+		@at-root &_2{
+			@extend %#{$namespace}space_t_2;
+			@extend %#{$namespace}space_b_2;
+		}
+		@at-root &_half{
+			@extend %#{$namespace}space_t_half;
+			@extend %#{$namespace}space_b_half;
+		}
+		@at-root &_quarter{
+			@extend %#{$namespace}space_t_quarter;
+			@extend %#{$namespace}space_b_quarter;
+		}
+		@at-root &_3_quarters{
+			@extend %#{$namespace}space_t_3_quarters;
+			@extend %#{$namespace}space_b_3_quarters;
+		}
+    }
+    %#{$namespace}space_n#{$classtype}#{$namespace}space_n
+	{
+        @extend %#{$namespace}space_n_h;
+        @extend %#{$namespace}space_n_v;
+    }
+    %#{$namespace}space_n_h#{$classtype}#{$namespace}space_n_h
+	{
+        @extend %#{$namespace}space_n_r;
+        @extend %#{$namespace}space_n_l;
+    }
+    %#{$namespace}space_n_v#{$classtype}#{$namespace}space_n_v
+	{
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    %#{$namespace}space_n_t#{$classtype}#{$namespace}space_n_t
+	{
+		margin-top: 0 !important;
+	}
+	%#{$namespace}space_n_r#{$classtype}#{$namespace}space_n_r
+	{
+		margin-right: 0 !important;
+	}
+	%#{$namespace}space_n_b#{$classtype}#{$namespace}space_n_b
+	{
+		margin-bottom: 0 !important;
+	}
+	%#{$namespace}space_n_l#{$classtype}#{$namespace}space_n_l
+	{
+		margin-left: 0 !important;
+	}
+	%#{$namespace}space_neg_t#{$classtype}#{$namespace}space_neg_t
+	{
+        @include type_space_important(margin-top, -1);
+		@at-root &_2{
+			@include type_space_important(margin-top, -2);
+		}
+		@at-root &_half{
+			@include type_space_important(margin-top, -.5);
+		}
+		@at-root &_quarter{
+			@include type_space_important(margin-top, -.25);
+		}
+		@at-root &_3_quarters{
+			@include type_space_important(margin-top, -.75);
+		}
+    }
+    %#{$namespace}space_neg_r#{$classtype}#{$namespace}space_neg_r
+	{
+        @include rems(margin-right, -$gutter);
+		@at-root &_2{
+			@include rems(margin-right, -($gutter * 2) );
+		}
+		@at-root &_half{
+			@include rems(margin-right, -($gutter / 2) );
+		}
+		@at-root &_quarter{
+			@include rems(margin-right, -($gutter / 4) );
+		}
+		@at-root &_3_quarters{
+			@include rems(margin-right, -($gutter * .75) );
+		}
+    }
+	%#{$namespace}space_neg_b#{$classtype}#{$namespace}space_neg_b
+	{
+        @include type_space_important(margin-bottom, -1);
+		@at-root &_2{
+			@include type_space_important(margin-bottom, -2);
+		}
+		@at-root &_half{
+			@include type_space_important(margin-bottom, -.5);
+		}
+		@at-root &_quarter{
+			@include type_space_important(margin-bottom, -.25);
+		}
+		@at-root &_3_quarters{
+			@include type_space_important(margin-bottom, -.75);
+		}
+    }
+    %#{$namespace}space_neg_l#{$classtype}#{$namespace}space_neg_l
+	{
+        @include rems(margin-left, -$gutter);
+		@at-root &_2{
+			@include rems(margin-left, -($gutter * 2) );
+		}
+		@at-root &_half{
+			@include rems(margin-left, -($gutter / 2) );
+		}
+		@at-root &_quarter{
+			@include rems(margin-left, -($gutter / 4) );
+		}
+		@at-root &_3_quarters{
+			@include rems(margin-left, -($gutter * .75) );
+		}
+    }
+    %#{$namespace}space_neg#{$classtype}#{$namespace}space_neg
+	{
+        @extend %#{$namespace}space_neg_t;
+        @extend %#{$namespace}space_neg_r;
+        @extend %#{$namespace}space_neg_b;
+        @extend %#{$namespace}space_neg_l;
+        @at-root &_2{
+			@extend %#{$namespace}space_neg_t_2;
+	        @extend %#{$namespace}space_neg_r_2;
+	        @extend %#{$namespace}space_neg_b_2;
+	        @extend %#{$namespace}space_neg_l_2;
+		}
+		@at-root &_half{
+			@extend %#{$namespace}space_neg_t_half;
+	        @extend %#{$namespace}space_neg_r_half;
+	        @extend %#{$namespace}space_neg_b_half;
+	        @extend %#{$namespace}space_neg_l_half;
+		}
+		@at-root &_quarter{
+			@extend %#{$namespace}space_neg_t_quarter;
+	        @extend %#{$namespace}space_neg_r_quarter;
+	        @extend %#{$namespace}space_neg_b_quarter;
+	        @extend %#{$namespace}space_neg_l_quarter;
+		}
+		@at-root &_3_quarters{
+			@extend %#{$namespace}space_neg_t_3_quarters;
+	        @extend %#{$namespace}space_neg_r_3_quarters;
+	        @extend %#{$namespace}space_neg_b_3_quarters;
+	        @extend %#{$namespace}space_neg_l_3_quarters;
+		}
+    }
+    %#{$namespace}space_neg_h#{$classtype}#{$namespace}space_neg_h
+	{
+        @extend %#{$namespace}space_neg_r;
+        @extend %#{$namespace}space_neg_l;
+        @at-root &_2{
+			@extend %#{$namespace}space_neg_r_2;
+        	@extend %#{$namespace}space_neg_l_2;
+		}
+		@at-root &_half{
+			@extend %#{$namespace}space_neg_r_half;
+        	@extend %#{$namespace}space_neg_l_half;
+		}
+		@at-root &_quarter{
+			@extend %#{$namespace}space_neg_r_quarter;
+        	@extend %#{$namespace}space_neg_l_quarter;
+		}
+		@at-root &_3_quarters{
+			@extend %#{$namespace}space_neg_r_3_quarters;
+        	@extend %#{$namespace}space_neg_l_3_quarters;
+		}
+    }
+    %#{$namespace}space_neg_v#{$classtype}#{$namespace}space_neg_v
+	{
+        @extend %#{$namespace}space_neg_t;
+        @extend %#{$namespace}space_neg_b;
+        @at-root &_2{
+			@extend %#{$namespace}space_neg_t_2;
+        	@extend %#{$namespace}space_neg_b_2;
+		}
+		@at-root &_half{
+			@extend %#{$namespace}space_neg_t_half;
+        	@extend %#{$namespace}space_neg_b_half;
+		}
+		@at-root &_quarter{
+			@extend %#{$namespace}space_neg_t_quarter;
+        	@extend %#{$namespace}space_neg_b_quarter;
+		}
+		@at-root &_3_quarters{
+			@extend %#{$namespace}space_neg_t_3_quarters;
+        	@extend %#{$namespace}space_neg_b_3_quarters;
+		}
+    }
+
+}
+%negative_top{
+	@include type_space(margin-top, -1);
+}
+
+@include spacing_helpers();
+
+@if $responsive == true{
+    @each $name in $breakpoint_has_widths {
+        @include mq($name) {
+           @include spacing_helpers('#{$name}_');
+        }
+    }
+}

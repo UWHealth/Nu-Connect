@@ -1,0 +1,142 @@
+.footer {
+	@include type_font_size(modular-scale(0));
+}
+////////////////////////
+// Date Last Modified
+////////////////////////
+.footer_last_modified {
+	color: color(gray);
+}
+////////////////////////
+// Breadcrumbs
+////////////////////////
+.footer_breadcrumbs {
+	background-color: #f5fbfe;
+	color: $link_color;
+	.breadcrumbs {
+		@extend %txt_bold;
+		@extend %o_hide;
+		li {
+			@extend %o_hide;
+			position: relative;
+			z-index: 0;
+			margin: 0;
+			padding: 10px 17px 4px 0;
+			&:after {
+				content: none !important;
+			}
+			a {
+				@extend %pad_v_half;
+				@extend %link_naked;
+				background: none;
+				margin: 0;
+				@extend %o_hide;
+			}
+			span {
+				display: block;
+				@extend %o_hide;
+			}
+			.first a {
+				margin: 0 5px 0 0px;
+			}
+			.second a {
+				margin: 0 0 0 5px;
+				padding-left: 0px;
+			}
+			.last {
+				margin: 0 0 0 5px;
+				padding-right: 0;
+			}
+		}
+	}
+	.breadcrumb_ellipse {
+		width: 30px;
+		height: 18px;
+		margin: 0;
+		position: absolute;
+		right: 5px;
+		top: 14px;
+		display: none;
+		background: url(../img/breadcrumb_ellipse.png) no-repeat 0px 0px;
+		z-index: 0;
+	}
+	.current_page {
+		color: color(alert);
+	}
+}
+////////////////////////
+// Updates
+////////////////////////
+.footer_updates {
+	background-color: #dff0fb;
+	> .wrap {
+		@extend %pad_t_half;
+	}
+	.tagged ul {
+		padding: 2px 28px 0 14px;
+	}
+}
+.sidebar_footer_content {
+	label {
+		@include type_space(padding-bottom, 2);
+		@include mq(smalls){
+			@include type_space(padding-bottom, 1);
+		}
+	}
+}
+.uconnect_updates {
+	@extend %space_b;
+	// height: 249px;
+	overflow: visible; // hidden;
+	.box_card {
+		@extend %space_t_half;
+	}
+	.third {
+		display: none;
+		&:nth-child(1), &:nth-child(2), &:nth-child(3) {
+			@extend %display_inline_block;
+		}
+		@include media-query((lap,smalls)){
+			&:nth-child(3) {
+				display: none;
+			}
+		}
+		@include media-query(smalls){
+			&:nth-child(2) {
+				display: none;
+			}
+		}
+	}
+	@include media-query((lap,smalls)){
+		@include type_space(margin-bottom, .5);
+	}
+}
+////////////////////////
+// Utility Nav
+////////////////////////
+.footer_utility_nav {
+	> .wrap {
+		@extend %pad_n_b;
+	}
+	> .row {
+		width: 100%;
+	}
+	div {
+		@extend %display_inline_block;
+	}
+	p {
+		@extend %display_inline_block;
+		&:last-child {
+			@extend %pad_n_r;
+		}
+	}
+	a {
+		@extend %pad_half;
+	}
+}
+.logo_uwhealth {
+	@include type_space_sc(padding, 0, 1, .5, 0);
+	@include mq(smalls){
+		@include type_space(padding-left, .5);
+	}
+}

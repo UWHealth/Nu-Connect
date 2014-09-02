@@ -1,0 +1,183 @@
+////////////////////////
+// Sidebar
+////////////////////////
+// .js #sidebar{
+//     @extend %smalls_hide;
+// }
+// .js.sub_nav #sidebar{
+//     @extend %smalls_show;
+// }
+.sidebar {
+
+	@include mq(bigs){
+		@include type_font_size(14px); // NOTE: This should remain as a pixel value. These links are an exception to the modular-scale rule.
+	}
+	@include media-query((lap,smalls)){
+        @include type_space(padding-top, .5);
+    }
+
+	.list_bordered{
+		@extend %pad_t_half;
+		@extend %bigs_pad_t;
+	}
+
+	ul{
+		margin-left: 0;
+	}
+	li {
+		@extend %pad_n_v;
+	}
+    .list_nav {
+        @extend %txt_upper;
+		@extend %txt_bold;
+    }
+	a {
+		@extend %link_naked;
+		-webkit-font-smoothing: antialiased; // This corrects a weird optical illusion where sidebar links appear slightly purple.
+	}
+	.search_box{
+		@extend %pad_v_half;
+	}
+    .accordion {
+        @extend %icon_arrow_circle_down;
+        &:before {
+            @include type_font_size(22px);
+            @include type_space(margin-top, .25);
+            color: color(soft_action);
+        }
+        > a {
+            max-width: 80%;
+			max-height: none;
+			overflow: visible;
+        }
+        &.accordion_closed {
+            &:before {
+                content: "\e64d" !important;
+            }
+        }
+        &:hover, &:active {
+            &:before {
+                color: color(soft_action, light);
+            }
+        }
+    }
+}
+
+//Button has no label (span) on lap and smallish.
+// Label is hidden with visually_hidden class.
+.sidebar .sidebar_button { //Specificity HACK
+	min-width: 100%;
+	@extend %txt_label;
+	@include type-space(margin-bottom, 1);
+
+	@include mq(small){
+		min-width: initial;
+		margin-right: 2%;
+
+		& span{
+			display: inline-block;
+			top: -2.25px; // Vertical alignment HACK
+			@extend %small_visible; //Undo visually_hidden
+			position: relative;
+		}
+	}
+}
+
+.no-js {
+    .sidebar {
+        .list_nav {
+            ul ul {
+                @include type_space(padding-left, 1);
+            }
+        }
+    }
+}
+.sidebar_content {
+    @extend %desk_show;
+    @extend %lap_space_b;
+    @extend %smalls_space_b;
+    @extend %lap_pad_half;
+    @extend %smalls_pad_half;
+	transform: translateZ(0);
+//    input {
+//        @include type_font_size(modular-scale(-1));
+//        padding: 12px 36px 12px 10px;
+//    }
+    .button_inset {
+        overflow: hidden;
+    }
+    @include media-query((lap,smalls)){
+		background-color: white;
+        background-color: rgba($color_white, .98);
+        border-radius: $border_radius;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        display: none;
+		@include type-space(margin-top, -.5);
+        position: absolute;
+        width: 500%;
+        z-index: 100;
+    }
+	&.cart{
+		@include media-query((lap,smalls)){
+			top: auto;
+		}
+	}
+    @include media-query(small){
+        width: 93%;
+    }
+}
+.no-js {
+    .sidebar_content {
+        @include media-query((lap,smalls)){
+            background-color: transparent;
+            box-shadow: none;
+            display: block;
+            padding: 0;
+            position: relative;
+            width: 100%;
+        }
+    }
+}
+.sidebar_footer_content {
+	@extend %lap_space_v;
+	@extend %smalls_space_v;
+}
+.currentbranch0, .self {
+    border-color: color(select) !important;
+    color: color(select) !important;
+    cursor: default;
+    a {
+        color: color(select) !important;
+        cursor: default;
+        &:before {
+            color: color(select) !important;
+        }
+//        &:hover, &:focus, &:visited, &:active {
+//            &:before {
+//                color: color(select) !important;
+//            }
+//        }
+    }
+}
+.grandparent, .self, .branch0, .branch_arrow {
+    @extend %pad_l_half;
+    a {
+        @extend %icon;
+        &:before {
+            @extend %txt_normal;
+            display: inline-block;
+            margin: 0 0 0 -1.25em;
+            padding-right: .25em;
+        }
+    }
+}
+.grandparent, .self, .branch0, .parent {
+    a {
+        @extend %icon_home;
+    }
+}
+.branch_arrow {
+    a {
+        @extend %icon_arrow_left;
+    }
+}

@@ -1,0 +1,120 @@
+////////////////////////////////////////////////////////////////////////
+#directory {
+////////////////////////
+// General
+////////////////////////
+	@include type_font_size(14px);
+	color: $color_black;
+	h1, h2, h3, h4, h5, h6, .dir_header {
+		@include type_font_size(12px);
+		@extend %type_family_primary;
+		@extend %txt_upper;
+		@extend %display_block;
+		@extend %txt_bold;
+		@extend %pad_l;
+		color: $gray_color !important;
+	}
+	a {
+		color: $primary_color;
+	}
+	ul{
+	    margin-left: 0;
+	}
+////////////////////////
+// Specific Components
+////////////////////////
+	#top {
+		@extend %pad_b_2;
+		border-bottom: 2px solid $gray_color;
+		.top-right {
+			@extend %display_inline_block;
+			width: 32%;
+			&:before {
+				@extend .dir_header;
+				@extend %pad_l_2;
+				content: 'Location';
+			}
+			p {
+				@include type_font_size(14px);
+				@extend %display_block;
+				@extend %pad_l_2;
+				margin-bottom: 0;
+				line-height: 21px;
+				&:first-child {
+					@extend %icon;
+					@extend %icon_directory_location;
+					&:before {
+						@include type_font_size(36px);
+						@include rems_important((margin-top), (-$base_line_height*1.5));
+						@extend %space_neg_l_2;
+						color: $gray_color !important;
+					}
+				}
+			}
+		}
+		.gray-bar {
+			// @extend %two_thirds;
+			background-color: transparent;
+			border-bottom: 0;
+			margin: 0;
+			margin-left: 6% !important;
+			padding-right: 0;
+			vertical-align: top;
+			width: 60% !important;
+			label {
+				@extend .dir_header;
+				@extend %pad_n_t;
+				padding-top: 0;
+				padding-left: 0;
+			}
+			p {
+				border-right: 0;
+				padding: 0;
+				max-width: 50%;
+				width: 50%;
+			}
+		}
+	}
+	.inline-block {
+		@extend %pad;
+		border-bottom: 2px solid $gray_color;
+		h2 {
+			@extend %icon;
+			@extend %icon_info_info;
+			&:before {
+				@include type_font_size(36px);
+				@extend %space_neg_l_2;
+				@extend %space_neg_t_half;
+			}
+		}
+		&:last-child {
+			border-bottom: 0;
+			h2 {
+				@extend %icon_users_multiple;
+			}
+		}
+	}
+	#listing-container {
+		li {
+			@extend %pad_l;
+			border-bottom: 1px solid $gray_color_light;
+			padding-bottom: 0;
+			line-height: 2.3em !important;
+			&:nth-of-type(odd) {
+				background-color: transparent;
+				border-bottom: 1px solid $gray_color_light;
+			}
+			&:last-child {
+				border-bottom: 0;
+			}
+		}
+	}
+	.searchResults-leftCol {
+		width: 66%;
+		line-height: $base_line_height;
+		padding: 5px 0;
+	}
+	.li-right-col {
+		width: 32%;
+	}
+}

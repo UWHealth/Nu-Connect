@@ -1,0 +1,88 @@
+table {
+    @extend %type_vertical_rhythm;
+    width: 100%;
+	table-layout: fixed;
+    background-color: transparent;
+    border-collapse:collapse;
+    border-spacing:0;
+    @extend %space_v;
+	border-style: solid;
+	border-width: 1px;
+	border-color: transparent;
+}
+th, td {
+	@include type_space_sc(padding, 1, 0, .5);
+	text-align: left;
+	vertical-align:top;
+	border: 0;
+	border-bottom: 1px;
+	border-top-width: 0px;
+	border-color: color(form);
+	border-style: solid;
+}
+td{
+	&.stripe{
+		background-color: color(highlight);
+	}
+}
+th {
+	@extend %txt_bold;
+}
+thead th {
+	vertical-align:bottom;
+	@include type_space_sc(padding, 1, 0, 0 );
+}
+thead + tbody td:before{
+	content: attr(data-th)" : ";
+	font-weight: bold;
+	padding-right: .25em;
+	display: none;
+}
+//.table_fixed{
+//        table-layout: fixed;
+//    }
+
+.table_striped {
+    & tr:nth-child(odd) td{
+        background-color: color(highlight);
+    }
+    & th, & td{
+		@extend %pad_r_half;
+        @extend %pad_l_half;
+        border-color: color(form);
+        border-style: solid;
+    }
+}
+@include mq(#{$smalls}){
+    .js table{
+		@extend %smalls_space_t;
+        th{
+            display: none
+        }
+
+        td {
+            display: block;
+            border-bottom: 0;
+            padding-top: 0;
+
+            &:first-child{
+                border-top-width: 1px;
+                @extend %smalls_pad_t_half;
+            }
+            &:before{
+				display: inline;
+            }
+        }
+    }
+ }
+
+////////////////////////
+// Tables
+////////////////////////
+.table_striped tr:nth-child(odd) td {
+    background-color: color(highlight);
+}
+.table_striped th, .table_striped td {
+    border-color: color(soft_action);
+    border-style: solid;
+}

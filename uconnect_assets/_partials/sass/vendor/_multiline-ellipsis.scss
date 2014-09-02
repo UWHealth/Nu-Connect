@@ -1,0 +1,127 @@
+////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+@mixin multiline-ellipsis($height, $lineHeight) {
+
+	$ellipsisWidth: $base_line_height*2 !default;
+
+	// .ellipsis {
+		line-height: $lineHeight;
+		max-height: $height;
+		overflow: hidden;
+		position: relative;
+	// }
+
+	// .ellipsis:before {
+	&:before {
+		content:"";
+		float: left;
+		width: 5px;
+		max-height: $height;
+	}
+
+	> *:first-child { // .ellipsis  > *:first-child {
+		float: right;
+		width: 100%;
+		margin-left: -5px;
+	}
+
+	// .ellipsis:after {
+	&:after {
+		background: $color_white;
+		// background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(white), color-stop(50%, white));
+		// background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
+		// background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
+		// background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
+		background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
+		content: "\02026";
+		float: right;
+		left: 100%;
+		margin-left: -($base_line_height*2); // -($ellipsisWidth*2);
+		// padding-right: 0px;
+		position: absolute;
+		text-align: right;
+		//top: $height*.75; // - $base_line_height - ($base_line_height/3); // -25px;
+		top: $height - $base_line_height + ($height/$base_line_height) - 2px; // $height - $base_line_height - ($height/$base_line_height)
+		//bottom: 4px;
+		width: $ellipsisWidth;
+	}
+
+}
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+.ellipsis, %ellipsis {
+    line-height: $base_line_height;
+    overflow: hidden;
+    position: relative;
+}
+.ellipsis_2 {
+	@extend %ellipsis;
+    max-height: $base_line_height*2;
+}
+.ellipsis_text {
+	background: $color_white;
+	background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
+    bottom: 0;
+    position: absolute;
+    right: 0;
+}
+.fill {
+    background: $color_white;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+////////////////////////////////////////////////
+<p class="clamped clamped-2">
+    <span class="text">
+        There's a bit of text here.
+        <span class="ellipsis">
+            &#133;
+        </span>
+        <span class="fill"></span>
+    </span>
+</p>
+<p class="clamped clamped-2">
+    <span class="text">
+        But more text here (the same markup structure though): if the text overflows from the clamped paragraph's height, the ellipse will show.
+        <span class="ellipsis">
+            &#133;
+        </span>
+        <span class="fill"></span>
+    </span>
+</p>
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// .ellipsis {
+//     &:after {
+//         background: rgb(240, 245, 247);
+//         background: linear-gradient(to right, rgba(240, 245, 247, 0), rgba(240, 245, 247, 0) 50%, rgba(240, 245, 247, 0));
+//     }
+// }
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// inspiration from:
+// 	 - http://codepen.io/martinwolf/pen/qlFdp
+// 	 - http://jsfiddle.net/barney/bmNvs/
+//   - https://gist.github.com/drewbarontini/3755170
+@mixin multiline_ellipsis($linesToShow, $lineHeight/*, $maxWidth, $fontSize*/) {
+
+	// $linesToShow: 1 !default;
+	$maxWidth: 100% !default; // inherit?
+	$lineHeight: strip_units($lineHeight);
+	// $fontSize: inherit !default; // $base_font_size
+
+  	display: block; /* Fallback for non-webkit */
+  	display: -webkit-box;
+  	max-width: $maxWidth;
+  	height: ($lineHeight*$linesToShow) + 1 + px; /* Fallback for non-webkit */ // ($lineHeight*$linesToShow) + $linesToShow + px
+  	margin: 0 auto;
+  	line-height: $lineHeight + px;
+    -webkit-line-clamp: $linesToShow;
+    -webkit-box-orient: vertical;
+  	@extend %o_hide;
+  	text-overflow: ellipsis;
+
+}
