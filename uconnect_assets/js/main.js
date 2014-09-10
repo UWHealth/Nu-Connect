@@ -58,7 +58,7 @@ require.config({
         // ------------------------------------------------
         'directory': 'directory',
         // 'faq': 'faq',
-        'iframe_embed': 'iframe_embed',
+        'embed': 'embed',
         'slider': 'slider',
         'cookie': 'search/cookie',
         'searchblox_search': 'search/searchblox_search'	
@@ -103,7 +103,7 @@ require.config({
         // 'faq': {
         //     'deps': ['jquery', 'tabs']
         // },
-        'iframe_embed': {
+        'embed': {
             'deps': ['jquery', 'magnific', 'magnific_init']
         },
         'slider': {

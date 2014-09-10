@@ -297,8 +297,9 @@ $highlight_color_lighter: lighten($highlight_color, 20%)                !default
 $color_white: #fff;
 $color_black: #000;
 
-.color_white, %color_white { color: $color_white; }
-.color_black, %color_black { color: $color_black; }
+.color_white, %color_white { color: white; }
+.color_txt, %color_txt { color: color(text); }
 .color_alert, %color_alert { color: color(alert); }
 .color_link, %color_link   { color: color(link);  }
 .color_highlight, %color_highlight { color: color(highlight); }
+.color_label, %color_label {color: color(label)};

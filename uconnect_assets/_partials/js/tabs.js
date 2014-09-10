@@ -133,14 +133,21 @@ require(['jquery', 'velocity'], function(a) {
                         // Just making sure we don't animate already active tabs.
                         if (a(this).hasClass('active') === false) {
 
-                            //Grab the target's ID through the clicked tab's href/hash value.
+                            //Grab the target's ID through the
+							//clicked tab's href/hash value.
                             var $this = a(this);
                             d = a(this).attr("href");
 
-                            //Unhide the correct tab content.
+
+							//Do Velocity Stuff if available
                             if (typeof a.velocity == 'object') {
-                                if ($this.hasClass('toggle')) {
-                                    //Hiding all target siblings tab_content.
+
+								//TOGGLE BEHAVIOR
+								//
+								if ($this.hasClass('toggle')) {
+
+									//Hiding target's sibling tab_content
+									//By sliding up and fading out
                                     a(d).siblings(".tab_content:visible")
                                         .velocity({
                                             translateY: ["-10%", "easeOut", "0"],
@@ -150,8 +157,10 @@ require(['jquery', 'velocity'], function(a) {
                                         }, {
                                             duration: 120
                                         });
+
+									//Make target slide out (with a bounce) and fade in
                                     a(d).velocity({
-										rotateX: ["0", "easeOutExpo", "90deg"],
+										scaleY: ["1", "easeOutExpo", "0.05"],
                                         translateY: ["0", [480, 22], "-30%"],
                                         opacity: [1, "easeIn", 0],
                                     }, {
@@ -159,7 +168,11 @@ require(['jquery', 'velocity'], function(a) {
                                     }, {
                                         duration: c.options.speed
                                     });
-                                } else {
+
+								//NON-TOGGLE, just do fade fade
+								//
+								} else {
+									//Hide target's sibilings
                                     a(d).siblings(".tab_content:visible").hide();
                                     a(d).velocity({
                                         opacity: [1, "easeIn", 0]
@@ -169,9 +182,12 @@ require(['jquery', 'velocity'], function(a) {
                                         duration: c.options.speed
                                     });
                                 }
+							//Fallback when velocity isn't available.
                             } else {
-                                //Hiding all target siblings tab_content.
+                                //Hiding all target siblings tab_content
                                 a(d).siblings(".tab_content").hide();
+
+								//Fade in target.
                                 a(d).fadeIn(c.options.speed);
                             }
                             //Finding tab and tab_button siblings
@@ -186,20 +202,27 @@ require(['jquery', 'velocity'], function(a) {
                             a(this).addClass("active");
                             a("a[href='" + d + "'].tab_button").addClass("active");
 
-                            // Toggle-tabs (if active)
-                        } else if (a(this).hasClass('toggle')) {
-                            d = a(this).attr("href");
+                        // Toggle-tabs (if active)
+                        } else if ( a(this).hasClass('toggle') ) {
 
+							d = a(this).attr("href");
+
+							//Check for Velocity
 							if (typeof a.velocity == 'object') {
-                                a(d).velocity({
-                                    "margin-top": [0, 0],
-									rotateX: ["90deg", "easeOutExpo", "0"],
-                                    translateY: ["0", "easeOutExpo", "0"],
-                                    opacity: [0, "easeOut", 1]
+
+								//Shrink target and move it up slightly.
+								a(d).velocity({
+									//Required to fix weirdness when
+									//browser window resizes
+									"margin-top": [0, 0],
+									//Give it a little bounce
+									scaleY: ["0.05", [.41, -0.5, 0, 1.14], "1"],
+                                    translateY: ["0", "ease", "0"],
+                                    opacity: [0, "easeOutCirc", 1]
                                 }, {
                                     display: "none"
                                 }, {
-                                    duration: 45
+                                    duration: 35
                                 });
                             } else {
                                 a(d).fadeOut(75);
@@ -234,7 +257,7 @@ require(['jquery', 'velocity'], function(a) {
                                     .velocity({
                                         height: 0,
                                         translateY: 0,
-										rotateX: 0,
+										scaleY: 1
                                     }, {
                                         display: "none"
                                     }, {
@@ -243,7 +266,7 @@ require(['jquery', 'velocity'], function(a) {
                                         queue: false
                                     });
                                 a(d).velocity({
-									rotateX: 0,
+									scaleY: 1,
                                     translateY: 0,
                                     opacity: 1
                                 }, {
@@ -273,7 +296,8 @@ require(['jquery', 'velocity'], function(a) {
                                 a(d).slideUp(c.options.speed);
                             } else {
                                 a(d).velocity({
-									rotateX: 0,
+									scaleY: 1,
+									translateZ: 0,
                                     translateY: 0,
                                     opacity: 1
                                 }, {

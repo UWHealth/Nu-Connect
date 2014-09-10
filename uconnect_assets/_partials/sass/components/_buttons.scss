@@ -90,7 +90,7 @@
 	&::-moz-selection{background: transparent;}
 	&::-moz-focus-inner{border: 0}
 }
-%button, .button {
+%button, .button, input[type="submit"] {
     @include button(true, #0c639a, blend_colordodge(#808080,#0c639a), #ebfbff, 2px, true);
 	line-height: normal;
 	@include rems(padding-top, (($base-line-height/4) - 3px));
@@ -108,7 +108,7 @@
 	transition: border 35ms ease-out, background 50ms ease-out, color 60ms ease-in, box-shadow 100ms ease-in;
 }
 
-%button_disabled, .button_disabled {
+%button_disabled, .button_disabled, button:disabled, input[type="submit"].disabled, input[type="submit"]:disabled {
 	line-height: normal;
     @include button(true, $form_color, $label_color, $label_color, 2px, true);
     cursor: default !important;

@@ -18,6 +18,7 @@ require(['jquery'], function($) {
                     if (list_height >= container_height) {
                         // Apply accordion_closed class to all accordions (so as to leave open for no-js)
                         container.addClass("accordion_closed");
+
                         // Setup click toggle-event
                         container.click(function(e) {
                             container.toggleClass('accordion_closed');
@@ -26,11 +27,15 @@ require(['jquery'], function($) {
                         container.removeClass('accordion');
                     }
                 } else {
-                    // Apply accordion_closed class to all accordions (so as to leave open for no-js)
-                    container.addClass("accordion_closed");
+                    // Apply accordion_closed class to all accordions
+					// Unless js_accordion_open exists
+                    container.not(".js_accordion_open")
+					.addClass("accordion_closed");
                     // Setup click toggle-event
                     container.click(function(e) {
-                        container.toggleClass('accordion_closed');
+						if (!container.hasClass('accordion_split')){
+							container.toggleClass('accordion_closed');
+						}
                     });
                 }
             });

@@ -240,14 +240,17 @@ body {
 }
 .heading, %heading{
 	@include type_font_size(ceil(modular-scale(1)));
+	@include type-space(margin-bottom, 1);
     @extend %txt_serif;
 
 	& + .sub_heading, & + %sub_heading{
 		color: color(label);
+		@extend %negative_top;
 	}
 }
 .sub_heading, %sub_heading{
 	@include type_font_size(modular-scale(-1));
+	@include type-space(margin-bottom, 1);
     font-weight: bold;
     font-family: $primary_font_stack;
 	@extend %txt_upper;

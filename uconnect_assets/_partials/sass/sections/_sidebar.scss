@@ -8,19 +8,29 @@
 //     @extend %smalls_show;
 // }
 .sidebar {
-
 	@include mq(bigs){
 		@include type_font_size(14px); // NOTE: This should remain as a pixel value. These links are an exception to the modular-scale rule.
 	}
 	@include media-query((lap,smalls)){
         @include type_space(padding-top, .5);
     }
-
 	.list_bordered{
 		@extend %pad_t_half;
-		@extend %bigs_pad_t;
+        @extend %bigs_pad_t;
+		a{
+			@extend %pad_v_half;
+		}
+		p{
+			border-top: 2px solid $gray_color_lighter;
+			margin-bottom: 0;
+			margin-top: -2px;
+		}
 	}
-
+    #related {
+        .list_bordered{
+            @extend %bigs_pad_t_half;
+        }
+    }
 	ul{
 		margin-left: 0;
 	}
@@ -62,7 +72,6 @@
         }
     }
 }
-
 //Button has no label (span) on lap and smallish.
 // Label is hidden with visually_hidden class.
 .sidebar .sidebar_button { //Specificity HACK
@@ -82,7 +91,6 @@
 		}
 	}
 }
-
 .no-js {
     .sidebar {
         .list_nav {
@@ -99,10 +107,6 @@
     @extend %lap_pad_half;
     @extend %smalls_pad_half;
 	transform: translateZ(0);
-//    input {
-//        @include type_font_size(modular-scale(-1));
-//        padding: 12px 36px 12px 10px;
-//    }
     .button_inset {
         overflow: hidden;
     }
@@ -152,11 +156,6 @@
         &:before {
             color: color(select) !important;
         }
-//        &:hover, &:focus, &:visited, &:active {
-//            &:before {
-//                color: color(select) !important;
-//            }
-//        }
     }
 }
 .grandparent, .self, .branch0, .branch_arrow {
@@ -179,5 +178,8 @@
 .branch_arrow {
     a {
         @extend %icon_arrow_left;
+        &:before {
+            padding-right: 0;
+        }
     }
 }

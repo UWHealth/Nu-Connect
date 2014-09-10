@@ -31,6 +31,19 @@ require(['jquery'], function($) {
     // }
 
     // ------------------------------------------------
+    // Parse URL Query String
+    // ------------------------------------------------
+    app.get_query_string = (function(variable) {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+    });
+
+    // ------------------------------------------------
     // Check clicked element against its container
     // ------------------------------------------------
     app.click_check = (function(container, event) {

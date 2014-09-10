@@ -60,7 +60,7 @@
 	}
 	.icon_uwhc {
 		&:before {
-			color: color(link);
+			@extend %color_link;
 		}
 	}
 	.icon_uwmf {

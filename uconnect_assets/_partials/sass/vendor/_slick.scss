@@ -56,7 +56,7 @@ $slick_dot_character: '\2022' !default;
 	@extend %space_b;
     display: block;
     padding: 0;
-	z-index: 1;
+	z-index: 2;
     &:focus {
         outline: none;
     }

@@ -155,7 +155,7 @@
 .mask, %mask{
 	@extend %o_hide;
 	mask: url(../img/bg/grad_mask.svg#mask_2);
-	-webkit-mask: url(../img/bg/grad_mask.svg#mask) top left / cover;
+	-webkit-mask: url(../img/bg/grad_mask.svg#mask) top / cover;
 }
 
 

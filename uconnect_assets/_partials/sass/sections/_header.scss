@@ -149,9 +149,9 @@ $shade_speed: 300ms;
 		@include type-space(top, 1.5);
 		@include rems_important(padding-top, 48px);
 		max-height: 200px;
-		transition: top $shade_speed ease-in,
-			padding 300ms cubic-bezier(.3, .27, .33, .98),
-			max-height $shade_speed ease-in ($shade_speed/2);
+		transition: top ($shade_speed * 1.15) cubic-bezier(.81, .01, .49, 1.5) ($shade_speed/100), //bounce
+			padding 300ms cubic-bezier(.3, .27, .32, 1.31),
+			max-height $shade_speed ease-out ($shade_speed/2);
 	}
 	.button_group{
 		margin: 0 auto;
@@ -178,6 +178,7 @@ $shade_speed: 300ms;
 	@extend %icon_sym_delete;
 	text-align: center;
 	z-index: 6;
+	opacity: 0;
 	&:before{
 		@include type_font-size(modular-scale(2), false);
 		margin-left: -.3em;
@@ -185,6 +186,8 @@ $shade_speed: 300ms;
 		@include rems(line-height, 22px);
 	}
 	.search_active &{
+		opacity: 1;
+		transition: opacity $shade_speed ease-in;
 		display: block;
 	}
 }
@@ -198,7 +201,11 @@ $shade_speed: 300ms;
 	white-space: nowrap;
 	min-width: 6.5em;
 	max-width: 6.5em !important;
-	text-align: right;
+	text-align: center;
+	@include mq(small){
+		//Fix for text-alignment on small buttons
+		text-align: right;
+	}
 	right: -7.75em !important;
 	padding: 0 5%;
 	transition: max-width 320ms ease-out,
@@ -207,7 +214,7 @@ $shade_speed: 300ms;
 	input:focus + &, .search_active &{
 		border-radius: 2px;
 		z-index: 1;
-		max-width: 18em !important;
+		max-width: 12em !important;
 		right: 2px !important;
 		transition: max-width 350ms cubic-bezier(.79, .01, .37, 1.49) 175ms,
 			opacity 400ms ease 50ms,
@@ -294,7 +301,7 @@ $shade_speed: 300ms;
 			}
 		}
 		&:hover, &:focus, &:active {
-			color: color(link);
+			@extend %color_link;
 			border-color: currentColor;
 			&:after{
 				transform: translateY(2px);
@@ -316,28 +323,26 @@ $shade_speed: 300ms;
 		&.active.toggle { //specificity #hack
 			cursor: pointer;
 			color: white;
-			background-color: color(alert) !important;
+			background-color: color(alert);
 			border-color: transparent;
 			&:after{
 				transform: scale(1, -1);
 				@include opacity(.8);
 			}
 		}
-		&.tab_quick_links{
-			color: color(link) !important;
-			border-bottom-color: transparent !important;
-
-			&.active{
-				color: #fff !important;
-				background-color: color(link) !important;
-			}
-
-            &.active {
-                color: white !important;
-            }
-		}
 	}
 }
+
+#tab_quick-links, .tab_quick_links{
+	color: color(link) !important;
+	border-bottom-color: transparent !important;
+
+	&.active{
+		color: #fff !important;
+		background-color: color(link) !important;
+	}
+}
+
 .no-js {
     @include mq(smalls){
         .mega_buttons {
@@ -358,6 +363,7 @@ $shade_speed: 300ms;
     @include type-space(margin-top, -3);
     @extend %txt_bold;
     @extend %one_whole;
+	transform: translateZ(0);
     display: none;
     left: 0;
     vertical-align: bottom;
@@ -397,6 +403,8 @@ $shade_speed: 300ms;
             opacity: 1;
 			padding-left: 0;
 			padding-right: 0;
+			transform: translateZ(0);
+
 			@include mq(bigs){
 				padding: 0;
 				position: absolute;
@@ -511,7 +519,7 @@ $shade_speed: 300ms;
     }
     .tab_link{
         background-color: color(subtle);
-        color: color(link);
+		@extend %color_link;
 		border-color: color(label);
     }
 	.utility_tab{
@@ -541,7 +549,7 @@ $shade_speed: 300ms;
 			font-size: 14px;
 			& .tab_button {
 				cursor: pointer !important;
-				color: color(link);
+				@extend %color_link;
 				float: left;
 				display: inline-block;
 			}
@@ -570,7 +578,6 @@ $shade_speed: 300ms;
 			display: none;
 		}
 		a[href="#quick-links"].tab_button{
-			color: color(link);
 			cursor: pointer !important;
 		}
 		#quick-links{
@@ -899,20 +906,27 @@ $shade_speed: 300ms;
                 opacity 500ms ease-out 100ms;
 	&.mask{
 		transition: transform 400ms ease-in 100ms,
-				max-height 300ms ease-in-out 100ms,
+				max-height 200ms ease-in-out 100ms,
                 opacity 500ms ease-out 100ms;
 	}
 }
 .header_bar {
 	border-bottom: 1px solid white;
 	max-height: 100%;
-	transform: scale(1,1); //IE9 fallback
+	transform: scale(1,1); // IE9 fallback
 	transform: scale(1,1) translateZ(0);
+
+	&.mask{
+		transform: scale(1, 0.05); // IE9 fallback
+		transform: scale(1, 0.05) translateZ(0);
+		max-height: 0;
+		opacity: 0;
+	}
 	.tag_title {
         @include type_font_size(modular-scale(-1));
         @extend %txt_right;
         @extend %pad_v_half;
-        color: color(highlight);
+        @extend %color_highlight;
         margin: 0;
     }
     @include media-query(smalls){
@@ -937,7 +951,7 @@ $shade_speed: 300ms;
             color: white;
 			display: block;
             &:hover, &:focus {
-                color: color(highlight);
+                @extend %color_highlight;
             }
             &:active {
                 color: color(soft_action, lightest);
@@ -952,11 +966,7 @@ $shade_speed: 300ms;
             width: 100%;
         }
     }
-	&.mask{
-		transform: scale(1, -1);
-		max-height: 0;
-		opacity: 0;
-	}
+
 }
 .header_icon {
     &:before {

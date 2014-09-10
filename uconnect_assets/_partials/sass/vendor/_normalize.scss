@@ -75,7 +75,7 @@ textarea {
 
 a{
     cursor: pointer;
-    color: color(link);
+	@extend %color_link;
     background: transparent; //[1]
 
 	&:hover,

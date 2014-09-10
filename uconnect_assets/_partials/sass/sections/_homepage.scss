@@ -1,0 +1,26 @@
+.homepage_header {
+	> .wrap {
+		@extend %pad_n;
+	}
+	.tab {
+		@include type_font_size(modular-scale(-1));
+		@extend %pad;
+		@extend %pad_l_quarter;
+		line-height: 14px;
+		top: 0px !important;
+		&.active {
+			border-color: $color_white !important;
+			color: $color_white !important;
+		}
+	}
+}
+.weather {
+	color: $color_white !important;
+}
+.w_current {
+	@include type_font_size(modular-scale(3));
+}
+.weather_icon {
+	@include type_font_size(modular-scale(6));
+	@include opacity(.75);
+}

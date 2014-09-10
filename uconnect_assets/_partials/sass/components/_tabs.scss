@@ -355,6 +355,7 @@ $tab_minimal_include: 				true 					!default;
 	}
 	.tab_inline_link {
 		a {
+			@include rems(top, -$base_line_height*4);
 			@extend %pad_n_h;
 			@extend %pad_v;
 			position: relative;
@@ -442,7 +443,7 @@ $tab_minimal_include: 				true 					!default;
 				background-color: transparent;
 				color: $tab_button_secondary;
 				&:hover{
-					color: color(link);
+					@extend %color_link;
 					background-color: $tab_content_bg;
 					background-color: rgba($tab_content_bg, 0.5);
 				}
@@ -487,7 +488,7 @@ $tab_minimal_include: 				true 					!default;
 				border-bottom-width: 2px;
 				border-color: $alert_color;
 				@extend %tab_border_current;
-				background-color: transparent !important;
+				background-color: transparent;
 				&:hover {
 					border-color: $alert_color;
 				}
@@ -568,20 +569,24 @@ $tab_minimal_include: 				true 					!default;
 //------------------------------------
 //    $INLINE-BLOCK LINK
 //------------------------------------
-// *(relative) container required
 .tab_inline_link {
-	@extend %space_b;
-	@extend %space_neg_t;
-	position: relative;
+	@extend %pad_b;
+	right: 0;
 	a {
+		@extend %pad_v;
 		text-decoration: none;
-		@extend %pad;
+	}
+	&_abs {
+		min-width: 200px;
 		position: absolute;
 		right: 0;
-		@include rems(top, $base_line_height);
-		z-index: 2;
-		@include media-query((desk, wide)){
-			top: $gutter;
+		a {
+			@include rems(top, -$base_line_height*5);
+			@extend %pad;
+			position: absolute;
+			right: 0;
+			text-decoration: none;
+			z-index: 2;
 		}
 	}
 }

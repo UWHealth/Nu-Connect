@@ -634,20 +634,6 @@
         "sourcemaps": false
       }
     },
-    "d2535f39": {
-      "id": "d2535f39",
-      "pid": "6530b95b",
-      "name": "iframe_embed.js",
-      "input": "_partials/js/iframe_embed.js",
-      "customOutput": false,
-      "type": "Js",
-      "config": {
-        "autoCompile": true,
-        "uglify": false,
-        "mangle": true,
-        "sourcemaps": false
-      }
-    },
     "9e321683": {
       "id": "9e321683",
       "pid": "6530b95b",

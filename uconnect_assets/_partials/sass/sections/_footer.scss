@@ -35,9 +35,10 @@
 .footer_breadcrumbs {
 	background-color: #f5fbfe;
 	color: $link_color;
+	border-top: 1px solid white;
 	.wide_content {
 		@extend %overflow_hidden;
-		width: 100%;
+		@extend %one_whole;
 		@media screen and (min-width: 1114px) {
 			width: 75%;
 		}

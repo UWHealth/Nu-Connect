@@ -9,9 +9,10 @@ require(['jquery', 'tabs', 'general_functions'], function($) {
                 $('#mega_nav > .tabbed > .tab_content:visible')
                     .velocity({
                         "margin-top": [0, 0],
-						rotateX: ["90deg", [.41, -0.5, 0, 1.14], "0"],
+						scaleY: ["0.00001", [.41, -0.5, 0, 1.14], "1"],
 						//cubic-bezier(.41, -0.5, 0, 1.14)
                         translateY: ["-1%", [.31, -0.41, .5, .59], "0"],
+						translateZ:["0","easeOut", "1px"],
                         opacity: [0, "easeOut", 1]
                     }, {
                         display: "none"
@@ -23,15 +24,6 @@ require(['jquery', 'tabs', 'general_functions'], function($) {
                 }
             }
         }
-    });
-
-    // Remove line-breaks from tab_buttons
-    function removeMainNavLineBreaks() {
-            $('#mega_nav .tab_button').find("br").remove();
-    }
-    removeMainNavLineBreaks();
-    $(window).resize(function() {
-        removeMainNavLineBreaks();
     });
 
     $(function() {

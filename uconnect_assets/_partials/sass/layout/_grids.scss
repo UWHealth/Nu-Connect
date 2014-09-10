@@ -859,6 +859,9 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 .half_content{
     @extend %one_half;
 }
+.small_full{
+	@extend %small_one_whole;
+}
 .whole {
     @extend %one_whole;
 }

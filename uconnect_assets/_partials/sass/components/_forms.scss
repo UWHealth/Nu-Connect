@@ -3,7 +3,7 @@
 ////////////////////////
 label{
 	@extend %sub_heading;
-	color: color(label);
+	@extend %color_label;
 }
 input, textarea {
     @include type-space(line-height, 1);
@@ -69,14 +69,21 @@ input, textarea {
         @extend %button_inside;
 	}
 }
+input[type="search"]:-webkit-autofill{
+	background-color: rgba(color(form), .1) !important;
+	&:focus{
+		background-color: white !important;
+	}
+}
 %button_inside, .button_inside {
     @include type-space(line-height, 1);
     border-width: 0;
+	width: 25%;
     border-top-width: 1px;
     height: calc(100% - 4px); // 2.5em;
     margin: 0;
     max-height: 20em;
-    max-width: 21em;
+    max-width: 12em;
     outline: 0;
     position: absolute; // !important;
     right: 2px; // .5%; // 1em;
@@ -166,7 +173,7 @@ select {
 	transiton: color 100ms ease-in;
 }
 input:focus::placeholder{
-	color: color(label);
+	@extend %color_label;
 }
 
 ////////////////////////
@@ -263,7 +270,7 @@ input:focus::placeholder{
 .csstransforms .dd_hidden {
     transform: translateY(-110%);
     margin-bottom: -100%; //Makes sure this the container is fully collapsed.
-    margin-top: 0; //Overrides the fallback.
+    margin-top: -25%; //Overrides the fallback.
     height: auto; //Overrides the fallback.
     overflow: visible; //Overrides the fallback.
 }
@@ -314,7 +321,7 @@ input:focus::placeholder{
     @extend %icon_after;
     position: relative;
     &:after {
-        color: color(label);
+        @extend %color_label;
         content: "\e626"; // 'check';
         position: absolute;
         right: 6px;

@@ -1,4 +1,4 @@
-.box {
+.box, %box {
     @include type_space(padding, 1);
     @extend %grid_reset;
 	@extend %cf;
@@ -7,21 +7,21 @@
     	margin-bottom: 0;
     }
 }
-.box_small {
+.box_small, %box_small {
     @include type_space(padding, .5);
 }
-.box_open {
+.box_open, %box_open {
 	@extend %pad_n_h;
 	border-width: 1px;
 	border-style: solid;
-    border-top-color: color(function);
-    border-bottom-color: color(function);
+    border-top-color: color(form);
+    border-bottom-color: color(form);
     border-left-color: transparent;
     border-right-color: transparent;
 	margin-top: -2px; // Adjusted baseline for borders.
 }
-.box_closed{
-    border: 1px solid color(function);
+.box_closed, %box_closed{
+    border: 1px solid color(form);
 	margin-top: -2px; // Adjusted baseline for borders.
 }
 
@@ -91,11 +91,11 @@
 	position: relative;
 	width: 100%;
     a {
-        color: color(link);
+		@extend %color_link;
         text-decoration: none;
     }
     time {
-    	color: color(label);
+    	@extend %color_label;
     }
 	&_head{
 		@include type_space(line-height, 1);

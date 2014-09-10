@@ -1,6 +1,23 @@
 require(['jquery', 'magnific'], function($) {
     (function($) {
         //////////////////////////////////////////////////////////////////////////
+        // Head
+        //////////////////////////////////////////////////////////////////////////
+            // User >> leverage Universal GA to track emplid (meta name="emplid")
+            // 
+            // Pulled out of uconnect-page-foot-scripts.hbs
+            //
+            // {{#if head.activeSecurityInfo}}
+            //     ga('set', '&uid', {{head.activeSecurityInfo.hcEmplId}}{{head.activeSecurityInfo.mfEmplId}});
+            //     <meta name="emplid" content="{{head.activeSecurityInfo.hcEmplId}}{{head.activeSecurityInfo.mfEmplId}}">
+            // {{/if}}
+            // {{#if head.activeSecurityInfo}}
+            //     <script>
+            //         ga('set', '&uid', {{head.activeSecurityInfo.hcEmplId}}{{head.activeSecurityInfo.mfEmplId}});
+            //     </script>
+            // {{/if}}
+
+        //////////////////////////////////////////////////////////////////////////
         // Header
         //////////////////////////////////////////////////////////////////////////
             // Utility bar
