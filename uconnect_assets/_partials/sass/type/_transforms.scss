@@ -1,6 +1,6 @@
 .txt_normal, %txt_normal {
 	text-transform: none;
-	letter-spacing: none;
+	letter-spacing: 0;
 	font-weight: 400 !important;
 }
 .txt_upper, %txt_upper {
@@ -9,6 +9,9 @@
 }
 .txt_bold, %txt_bold {
 	font-weight: bold;
+}
+.txt_size_normal, %txt_size_normal{
+	@include type-font-size(modular-scale(0));
 }
 .txt_italic, %txt_italic {
 	font-style: italic;
@@ -26,6 +29,9 @@
 	@extend %txt_serif;
 	font-weight: 400;
 }
+.txt_capital, %txt_capital{
+	text-transform: capitalize;
+}
 .txt_truncate, %txt_truncate {
 	@include rems(height, type_space(2));
 	@extend %o_hide;
@@ -38,6 +44,21 @@
 		position: absolute;
 		right: 0;
 		bottom: 0;
+	}
+}
+// .txt_normal, %txt_normal {
+// 	text-transform: none;
+// 	letter-spacing: 0;
+// 	font-weight: 400 !important;
+// }
+.txt_line_reset, %txt_line_reset{
+	@include type-space-important(line-height, 1);
+}
+.txt_error, %txt_error {
+	@extend %txt_small;
+	color: color(alert);
+	&:before {
+		content: '';
 	}
 }
 // .txt_shadow, %txt_shadow {

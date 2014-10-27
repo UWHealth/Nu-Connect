@@ -1,19 +1,28 @@
-require(['jquery'], function($) {
+var dependencies = [
+        'jquery',
+        'general_functions',
+        'toggle'
+    ];
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+require(dependencies, function($, gf, toggles) {
+
+$(function() {
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Setup various elements w/ accordion + icon classes
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     var accordion_classes = 'accordion icon icon_right';
+	var accordion_object = '<a class="slide_anim icon icon_before accordion_trigger" data-icon="&#xe64d" data-icon-switch="&#xe64d &#xe64e" data-toggle="sibling" data-sibling="ul">&nbsp;</a>'
 
-    // Setup elements that need accordion added
-    $(".has_children").addClass(accordion_classes);
+	// Setup elements that need accordion added
+	//	$(".has_children").addClass(accordion_classes);
 
     // Check for .build_flat_accordion (Children Tree Widget)
+	var headname = 'accordion_tree_head',
+		headclass = '.'+headname,
+		$headobj = $(headclass);
+
 	$('.js_flat_accordion').each(function(i){
 		var $this = $(this),
-			headname = 'accordion_tree_head',
-			headclass = '.'+headname,
-			$headobj = $(headclass),
 			target_number = [];
 
 		//Remove bullets
@@ -23,7 +32,6 @@ require(['jquery'], function($) {
 		//Prepare for gridification
 		$this.addClass('row');
 		//Make first level a header
-
 
 		if(!$this.hasClass('js_no_headings')){
 			$this.find('.list_child_tree > ul > li').addClass('accordion_tree');
@@ -63,18 +71,29 @@ require(['jquery'], function($) {
 
 			//Add accordion target styling
 			$this.find('.accordion_split > ul').addClass('pad_t_half pad_r_2 accordion_target');
-		}else{
 
+            $('.list_child_tree').removeClass('list_child_tree');
 		}
-
-
 	});
 
-    // Sidenav
-    $("#sidebar .list_bordered ul li").has("ul").addClass(accordion_classes);
-    $("[class*='multilevel_linkul']").parent("li").addClass(accordion_classes);
+
+	// Sidenav
+    $("#sidebar li").has('ul').addClass('accordion_split')
+	.find('> a, > span').after(accordion_object);
+	$('#sidebar .accordion_split ul').addClass('accordion_target js_squish');
+
+    require(['toggle_this'], function(toggle_this){
+        $('#sidebar .accordion_trigger').each(function(){
+            if( !$(this).next('ul').has('.currentbranch0')
+               || !$(this).prev().hasClass('currentbranch0')){
+                toggle_this($('#sidebar .accordion_trigger'));
+            }
+        });
+    });
 
     // Initialize accordions
     require(['accordion_init']);
+
+});
 
 });

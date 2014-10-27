@@ -5,44 +5,111 @@ $alignment_output: true;
 }
 
 //---Absolute centring only works if the container has a defined height---//
+%abs_center_body, .abs_center_body{
+	display: table-cell;
+	vertical-align: middle;
+}
 .abs_center, %abs_center{
 	display: table;
 	height: 100%;
 	position: absolute;
 
-	span, .abs_center_body, %abs_center_body{
-		display: table-cell;
-		vertical-align: middle;
+	span{
+		@extend %abs_center_body;
 	}
+}
+%abs_right, .abs_right{
+	right: 0;
+}
+%abs_left, .abs_left{
+	left: 0;
+}
+%abs_top, .abs_top{
+	top: 0;
+}
+%abs_bottom, .abs_bottom{
+	bottom: 0;
+}
+%abs_middle, .abs_middle {
+	@extend %abs_top;
+	@extend %abs_bottom;
+}
+%abs_all, .abs_all{
+	@extend %abs_middle;
+	@extend %abs_right;
+	@extend %abs_left;
+}
+%center, .center{
+	@extend %display_block;
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+}
+
+%inline, .inline{
+	@extend %display_inline;
+}
+%inline_block, %inline-block, .inline_block{
+	@extend %display_inline_block;
+}
+%block, .block{
+	@extend %display_block;
+}
+%table_cell, .table_cell{
+	@extend %display_table_cell;
+}
+%table, .table{
+	@extend %display_table;
+}
+%table_row, .table_row{
+	@extend %display_table_row;
+}
+%txt_left, .txt_left{
+	text-align: left !important;
+}
+%txt_right, .txt_right{
+	text-align: right !important;
+}
+%txt_center, .txt_center{
+	text-align: center !important;
+}
+%vertical_align_top, .vertical_align_top{
+	vertical-align: top !important;
+}
+%vertical_align_middle, .vertical_align_middle{
+	vertical-align: middle !important;
+}
+%vertical_align_bottom, .vertical_align_bottom{
+	vertical-align: bottom !important;
+}
+%vertical_align_baseline, .vertical_align_baseline{
+	vertical-align: baseline !important;
+}
+%align_left,.align_left{
+	float: left !important;
+	@extend %space_r;
+}
+%align_right,.align_right{
+	float: right !important;
+	@extend %space_l;
+}
+%align_center, .align_center{
+	float: none !important;
+	margin: 0 auto;
+	@extend %display_block;
 }
 
 @mixin responsive_alignment(
 	$namespace: "",
 	$silent: false
-)
+	)
 {
 	$selector: unquote(", .");
 
-    @if $silent == true{
-        $selector: unquote("//");
-    }
+	@if $silent == true{
+		$selector: unquote("//");
+	}
 
-	%#{$namespace}align_left#{$selector}#{$namespace}align_left
-	{
-		float: left !important;
-		@include type_space(margin-right, 1);
-	}
-	%#{$namespace}align_right#{$selector}#{$namespace}align_right
-	{
-		float: right !important;
-		@include type_space(margin-left, 1);
-	}
-	%#{$namespace}align_center#{$selector}#{$namespace}align_center
-	{
-		float: none !important;
-		margin: 0 auto;
-		display: block;
-	}
 	%#{$namespace}align_none#{$selector}#{$namespace}align_none
 	{
 		float: none !important;
@@ -59,50 +126,6 @@ $alignment_output: true;
 	%#{$namespace}float_none#{$selector}#{$namespace}float_none
 	{
 		float: none !important;
-	}
-	%#{$namespace}inline#{$selector}#{$namespace}inline
-	{
-		display: inline;
-	}
-	%#{$namespace}inline_block#{$selector}#{$namespace}inline_block
-	{
-		display: inline-block;
-	}
-	%#{$namespace}block#{$selector}#{$namespace}block
-	{
-		display: block;
-	}
-	%#{$namespace}table_cell#{$selector}#{$namespace}table_cell
-	{
-		display: table_cell;
-	}
-	%#{$namespace}txt_left#{$selector}#{$namespace}txt_left
-	{
-		text-align: left !important;
-	}
-	%#{$namespace}txt_right#{$selector}#{$namespace}txt_right
-	{
-		text-align: right !important;
-	}
-	%#{$namespace}txt_center#{$selector}#{$namespace}txt_center
-	{
-		text-align: center !important;
-	}
-	%#{$namespace}vertical_align_top#{$selector}#{$namespace}vertical_align_top
-	{
-		vertical-align: top !important;
-	}
-	%#{$namespace}vertical_align_middle#{$selector}#{$namespace}vertical_align_middle
-	{
-		vertical-align: middle !important;
-	}
-	%#{$namespace}vertical_align_bottom#{$selector}#{$namespace}vertical_align_bottom
-	{
-		vertical-align: bottom !important;
-	}
-	%#{$namespace}vertical_align_baseline#{$selector}#{$namespace}vertical_align_baseline
-	{
-		vertical-align: baseline !important;
 	}
 }
 

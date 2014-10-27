@@ -1,5 +1,9 @@
 .footer {
 	@include type_font_size(modular-scale(0));
+	position: relative;
+	transform: translateZ(0);
+	// <main> is z-index:1; .img_header is z-index:2; .footer is z-index:0; .sidebar is z-index: 241 (above dropdown)
+	z-index: 0;
 	.logo {
 		text-align: left;
 		@include mq(desk){
@@ -18,7 +22,7 @@
 // Date Last Modified
 ////////////////////////
 .footer_last_modified {
-	color: color(label);
+	@extend %color_label;
 	.report_out_of_date {
 		@include media-query(small){
 			float: left !important;
@@ -44,6 +48,7 @@
 		}
 	}
 	.breadcrumbs {
+		@extend %txt_upper;
         @extend %txt_bold;
         overflow-x: auto;
 		overflow-y: hidden;
@@ -74,11 +79,15 @@
 				}
 			}
 			&.current_page { // &:last-child {
-				color: color(alert);
+				@extend %color_select;
 				a {
-					color: color(alert);
+					@extend %color_select;
 					cursor: default;
 				}
+			}
+			&:nth-last-child(2n){
+				display: none;
+				///Hides the second to last breadcrumb because it is always a duplicate of the current page.
 			}
 		}
 		@include media-query(bigs){
@@ -172,24 +181,31 @@
 	.box_card {
         @include type_space(margin-top, .5);
 	}
+	.card_short {
+		@include media-query((lap,smalls)){
+			max-width: none;
+		}
+	}
 	.third {
 		display: none;
 		&:nth-child(1), &:nth-child(2), &:nth-child(3) {
-			display: inline-block;
+			@extend %inline-block;
 		}
 		@include media-query((lap,smalls)){
+			width: 50%;
 			&:nth-child(3) {
 				display: none;
 			}
 		}
 		@include media-query(smalls){
+			width: 100%;
 			&:nth-child(2) {
 				display: none;
 			}
 		}
 	}
 	@include media-query((lap,smalls)){
-		@include type_space(margin-bottom, .5);
+		@include type_space(margin-bottom, .0);
 	}
 }
 ////////////////////////
@@ -203,10 +219,10 @@
 		width: 100%;
 	}
 	div {
-		display: inline-block;
+		@extend %inline-block;
 	}
 	p {
-		display: inline-block;
+		@extend %inline-block;
 		&:last-child {
 			@include type_space(padding-right, 0);
 		}

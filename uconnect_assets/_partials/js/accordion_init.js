@@ -1,4 +1,9 @@
-require(['jquery'], function($) {
+var dependencies = [
+        'jquery',
+        'toggle'
+    ];
+
+require(dependencies, function($) {
 
     $(function() {
 
@@ -21,7 +26,7 @@ require(['jquery'], function($) {
 
                         // Setup click toggle-event
                         container.click(function(e) {
-                            container.toggleClass('accordion_closed');
+                            container.toggleClass('accordion_closed ');
                         });
                     } else {
                         container.removeClass('accordion');
@@ -34,7 +39,7 @@ require(['jquery'], function($) {
                     // Setup click toggle-event
                     container.click(function(e) {
 						if (!container.hasClass('accordion_split')){
-							container.toggleClass('accordion_closed');
+							container.toggleClass('accordion_closed accordion_open');
 						}
                     });
                 }

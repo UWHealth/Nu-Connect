@@ -66,3 +66,44 @@ h2,
 h3 {
 	page-break-after: avoid;
 }
+%hide{
+	display: none !important;
+}
+//Hidden items
+#top_nav{
+	@extend %hide;
+}
+#sidebar{
+	@extend %hide;
+}
+footer.footer{
+	@extend %hide;
+}
+#flair_icon_js{
+	@extend %hide;
+}
+.button, button, [type="submit"], .button_soft, .button_secondary{
+	@extend %hide;
+}
+// form label{
+// 	@extend %hide;
+// }
+#js_header_resize .box_flag_body{
+	padding-left: 1.5rem !important;
+}
+.print_block{
+	display: block !important;
+}
+.print_inline_block{
+	display: inline-block !important;
+}
+th{
+	border-bottom-color: #aaa !important;
+}
+.table_scroll{
+	border: 0px;
+}
+.table_striped
+.print_hide{
+	@extend %hide;
+}

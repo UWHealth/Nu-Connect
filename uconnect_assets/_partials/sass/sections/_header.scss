@@ -39,7 +39,8 @@
 			padding-left: 0;
 		}
 		& .utility_search{
-			width: 85%;
+			width: 85% !important;
+			top: 0 !important;
 			@include type-space(padding-left, .25);
 			@include type-space(padding-right, .25)
 		}
@@ -51,64 +52,82 @@
 		}
 	}
 }
-.utility_search{
-	position: relative;
-	@extend %three_tenths;
-	@extend %desk_three_elevenths;
-	z-index: 100;
-	transform: translateZ(0);
-	transition: width 400ms cubic-bezier(.75, .18, .59, 1), top 200ms ease-in;
-	@include mq(bigs){
-		position: absolute;
-		top: 2px;
-		display: block;
-		.search_active &{
-			width: 100%;
-			top: 7px;
-		}
-	}
-	.no-js &{
-		right: 0;
-		top: 0;
-		display: inline-block;
-		position: relative;
-	}
-}
-.utility_search, .utility_options{
-	@extend %pull_lap_one_tenth;
-	@extend %pull_desk_one_eleventh;
-	margin-left: auto;
-	margin-right: auto;
-	max-width: 90%;
-	@include mq(desk){
-		max-width: 66.66%;
-	}
-	@include mq(lap){
-		max-width: 85%;
-	}
-}
+//The utility nav links at the top of the page.
 .utility_nav{
 	line-height: normal;
 	position: relative;
 	@extend %six_tenths;
 	@extend %desk_seven_elevenths;
 }
-.utility_login{
+//--------------------
+// Global search bar styles
+//--------------------
+// Because of the unique animation and position needs, the search bar is positioned
+// in an unusual way on desktop (using absolute positioning).
+// This also affects the login button since it is positioned to the right.
+
+// The following applies to the columns only; Not the actual search field itself.
+
+// 1. The width is defined.
+// 2. The search bar and it's associated options (hidden) are pulled to the left.
+// 3. Max width is set to prevent an overly large search bar when expanded.
+// 4. Login button's column is sized.
+// 5. Login button's column is pushed passed the search column.
+// 			(since the search column takes up no space while absolutely positioned)
+
+.utility_search{
 	position: relative;
-	@extend %desk_one_eleventh;
-	@extend %one_tenth;
-	@extend %push_lap_three_tenths;
-	@extend %push_desk_three_elevenths;
+	@extend %three_tenths; 				//[1]
+	@extend %desk_three_elevenths; 		//[1]
+	z-index: 100;
+	transform: translateZ(0);
+	@include mq(bigs){
+		position: absolute;
+		top: 2px;
+		display: block;
+	}
+	@include mq(lap){
+		top: .5px;
+	}
+	//Since the search doesn't expand without JS, there is no need to do positioning.
 	.no-js &{
 		right: 0;
-		// display: inline-block;
+		top: 0;
+		@extend %inline-block;
+		position: relative;
+	}
+}
+.utility_search, .utility_options{
+	@extend %pull_lap_one_tenth; 		//[2]
+	@extend %pull_desk_one_eleventh; 	//[2]
+	//Margins are set to auto for center alignment when expanded
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 90%; 					//[3]
+	@include mq(desk){
+		max-width: 66.66%; 				//[3]
+	}
+	@include mq(lap){
+		max-width: 85%; 				//[3]
+	}
+}
+//Login button
+.utility_login{
+	@extend %desk_one_eleventh; 		//[4]
+	@extend %one_tenth;					//[4]
+	@extend %push_lap_three_tenths;		//[5]
+	@extend %push_desk_three_elevenths; //[5]
+	@include mq(small){
+		width: 13%;
+	}
+	.no-js &{
+		right: 0;
 		left: 0;
 	}
 }
 /////////////////////////////
-//------Search-------------//
+//---Expanded Search-------//
 /////////////////////////////
-$shade_speed: 300ms;
 .search_shade {
 	transform: translateZ(0);
 	background-color: rgba(255,255,255,.9);
@@ -117,41 +136,34 @@ $shade_speed: 300ms;
 	height: 0;
 	left: 0;
 	top: 0;
+	box-shadow: 0 2px 3px rgba(color(text), .1);
 	@extend %absolute;
-	transition: height $shade_speed cubic-bezier(.44, -0.5, .39, 1.01);
-	.search_active &{
-		height: 100%;
-		transition: height $shade_speed cubic-bezier(.44, 0, .49, 1.5);
-		box-shadow: 0 2px 3px rgba(color(text), .1);
-	}
 }
+//
+//---------Transitions removed in favor of JS animations----------------//
+//	transition: height $shade_speed cubic-bezier(.44, -0.5, .39, 1.01);
+//	.search_active .search_shade{
+////		height: 100%;
+////		transition: height $shade_speed cubic-bezier(.44, 0, .49, 1.5);
+//		box-shadow: 0 2px 3px rgba(color(text), .1);
+//	}
+
+//Options displayed only when search is expanded.
 .utility_options{
 	text-align: center;
 	white-space: nowrap;
-	display: block !important;
+	display: none;
 	z-index: 3;
-	width: 100%;
+	@extend %one_whole;
 	position: absolute;
 	@include type-space(top, .5);
-	max-height: 0;
 	padding-top: 0 !important;
-	overflow: hidden;
-	transition: top $shade_speed ease-in,
-		padding 300ms cubic-bezier(.3, .27, .33, .98),
-		max-height ($shade_speed/1.5) ease-out;
+
 	@include mq(smalls){
 		left: 0;
 	}
 	.no-js &{
 		display: none !important;
-	}
-	.search_active &{
-		@include type-space(top, 1.5);
-		@include rems_important(padding-top, 48px);
-		max-height: 200px;
-		transition: top ($shade_speed * 1.15) cubic-bezier(.81, .01, .49, 1.5) ($shade_speed/100), //bounce
-			padding 300ms cubic-bezier(.3, .27, .32, 1.31),
-			max-height $shade_speed ease-out ($shade_speed/2);
 	}
 	.button_group{
 		margin: 0 auto;
@@ -169,6 +181,7 @@ $shade_speed: 300ms;
 }
 .search_close{
 	display: none;
+	transform: scale(0.1);
 	position: absolute !important;
 	top: 8% !important;
 	right: 1%;
@@ -183,12 +196,7 @@ $shade_speed: 300ms;
 		@include type_font-size(modular-scale(2), false);
 		margin-left: -.3em;
 		padding-right: 0;
-		@include rems(line-height, 22px);
-	}
-	.search_active &{
-		opacity: 1;
-		transition: opacity $shade_speed ease-in;
-		display: block;
+		line-height: 21px !important;
 	}
 }
 .global_search{
@@ -197,6 +205,7 @@ $shade_speed: 300ms;
 .utility_search .button_inset{
 	overflow: hidden;
 }
+//Search button styles (Universal for all search buttons)
 .search_button{
 	white-space: nowrap;
 	min-width: 6.5em;
@@ -228,7 +237,7 @@ $shade_speed: 300ms;
 	text-align: left;
 	right: 7.85em; //One size larger than the search_button
 	left: -3em; //Compensation for the enlarged size of the icon.
-	display: inline-block;
+	@extend %inline-block;
 	position: absolute;
 	line-height: 1.5;
 	vertical-align: middle;
@@ -249,17 +258,17 @@ $shade_speed: 300ms;
 		left: 7%;
 	}
 }
-
 /////////////////////////
-//  Mega Menu
+//  Mega Menu Buttons
 /////////////////////////
 .mega_buttons {
+	//Hidden on mobile
+	display: none;
     margin: 0;
     vertical-align: bottom;
     min-height: 0;
-	display: none;
-    @extend %lap_one_whole;
     overflow: visible;
+	@extend %lap_one_whole;
 	@include mq(bigs){
 		display: inline-block;
 		min-width: 788px;
@@ -267,7 +276,7 @@ $shade_speed: 300ms;
 	& .tabs{
 		display: table-row;
     }
-	& .tab.tab {   			//double selector for specificity #hack
+	& .tab.tab {   //!double selector for specificity #hack
 		@extend %txt_small; // 13px/12px
 		@extend %lap_pad_l_quarter;
 		@extend %pad_v_half;
@@ -277,7 +286,7 @@ $shade_speed: 300ms;
 		display: table-cell;
 		white-space: nowrap;
 		border-radius: 2px 2px 0 0;
-		color: color(primary, dark);
+		color: color(link, dark);
 		line-height: 1.3657534;
 		text-indent: 0;
 		top: 0;
@@ -290,49 +299,50 @@ $shade_speed: 300ms;
 			letter-spacing: normal;
 			text-transform: none;
 		}
-		@media screen and (min-width: 1084px) and (max-width:1200px){
-			padding-left: .5em;
-			padding-right: 2em;
+		@media screen and (min-width: 1375px){
+			padding-left: 1em;
+			padding-right: 3em;
 		}
-		&:first-child {
-			@extend %pad_n_l;
-			&:after{
-				display: none;
-			}
-		}
+	}
+	& .tab.tab{
+		// &:first-child {
+		// 	@extend %pad_n_l;
+		// 	&:after{
+		// 		display: none;
+		// 	}
+		// }
 		&:hover, &:focus, &:active {
 			@extend %color_link;
 			border-color: currentColor;
-			&:after{
-				transform: translateY(2px);
-			}
+		}
+		&:hover:after{
+			top: 2px;
 		}
 		&:after {
 			position: relative;
 			margin-top: 2px;
-			transition: transform 220ms ease-in;
 			content: "\e629";
-			display: inline-block;
+			@extend %inline-block;
 			@include opacity(.5);
 			float: right;
 			margin-right: -10px;
 			padding: 0;
-			transform: scale(1, 1);
+			transform-origin: 50% 45%;
 			width: 4px;
+			transition: transform 220ms ease-in, padding 200ms ease-in;
 		}
 		&.active.toggle { //specificity #hack
 			cursor: pointer;
 			color: white;
-			background-color: color(alert);
+			background-color: darken(color(select), 2%);
 			border-color: transparent;
 			&:after{
-				transform: scale(1, -1);
+				transform: scaleY(-1);
 				@include opacity(.8);
 			}
 		}
 	}
 }
-
 #tab_quick-links, .tab_quick_links{
 	color: color(link) !important;
 	border-bottom-color: transparent !important;
@@ -342,7 +352,6 @@ $shade_speed: 300ms;
 		background-color: color(link) !important;
 	}
 }
-
 .no-js {
     @include mq(smalls){
         .mega_buttons {
@@ -359,40 +368,43 @@ $shade_speed: 300ms;
         }
     }
 }
+
+/////////////////////////
+//  Mega Menu
+/////////////////////////
 .mega_menu {
     @include type-space(margin-top, -3);
-    @extend %txt_bold;
     @extend %one_whole;
 	transform: translateZ(0);
+	transform-style: preserve-3d;
     display: none;
     left: 0;
     vertical-align: bottom;
     z-index: 100;
+	transform-origin: top center;
+
     @include mq(bigs){
         display: block !important;
-        font-size: 0;
         margin-top: 0 !important;
         z-index: -1;
     }
-	transform-origin: top center;
     .wrap {
         padding: 0;
     }
     > .tabbed {
+		//Display none is removed with Javascript
+		display: none;
+		transform-style: preserve-3d;
 		transform-origin: top center;
-        box-shadow: 0 2px 3px rgba(color(text), .15);
+		box-shadow: 0 2px 3px rgba(color(text), .15),
+			0 2px 8px -1px rgba(color(text) ,.12);
         min-height: 0;
+
 		@include mq(smalls){
 			width: 96%;
 			margin-left: auto;
 			margin-right: auto;
 		}
-        .tabs {
-            @include mq(bigs){
-                z-index: 3;
-                margin-top: 0;
-            }
-        }
         > .tab_content {
 			transform-origin: top center;
             @extend %one_whole;
@@ -401,11 +413,10 @@ $shade_speed: 300ms;
             border-bottom: 2px solid color(link);
             margin: 0;
             opacity: 1;
-			padding-left: 0;
-			padding-right: 0;
 			transform: translateZ(0);
 
 			@include mq(bigs){
+				box-shadow: 0 4px 6px rgba(color(text),0.15);
 				padding: 0;
 				position: absolute;
 			}
@@ -418,98 +429,32 @@ $shade_speed: 300ms;
             }
         }
     }
-    ////////////////////////
-    > .tab_content{
-        @extend %one_whole;
-        @include mq(bigs){
-            box-shadow: 0 1px 6px rgba(color(text) , .2);
-            padding: 0;
-            position: absolute;
-            top: 0;
-        }
-    }
+
     .tab_side > .tab_content {
-		@extend %bigs_pad_t_half;
         @include mq(bigs){
 			@include type-space(min-height, 18);
-			border-bottom-width: 0 !important;
 		}
-        .column {
-            list-style: none;
-            p {
-                &:last-child {
-                    border: 0;
-                }
-            }
-        }
-        p {
-            @extend %pad_b_quarter;
-            @extend %txt_small;
-            border-bottom: 2px solid color(subtle);
-        }
-        a {
-            @extend %type_normal;
-            text-decoration: none;
-            text-transform: none;
-        }
-    }
-    .tab_content {
-        header {
-            @extend %pad_v_quarter;
-            @extend %sub_heading;
-            border-top: 2px solid color(label);
-            color: color(label);
-        }
     }
     .tab {
         @extend %txt_small;
-        &:after {
-            transition: transform 220ms ease-in;
-            @include mq(bigs){
-                @include type_space(margin-right, -1);
-            }
-        }
-    }
-    .list_inline {
-        @extend %one_whole;
-        @extend %pad_b;
-        li {
-            @extend %space_r;
-            width: 22.2%;
-            &:last-child {
-                @extend %space_n_r;
-            }
-        }
-        .button {
-            @extend %button_wide;
-            @extend %txt_left;
-            @extend %type_normal;
-            min-height: 100px;
-            text-transform: none;
-        }
-    }
-    .promos {
-		@extend %smalls_hide;
-        > .row {
-            margin-left: 0;
-        }
-        a {
-            @include type_font_size(modular-scale(0));
-            @extend %button;
-            min-height: 100px;
-            padding: 12px;
-            text-align: left;
-            width: 100%;
-        }
-        header {
-            @include rems(margin-left, $gutter);
-        }
-    }
+	}
+}
+
+//tab_button styles.
+//------------------
+.mega_menu{
+	.tab_button {
+		@extend %txt_bold;
+	}
     .tab_button:after{
 		position: absolute;
         content: "\e629";
         right: 12px;
+		transition: transform 100ms ease;
     }
+	.tab_button br{
+		display: none;
+	}
 	.tab_button:first-of-type{
 		border-radius: 2px 2px 0 0;
 	}
@@ -517,30 +462,121 @@ $shade_speed: 300ms;
         border-bottom-width: 1px !important;
 		border-radius: 0 0 2px 2px;
     }
+	.tab_button.active{
+		background-color: rgba(255,255,255,0.975) !important;
+		margin-bottom: 0;
+	}
+	.tab_button.active:after{
+		transform: scaleY(-1);
+	}
+	//These are used for buttons that are actually links and not expanding tabs.
     .tab_link{
         background-color: color(subtle);
 		@extend %color_link;
+		&:hover{
+			@extend %color_link;
+		}
 		border-color: color(label);
     }
+	//Remove the arrow at the end of tab_buttons when they're just links.
+	.tab_link:after{
+		display: none;
+		margin-right: 0;
+	}
+	//Utility items get appended to the end of the mega nav on mobile.
 	.utility_tab{
 		@include type_font_size(modular-scale(-1), false);
         font-weight: normal;
     }
-    .tab_link:after{
-        display: none;
-        margin-right: 0;
-    }
-    & .tab_button.active{
-        background-color: rgba(255,255,255,0.975) !important;
-        margin-bottom: 0;
-    }
-    .active:after{
-        transform: rotateX(180deg);
-    }
+
+	#quick-links{
+		display: none;
+		&:target{
+			display: block;
+		}
+	}
+}
+
+//Inner menu styles.
+//------------------
+.mega_menu{
+	.tab_content {
+		header {
+			@extend %pad_t_quarter;
+			@extend %sub_heading;
+			border-top: 2px solid color(label);
+			@extend %color_label;
+		}
+	}
+	.promos {
+		@extend %smalls_hide;
+		> .row {
+			margin-left: 0;
+		}
+		a {
+			@include type_font_size(modular-scale(0));
+			@extend %button;
+			min-height: 100px;
+			max-height: 100px;
+			padding-left: 12px;
+			padding-right: 12px;
+			text-align: left;
+			@extend %one_whole;
+			overflow: hidden;
+		}
+		header {
+			@include rems(margin-left, $gutter);
+		}
+		p{
+			margin-bottom: 0;
+		}
+	}
+
+	@at-root
+	.list_mega_nav{
+		//This class is used by editors to make the proper lists inside of the mega nav.
+		//This is essentially a combination of list_bordered_short and list_nav.
+		list-style: none;
+		@extend %bigs_space_b;
+		@extend %space_b_half;
+		@extend %space_neg_t_half;
+		@extend %txt_small;
+
+		>li{
+			border-top: 2px solid color(form);
+			margin-top: -2px;
+			@extend %pad_t_half;
+			a{
+				@extend %txt_bold;
+				@extend %pad_b_half;
+				display: block;
+				text-decoration: none;
+			}
+
+			&:first-child{
+				border-top-color: transparent;
+			}
+		}
+	}
+}
+
+
+
+
+
+//--------------------------
+//No-JS mega_menu styles
+//--------------------------
+.mega_menu{
 	.no-js &{
 		visibility: visible;
 		position: relative !important;
 		z-index: 1;
+
+		& > .tabbed{
+			display: block;
+		}
+
 		& .tab_content {
 			position: relative !important;
 			overflow: hidden;
@@ -580,15 +616,9 @@ $shade_speed: 300ms;
 		a[href="#quick-links"].tab_button{
 			cursor: pointer !important;
 		}
-		#quick-links{
-			display: none;
-			&:target{
-				display: block;
-			}
-		}
 	}
-
 }
+
 ////////////////////////
 // Logo
 ////////////////////////
@@ -601,27 +631,33 @@ $shade_speed: 300ms;
 	@extend %one_whole;
 	@extend %lap_one_half;
 	@extend %desk_one_quarter;
+	@extend %smalls_space_b_quarter;
 	overflow: hidden;
 	min-width: 160px; //[1]
 	@include type-space(height, 4); //Specified height needed for vertical alignment.
 	@include mq(desk){
-		min-width: 260px; //[1]
+		min-width: 200px; //[1]
 		@include type-space(height, 4.5);
 	}
-	@media screen and (min-width: 941px) and (max-width: 1110px){
+	@media screen and (min-width: 941px) and (max-width: 1125px){
 		@include type-space(height, 3);
-		width: 20%;
 	}
 	@include mq(lap){
 		@include type-space(height, 3);
 		text-align: left;
 	}
+
 	&:hover{
 		@include opacity(.9);
 	}
 	& .logo_wrap{
 		@include mq(lap){
 			@include type-space(padding-top, .5);
+		}
+		@include mq(smalls){
+			max-width: 240px;
+			margin-left: auto;
+			margin-right: auto;
 		}
 		display: table;
 		text-align: center;
@@ -651,11 +687,12 @@ $shade_speed: 300ms;
 		@include mq(lap){
 			@include type-space(max-height, 2.5);
 		}
-		display: inline;
+		@extend %inline;
 	}
 }
 //------------------------------------------------------------------
 #quick-links {
+
 	@include mq(bigs){
 		background-color: color(link);
 		background-color: rgba(color(link), .95);
@@ -663,9 +700,10 @@ $shade_speed: 300ms;
 	}
 }
 .quick_links {
-    @include type_font_size(modular-scale(-1));
+	@extend %txt_small;
     @extend %space_n_v;
 	color: $color_white;
+	display: table;
     .tab_content {
         @extend %pad_n_v;
         border-width: 0;
@@ -678,6 +716,7 @@ $shade_speed: 300ms;
         color: $color_white !important;
     }
     .column {
+		display: table-cell;
         border-right: 1px solid tint(color(link), 20%);
         height: 100%;
 
@@ -745,11 +784,46 @@ $shade_speed: 300ms;
     height: 0px;
     width: 100%;
 }
+.img_cover { // http://nicolasgallagher.com/flexible-css-cover-images/
+	background-position: 50% 0;
+	background-repeat: no-repeat;
+	background-size: cover;
+	max-width: 1450px;
+	max-height: 1000px;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 0 auto;
+	@include opacity(.55);
+}
+.img_full{
+	max-width: none;
+}
+.flair {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-repeat: no-repeat;
+	background-position: top center;
+	@extend %space_r_half;
+}
 .img_header {
-    background-color: $link_color !important;
+    background-color: $link_color;
 	position: relative;
-	z-index: 1;
+	// <main> is z-index:1; .img_header is z-index:2; .footer is z-index:0; .sidebar is z-index: 241 (above dropdown)
+	z-index: 2;
 	transform: translateZ(0);
+}
+//If background flair, we add this class
+// to make sure lighter images don't obscure the overlaid typography
+.img_header_with_image{
+	background-color: color(link, dark);
 }
 .page_header {
 	color: $color_white;
@@ -757,10 +831,8 @@ $shade_speed: 300ms;
 		@extend %link_naked;
 		@include link_color(color(highlight));
 	}
-	.content_extended  {
-		@include media-query((lap, smalls)){
-			margin-left: 0 !important;
-		}
+	.box_flag_media{
+		background-color: transparent;
 	}
 	.main_content{
 		position: relative;
@@ -779,12 +851,19 @@ $shade_speed: 300ms;
 	}
 	.icon_UW, .icon_UWHC, .icon_UWMF {
 		@include type_font_size(24px);
-		display: inline;
+		@extend %inline;
 		padding-right: $base_line_height;
 		position: relative;
+		left: .25em;
 		&:before {
 			position: absolute;
 		}
+	}
+	.breadcrumbs{
+		@extend %txt_upper;
+	}
+	.breadcrumbs > li:last-child{
+		display: none;
 	}
 }
 .no-js {
@@ -857,16 +936,17 @@ $shade_speed: 300ms;
 	text-align: center;
 	transform-style: preserve-3d;
 	transform: translateZ(0);
-	transition: transform 400ms ease-out 100ms,
-			padding 320ms ease-in;
+	transition: padding 320ms ease-in;
 	&:focus{
 		outline: none;
 	}
 	&.clicked{
         padding-top: 0;
-		transform: scale(1, -1) translateZ(0);
-        transition: transform 500ms cubic-bezier(0, 0, .6, 1.41) 220ms,
-          padding 500ms cubic-bezier(.42, 0, .71, 1.26);
+//		transform: scaleY(-1);
+//		transform: rotateX(180deg) translateZ(0);
+//        transition: padding 400ms cubic-bezier(.42, 0, .71, 1.26);
+		margin-bottom: 1px;
+
 	}
 	& .icon{
 		color: white !important;
@@ -874,6 +954,7 @@ $shade_speed: 300ms;
 		border-radius: 3px;
 		display: table;
 		opacity: 0.7;
+		border: 1px solid transparent;
 		transform-style: preserve-3d;
 		transition: background 400ms ease-out,
 					opacity 400ms ease-out;
@@ -887,11 +968,13 @@ $shade_speed: 300ms;
 		}
 	}
 	&:hover, &:focus{
+		opacity: 1;
 		.icon{
-			text-shadow: 0 0 2px rgba(color(text), .2);
-			opacity: 0.9;
-			background-color: color(link);
-			background-color: rgba(color(link), .7);
+			text-shadow: 0 0 2px rgba(color(text), .3);
+			opacity: 1;
+			border-color: rgba(white, .15);
+			background-color: color(soft_action);
+			background-color: rgba(color(soft_action, light), .5);
 		}
 	}
 }
@@ -901,26 +984,31 @@ $shade_speed: 300ms;
 ////////////////////////
 .tag_bar {
 	transform-origin: top center;
-    transition: transform 400ms cubic-bezier(.42, 0, .59, 1.46) 450ms,
-				max-height 200ms ease-in-out 500ms,
-                opacity 500ms ease-out 100ms;
-	&.mask{
-		transition: transform 400ms ease-in 100ms,
-				max-height 200ms ease-in-out 100ms,
-                opacity 500ms ease-out 100ms;
-	}
+//    transition: transform 400ms cubic-bezier(.42, 0, .59, 1.46) 450ms,
+//				max-height 200ms ease-in-out 500ms,
+//                opacity 500ms ease-out 100ms;
+//	&.mask{
+//		transition: transform 400ms ease-in 100ms,
+//				max-height 200ms ease-in-out 100ms,
+//                opacity 500ms ease-out 100ms;
+//	}
 }
 .header_bar {
 	border-bottom: 1px solid white;
 	max-height: 100%;
-	transform: scale(1,1); // IE9 fallback
-	transform: scale(1,1) translateZ(0);
+	transform: scaleY(1); // IE9 fallback
+	transform: scaleY(1) translateZ(0);
 
 	&.mask{
-		transform: scale(1, 0.05); // IE9 fallback
-		transform: scale(1, 0.05) translateZ(0);
+		transform: scaleY(0); // IE9 fallback
+		transform: scaleY(0) translateZ(0);
 		max-height: 0;
-		opacity: 0;
+
+		.no-js &{
+			transform: scaleY(1) !important;
+			opacity: 1;
+			max-height: none !important;
+		}
 	}
 	.tag_title {
         @include type_font_size(modular-scale(-1));
@@ -970,13 +1058,18 @@ $shade_speed: 300ms;
 }
 .header_icon {
     &:before {
+		@include type-space(margin-top, -1);
         @include type_font_size(144px, false);
-        color: color(soft_action) !important;
-	    @include media-query((lap,smalls)){
-	    	@include type_font_size(120px, false);
-	    	left: 0;
-	    }
+		line-height: 1;
+		left: 0;
+		right: 0;
+		text-align: center;
+        color: rgba(white, .5) !important;
     }
+}
+//
+.flair+.header_icon{
+	display: none;
 }
 .overview, .tag_bar {
     width: 100%;

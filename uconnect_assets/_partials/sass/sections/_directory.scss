@@ -135,4 +135,12 @@
 	.infopod {
 		display: none;
 	}
+	.moreinfo-container {
+		a[target="_blank"], a[target="new"] {
+			@extend %o_hide;
+		}
+	}
+	.top-left-image {
+		@extend %o_hide;
+	}
 }

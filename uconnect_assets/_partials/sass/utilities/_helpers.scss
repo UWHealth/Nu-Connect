@@ -44,13 +44,13 @@
     @include media-query($media-queries){@content};
 }
 @mixin bp($media-queries){
-    @include media-query($media-queries){@content};
+    @include media-query($media-queries) { @content};
 }
 @mixin media($media-queries){
-    @include media-query($media-queries){@content};
+    @include media-query($media-queries) { @content };
 }
 @mixin mq($media-queries){
-    @include media-query($media-queries){@content};
+    @include media-query($media-queries) { @content };
 }
 
 
@@ -91,6 +91,21 @@
 }
 %display_inherit {
     display: inherit;
+}
+%display_table {
+    display: table;
+    &_cell {
+        display: table-cell;
+    }
+    &_row {
+        display: table-row;
+    }
+    &_header_group {
+        display: table-header-group;
+    }
+    &_footer_group {
+        display: table-footer-group;
+    }
 }
 
 %cursor_default, .cursor_default {
@@ -146,7 +161,7 @@
 .nowrap, %nowrap{
 	white-space: nowrap;
 }
-.breakdword{
+.breakword, %breakword{
 	word-wrap: break-word;
 }
 .o_hide{
@@ -155,9 +170,11 @@
 .mask, %mask{
 	@extend %o_hide;
 	mask: url(../img/bg/grad_mask.svg#mask_2);
-	-webkit-mask: url(../img/bg/grad_mask.svg#mask) top / cover;
+	-webkit-mask: url(../img/bg/grad_mask.svg#mask) -3px 0 / cover;
 }
-
+.o_show{
+    overflow: visible !important;
+}
 
 // Create vertical rhythms that are more appropriate for headings inside text blocks.
 // Adds 2/3 of the vertical rhythm to the top and 1/3 to bottom so headings appear
@@ -179,20 +196,6 @@
     //     text-decoration: none;
     // }
 }
-
-.center, %center {
-    margin: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    > * {
-        text-align: center;
-    }
-    // float: none;
-    // @extend %display_block;
-}
 .right, %right {
     @extend %align_right;
 }
@@ -213,8 +216,6 @@
 
 @mixin responsive_helpers($namespace:""){
 
-
-
 	%#{$namespace}overflow_hidden, %#{$namespace}o_hide {
 		overflow: hidden;
 	}
@@ -222,14 +223,11 @@
     //Media block.
     // Taken from: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
     // Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.
-
-
-
     %#{$namespace}media_block{
 		zoom: 1;
         & .img, .media, &.media{
             float:left;
-            word-break: break-word;
+            word-wrap: break-word;
             display: inline-block;
             margin-right: $gutter;
         }
@@ -237,7 +235,6 @@
             overflow: hidden;
         }
     }
-
 
 	//Hide Visually. Usefuly for Accessiblity.
 	//Used for text which describes a purely visual function.
@@ -281,51 +278,6 @@
     }
     %#{$namespace}naked_list{
         @include no_bullets;
-    }
-
-
-    //Alignment
-    .#{$namespace}align_left{
-        float: left;
-        @extend %#{$namespace}space_l;
-    }
-    .#{$namespace}align_right{
-        float: right;
-        @extend %#{$namespace}space_l;
-    }
-    .#{$namespace}align_center{
-        float: none;
-        margin: 0 auto;
-    }
-    .#{$namespace}txt_left{
-        text-align: left;
-    }
-    .#{$namespace}txt_right{
-        text-align: right;
-    }
-    .#{$namespace}txt_center{
-        text-align: center;
-    }
-    .#{$namespace}vertical_align_top{
-        vertical-align: top;
-    }
-    .#{$namespace}vertical_align_middle{
-        vertical-align: middle;
-    }
-    .#{$namespace}vertical_align_bottom{
-        vertical-align: bottom;
-    }
-    .#{$namespace}vertical_align_baseline{
-        vertical-align: baseline;
-    }
-    .#{$namespace}float_left{
-        float: left;
-    }
-    .#{$namespace}float_right{
-        float: right;
-    }
-    .#{$namespace}float_none{
-        float: none;
     }
     .#{$namespace}pad_t{
         @extend %#{$namespace}pad_t;
@@ -424,24 +376,22 @@
         }
     }
     .#{$namespace}pad_n_v{
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+        @extend %#{$namespace}pad_n_v;
     }
     .#{$namespace}pad_n_h{
-        padding-right: 0 !important;;
-        padding-left: 0 !important;
+        @extend %#{$namespace}pad_n_h;
     }
     .#{$namespace}pad_n_t{
-        padding-top: 0 !important;
+        @extend %#{$namespace}pad_n_t;
     }
     .#{$namespace}pad_n_r{
-        padding-right: 0 !important;
+        @extend %#{$namespace}pad_n_r;
     }
     .#{$namespace}pad_n_b{
-        padding-bottom: 0 !important;
+        @extend %#{$namespace}pad_n_b;
     }
     .#{$namespace}pad_n_l{
-        padding-left: 0 !important;
+        @extend %#{$namespace}pad_n_l;
     }
     .#{$namespace}pad_n{
         @extend .#{$namespace}pad_n_v;
@@ -520,63 +470,60 @@
         }
     }
 	.#{$namespace}space_n_t{
-        margin-top: 0 !important;
+        @extend %#{$namespace}space_n_t;
     }
     .#{$namespace}space_n_r{
-        margin-right: 0 !important;
+        @extend %#{$namespace}space_n_r;
     }
     .#{$namespace}space_n_b{
-        margin-bottom: 0 !important;
+        @extend %#{$namespace}space_n_b;
     }
     .#{$namespace}space_n_l{
-        margin-left: 0 !important;
+        @extend %#{$namespace}space_n_l;
     }
     .#{$namespace}space_n_h{
-        @extend .#{$namespace}space_n_l;
-        @extend .#{$namespace}space_n_r;
+        @extend %#{$namespace}space_n_h;
     }
     .#{$namespace}space_n_v{
-        @extend .#{$namespace}space_n_t;
-		@extend .#{$namespace}space_n_b;
+        @extend %#{$namespace}space_n_v;
     }
     .#{$namespace}space_n{
-        @extend .#{$namespace}space_n_h;
-        @extend .#{$namespace}space_n_v;
+        @extend %#{$namespace}space_n;
     }
     .#{$namespace}space_neg_t{
-        @include type_space(margin-top, -1);
+		@extend %#{$namespace}space_neg_t;
         @at-root &_2{
-            @include type_space(margin-top, -2);
+			@extend %#{$namespace}space_neg_t_2;
         }
         @at-root &_half{
-            @include type_space(margin-top, -.5);
+			@extend %#{$namespace}space_neg_t_half;
         }
         @at-root &_quarter{
-            @include type_space(margin-top, -.25);
+			@extend %#{$namespace}space_neg_t_quarter;
         }
     }
     .#{$namespace}space_neg_b{
-        @include type_space(margin-bottom, -1);
+        @extend %#{$namespace}space_neg_b;
         @at-root &_2{
-            @include type_space(margin-bottom, -2);
+            @extend %#{$namespace}space_neg_b_2;
         }
         @at-root &_half{
-            @include type_space(margin-bottom, -.5);
+            @extend %#{$namespace}space_neg_b_half;
         }
         @at-root &_quarter{
-            @include type_space(margin-bottom, -.25);
+            @extend %#{$namespace}space_neg_b_quarter;
         }
     }
     .#{$namespace}space_neg_r{
-        @include rems(margin-right, -$gutter);
+        @extend %#{$namespace}space_neg_r;
         &_2{
-            @include rems(margin-right, $gutter*-2);
+            @extend %#{$namespace}space_neg_r_2;
         }
         &_half{
-            @include rems(margin-right, $gutter*-.5);
+            @extend %#{$namespace}space_neg_r_half;
         }
         &_quarter{
-            @include rems(margin-right, $gutter*-.25);
+            @extend %#{$namespace}space_neg_r_quarter;
         }
     }
     .#{$namespace}space_neg_l{
@@ -672,5 +619,3 @@
         }
     }
 }
-
-

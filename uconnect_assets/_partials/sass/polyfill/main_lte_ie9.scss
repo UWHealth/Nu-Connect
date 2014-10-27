@@ -1,53 +1,119 @@
-//$base_font_size:             16px !default;
-//$base_line_height:           24px !default;
-//$primary_font_stack:      	'opensans', verdana, helvetica, arial, sans-serif;
-//$secondary_font_stack:     	'bitter', Georgia, serif;
-//$monospace_font_stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
-//$icon_font_stack:			'uconnect';
-//$gutter:                 	28px;
-// @import "../utilities/_functions";
-// @import "../base/_config";
-// @import "../colors/_colors";
-// @import "../colors/_blendmodes";
+// @import '../utilities/_functions',
+//         '../base/_config',
+//         '../utilities/_variables',
+//         '../colors/_colors',
+//         '../type/_fonts',
+// 		'../utilities/_helpers',
+// 		'../utilities/easings',
+// 		'../layout/_import',
+//         '../type/_typography',
+// 		'../type/_icons',
+//         '../type/_transforms',
+//         '../vendor/_calc',
+//         '../vendor/_normalize',
+//         '../components/_import',
+//         // '../vendor/_slick',
+//         // '../vendor/_magnific',
+//         '../sections/_import',
+//         '../base/_app';
 
 ///////////////////////////////////////////////////////////////////
 // Forms
 ///////////////////////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////////////////////
+// used for lte ie9; applied via polyfills_lte_ie9.js
+.container_placeholder {
+    overflow: hidden;
+    vertical-align: middle;
+    height: 100%;
+}
+.label_placeholder {
+    color: #0c639a;
+    cursor: text;
+    font-weight: 400;
+    font-size: 16.363px;
+    font-size: .82rem;
+    height: auto;
+    left: 50%;
+    letter-spacing: 0.1em;
+    line-height: inherit;
+    margin: 0 auto;
+    overflow: visible;
+    padding-left: 16px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    &:focus, &:active, &.active {
+        + input, + textarea {
+            color: #9da9b3 !important;
+        }
+    }
+}
+input, textarea {
+    // &:hover {
+    // }
+    &:focus, &:active, &.active {
+        + .label_placeholder {
+            color: #9da9b3 !important;
+        }
+    }
+}
+.card_cover:before, .card_cover_dark:before{
+    zoom: 1;
+    z-index: 0;
+}
+.card_cover, .card_cover_dark{
+    z-index: 1;
+}
+.card .card_label.card_label_top:before{
+    z-index: -1;
+    background-image: url(../../img/bg/card_mask_dark_invert.svg);
+    //Necessary because IE9 doesn't apply transforms to psuedo elements correctly.
+    zoom: 1;
+}
+.card .card_label{
+    z-index: 1 !important;
+    zoom: 1;
+}
+.card .card_label_top{
+    position: relative !important;
+    z-index: 2 !important;
+}
+.card .card_label.card_bottom:before{
+    z-index: -1;
+    zoom: 1;
+}
+/////////////////////////////////////////////////////////////////
 // Header
-///////////////////////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////////////////////
-// Main Content
-///////////////////////////////////////////////////////////////////
-// .txt_shadow, %txt_shadow {
-	// filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=1)";
-	// &_med {
-	// 	filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=5)";
-	// }
-	// &_big {
-		// filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=10)";
-	// }
+/////////////////////////////////////////////////////////////////
+// .search_close:before{
+// 	margin-left: -.4em;
 // }
 
+/////////////////////////////////////////////////////////////////
+// Main Content
+/////////////////////////////////////////////////////////////////
+// .txt_shadow, %txt_shadow {
+// 	filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=1)";
+// 	&_med {
+// 		filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=5)";
+// 	}
+// 	&_big {
+// 		filter: "progid:DXImageTransform.Microsoft.alpha(opacity=25) progid:DXImageTransform.Microsoft.Shadow(Color=#000000, Direction=180, Strength=10)";
+// 	}
+// }
 
-///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 // Footer
-///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
-
-
-///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 // Media Queries
-///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 // media-query(smalls)
-@media only screen and (max-width:640px) {
-}
+// @media only screen and (max-width:640px) {
+// }
 // media-query(lap)
-@media only screen and (min-width: 641px) and (max-width: 940px) {
-}
+// @media only screen and (min-width: 641px) and (max-width: 940px) {
+// }

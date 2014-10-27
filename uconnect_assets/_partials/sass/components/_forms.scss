@@ -1,30 +1,36 @@
 ////////////////////////
 // General form components
 ////////////////////////
-label{
-	@extend %sub_heading;
+label {
 	@extend %color_label;
+}
+.label{
+	@extend %color_label;
+	@extend %sub_heading;
 }
 input, textarea {
     @include type-space(line-height, 1);
     @extend %type_family_primary;
     @extend %pad_v_half;
 	@extend %bigs_pad_v_quarter;
+	@extend %abs_left;
     background-color: rgba(color(text), .1);
     border: 1px solid transparent;
     border-radius: 2px;
     background-color: rgba(color(text), .1);
     font-size: inherit; //Allows for flexibly sized inputs.
-    left: 0;
     outline: none;
     padding-left: 1em;
     padding-right: 1em;
     position: relative;
     transition: all 200ms ease-in;
     -webkit-transform: translateZ(0);
+    &::placeholder {
+        @include type_font_size(modular-scale(-1));
+    }
     &:hover {
 		background-color: #f8fbfd;
-        background-color: rgba(color(soft_action, lightest), .7);
+        background-color: rgba(tint(color(highlight), 50%), .7);
         box-shadow: inset 0 1px 3px 0 rgba(color(link), .6);
 		border-top-color: tint(color(link), 40%);
 		border-left-color: tint(color(link, light), 50%);
@@ -38,24 +44,24 @@ input, textarea {
         color: color(text);
     }
     &.input_big {
-        padding: .75em 8.5em .75em 1.5em; // .75em 8.5em .75em .75em; // 12px 18% 12px 14px;
+        padding: .75em 8.5em .75em 1.5em;
     }
     &.valid, &.error, &.invalid {
 		@extend %txt_normal;
         @extend %txt_bold;
     }
     &.valid {
-        background-color: color(form); // $form_color;
+        background-color: color(form);
     }
     &.error, &.invalid {
-        background-color: rgba(178, 39, 39, .1); // $alert_color_lighter;
+        @extend %highlight_red; // $alert_color_lighter;
     }
     &:disabled, &.disabled {
         background-color: #e8ecf3 !important;
         border: 1px dotted $label_color !important;
         box-shadow: none !important;
         &::placeholder {
-            color: $label_color_light !important; // #c4ccd7;
+            color: $label_color_light !important;
         }
     }
 }
@@ -85,9 +91,9 @@ input[type="search"]:-webkit-autofill{
     max-height: 20em;
     max-width: 12em;
     outline: 0;
-    position: absolute; // !important;
-    right: 2px; // .5%; // 1em;
-    top: 2px; // 0; // .25em; // 3px;
+    position: absolute;
+    right: 2px;
+    top: 2px;
     vertical-align: baseline !important;
     white-space: nowrap;
     &.button_search {
@@ -95,7 +101,7 @@ input[type="search"]:-webkit-autofill{
         margin-right: .5%;
         &:before, &:after {
             @include type_font_size(14px);
-            display: inline;
+			@extend %inline;
             position: relative;
         }
         @include mq(smalls) {
@@ -110,38 +116,11 @@ select {
     outline: 0;
     padding-left: $gutter/4;
     text-transform: uppercase !important;
+	max-width: 100%;
 }
 ////////////////////////
 // Specific components
 ////////////////////////
-.box_panel {
-    form {
-        position: relative;
-    }
-    input {
-        padding: 12px 18% 12px 14px;
-    }
-    .button_inside {
-        @include type_space(top, .25);
-        width: 15%;
-    }
-}
-.valid, .error, .invalid {
-    @extend %icon;
-    &:before {
-        @include type_font_size(modular-scale(1));
-        @extend %icon_sym_checkmark;
-        color: $alert_color;
-        right: $base_line_height/4;
-        top: $base_line_height/2;
-    }
-}
-.valid {
-    &:before {
-        @extend %icon_info_cancel;
-        color: #2fbb79;
-    }
-}
 .search {
     cursor: pointer;
     display: block;
@@ -153,14 +132,14 @@ select {
             @include type_font_size(modular-scale(1));
             color: $primary_color;
             top: $base_line_height/2;
-            right: 0;
+            @extend %abs_right;
         }
     }
     input {
         @extend %type_family_primary;
         @include type_space(padding-top, .25);
         @include type_space(padding-bottom, .25);
-        transition: all 0.15s linear;
+        transition: all .15s linear;
         width: 100%;
     }
 }
@@ -170,10 +149,14 @@ select {
     text-transform: uppercase;
 	letter-spacing: 0.1em;
     color: color(link);
-	transiton: color 100ms ease-in;
+	transition: color 100ms ease-in;
 }
 input:focus::placeholder{
-	@extend %color_label;
+	color: color(label);
+}
+input::-webkit-inner-spin-button {
+	position: relative;
+	right: -.25em;
 }
 
 ////////////////////////
@@ -183,7 +166,7 @@ input:focus::placeholder{
     // display: inline-block;
     position: relative;
     width: 100%;
-    z-index: 22;
+    z-index: 220;
 }
 .dd_trigger, .dd_activetrigger {
     @include type_font_size(modular-scale(-1), false);
@@ -196,7 +179,7 @@ input:focus::placeholder{
     position: relative;
     margin-bottom: 0;
     text-align: left;
-    z-index: 24;
+    z-index: 240;
 	&:before{
 		margin-top: 3px;
 	}
@@ -208,20 +191,20 @@ input:focus::placeholder{
     @extend %icon_arrow_up;
     background-color: #fff;
     border-bottom-width: 1px;
-    border-color: $alert_color;
+    border-color: currentColor !important;
     border-top-width: 1px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    box-shadow: inset 0 1px 0 0 $alert_color;
-    color: $alert_color !important;
-    z-index: 24; // Keeps the trigger on top of the select container
+    box-shadow: inset 0 1px 0 0 color(select);
+    color: color(select) !important;
+    z-index: 240; // Keeps the trigger on top of the select container
     &:focus, &:hover, &:active, &:visited {
         background-color: #fff;
         border-top-width: 1px;
+		color: color(select) !important;
         border-bottom-width: 1px;
-        border-color: $alert_color;
-        box-shadow: inset 0 1px 0 0 $alert_color;
-        color: $alert_color !important;
+        box-shadow: inset 0 1px 0 0 color(select);
+        color: color(select) !important;
     }
 }
 .dd_container {
@@ -236,7 +219,7 @@ input:focus::placeholder{
     overflow-x: auto;
     position: absolute;
     width: 100%;
-    z-index: 23;
+    z-index: 230;
     -webkit-overflow-scrolling: touch;
     > *{
         background-image: url(../img/bg/bg_white_90.png);
@@ -247,13 +230,14 @@ input:focus::placeholder{
         list-style-type: none;
         margin-left: 0;
         padding: 0;
-        z-index: 22;
+        z-index: 220;
     }
     li {
         @extend %pad_h_half;
         @extend %pad_v_quarter;
         cursor: pointer;
-		transition: margin 300ms ease-in, opacity 200ms ease-in;
+		transform: scaleY(1);
+		transition: transform 350ms ease-out, margin 200ms ease-out, opacity 200ms ease-in;
         &:hover {
             background: color(highlight);
             outline: none;
@@ -268,15 +252,19 @@ input:focus::placeholder{
     }
 }
 .csstransforms .dd_hidden {
-    transform: translateY(-110%);
+    transform: translateY(-110%) scaleY(0.1);
     margin-bottom: -100%; //Makes sure this the container is fully collapsed.
     margin-top: -25%; //Overrides the fallback.
     height: auto; //Overrides the fallback.
     overflow: visible; //Overrides the fallback.
+
+	& li{
+		transform: scaleY(0.1);
+	}
 }
 .dd_hidden{ //Fallback for browsers without css-transforms
     margin-top: -100%;
-    transition: all 200ms cubic-bezier(.29, -0.45, .75, .65);
+    transition: all 150ms cubic-bezier(.29, -0.45, .75, .65);
     height: 0;
     overflow: hidden;
 	li{
@@ -290,7 +278,8 @@ input:focus::placeholder{
     margin-top: 3px;
     margin-bottom: 0;
     padding-top: 6px;
-    transition: all 250ms cubic-bezier(0, .43, .51, 1.38);
+    transition: margin 150ms ease-out,
+		transform 250ms cubic-bezier(0, .43, .51, 1.38);
 	li{
 		opacity: 1;
 		margin-bottom: 0;
@@ -327,4 +316,54 @@ input:focus::placeholder{
         right: 6px;
         top: 6px;
     }
+}
+
+
+//Validation//
+// .valid, .error, .invalid {
+//     @extend %icon;
+//     @extend %icon_before;
+//     &:before {
+//         @include type_font_size(modular-scale(1));
+//         @extend %icon_sym_delete; // %icon_info_cancel;
+//         color: color(select);
+//         right: $base_line_height/4;
+//         top: $base_line_height/2;
+//     }
+// }
+// .valid {
+//     &:before {
+//         @extend%icon_sym_checkmark;
+//         color: #2fbb79;
+//     }
+// }
+
+.validation{
+	z-index: 1;
+	@include type-space(right, .25);
+	padding: 0;
+
+	&_error{
+		@extend %txt_small;
+		top: 100%;
+		text-align: left;
+		@extend %space_neg_b;
+		@extend %abs_right;
+		padding: 0 !important;
+		display: table;
+
+		.error{
+			@extend %color_txt;
+			@extend %display_block;
+		}
+
+		& .validation_body{
+			padding: .75em .75em .75em 2.25em;
+		}
+	}
+
+	&_success:before{
+		color: color(green, darkest);
+		line-height: 2.25;
+	}
 }

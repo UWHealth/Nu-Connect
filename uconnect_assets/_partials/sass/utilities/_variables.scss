@@ -30,13 +30,12 @@ $monospace_font_stack: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Consol
 
 //See /type/_fonts.scss for where these variables are applied.
 
-$use_web_fonts: 		true     !default;
-$font_file_location: 	'fonts'  !default;
-$font_file_name: 		'bitter','opensans' 	 !default;
-$font_italics: 			true, (false, true, true)  	 !default;
-$font_weights: 			(400,700),(200,400,700)  !default;
-$font_include_eot: 		true 	 !default;
-
+$use_web_fonts: 		true                !default;
+$font_file_location: 	'fonts'    !default;
+$font_file_name: 		'bitter','opensans' !default;
+$font_italics: 			true, (false, true, true) !default;
+$font_weights: 			(400,700),(200,400,700) !default;
+$font_include_eot: 		true !default;
 
 // What would you like your base font_size to be? Define in pixels; the library
 // will convert measurements to the most appropriate units (rems or unitless).
@@ -216,8 +215,3 @@ $include_spacing_classes: 		false !default;
 //------------------------------------
 //    $COLORS
 //------------------------------------
-
-
-
-
-

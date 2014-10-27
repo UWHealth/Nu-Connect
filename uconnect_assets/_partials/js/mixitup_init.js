@@ -1,4 +1,10 @@
-require(['jquery', 'mixitup', 'mixitup_debug'], function($) {
+var dependencies = [
+        'jquery',
+        'mixitup',
+        'mixitup_debug'
+    ];
+
+require(dependencies, function($) {
 
     // don't load on lte ie8
     if (!$('html').hasClass('lte8')) {
@@ -46,7 +52,10 @@ require(['jquery', 'mixitup', 'mixitup_debug'], function($) {
                 sort: "category:asc name:asc"
             },
             callbacks: {
-                onMixEnd: function(){mixAfter()}
+                onMixEnd: function(){
+                    $("#mixableContainer").find('.loading').remove();
+                    mixAfter();
+                }
             },
             selectors: {
                 sort: '.sort'
@@ -61,21 +70,21 @@ require(['jquery', 'mixitup', 'mixitup_debug'], function($) {
             });
         });
 
-        // if only Category exists on this page, and not also Company, use a simplified version of filtering...
-        if ($("li[data-type=mixitup_company_select]").length == 0) {
+        // if only Category exists on this page, and not also ORG, use a simplified version of filtering...
+        if ($("li[data-type=mixitup_org_select]").length == 0) {
             $("li[data-type=mixitup_category_select]").click(function () {
                 $('#mixableContainer').mixItUp('filter', $(this).attr('data-value'));
             });
-        } else { // this is a page with both Category and Company filters, so set both of those up in a specific way...
+        } else { // this is a page with both Category and ORG filters, so set both of those up in a specific way...
 
             $("li[data-type=mixitup_category_select]").click(function () {
                 category = $(this).attr('data-value');
-                mixFilterCategoryAndCompany();
+                mixFilterCategoryAndOrg();
             });
 
-            $("li[data-type=mixitup_company_select]").click(function () {
-                company = $(this).attr('data-value');
-                mixFilterCategoryAndCompany();
+            $("li[data-type=mixitup_org_select]").click(function () {
+                org = $(this).attr('data-value');
+                mixFilterCategoryAndOrg();
             });
         }
 
@@ -93,9 +102,9 @@ require(['jquery', 'mixitup', 'mixitup_debug'], function($) {
             }
         }
 
-        function mixFilterCategoryAndCompany() {
+        function mixFilterCategoryAndOrg() {
             var category = ($("#mixableFilterCategory").val());
-            var company = ($("#mixableFilterCompany").val());
+            var org = ($("#mixableFilterOrg").val());
             var filterString = "";
             if (category !== "all") {
                 filterString += "." + category;
@@ -103,11 +112,11 @@ require(['jquery', 'mixitup', 'mixitup_debug'], function($) {
                 filterString += "all";
             }
 
-            if (company !== "all") {
+            if (org !== "all") {
                 if (filterString === "all") {
-                    filterString = "." + company;
+                    filterString = "." + org;
                 } else {
-                    filterString += "." + company;
+                    filterString += "." + org;
                 }
             }
 

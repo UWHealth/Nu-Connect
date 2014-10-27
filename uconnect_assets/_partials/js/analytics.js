@@ -1,4 +1,8 @@
-require(['jquery', 'magnific'], function($) {
+var dependencies = [
+        'jquery'
+    ];
+
+require(dependencies, function($) {
     (function($) {
         //////////////////////////////////////////////////////////////////////////
         // Head
@@ -179,7 +183,7 @@ require(['jquery', 'magnific'], function($) {
                     // all
             // Sidenav
                 // Filter By
-                    // Company
+                    // Organization
                     // Type
                     // Tag
             // Featured Result
@@ -207,7 +211,7 @@ require(['jquery', 'magnific'], function($) {
             // Alternate version click
 
         //////////////////////////////////////////////////////////////////////////
-        // Policy & Department Company Landing
+        // Policy & Department Organization Landing
         //////////////////////////////////////////////////////////////////////////
             // Sidebar
                 // Section search (optional)
@@ -248,7 +252,6 @@ require(['jquery', 'magnific'], function($) {
             // Utility row
                 // UW Health logo
                 // Nav items
-
 
         //////////////////////////////////////////////////////////////////////////
         // Magnific Analytics Events

@@ -424,6 +424,7 @@ button {
     padding-bottom: $mfp-iframe-padding-top;
     .mfp-content {
       line-height: 0;
+      height: 98%;
       width: 98%;
       max-width: $mfp-iframe-max-width;
     }
@@ -509,7 +510,7 @@ button {
     text-align: left;
     line-height: 18px;
     color: $mfp-caption-title-color;
-    word-wrap: break-word;
+    @extend %breakword;
     padding-right: 36px; // leave some space for counter at right side
   }
 

@@ -6,7 +6,7 @@
  * or a config variable can point to a remote config
 */
 
-// first define the bind with delay function from (saves loading it separately)
+// first define the bind with delay function from (saves loading it separately) 
 // https://github.com/bgrins/bindWithDelay/blob/master/bindWithDelay.js
 
 (function($) {
@@ -51,6 +51,7 @@ jQuery.extend({
                 } else {
                     var newval = unescape(hash[1].replace(/%22/gi,""))
                 }
+				//alert(newval);
                 params[hash[0]] = newval
             }
         }
@@ -78,135 +79,73 @@ jQuery(function($){
 	//varr autosuggestflag = true;
 	var autosuggestflag = false;
         // a big default value (pulled into options below)
-        var resdisplay = [
-                [
+      var resdisplay = [
+            [
 		    {
-		    	//'pre':'<div class="row-fluid"><div class="span10"><div style="float:left"><h1 class="txt_serif h6"><a target="_blank" href="',
-				'pre':'<div class="media media_icon side_content_fixed h5" data-icon="',
-		    	'field':'labels',
-		    	'post':'">',
-		    	//'pre':'<div class="row-fluid"><div class="span10"><div style="float:left"><h1 class="txt_serif h6"><a target="_blank" href="',
-				//'pre':'<span class="icon icon_start h2" data-icon="',
-		    	//'field':'contenttype',
-		    	//'post':'"></span></div>',
-		    },
+		    	'field':'labels',		
+		    },	
 		    {
-		    	//'pre':'<div class="row-fluid"><div class="span10"><div style="float:left"><h1 class="txt_serif h6"><a target="_blank" href="',
-				'pre':'<span class="icon icon_start h2" data-icon="',
 		    	'field':'contenttype',
-		    	'post':'"> </span></div>',
-		    },
+		    },	
 			{
-		    	//'pre':'<div class="row-fluid"><div class="span10"><div style="float:left"><h1 class="txt_serif h6"><a target="_blank" href="',
-				'pre':'<section class="media_body pad_h_half"><header><ul class="breadcrumbs link_naked txt_small">',
 		    	'field':'breadcrumbs',
-		    	'post':'</ul>',
-		    },
+		    },						   	
 			{
-		    	//'pre':'<div class="row-fluid"><div class="span10"><div style="float:left"><h1 class="txt_serif h6"><a target="_blank" href="',
-				'pre':'<h1 class="txt_serif h6"><a target="_blank" href="',
 		    	'field':'url',
-		    	'post':'" onClick="setgo()"'
 		    },
 		    {
-		    	'pre':'id="searchresult" collectionno="',
 		    	'field':'col',
-		    	'post':'" '
-
 		    },
 		    {
-		    	'pre':' uid="',
 		    	'field':'uid',
-		    	'post':'" >'
-
 		    },
             {
-                  //"pre": "<b>",
-				  "pre": '',
-                  "field": "title",
-                  //"post": "</b></a></br></div>"
-				  "post": "</a></h1></header>"
+                 "field": "title",
             },
-		    //{
-			//'pre':'<div class="span8"><div style="float:right; width:100px; height:5px;"><div class="progress" style="height:10px">\
-			//	<div class="progress-bar" style="width:',
-			//'field':'score',
-			//'post':'%;"></div></div></div></div></div></div><div class="row-fluid" style="height:20px;"></div>'
-		   // }
-               // ],
-              //  [
-                 	{
-                 		"pre": '<div class="row-fluid" style="height:20px;">',
-                 		"field": "image",
-                 		"post": '</div>'
-                 	},
-              //  ],
-            //	[
-                    {
-                    	'pre':'<p class="txt_small space_n_v"><time>',
-                    	"field":"lastmodified",
-                    	'post':'</time></p>'
-                    },
-             //   ],
-              //  [
-                    {
-                        //"pre": '<div class="row-fluid" style="width:600px;text-align:justify;">...',
-						"pre": '<p class="space_n_v">',
-                        "field": "context.#text",
-                        //"post": '...</div>'
-						"post": '</p>'
-                    },
-                    {
-                        "pre": '<div class="row-fluid" style="width:600px;">',
-                        "field": "description",
-                        "post": '</div>'
-                    },
-					                    {
-                        "pre": '<span>Phone: ',
-                        "field": "directory-phone",
-                        "post": '</span> '
-                    },
-					{
-                        "pre": '<span>Email: ',
-                        "field": "directory-email",
-                        "post": '</span>'
-                    },
-               // ],
-              // [
-                 	{
-                 		'pre':'<ul class="list_inline txt_small">',
-                 		"field":"keywords",
-                 		'post':'</ul>'
-                 	}
-                ],
-                //[
-                // 	{
-                // 		'pre':'<div class="row-fluid"><i class="_searchresult_url" style="display: block;width: 600px;word-wrap: break-word;">',
-               //  		"field":"uid",
-               //  		'post':'</i></div>'
-               //  	}
-               // ],
-               // [
-               //     {
-               //     	'pre':'<div class="row-fluid"><i>',
-               //     	"field":"lastmodified",
-               //     	'post':'</i></div>'
-               //     }
-               // ],
-            ]
-
+			{
+           		"field": "image",
+           	},
+            {
+               	"field":"lastmodified",
+            },
+            {
+                "field": "context.#text",
+            },
+            {
+                 "field": "description",
+            },
+			{
+                "field": "directory-phone",
+            },
+			{
+                "field": "directory-email",
+            },					
+            {
+              	"field":"keywords",
+            },
+			{
+                 "field":"mediaFeature",
+            },
+			{
+                	"field":"mediumMediaFeature",
+            },
+			{
+				"field":"og-title",
+			}
+            ],				
+        ]
         // specify the defaults
         var defaults = {
             "config_file": false,           // a remote config file URL
-            "facets":[],                    // facet objects: {"field":"blah", "display":"arg",...}
+            "facets":[],                    // facet objects: {"field":"blah", "display":"arg",...} 
             "result_display": resdisplay,   // display template for search results
             "display_images": true,         // whether or not to display images found in links in search results
             "description":"",               // a description of the current search to embed in the display
             "search_url":"",                // the URL against which to submit searches
             'default_url_params': {
-      'facet':'on',
-      'xsl':'json'
-    },
+      		'facet':'on',
+      		'xsl':'json'
+    	},        
 // any params that the search URL needs by default
             "freetext_submit_delay":"500",  // delay for auto-update of search results
             "query_parameter":"query",          // the query parameter if required for setting to the search URL
@@ -219,7 +158,7 @@ jQuery(function($){
             "filter":[],
             "nofsuggest":10
         }
-
+		
         // and add in any overrides from the call
         // these options are also overridable by URL parameters
         // facetview options are declared as a function so they are available externally
@@ -228,7 +167,8 @@ jQuery(function($){
         var url_options = $.getUrlVars()
         $.fn.facetview.options = $.extend(provided_options,url_options)
         var options = $.fn.facetview.options
-        var first=true;
+        
+		var first=true;
         // ===============================================
         // functions to do with filters
         // ===============================================
@@ -243,10 +183,10 @@ jQuery(function($){
             } else {
                 $(this).children('i').replaceWith('<i class="icon-minus"></i>')
                 $(this).addClass('facetview_open');
-                $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();
+                $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();      
             }
         }
-
+        
         // show the filter values initially
         var showfiltervalsinit = function() {
         	$('.facetview_filtershow').each(function(){
@@ -255,7 +195,7 @@ jQuery(function($){
                 } else {
                     $(this).children('i').replaceWith('<i class="icon-minus"></i>')
                     $(this).addClass('facetview_open');
-                    $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();
+                    $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();      
                 }
         	});
         	$('.facetview_advfiltershow1').each(function(){
@@ -264,7 +204,7 @@ jQuery(function($){
                 } else {
                     $(this).children('i').replaceWith('<i class="icon-minus"></i>')
                     $(this).addClass('facetview_open');
-                    $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();
+                    $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();      
                 }
         	});
         	$('.facetview_advfiltershow2').each(function(){
@@ -273,7 +213,7 @@ jQuery(function($){
                 } else {
                     $(this).children('i').replaceWith('<i class="icon-minus"></i>')
                     $(this).addClass('facetview_open');
-                    $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();
+                    $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();      
                 }
         	});
         }
@@ -288,40 +228,40 @@ jQuery(function($){
             } else {
                 var currentval = 10
             }
-            var newmore = prompt('Currently showing ' + currentval +
+            var newmore = prompt('Currently showing ' + currentval + 
                 '. How many would you like instead?')
-            if (newmore) {
-                options.facets[ $(this).attr('rel') ]['size'] = parseInt(newmore);
-                $(this).html('show up to (' + newmore + ')')
-                dosearch()
-                if ( !$(this).parent().parent().siblings('.facetview_filtershow').hasClass('facetview_open') ) {
-                    $(this).parent().parent().siblings('.facetview_filtershow').trigger('click')
-                }
-            }
+            //if (newmore) {
+            //    options.facets[ $(this).attr('rel') ]['size'] = parseInt(newmore);
+            //    $(this).html('show up to (' + newmore + ')')
+            //    dosearch()
+            //    if ( !$(this).parent().parent().siblings('.facetview_filtershow').hasClass('facetview_open') ) {
+            //        $(this).parent().parent().siblings('.facetview_filtershow').trigger('click')
+            //    }
+            //}
         }
 
         // pass a list of filters to be displayed
         var buildfilters = function() {
             var filters = options.facets;
-            var thefilters = '<h1 class="txt_label txt_small txt_upper bold smalls_hide">Filter By</h1>';
+            var thefilters = '<h1 class="sub_heading smalls_hide">Filters</h1>';
             for ( var idx in filters ) {
                 var _filterTmpl = ' \
-                    <div class="column third_small"><div id="facetview_filterbuttons" class="btn-group col-sm-12"> \
-                    <a style="text-align:left; min-width:70%;" class="facetview_filtershow btn btn-default txt_label txt_small txt_upper pad_t_half bold border_t" \
+                    <div id="facetview_filterbuttons" class=""> \
+                    <h2 style="" class="facetview_filtershow srch_filter sub_heading color_lable space_n_b" \
                       rel="{{FILTER_NAME}}" href=""> \
-                      <i class="icon-plus"></i> \
-                      {{FILTER_DISPLAY}}</a> \
-                      <a class="btn dropdown-toggle btn-default" data-toggle="dropdown" \
-                      href="#"><span class="caret"></span></a> \
-                      <ul class="dropdown-menu"> \
+                      <!--<i class="icon-plus"></i>--> \
+                      {{FILTER_DISPLAY}}</h2> \
+                      <!--<a class="btn dropdown-toggle btn-default" data-toggle="dropdown" \
+                      href="#"><span class="caret"></span></a>--> \
+                      <!--<ul class="dropdown-menu"> \
                       <li><a class="facetview_morefacetvals" rel="{{FACET_IDX}}" href="{{FILTER_EXACT}}">show up to ({{FILTER_HOWMANY}})</a></li>\
-                      </ul>\
+                      </ul>-->\
                       </div> \
                   <ul id="facetview_{{FILTER_NAME}}" \
-                    class="facetview_filters"></ul></div> \
+                    class="facetview_filters list_nav list_naked"></ul> \
                     ';
                 if (options.visualise_filters) {
-                    var vis = '<li><a class="facetview_visualise" rel="{{FACET_IDX}}" href="{{FILTER_DISPLAY}}">visualise this filter</a></li>'
+                    var vis = '<li><a class="facetview_visualise link_naked txt_capital" rel="{{FACET_IDX}}" href="{{FILTER_DISPLAY}}">visualise this filter</a></li>'
                     thefilters += _filterTmpl.replace(/{{FACET_VIS}}/g, vis)
                 } else {
                     thefilters += _filterTmpl.replace(/{{FACET_VIS}}/g, '')
@@ -448,10 +388,10 @@ jQuery(function($){
             	clickdatefilterchoice("From "+datefrom1+" to "+dateto1);
             });
         }
-
+        
         var clicksizefilterchoice = function(a) {
             //event.preventDefault();
-
+            
             var view="";
             if(a=='0')view="&lt100kB";
             else if(a=='1')view="100kB to 500kB";
@@ -460,12 +400,18 @@ jQuery(function($){
             else if(a=='4')view="10MB&gt";
             view1=view.replace(/ /g,'_');
             view1=view1.replace(/&/g,'_');
-            var newobj = '<a class="facetview_filterselected facetview_clear ' +
-                'btn btn-info"' +
-                '" alt="remove" title="remove"' +
-                ' href="javascript:void(0)" rel="sizefilter"' + ' filtername='+view1+' >' +
-                view.replace(/\(.*\)/,'') + ' <i class="icon-remove"></i></a>';
 
+            var newobj = '<li><a class="facetview_filterselected facetview_clear icon icon_after close ' + 
+                'btn btn-info"' + 
+                '" alt="Remove" title="Remove"' +
+                ' href="javascript:void(0)" rel="sizefilter"' + ' filtername='+view1+' ><span class="txt_bold">' +
+                view.replace(/\(.*\)/,'') + '</span></a></li>';
+            
+			// var newobj = '<a class="facetview_filterselected facetview_clear ' + 
+            //    'btn btn-info"' + 
+            //    '" alt="remove" title="remove"' +
+            //    ' href="javascript:void(0)" rel="sizefilter"' + ' filtername='+view1+' >' +
+            //    view.replace(/\(.*\)/,'') + ' <i class="icon-remove"></i></a>';
             if($('#facetview_selectedfilters').find('a[filtername="'+view1+'"]').attr('filtername')==undefined){
             //filterclick($(this).attr("rel"),$(this).attr('id').split('_')[1]);
             var temp=sizefilter;
@@ -481,9 +427,9 @@ jQuery(function($){
             options.paging.from = 0;
             dosearch();
             }
-            else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername="'+view+'"]').attr('filtername')+" already exist!!");}
+            //else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername="'+view+'"]').attr('filtername')+" already exist!!");}
         }
-
+        
         var clearsizefilter = function(event) {
             event.preventDefault();
             $(this).remove();
@@ -493,16 +439,16 @@ jQuery(function($){
             else
             	dummy =false;
         }
-
+        
         var clickdatefilterchoice = function(a) {
             var view=a;
             view=view.replace(/ /g,'_');
-            var newobj = '<a class="facetview_filterselected facetview_clear ' +
-                'btn btn-info"' +
-                '" alt="remove" title="remove"' +
+            var newobj = '<a class="facetview_filterselected facetview_clear ' + 
+                'btn btn-info"' + 
+                '" alt="Remove" title="Remove"' +
                 ' href="javascript:void(0)" rel="datefilter"' + ' filtername='+view+' >' +
                 view.replace(/\(.*\)/,'') + ' <i class="icon-remove"></i></a>';
-
+            
             if($('#facetview_selectedfilters').find('a[filtername="'+view+'"]').attr('filtername')==undefined){
             //filterclick($(this).attr("rel"),$(this).attr('id').split('_')[1]);
             	var temp = startdate;
@@ -519,9 +465,9 @@ jQuery(function($){
             //alert(startdate);
             dosearch();
             }
-            else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername="'+view+'"]').attr('filtername')+" already exist!!");}
+            //else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername="'+view+'"]').attr('filtername')+" already exist!!");}
         }
-
+        
         var cleardatefilter = function(event) {
             event.preventDefault();
             $(this).remove();
@@ -531,8 +477,8 @@ jQuery(function($){
             else
             	dummy =false;
         }
-
-
+        
+        
         var sizerangeclick = function(a)
         {
             switch(a)
@@ -541,31 +487,31 @@ jQuery(function($){
             case '0':
             	sizefilter="&f.size.filter=[*TO102400]"
             	break;
-
+            	
             case '1':
             	sizefilter="&f.size.filter=[102400TO512000]"
             	break;
-
+            	
             case '2':
             	sizefilter="&f.size.filter=[512000TO1048576]"
             	break;
-
+            	
             case '3':
             	sizefilter="&f.size.filter=[1048576TO10485760]"
             	break;
-
+            	
             case '4':
             	sizefilter="&f.size.filter=[10485760TO*]"
             	break;
-
+            
             default:
-            	sizefilter="";
+            	sizefilter="";	
             }
             clicksizefilterchoice(a);
         }
-
+        
         var activedate=-1;
-
+        
         var daterangeclick = function(b)
         {
             $('.daterange_facet').children().hide();
@@ -575,43 +521,43 @@ jQuery(function($){
         	startdate="&f.lastmodified.filter=["+moment().subtract('days',1).format('YYYY-MM-DDTHH:mm:ss')+"TO*]";
         	activedate=0;
         	break;
-
+        	
             case 'Past Week':
             	startdate="&f.lastmodified.filter=["+moment().subtract('days',7).format('YYYY-MM-DDTHH:mm:ss')+"TO*]";
             	activedate=1;
         	break;
-
+        	
             case 'Past Month':
             	startdate="&f.lastmodified.filter=["+moment().subtract('months',1).format('YYYY-MM-DDTHH:mm:ss')+"TO*]";
             	activedate=2;
         	break;
-
+        	
             case 'Past Year':
             	startdate="&f.lastmodified.filter=["+moment().subtract('years',1).format('YYYY-MM-DDTHH:mm:ss')+"TO*]";
             	activedate=3;
         	break;
-
+   
             case 'Custom':
         	$('.daterange_facet').children().show();
                 $('#start_date').datepicker();
                 $('#end_date').datepicker();
-
+                
         	break;
-
+        	
             default:
         	startdate="";
             	enddate="";
             }
             if(b!='Custom')clickdatefilterchoice("From "+b);
         }
-
+        
 	// match options filter and data filter
 	var findfilterindata = function(filter)
 	{
 		var found="false";
 		for(var i in options.data["facets"])
 			for(var n in options.data["facets"][i])
-			{
+			{	
 				if(n == filter){
 				found="true";
 				return i;}
@@ -619,7 +565,7 @@ jQuery(function($){
 		if(found!=true)
 		return -1;
 	}
-
+	
 	var filterquery = new Array();
 	var nf=-1;
 
@@ -637,9 +583,9 @@ jQuery(function($){
 		}
 		//viewfilter();
 	}
-
+	
 	var removeallcontenttypefilterquery = function(){
-
+		
 		var s=validatefilteradd('contenttype','*');
 		//alert(s);
 		while(s!=-1){
@@ -649,16 +595,16 @@ jQuery(function($){
 			s=validatefilteradd('contenttype','*');
 		}
 	}
-
+		
 	var validatefilteradd = function(facet,filtername)
 		{
 			if(filtername == '*'){
 				//alert(i);
-				for(var i in filterquery){
+				for(var i in filterquery){	
 					//alert(filterquery[i]['0']);
-					if(filterquery[i]['0']==facet && filterquery[i]['1']==filtername)
+					if(filterquery[i]['0']==facet && filterquery[i]['1']==filtername) 
 						var dummy;
-						return i;
+						return i;			
 				}
 			}
 			else{
@@ -680,7 +626,7 @@ jQuery(function($){
 			alert(JSON.stringify(filterquery[i]));
 		}
 	}
-
+		
 	var addfilterquery = function(facet,filtername)
 		{
 	    	var s=validatefilteradd(facet,filtername);
@@ -691,12 +637,12 @@ jQuery(function($){
 	        }
 	        //else alert("Validate fail");
 		}
-
+	
 	var filterclick = function(rel,html)
-	{
+	{	
 		addfilterquery(rel,escape(html.replace(/%%%/g,' ')));
 	}
-
+	
 	var appendfilterstoquery = function(a)
 	{
 		var b="";
@@ -721,7 +667,7 @@ jQuery(function($){
 		if(options.facets[each]['field']=='lastmodified')
 		{
 		for ( var item in records[1]) {
-                    var append = '<li class="fltchoice"><p id="fltchoice_'+records[1][item][a]+
+                    var append = '<li class="fltchoice"><p id="fltchoice_'+records[1][item][a]+ 
                         '" rel="' + options.facets[each]['field'] + '"   class="facetview_filterchoice"'+' href="#">' + moment((isNumber(records[1][item][a])?parseInt(records[1][item][a]):records[1][item][a])).format("dddd, MMMM Do YYYY, h:mm:ss a") +
                         ' (' + records[1][item]['#text'] + ')</p></li>';
                     $('#facetview_' + options.facets[each]['field'].replace(/\./gi,'_')).append(append);
@@ -730,7 +676,7 @@ jQuery(function($){
 		else if(options.facets[each]['field']=='indexdate')
 		{
 			for ( var item in records[1]) {
-	                    var append = '<li class="fltchoice"><p id="fltchoice_'+records[1][item][a]+
+	                    var append = '<li class="fltchoice"><p id="fltchoice_'+records[1][item][a]+ 
 	                        '" rel="' + options.facets[each]['field'] + '"   class="facetview_filterchoice"'+' href="#">' + moment((isNumber(records[1][item][a])?parseInt(records[1][item][a]):records[1][item][a])).format("dddd, MMMM Do YYYY, h:mm:ss a") +
 	                        ' (' + records[1][item]['#text'] + ')</p></li>';
 	                    $('#facetview_' + options.facets[each]['field'].replace(/\./gi,'_')).append(append);
@@ -743,7 +689,7 @@ jQuery(function($){
 			    var type="bytes";
 			    if(sz>1024){sz=sz/1024;type="KB"}
 			    if(sz>1024){sz=sz/1024;type="MB"}
-	                    var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a]+
+	                    var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a]+ 
 	                        '" rel="' + options.facets[each]['field'] + '"   class="facetview_filterchoice"'+' href="#">' + Math.floor(sz) + " " + type +
 	                        ' (' + records[1][item]['#text'] + ')</a></li>';
 	                    $('#facetview_' + options.facets[each]['field'].replace(/\./gi,'_')).append(append);
@@ -753,36 +699,36 @@ jQuery(function($){
 		else if(options.facets[each]['field']=='keywords')
 		{
                 for ( var item in records[1]) {
-                    var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a].replace(/ /g,'%%%')+
-                        '" rel="' + options.facets[each]['field'] + '" class="facetview_filterchoice icon tag"'+' href="#" forcloudrel="'+records[1][item]['#text']+'" forcloudtag="'+records[1][item][a]+'">' + records[1][item][a] +
-                        ' (' + records[1][item]['#text'] + ')</a></li>';
+                    var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a].replace(/ /g,'%%%')+ 
+                        '" rel="' + options.facets[each]['field'] + '" class="facetview_filterchoice"'+' href="#" forcloudrel="'+records[1][item]['#text']+'" forcloudtag="'+records[1][item][a]+'"><span class="icon icon_before company_color icon_tag"></span>' + records[1][item][a] +
+                        ' <span class="color_label">(' + records[1][item]['#text'] + ')</span></a></li>';
                     $(document.getElementById('facetview_' + options.facets[each]['field'].replace(/\./gi,'_'))).append(append);
                 }
          }
 		else{
                 for ( var item in records[1]) {
-                    var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a].replace(/ /g,'%%%')+
-                        '" rel="' + options.facets[each]['field'] + '" class="facetview_filterchoice "'+' href="#" forcloudrel="'+records[1][item]['#text']+'" forcloudtag="'+records[1][item][a]+'">' + records[1][item][a] +
-                        ' (' + records[1][item]['#text'] + ')</a></li>';
+                    var append = '<li class="fltchoice"><a style="text-transform: capitalize;" id="fltchoice_'+records[1][item][a].replace(/ /g,'%%%')+ 
+                        '" rel="' + options.facets[each]['field'] + '" class="facetview_filterchoice "'+' href="#" forcloudrel="'+records[1][item]['#text']+'" forcloudtag="'+records[1][item][a]+'"><span class="icon icon_before company_color icon_'+records[1][item][a].toLowerCase().replace(/ /g, '')+'"></span>' + records[1][item][a] +
+                        ' <span class="color_label">(' + records[1][item]['#text'] + ')</span></a></li>';
                     $(document.getElementById('facetview_' + options.facets[each]['field'].replace(/\./gi,'_'))).append(append);
                 }
             }
-
+		
 		if ( !$('.facetview_filtershow[rel="' + options.facets[each]['field'].replace(/\./gi,'_') + '"]').hasClass('facetview_open') ) {
                     $(document.getElementById('facetview_' + options.facets[each]['field'].replace(/\./gi,'_'))).children().hide();
         }
       }
-
+		
     $('.facetview_filterchoice').bind('click',clickfilterchoice);
   }
-
-
+        
+        
   //function to check if string only contains numbers
         var isNumber = function(string){
         	var isnum = /^\d+$/.test(string);
         	return isnum;
         }
-
+        
         // ===============================================
         // functions to do with building results
         // ===============================================
@@ -794,7 +740,7 @@ jQuery(function($){
             resultobj["records"] = new Array();
             resultobj["start"] = "";
             resultobj["found"] = "";
-
+           
                 for (var item in dataobj.results.result) {
                     if(item=="@no")
                     {
@@ -813,7 +759,7 @@ jQuery(function($){
 		var fname="";
 		var count="";
 		var facetsobj = new Object();
-                for (var item in dataobj.facets.facet)
+                for (var item in dataobj.facets.facet) 
 		{
 			var values = new Object();
 			if(item == "@name")
@@ -835,14 +781,14 @@ jQuery(function($){
 		options.noffilters=1;
 	}
 	else
-	{
+	{	
 		var n=0;
 		for(n in dataobj.facets)
 		{
 			var fname="";
 			var count="";
 			var facetsobj = new Object();
-            for (var item in dataobj.facets[n])
+            for (var item in dataobj.facets[n]) 
 			{
 				var values = new Object();
 				if(item == "@name"){
@@ -897,6 +843,15 @@ jQuery(function($){
                 dosearch();
             }
         }
+		
+		// go to "page" result set
+        var go_to_page = function(event) {
+            event.preventDefault()
+            if ( $(this).html() != '..' ) {
+                options.paging.from = parseInt($(this).attr('href'))
+                dosearch()
+            }
+        }
 
         // increment result set
         var increment = function(event) {
@@ -915,15 +870,22 @@ jQuery(function($){
             if ( typeof(options.paging.size) != 'number' ) {
                 options.paging.size = parseInt(options.paging.size)
             }
-            var metaTmpl = ' \
-              <div> \
-                <ul class="pagination" style="float:left;padding:16px;"> \
-                  <li class="prev"><a id="facetview_decrement" href="{{from}}">&laquo; back</a></li> \
-                  <li class="active"><a>{{from}} &ndash; {{to}} of {{total}}</a></li> \
-                  <li class="next"><a id="facetview_increment" href="{{to}}">next &raquo;</a></li> \
-                </ul> \
-              </div> \
+			var metaTmpl = ' \
+              <div id="js_srch_buttons" class="row row_narrow row_paginated"><div class="column column_auto space_b float_left"><div class="button_group">\
+                  <a class="button_soft pad_v_half pad_h" data-icon="previous" id="facetview_decrement" href="{{from}}" title="Previous 10 Results"></a> \
+				  {{pages}} \
+                  <a  class="button_soft pad_v_half pad_h" data-icon="next" id="facetview_increment" href="{{to}}" title="Next 10 Results"></a> \
+              </div></div></div> \
               ';
+           // var metaTmpl = ' \
+           //   <div> \
+           //     <ul class="pagination" style="float:left;padding:16px;"> \
+           //       <li class="prev"><a id="facetview_decrement" href="{{from}}">&laquo; back</a></li> \
+           //       <li class="active"><a>{{from}} &ndash; {{to}} of {{total}}</a></li> \
+          //        <li class="next"><a id="facetview_increment" href="{{to}}">next &raquo;</a></li> \
+           //     </ul> \
+          //    </div> \
+          //    ';
             $('#facetview_metadata').html("Your search for<b> "+options.query+" </b>did not match any documents..." +
             		"<br/><br/>" +
             		"* Suggestions: Make sure all words are spelled correctly.</br>" +
@@ -933,16 +895,68 @@ jQuery(function($){
                 var from = options.paging.from + 1
                 var size = options.paging.size
                 !size ? size = 10 : ""
+				var num_pages = Math.ceil(data.found/size);
+				//var pages_
+				//alert (num_pages);
                 var to = options.paging.from+size
+				var current_page = Math.floor(to/10);
+				//alert (current_page);
+				var pages_holder_final = '';		
+				if (num_pages < 9) {
+					for (i = 0; i < (num_pages); i++) {
+						if ((i+1) == current_page) {
+							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page active"';
+						} else {
+							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page"';
+						}
+						var pages_holder = '<a '+pagination_css+' data-icon="" id="" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
+						pages_holder_final = pages_holder_final+pages_holder;
+					}
+				} else if ((num_pages > 9) && (current_page < 6)) {
+					for (i = 0; i < 9; i++) {
+						if ((i+1) == current_page) {
+							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page active"';
+						} else {
+							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page"';
+						}
+						var pages_holder = '<a '+pagination_css+' data-icon="" id="" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
+						pages_holder_final = pages_holder_final+pages_holder;
+					}
+				} else if ((num_pages > 9) && (num_pages -current_page <= 4)) {
+					for (i = (num_pages - 9); i < (num_pages); i++) {
+						if ((i+1) == current_page) {
+							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page active"';
+						} else {
+							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page"';
+						}
+						var pages_holder = '<a '+pagination_css+' data-icon="" id="" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
+						pages_holder_final = pages_holder_final+pages_holder;
+					}	
+				} else if ((num_pages > 9) && (current_page >= 6)) {
+					for (i = (current_page - 5); i < (current_page + 4); i++) {
+						if ((i+1) == current_page) {
+							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page active"';
+						} else {
+							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page"';
+						}
+						var pages_holder = '<a '+pagination_css+' data-icon="" id="" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
+						pages_holder_final = pages_holder_final+pages_holder;
+					}
+				}
+				//alert(pages_holder_final);
                 data.found < to ? to = data.found : ""
                 var meta = metaTmpl.replace(/{{from}}/g, from);
                 meta = meta.replace(/{{to}}/g, to);
+				meta = meta.replace(/{{pages}}/g, pages_holder_final);
                 meta = meta.replace(/{{total}}/g, data.found);
                 $('#facetview_metadata').html("").append(meta);
                 $('#facetview_decrement').bind('click',decrement)
-                from < size ? $('#facetview_decrement').html('..') : ""
+                //from < size ? $('#facetview_decrement').html('..') : ""
+				from < size ? $('#facetview_decrement').hide() : ""
                 $('#facetview_increment').bind('click',increment)
-                data.found <= to ? $('#facetview_increment').html('..') : ""
+                //data.found <= to ? $('#facetview_increment').html('..') : ""
+				data.found <= to ? $('#facetview_increment').hide() : ""
+				 $('a.facetview_go_to_page').bind('click',go_to_page)
             }
 
         }
@@ -955,13 +969,13 @@ jQuery(function($){
         	   }
         	   return canPlay;
         }
-
+        
         var _uid="";
         // given a result record, build how it should look on the page
         var buildrecord = function(index) {
             var record = options.data['records'][index]
             //var result = '<tr style="float:left"><td>';
-			var result = '<article class="media_block_flush space_v">';
+			var result = '';
 			//var result = '<div class="link_naked box_card_link box_card_link_static" href="#"><article class="box_card box_panel smalls_media_block">';
             var context_flag=false;
             // add first image where available
@@ -997,213 +1011,176 @@ jQuery(function($){
                 		img[1]=recstr;
                 		var isFile = true;
                 }}
-
+                
                 var recstri = JSON.stringify(record['_autocomplete'])
                 //alert(recstri);
                 var regexi = /(http:\/\/\S+?\.(jpg|png|gif|jpeg))/
                 var imgi = regexi.exec(recstri);
-
+                
             }
             // add the record based on display template if available
             var display = options.result_display
             var lines = ''
-            for (var lineitem in display) {
-                line = ""
-                for (object in display[lineitem]) {
-                    var thekey = display[lineitem][object]['field'];
-					//alert(thekey);
-                    if(thekey=='description' && context_flag==true)continue;
-                    if(thekey=='image')
-                    {
-                    if(!isFile){
-                    if (img) {
-                    	//alert(img);
-                    	if(img[0] != null)
-                        lines += '<div class="row-fluid"><a href="' +img[0] + '" rel="prettyPhoto"> <img class="thumbnail" style="float:left; width:100px; margin:0 5px 10px 0; max-height:150px;" src="' + img[0] + '" /></a></div>'
-                        else{
-                        	if(play)
-                        		lines += '<video thumbid="_video" width="100" height="100" poster ="images/play.jpg" src="' + img[1] + '"/></a></div>'
-                        	else
-                        		lines += '<a href="' + img[1] + '"><img src="images/play.jpg"/></a></div>'
-                        }
+            //for (var lineitem in display) {
+			if (record['og-title']=="UW Health U-Connect Directory") {
+				var isDirectory = true;
+			}
+			
+                line = "";
+				//**********************************************************************************************************
+				//"Template" the result
 
-                    }}
-                    else{
-                    	if(img){
-                    	if(img[0] != null)
-                            lines += '<div class="row-fluid"><a href="../servlet/FileServlet?url=' + img[0] + '&col='+colid+'" rel="prettyPhoto"> <img class="thumbnail" style="float:left; width:100px; margin:0 5px 10px 0; max-height:150px;" src="../servlet/FileServlet?url=' + img[0] + '&col='+colid+'" /> </a></div>'
-                            else{
-                            	if(play)
-                            		lines += '<video thumbid="_video" width="100" height="100" poster ="images/play.jpg" src="../servlet/FileServlet?url=' + img[1] + '&col='+colid+'"/>'
-                            	else
-                            		lines += '<a href="../servlet/FileServlet?url=' + img[1] + '&col='+colid+'"> <img src="images/play.jpg"/></a></div>'
-                            }
-                        }
-                    	}
+				line=line+'</div>';
+				if (record['typeofcontent']) {
+						line = line+'<article class="srch_result box_flag space_b contain thin content_'+record['typeofcontent']+'">';
+				} else {
+					line = line+'<article class="srch_result box_flag space_b contain thin">';
+				}
+				line = line+'<figure class="box_flag_media srch_media"';
+				if (record['mediaFeature']) {
+					line = line+' style="background-image: url(\'https://n.uconnect.wisc.edu/'+record['mediumMediaFeature']+'\'); background-repeat: no-repeat; background-size: cover; background-position: center center;">';
+				} else {
+					line = line+'>';	
+				}
+				if (record['directory-photo']) {
+					line=line+'<img class="center" src="'+record['directory-photo']+'">';
+				} else {
+					if (isDirectory) {
+						line=line+'<span class="icon_as_media icon icon_before" data-icon="&#xe669"></span>'
+					}
+				}
 
-                    if (imgi && !img) {
-                    	var width = "width:100px;";
-                    	if(record['contenttype'] == 'tweet') width = "";
-                    	var imgistack = new Array();
-                    	for(var tempi in imgi)
-                    		if(imgi[tempi].toString().startsWith('http'))
-                    			if(imgi[tempi].match(/jpeg$/)!=null||imgi[tempi].match(/gif$/)!=null||imgi[tempi].match(/png$/)!=null||imgi[tempi].match(/jpg$/)!=null){
-                    				if(imgistack.indexOf(imgi[tempi].toString())==-1){
-                    					imgistack.push(imgi[tempi].toString());
-                    					result += '<div class="row-fluid"><a href="' +imgi[tempi] + '" rel="prettyPhoto"> <img class="thumbnail" style="float:left; ' + width + ' margin:0 5px 10px 0; max-height:150px;" src="' + imgi[tempi] + '" /></a></div>'
-                    				}
-                    			}
-                    }
-                    	continue;
-                    }
-                    parts = thekey.split('.');
-					//alert(parts);
-                    // TODO: this should perhaps recurse..
-                    if (parts.length == 1) {
-                        var res = record;
-                    } else if (parts.length == 2) {
-                        var res = record[parts[0]];
-                    } else if (parts.length == 3) {
-                        var res = record[parts[0]][parts[1]];
-                    }
-
-                    var counter = parts.length - 1
-                    if (res && res.constructor.toString().indexOf("Array") == -1) {
-						var directory_check = JSON.stringify(record['directory-email']);
-						//alert(directory_check);
-                        var thevalue = res[parts[counter]]
-                        //alert(thevalue[0] +"   "+ parts)// if this is a dict
-                        //alert(({}).toString.call(thevalue).match(/\s([a-zA-Z]+)/)[1].toLowerCase());
-                        if(parts=='uid')_uid=thevalue;
-                        //if(parts=='title')alert(thevalue)
-                        if(parts=='title'&&JSON.stringify(thevalue).trim()=='[]')thevalue=_uid;
-				        //if(parts=='lastmodified')thevalue=moment(thevalue).format("dddd, MMMM Do YYYY, h:mm:ss a");
-						if(parts=='lastmodified')thevalue=moment(thevalue).format("MMMM Do, YYYY");
-                        if(parts=='directory-phone') {
-							thevalue=thevalue;
-							//alert("phone");
-						} else {
-							if(parts=='context,#text')
-							{
-									context_flag=true;
-									var thevalue1=" ";
-									var b=JSON.stringify(record['context']['highlight']);
-									//alert(thevalue)
-									if(b.split(',').length==1)
-									{
-										if(thevalue!=undefined)
-											thevalue1=thevalue1+(thevalue[0]==undefined?"":thevalue[0])+"<B>"+record['context']['highlight']+"</B>"+(thevalue==undefined?"":thevalue);
-										else
-											thevalue1=thevalue1+"<B>"+record['context']['highlight']+"</B>";
-									}
-									else
-										for(a in thevalue)
-										{
-											if(record['context']['highlight'][a])
-												thevalue1=thevalue1+thevalue[a]+"<B>"+record['context']['highlight'][a]+"</B>";
-										}
-									if (directory_check) {
-										thevalue1="";
-									}
-									//alert(thevalue1);
-								thevalue=thevalue1;
-								//alert("highlight");
-							}
+					if (!record['mediaFeature'] && (!isDirectory)) {
+						if (record['typeofcontent']) {
+						line=line+'<div class="icon icon_before icon_content_type icon_'+record['typeofcontent']+' icon_as_media">';
+						line=line+'<span class="visually_hidden">'+record['typeofcontent']+'</span>';
+						line=line+'</div>';
+						} else if (!isDirectory) {
+						line=line+'	<div class="icon icon_before icon_content_type icon_as_media">';
 						}
-						//Make keyword string into list items
-                  		if(parts=='keywords')
-                        {
-                            	var thevalue2=" ";
-                            	var c=record['keywords'];
-								var keyArray = c.toString().split(',');
-								var keyArrayLength = keyArray.length;
-									if (keyArray.length > 0) {
-										for (var i = 0; i < keyArrayLength; i++) {
-										thevalue2=thevalue2+"<li><a href=\"#\" class=\"icon tag\"><span>"+keyArray[i].trim()+"</span></a></li>";
-										}
-                            		} else {
+					}
+					line=line+'<div class="icon_cluster';
+					if (record['mediaFeature']) {
+						line=line+' color_white card_cover_dark pad_t_half';
+					} else {
+						line=line+' color_soft';
+					}
+					line=line+'">';
+					if (record['fileType']) {
+						line=line+'<span class="icon icon_file_type icon_before icon_'+record['fileType'].toLowerCase()+' pad_b_quarter">&nbsp;</span>';
+					}
+					if (record['mediaFeature']) {
+						if (record['typeofcontent']) {
+							line=line+'<span class="icon icon_content_type icon_before icon_'+record['typeofcontent']+' pad_b_quarter">';
+							line=line+'<span class="visually_hidden">'+record['typeofcontent']+'</span>';
+							line=line+'</span>';
+						}
+					}
 
-									}
-                        	thevalue=thevalue2;
-                        }
-						//Parse out company, take first value in comma dilimeted list
-                  		if(parts=='labels')
-                        {
-                            	var thevalue3=" ";
-								//alert(record['labels']);
-								if (record['labels']) {
-									var j=record['labels'];
-									var labelArray = j.toString().split(',');
-									var labelArrayLength = labelArray.length;
-										if (labelArray.length > 0) {
-											//alert(labelArray[0]);
-											switch (labelArray[0]) {
-											case 'UW Health':
-												thevalue3 = "uw";
-												break;
-											case 'UWHC':
-												thevalue3 = "hc";
-												break;
-											case 'UWMF':
-												thevalue3 = "mf";
-												break;
-											default:
-												thevalue3 = "uw";
-												break;
-											}
-										} else {
-
-										}
-								     thevalue=thevalue3;
-								}
-                        }
-                    } else {
-                        var thevalue = []
-                        for (var row in res) {
-                            thevalue.push(res[row][parts[counter]])
-                        }
-                    }
-					//alert(thevalue);
-                  //  if (thevalue && thevalue.length) {
-					 // if(thevalue != undefined) {
-                        display[lineitem][object]['pre']
-                            ? line += display[lineitem][object]['pre'] : false
-                        if ( typeof(thevalue) == 'object' ) {
-                            for (var val in thevalue) {
-								//alert(val);
-                                val != 0 ? line += ', ' : false
-                                line += thevalue[val]
-                            }
+				if (record['pageCategories']) {
+					var c=record['pageCategories'];
+					var keyArray = c.toString().split(',');								
+					var keyArrayLength = keyArray.length;
+					if (keyArray.length > 0) {
+						for (var i = 0; i < keyArrayLength; i++) {
+							line=line+'<span class="icon icon_before icon_page_category icon_'+keyArray[i].trim().toLowerCase()+'">&nbsp;</span>';	
+						}
                         } else {
-							//alert(thevalue);
-                            line += thevalue
-                        }
-                       // alert(display[lineitem][object]['post']);
-						display[lineitem][object]['post']
-                            ? line += display[lineitem][object]['post'] : line += ' '
-                   //}
-				//}
-                }
+								
+					}
+				}				
 
+        		line = line+'</figure><div class="box_flag_body srch_result_body pad_n_v">';
+				if (isDirectory){ 
+					line = line+'<ul class="breadcrumbs srch_breadcrumbs space_n_b color_label breadcrumbs_hide_last txt_small">'+record['directory-breadcrumb']+'</a></ul>'
+				} else {
+					line = line+'<ul class="breadcrumbs srch_breadcrumbs space_n_b color_label breadcrumbs_hide_last txt_small">'+record['breadcrumbs']+'</a></ul>'
+				}
+				if (isDirectory) {
+					if (record['directory-name']) {
+						line = line+'<h1 class="heading srch_heading color_link"><a class="link_naked" href="'+record['url']+'">'+record['directory-name']+'&nbsp;';
+					} else {
+						line = line+'<h1 class="heading srch_heading color_link"><a class="link_naked" href="'+record['url']+'">'+record['title']+'&nbsp;';
+					}
+					if (record['company']) {
+							line=line+'<aside class="srch_company absolute"><h1 class="visually_hidden">Company</h1></aside>';
+					}
+					line=line+'</h1>';
+					if (record['directory-title']) {
+						line=line+'<h2 class="txt_label txt_small color_label space_n_v">'+record['directory-title']+'</h2>';
+					}
+					line=line+'<dl class="list_inline p space_n_b">';
+					if (record['directory-phone']) {
+						line=line+'<dt class="pad_n list_item">Phone:&nbsp;</dt><dd class="list_item pad_n_v pad_r_half">'+record['directory-phone']+'</dd>';
+					}
+					if (record['directory-email']) {
+						line=line+'<dt class="pad_n list_item">Email:&nbsp;</dt><dd class="list_item pad_n">'+record['directory-email']+'</dd>';
+					}
+					line=line+'</dl><br><br>';
+				} else {			
+					if (record['url']) {
+						line=line+'<h1 class="heading srch_heading"><a class="link_naked" href="'+record['url']+'">'+record['title']+'&nbsp;</a>';
+					} else {
+						line=line+'<h1 class="heading srch_heading color_link"><a class="link_naked" href="'+record['url']+'">'+record['title']+'&nbsp;</a>';
+					}
+					line=line+'</h1>';
+				}
+				if (record['labels']) {
+				line=line+'<aside class="srch_company"><h1 class="visually_hidden">Company</h1>';
+                   var c=record['labels'];
+					var keyArray = c.toString().split(',');								
+					var keyArrayLength = keyArray.length;
+					if (keyArray.length > 0) {
+						for (var i = 0; i < keyArrayLength; i++) {
+							line=line+'<span class="icon icon_before company_color icon_'+keyArray[i].trim()+'"></span>';	
+						}
+                        } else {
+								
+					}								
+				line=line+'</aside>';
+				}
+				if (record['displayDate']) {
+					line=line+'<time class="txt_small color_label txt_capital">'+record['displayDate']+'</time>';
+				}
+				if (!isDirectory) {
+					if (record['description']) {
+						line = line+'<div class="p space_n_b srch_description">'+record['description']+'</div>';
+					}					
+				}
+				if (record['keywords']) {
+					line=line+'<ul class="list_tag txt_small space_n_b">';
+                    var c=record['keywords'];
+					var keyArray = c.toString().split(',');								
+					var keyArrayLength = keyArray.length;
+					if ((keyArray.length > 0)  && (keyArray[0] !== "")) {
+						for (var i = 0; i < keyArrayLength; i++) {
+							line=line+'<li><a class="tag icon icon_before link_naked" href="/search/?query=keywords:'+encodeURIComponent(keyArray[i].trim())+'">'+keyArray[i].trim()+'</a></li>';	
+						}
+                        } else {
+								
+					}					
+					line=line+'</ul>';
+				}			
                 if (line) {
                     lines += line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'');
                 }
-            }
+            //}
+			//***********************************************************************************************************
             lines ? result += lines : result += JSON.stringify(record,"","    ")
             //result += '</td></tr>'
-			result +='</article>';
+			result +='</div></article>';
 			//alert(result);
             return result;
-
+			
         }
-
+        
 
         // put the results on the page
         showresults = function(sdata) {
         	//alert("Ajax Success");
             var data = parseresults(sdata);
             options.data = data;
-
+            
             //show suggestion if available
             var suggest = sdata["results"]['@suggest'];
             var suggestexist = false;
@@ -1217,49 +1194,50 @@ jQuery(function($){
             else{
             	suggestexist = false;
             }
-            if(suggestexist){
-            	$('#suggest').html(temp);
-            }
-            else{
-            	$('#suggest').html('');
-            }
-
+           // if(suggestexist){
+           // 	$('#suggest').html(temp);
+           // }
+           // else{
+           // 	$('#suggest').html('');
+           // }
+            
             //show ads if available
             var adsexist = false;
             if(sdata["ads"]){
-            	var temp = "<table class='table' style='background-color: #F6F4B6;'><tbody>";
-            	temp += "<tr><td><i><small>Results from Ads</small></i></td></tr>";
+            	//var temp = "<table class='table' style='background-color: #F6F4B6;'><tbody>";
+				var temp = "<article class=\"slide box_panel o_hide\"><div class=\"box_flag srch_feature thin\"><div class=\"box_flag_media srch_feature_media\" style=\"background: url('/cosmos/uconnect/img/bg/pat_bubble_large.png') center repeat;\"></div><section class=\"box_flag_body feature_body o_hide contain\"><header class=\"box_flag_head\"><label class=\"sub_heading space_b_half\">Featured Result</label><h1 class=\"h5\">";
+            	//temp += "<tr><td><i><small>Results from Ads</small></i></td></tr>";
             	for(temp1 in sdata["ads"]){
             		adsexist = true;
             		var ads_graphic_url = sdata["ads"][temp1]['@graphic_url'];
-            		temp += "<tr>\
-            				<td>\
-            				<div class=\"row-fluid\">\
-            				<div class=\"span10\">\
-            				<div style=\"float:left\">\
-            				<a style=\"color:red\" href=\"" + sdata["ads"][temp1]['@url'] + "\"><b>" + sdata["ads"][temp1]['@title'] + "</b></a><br></div></div></div>";
-
-            		temp += '<div class="row-fluid" style="height:20px"></div><div class="row-fluid">';
+            		//temp += "<tr>\
+            		//		<td>\
+            		//		<div class=\"row-fluid\">\
+            		//		<div class=\"span10\">\
+            		//		<div style=\"float:left\">\
+            		temp+= "<a class=\"link_naked\" href=\"" + sdata["ads"][temp1]['@url'] + "\">" + sdata["ads"][temp1]['@title'] + "</a></h1></header>";
+            		
+            		//temp += '<div class="row-fluid" style="height:20px"></div><div class="row-fluid">';
             		if(ads_graphic_url!='')
             			temp += '<a href="'+ sdata["ads"][temp1]['@graphic_url'] +'" rel="prettyPhoto"> <img class="thumbnail" style="float:left; width:100px; margin:0 5px 10px 0; max-height:150px;" src="'+ sdata["ads"][temp1]['@graphic_url'] +'" /> </a>';
-            		temp += sdata["ads"][temp1]['@description'];
+            		temp += "<div class=\"bigs_pad_r pad_b\">" + sdata["ads"][temp1]['@description'] + "</div>";
             		var tempurl = sdata["ads"][temp1]['@url'];
             		var t = tempurl.substring(tempurl.lastIndexOf('.')+1).toLowerCase();
             		if( t == "jpg" || t == "jpeg" || t == "png" || t == "gif" || t == "bmp" ){
             			temp += '<a href="'+ sdata["ads"][temp1]['@url'] +'" rel="prettyPhoto"> <img class="thumbnail" style="float:left; width:100px; margin:0 5px 10px 0; max-height:150px;" src="'+ sdata["ads"][temp1]['@url'] +'" /> </a>';
             		}
-            		temp += '</div>';
-            		temp += '<div class="row-fluid"><i class="_searchresult_url">' + sdata["ads"][temp1]['@url'] + '</i></div>';
-
-            		temp += '</tr>';
+            		//temp += '</div>';
+            		//temp += '<div class="bigs_pad_r pad_b">' + sdata["ads"][temp1]['@url'] + '</div>';
+            		
+            		//temp += '</tr>';
             	}
-            	temp += "</tbody></table>";
+            	temp += "</section></div></article>";
             	if(adsexist)
             		$('#ads').html(temp);
             	else
             		$('#ads').html('');
             }
-
+            
 	    if(data["facets"])
 		    putvalsinfilters(data);
             // put result metadata on the page
@@ -1272,18 +1250,18 @@ jQuery(function($){
                 $('#facetview_results').append( buildrecord(index) );
                 $('#facetview_results tr:last-child').linkify()
             });
-
+            
             fixadvfiltercount();
             if(options.data['found'] && first==true)
             	{
             		//$('#sort_btn_aligner').show('slow');
             		//$('#facetview_leftcol').show('slow');
             		$('#facetview-searchbar').attr('style','margin-bottom:10px;');
-//            		$('.header').attr('style','padding:5px;margin-top:15px;');
+            		//$('.header').attr('style','padding:5px;margin-top:15px;');
     				first=false;
                 	showfiltervalsinit();
             	}
-
+            
             $('[id=searchresult]').each(function(){
             	if($(this).attr('href').startsWith('db')){
             		var temp = options.search_url.split('servlet')[0] + 'servlet/DBServlet?col=' + $(this).attr('collectionno') + '&id=' + $(this).attr('uid');
@@ -1298,18 +1276,26 @@ jQuery(function($){
             		if(!$(this).attr('href').startsWith('http')){
             			$(this).attr('href',temp);
             		}
-
+            		
             	}
             	else if($(this).attr('href').split(':')[0] == 'eml'){
             		var temp = options.search_url.split('servlet')[0] + 'servlet/EmailViewer?url=' + $(this).attr('uid') + '&col=' + $(this).attr('collectionno');
             		$(this).attr('href',temp);
             	}
             })
-
+            
 	    //update total number of results
             if(options.data['found'])
             	{
-            		$('#nofresults').html(options.data['found']+" Results Filtered By:");
+            		//$('#nofresults').html(options.data['found']+" Results Filtered By:");
+					if ($("#facetview_selectedfilters li").length < 2) {
+					//if ($('#facetview_selectedfilters').text() == "") {
+						$('#nofresults').html(options.data['found']+" Results");
+						$('a.facetview_clear_all_filters').hide();
+					} else {
+						$('#nofresults').html(options.data['found']+" Results Filtered By:");
+						$('a.facetview_clear_all_filters').show();
+					}
             		$('#sort_btn_aligner').show();
             		$('#facetview_leftcol_percolator').show();
             	}
@@ -1318,7 +1304,7 @@ jQuery(function($){
             		$('#nofresults').html("0 results found");
             		$('#sort_btn_aligner').hide();
             	}
-
+            
            $('[thumbid=_video]').each(function(){
             	$(this).bind('click',function(){
             	$(this).attr('controls','')
@@ -1327,7 +1313,7 @@ jQuery(function($){
             	$(this).attr('poster','')
             	})
             })
-
+            
             //$('a[rel^="prettyPhoto"]').prettyPhoto();
             $('[id=searchresult]').each(function(){
             	$(this).bind('click',function(){
@@ -1337,13 +1323,13 @@ jQuery(function($){
             		var clickedurl = escape($(this).attr('href'));
             		$.ajax({
                         type: "get",
-						url: "http://wb-search01.uwhis.hosp.wisc.edu:8080/searchblox/servlet/ReportServlet",
+						url: "https://dev.uconnect.wisc.edu/searchblox/servlet/ReportServlet",
                        // url: "../servlet/ReportServlet",
                         data:"addclick=yes&col="+clickedcol+"&uid="+clickeduid+"&title="+clickedtitle+"&url="+clickedurl+"&query="+escape(options.query)
             		});
             	});
             });
-
+           
             $('[id=topclickedresult]').each(function(){
             	$(this).bind('click',function(){
             		var clickedcol = $(this).attr('collectionno');
@@ -1352,13 +1338,13 @@ jQuery(function($){
             		var clickedurl = $(this).attr('href');
             		$.ajax({
                         type: "get",
-						url: "http://wb-search01.uwhis.hosp.wisc.edu:8080/searchblox/servlet/ReportServlet",
+						url: "https://dev.uconnect.wisc.edu/searchblox/servlet/ReportServlet",
                         //url: "../servlet/ReportServlet",
                         data:"addclick=yes&col="+clickedcol+"&uid="+clickeduid+"&title="+clickedtitle+"&url="+clickedurl+"&query="+escape(options.query)
             		});
             	});
             });
-
+            
             //tagcloud preperation
            // {
            // 	var taghtml = "<h3>Most Used Tags</h3></br><div id='facettagcloud'>";
@@ -1384,14 +1370,14 @@ jQuery(function($){
            // 	else
            // 		$('#facetview_leftcol_tagcloud').hide();
            // }
-
+            
             //test percolator
             {
             	$('#facetview_leftcol_percolator > a').bind('click',function(){
             		bootalert("Register Alert","","btn-primary");
             	})
             }
-
+                        
         }
 
         // ===============================================
@@ -1400,7 +1386,7 @@ jQuery(function($){
 
 	//add default params to query
 	var adddefaultparams = function ( a )
-	{
+	{	
 		var b="";
 		for(each in options.default_url_params)
 		{
@@ -1415,7 +1401,7 @@ jQuery(function($){
 		}
 		return (a+b);
 	}
-
+	
 	// add extra filters to query
 	var appendextrafilterstoquery = function( a ){
 		var b = "";
@@ -1443,7 +1429,7 @@ jQuery(function($){
 		}
 		return(a+b);
 	}
-
+	
 	var addsizevalues = function(a)
 	{
 	    	var b="";
@@ -1461,20 +1447,20 @@ jQuery(function($){
 		var b='&facet.field=lastmodified&f.lastmodified.range=['+moment().subtract("days",1).format("YYYY-MM-DDTHH:mm:ss")+'TO*]&f.lastmodified.range=['+moment().subtract('days',7).format("YYYY-MM-DDTHH:mm:ss")+'TO*]&f.lastmodified.range=['+moment().subtract('months',1).format("YYYY-MM-DDTHH:mm:ss")+'TO*]&f.lastmodified.range=['+moment().subtract('years',1).format("YYYY-MM-DDTHH:mm:ss")+'TO*]';
 		return(q+b);
 	}
-
+	
 	var adddefaultsizefacet=function(q)
 	{
 		var b='&facet.field=size&f.size.range=[*TO102400]&f.size.range=[102400TO512000]&f.size.range=[512000TO1048576]&f.size.range=[1048576TO10485760]&f.size.range=[10485760TO*]';
 		return(q+b);
 	}
-
-
+	
+	
 	var trim = function(s)
 	{
 		var a=s.replace(" ","");
 		return(a);
 	}
-
+	
 	var contains = function (a,e) {
 		for (var i = 0; i < a.length; i++) {
 		if (a[i] == e) {
@@ -1483,12 +1469,12 @@ jQuery(function($){
 		}
 		return false;
 		}
-
+        	
 	var z= new Array();
     // execute a search
 	var oldquery = "";
 	var oldsearchquery = "";
-
+	
 	var percolate = function(name, email, frequency, nodocs){
 		$.ajax({
             type: "get",
@@ -1498,9 +1484,9 @@ jQuery(function($){
             }
 		});
 	}
-
+	
 	var bootalert = function(heading, msg, btnClass) {
-
+		
 		var fadeClass = "fade";
 		{
 		    var isIE = window.ActiveXObject || "ActiveXObject" in window;
@@ -1508,7 +1494,7 @@ jQuery(function($){
 		        fadeClass = "";
 		    }
 		}
-
+		
 		$("#dataAlertModal .modal-footer button").removeClass().addClass("btn").addClass(btnClass);
 		if (!$('#dataAlertModal').length) {
 			$('body').append('\
@@ -1584,19 +1570,22 @@ jQuery(function($){
 				$('#dataAlertTempOK').trigger('click');
 			});
 	}
-
+	
 	$('.facetview_clear_all_filters').bind('click',clearallfilters);
-
+	
     var dosearch = function() {
     	$('.facetview_clear_all_filters').bind('click',clearallfilters);
         // update the options with the latest query value from query box
-        options.query = $('#facetview_freetext').val().trim()
+        options.query = $('#facetview_freetext').val().trim();
+		//alert($('#facetview_freetext').val().trim());
+		//options.query = options.query.replace('* AND keywords','');
 		//options.query = $('#facetview_freetext').text().trim()
         //if(oldquery.trim() == options.query.trim())
         //return ;
        //   alert (options.query)
-            //oldquery = options.query;
-
+       //oldquery = options.query;
+       // $('body').scrollTop(0);
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
         //setting autocomplete
         if(autosuggestflag){
     	$.ajax({
@@ -1609,7 +1598,7 @@ jQuery(function($){
                 		for(var i in data[0]){
                 			temp.push(data[0][i]);
                 		}
-
+                		
             			if(temp.length>=1)
             			{
             				z=temp;
@@ -1623,8 +1612,8 @@ jQuery(function($){
         else{
         	//$('#facetview_freetext').autocomplete( "destroy" );
         }
-
-
+    		  	
+        	
 	    //refresh query
 	    q=" ";
             // make the search query
@@ -1656,7 +1645,7 @@ jQuery(function($){
 	    //update query with size filters
 	    q+=sizefilter
 	    //q=trim(q);
-
+	    
 	   // alert(q.trim().replace(/ /g,''));
 	   // alert(oldquery.trim().replace(/ /g,''));
 	    if(q.trim() == oldquery.trim()){
@@ -1666,10 +1655,21 @@ jQuery(function($){
 	    //.replace(/ /g,'')
 	    oldquery = q.trim();
 	    oldsearchquery = encodeURIComponent(options.query).trim();
-
+	    
 	    //addlastmodifiedfacetsilent
 	    q=adddefaultdatefacet(q);
-
+		
+		function getKeywordFilter(str) {
+			return str.split(':')[1];
+		}
+		function getFilteredQuery(str) {
+			return str.split('keywords')[0];
+		}		
+		if (options.query.indexOf("keywords:") > -1) {
+			q=q+"&f.keywords.filter="+encodeURIComponent(getKeywordFilter(options.query));
+			//q=q.replace(escape(encodeURIComponent(options.query)),getFilteredQuery(options.query));
+			q=q.replace(escape(encodeURIComponent(options.query)),'*');
+		}
 	    if($('#facetview_freetext').val().trim() != ""){
               /*$.ajax({
                 type: "get",
@@ -1678,13 +1678,12 @@ jQuery(function($){
                 dataType: "json",
                 success: showresults
               });*/
-	    	//alert(q);
 	    	displayloader();
-			//alert("joemama!");
 	    	$.getJSON(options.search_url,"callback=?&"+q,
 	    			function(data) {
+						//alert(q);
 	    				createCookie("searchblox_plugin_query",q,0);
-	    				$.getJSON("http://wb-search01.uwhis.hosp.wisc.edu:8080/searchblox/servlet/ReportServlet","callback=?&gettopclicks=yes&nodocs=5&query="+options.query,function(_data){
+	    				$.getJSON("https://dev.uconnect.wisc.edu/searchblox/servlet/ReportServlet","callback=?&gettopclicks=yes&nodocs=5&query="+options.query,function(_data){
 						//$.getJSON("../servlet/ReportServlet","callback=?&gettopclicks=yes&nodocs=5&query="+options.query,function(_data){
 	    					data=_data.response;
 	    					var temphtml = "<h3>Most Viewed</h3></br>";
@@ -1699,18 +1698,18 @@ jQuery(function($){
                         	if(data!="nodocs"&&data!="queryerror"&&data!="")$('#facetview_leftcol_topclicks').show();
                         	else $('#facetview_leftcol_topclicks').hide();
 	    				})
-
+	    				
 	    				if(data["error"]!=undefined){
 	    					$('#ads').html('<div class="alert alert-danger">'+
 	    							'<div class="content" style="color:red;font-weight:bold;text-align:center;letter-spacing:1px;">' +
-	    							data["error"] +
+	    							data["error"] + 
 	    							'</div></div>');
 	    					$('#ads').parent().parent().css("margin-left", "-100px");
 	    					$('#ads').parent().parent().css("float", "left");
 	    					hideloader();
 	    					return;
 	    				}
-
+	    				
     					$('#ads').html('');
     					$('#ads').parent().parent().css("margin-left", "");
     					$('#ads').parent().parent().css("float", "");
@@ -1723,12 +1722,13 @@ jQuery(function($){
         // trigger a search when a filter choice is clicked
         var clickfilterchoice = function(event) {
             event.preventDefault();
+			            var newobj = '<li class="filterable"><a class="facetview_filterselected facetview_clear icon icon_after close btn btn-info" rel="' + $(this).attr("rel") + '" alt="remove" title="remove" href="' + $(this).attr("href") + '" filtername=' + splitStringfromFirst($(this).attr('id'),'_')[1] + '><span class="txt_bold">' + $(this).html().replace(/\(.*\)/,'') + '</span></a></li>';
             //alert($(this).attr('id'));
-            var newobj = '<a class="facetview_filterselected facetview_clear icon ' +
-                'btn btn-info" rel="' + $(this).attr("rel") +
-                '" alt="remove" title="remove"' +
-                ' href="' + $(this).attr("href") + '" filtername='+splitStringfromFirst($(this).attr('id'),'_')[1]+' >' +
-                $(this).html().replace(/\(.*\)/,'') + ' <i class="icon-remove"></i></a>';
+           // var newobj = '<a class="facetview_filterselected facetview_clear icon ' + 
+           //     'btn btn-info" rel="' + $(this).attr("rel") + 
+           //     '" alt="remove" title="remove"' +
+           //     ' href="' + $(this).attr("href") + '" filtername='+splitStringfromFirst($(this).attr('id'),'_')[1]+' >' +
+          //      $(this).html().replace(/\(.*\)/,'') + ' <i class="icon-remove"></i></a>';
             if($('#facetview_selectedfilters').find('a[rel='+$(this).attr("rel")+'][filtername=\''+splitStringfromFirst($(this).attr('id'),'_')[1]+'\']').attr('filtername')==undefined){
             filterclick($(this).attr("rel"),splitStringfromFirst($(this).attr('id'),'_')[1]);
             $('#facetview_selectedfilters').append(newobj);
@@ -1737,9 +1737,9 @@ jQuery(function($){
 			$('.facetview_clear_all_filters').bind('click',clearallfilters);
             options.paging.from = 0;
             dosearch();}
-            else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername=\''+splitStringfromFirst($(this).attr('id'),'_')[1]+'\']').attr('filtername')+" already exist!!");}
+            //else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername=\''+splitStringfromFirst($(this).attr('id'),'_')[1]+'\']').attr('filtername')+" already exist!!");}
         }
-
+        
         var splitStringfromFirst = function(str,splitter){
         	var d = str.indexOf(splitter);
   		  	if(0>d)return str;
@@ -1752,10 +1752,12 @@ jQuery(function($){
         var clearfilter = function(event) {
             event.preventDefault();
             removefilterquery($(this).attr('rel'),escape($(this).attr('filtername').replace(/%%%/g,' ')));
-            $(this).remove();
+            $(this).parent().remove();
+			//$(this).remove();
+			options.paging.from = 0;
             dosearch();
         }
-
+		
 		//$('.facetview_clear_all_filters').bind('click',clearallfilters);
         // clear all filters
         var clearallfilters = function(event) {
@@ -1763,10 +1765,10 @@ jQuery(function($){
 			//alert("clear all");
 			removeallcontenttypefilterquery();
             //removefilterquery('keywords','*');
-			$("#facetview_selectedfilters a").remove();
+			$("#facetview_selectedfilters li.filterable").remove();
             //$(this).remove();
             dosearch();
-        }
+        }		
 
         // do search options
         var fixmatch = function(event) {
@@ -1783,6 +1785,7 @@ jQuery(function($){
                         }
                     }
                 }
+				
                 $('#facetview_freetext').val(newstring);
             } else if ( $(this).attr('id') == "facetview_fuzzy_match" ) {
                 var newvals = $('#facetview_freetext').val().replace(/"/gi,'').replace(/\*/gi,'').replace(/\~/gi,'').split(' ');
@@ -1796,6 +1799,7 @@ jQuery(function($){
                         }
                     }
                 }
+				
                 $('#facetview_freetext').val(newstring);
             } else if ( $(this).attr('id') == "facetview_exact_match" ) {
 //                var newvals = $('#facetview_freetext').val().replace(/"/gi,'').replace(/\*/gi,'').replace(/\~/gi,'').split(' ');
@@ -1811,9 +1815,10 @@ jQuery(function($){
 //                }
 //                $.trim(newstring,' ');
 //                $('#facetview_freetext').val(newstring);
-
+            	
 
                 var newvals = $('#facetview_freetext').val().replace(/"/gi,'').replace(/\*/gi,'').replace(/\~/gi,'').split(' ');
+				//alert(newvals);
                 var newstring = "";
                 for (item in newvals) {
                     if (newvals[item].length > 0 && newvals[item] != ' ') {
@@ -1826,13 +1831,15 @@ jQuery(function($){
                 }
                 $.trim(newstring,' ');
                 $('#facetview_freetext').val("\"" + newstring + "\"");
-
-
+            
+            	
             } else if ( $(this).attr('id') == "facetview_match_all" ) {
+				
                 $('#facetview_freetext').val($.trim($('#facetview_freetext').val().replace(/ OR /gi,' ')));
                 $('#facetview_freetext').val($('#facetview_freetext').val().replace(/ /gi,' AND '));
             } else if ( $(this).attr('id') == "facetview_match_any" ) {
-                $('#facetview_freetext').val($.trim($('#facetview_freetext').val().replace(/ AND /gi,' ')));
+              
+				$('#facetview_freetext').val($.trim($('#facetview_freetext').val().replace(/ AND /gi,' ')));
                 $('#facetview_freetext').val($('#facetview_freetext').val().replace(/ /gi,' OR '));
             }
             $('#facetview_freetext').focus().trigger('keyup');
@@ -1842,7 +1849,7 @@ jQuery(function($){
         // adjust how many results are shown
         var howmany = function(event) {
             event.preventDefault()
-            var newhowmany = prompt('Currently displaying ' + options.paging.size +
+            var newhowmany = prompt('Currently displaying ' + options.paging.size + 
                 ' results per page. How many would you like instead?')
             if (newhowmany) {
                 options.paging.size = parseInt(newhowmany)
@@ -1855,7 +1862,7 @@ jQuery(function($){
         // adjust how many suggestions are shown
         var howmanynofsuggest = function(event) {
             event.preventDefault()
-            var newhowmany = prompt('Currently displaying ' + options.nofsuggest +
+            var newhowmany = prompt('Currently displaying ' + options.nofsuggest + 
                 ' suggestions per page. How many would you like instead?')
             if (newhowmany) {
                 options.nofsuggest = parseInt(newhowmany)
@@ -1864,39 +1871,40 @@ jQuery(function($){
                 dosearch();
             }
         }
-
+        
         var displayloader = function(){
         	var height1 = $('#facetview_results').height();
         	var width1  = $('#facetview_results').width();
         	$('.loadingbg').height(height1);
         	$('.loadingbg').width(width1);
         	$('#loading').show();
-
+        	
         }
-
+        
         var hideloader = function(){
         	$('#loading').hide();
         }
 
-
+        
         // the facet view object to be appended to the page
         var thefacetview = ' \
         	<!--<div id="facetview"> \
             	<div class="row-fluid">--> \
-<aside id="sidebar_content" class="sidebar side_content split_side column contain">  \
-					<div class="desk_show sidebar_content"> \
-                		<div class="well" id="facetview_leftcol"> \
-	    					<!--<div class="" id="facetview_leftcol_percolator" style="float:right;display:none;"> \
+        	   		<aside id="sidebarSearch" class="side_content split_side column contain" role="complementary" style="float:left;"><a href="" class="sidebar_button h6 slide_anim button_soft button_med desk_hide icon icon_before" data-icon="&#xe120" data-toggle="#sidebar_content" data-icon-switch="&#xe120 &#xe625"><span class="visually_hidden txt_small txt_upper">Section Menu</span></a> \
+					<span class="bigs_hide smallish_hide"></span></a> \
+					<div id="sidebar_content" class="sidebar_content"> \
+                		<!--<div class="well" id="facetview_leftcol" style="display:none;width:100%;float:left"> \
+	    					<div class="" id="facetview_leftcol_percolator" style="float:right;display:none;"> \
     							<a class="btn btn-warning" href="#">Create Alert</a>\
 	    					</div>--> \
          		 			<!--<div id="nofresults" style="margin-bottom:-34px;"></div>-->\
                   			<div id="facetview_filters"></div>\
         	 	 	 		<div id="adv_filters"></div>\
-                		</div> \
+                		<!--</div>--> \
             			<!--<div class="well" id="facetview_leftcol_topclicks" style="display:none;width:100%;float:left"></div>--> \
         	    		<!--div class="well" id="facetview_leftcol_tagcloud"  style="display:none;width:100%;float:left"></div>--> \
                		</aside> \
-					<div class="main_content split_main column bigs_float_right">\
+					<div class="split_main bigs_float_right">\
                 	<div class="col-sm-8" id="facetview_rightcol" align="left" style=""> \
                     	<div id="facetview-searchbar" style="margin-left:-280px;display:none;" class="input-group">\
                     		<div class="input-group-addon" style="display:none;"><i class="glyphicon glyphicon-search"></i></div>\
@@ -1906,7 +1914,7 @@ jQuery(function($){
         							<a class="dropdown-toggle" data-toggle="dropdown" href="#"> \
                      	 	 			<i class="icon-cog"></i> <span class="caret"></span>\
         							</a> \
-                     				<ul class="list_naked" style="margin-left:-110px;" class="dropdown-menu"> \
+                     				<ul style="margin-left:-110px;" class="dropdown-menu"> \
                      					<li><a id="facetview_partial_match" href="">partial match</a></li> \
                      					<li><a id="facetview_exact_match" href="">exact match</a></li> \
                      					<li><a id="facetview_fuzzy_match" href="">fuzzy match</a></li> \
@@ -1940,7 +1948,9 @@ jQuery(function($){
                     <!--<div style="clear:both;" id="facetview_selectedfilters"></div>--> \
       	  			<div><div id="suggest"></div>\
                 	<div><div id="ads"></div>\
-         	      	<table class="table table-striped" id="facetview_results" style="word-break: break-all;"></table>\
+					<div class="box_panel pad_v srch_results space_b_2" id="facetview_results">\
+         	      	<!--<table class="table table-striped" id="facetview_results" style="word-break: break-all;"></table>-->\
+					</div>\
                   	<div class="row-fluid" id="facetview_metadata"></div>\
 					<!--</div> \
          		</div> \
@@ -1959,7 +1969,7 @@ jQuery(function($){
         	$('#'+attrs[a]).removeAttr('disabled');
             }
         }
-
+        
 	var sorter = function()
 	{
 	    	attrsetter($(this).attr('id'));
@@ -1994,7 +2004,7 @@ jQuery(function($){
 		}
 		dosearch();
 	}
-
+	
 	var autosuggest = function(event)
 	{event.preventDefault();
 		if(autosuggestflag){
@@ -2022,19 +2032,19 @@ jQuery(function($){
         	//alert(options.data["facets"][n]["lastmodified"][1][$(this).attr('sn')]['#text']);
         });
 	}
-
-
-
-
+	
+	
+	
+	
         // what to do when ready to go
         var whenready = function() {
             // append the facetview object to this object
             thefacetview = thefacetview.replace(/{{HOW_MANY}}/gi,options.paging.size);
             thefacetview = thefacetview.replace(/{{HOW_MANY_nofsuggest}}/gi,options.nofsuggest);
             $(obj).append(thefacetview);
-
-
-
+            
+            
+            
             // setup search option triggers
             $('#facetview_partial_match').bind('click',fixmatch)
             $('#facetview_exact_match').bind('click',fixmatch)
@@ -2048,11 +2058,11 @@ jQuery(function($){
             $('#sort_relevance').bind('click',sorter);
             $('#direction').bind('click',director);
             $('#facetview_autosuggest').bind('click', autosuggest)
-
+            
             // resize the searchbar
-            var thewidth = $('#facetview_searchbar').parent().width()
-            $('#facetview_searchbar').css('width',thewidth - 140 + 'px')
-            $('#facetview_freetext').css('width', thewidth - 180 + 'px')
+            //var thewidth = $('#facetview_searchbar').parent().width()
+           // $('#facetview_searchbar').css('width',thewidth - 140 + 'px')
+           // $('#facetview_freetext').css('width', thewidth - 180 + 'px')
             //set default size values
             for(var i in options.facets)
         	if(options.facets[i]['size'])sizeq[options.facets[i]['field']]=options.facets[i]['size'];
@@ -2075,10 +2085,15 @@ jQuery(function($){
         		//$('#facetview_leftcol').show('slow');
 				$('#facetview_leftcol').show();
         		$('#facetview-searchbar').attr('style','margin-bottom:10px;');
-//        		$('.header').attr('style','padding:5px;margin-top:15px;');
+        		//$('.header').attr('style','padding:5px;margin-top:15px;');
+				
+				var freetext = options.query;
+				var freetext = '"' + freetext + '"';
+				
             	$('#facetview_freetext').val(options.query);
-				$('#facetview_freetext').text(options.query);
-               	dosearch();
+				//$('#facetview_freetext').text(options.query);
+				$('#facetview_freetext').text(freetext);
+               	dosearch(); 
             }
             $('#facetview_freetext',obj).bindWithDelay('keyup',dosearch,options.freetext_submit_delay);
             //alert(readCookie("searchblox_plugin_query"));
@@ -2097,8 +2112,10 @@ jQuery(function($){
             				options.query=temp;
             				temp=readCookie("searchblox_plugin_query");
             				temp=temp.match(/f\.[a-zA-z0-9 ]+\.filter=[\w\d\s\-\[\:\*\]]+/g);
-
+            				//var freetext = unescape(options.query);
+							//var freetext = '"' + freetext + '"';
             				$('#facetview_freetext').val(unescape(options.query));
+							//$('#facetview_freetext').val(freetext);
             				//alert(temp);
     	    				showresults(data)
     	    				for(var t in temp){
@@ -2109,7 +2126,7 @@ jQuery(function($){
             					//alert('#fltchoice_'+filtername.replace(/ /g,'.')+'[rel='+facetname+']');
             				}
             	});
-
+            
         }
 
         // ===============================================
@@ -2117,11 +2134,12 @@ jQuery(function($){
         return this.each(function() {
             // get this object
             obj = $(this);
-
+            
             whenready();
 
-
-        }); // end of the function
+		$('body').scrollTop(0);
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
+        }); // end of the function  
 
     };
 
@@ -2131,41 +2149,44 @@ jQuery(function($){
 
 });
 
-//Insert the seardh header markup
-$("#body_content section.row div.main_content").html("<h1 id=\"page_name\" class=\"h2 company\"><small class=\"txt_upper txt_label\">You searched for</small><br>\"<span id=\"facetview_freetext\" placeholder=\"search term\" name=\"query\"></span>\"</h1>");
+     //   <div class="main_content split_main column"> <small class="txt_small sub_heading">You Searched For</small>
+     //     <h1 class="h2 company space_n_b" id="page_name">"Something" </h1>
+     //   </div>
 
+//Insert the search header markup
+$("#body_content section.row div.main_content").html("<div id=\"page_name\" class=\"main_content split_main column\"><small class=\"txt_small sub_heading\">You searched for</small>\<h1 id=\"facetview_freetext\" placeholder=\"search term\" class=\"h2 company space_n_b\" name=\"query\"></h1>");
+//$("#body_content section.row div.main_content").html("<h1 id=\"page_name\" class=\"h2 company\"><small class=\"txt_upper txt_label\">You searched for</small><br>\"<span id=\"facetview_freetext\" placeholder=\"search term\" name=\"query\"></span>\"</h1>");
+
+$("#tag_bar div.row").html("<div class=\"side_content column tag_title\" id=\"result_tally\"><span id=\"nofresults\" class=\"sub_heading\"></span></div><ul class=\"main_content column list_tag list_inline\" id=\"facetview_selectedfilters\"><li class=\"right\"><a  filtername=\"*\" title=\"remove\" alt=\"remove\" rel=\"keywords\" class=\"facetview_clear_all_filters txt_upper txt_bold\"><span class=\"icon icon_after close\"></span> Remove Filters</a></li></ul>");
 //Insert the search tag bar markup
-$("#tag_bar div.row").html("<div id=\"nofresults\" class=\"side_content split_side column txt_upper txt_small tag_title\"></div><div id=\"nofresults\" class=\"txt_small bold txt_upper\" style=\"margin-right:20px;display:inline-block\"></div><div id=\"facetview_selectedfilters\" style=\"display:inline-block\" class=\"txt_small tag_title\"></div><a filtername=\"*\" href=\"#\" title=\"remove\" alt=\"remove\" rel=\"keywords\" class=\"facetview_clear_all_filters float_right icon icon_start txt_small bold txt_upper pad_v_half\" style=\"float:right;\" data-icon=\"delete\">Remove Filters<i class=\"icon-remove\"></i></a></div>");
+//$("#tag_bar div.row").html("<div id=\"nofresults\" class=\"side_content split_side column txt_upper txt_small tag_title\"></div><div id=\"nofresults\" class=\"txt_small bold txt_upper\" style=\"margin-right:20px;display:inline-block\"></div><div id=\"facetview_selectedfilters\" style=\"display:inline-block\" class=\"txt_small tag_title\"></div><a filtername=\"*\" href=\"#\" title=\"remove\" alt=\"remove\" rel=\"keywords\" class=\"facetview_clear_all_filters float_right icon icon_start txt_small bold txt_upper pad_v_half\" style=\"float:right;\" data-icon=\"delete\">Remove Filters<i class=\"icon-remove\"></i></a></div>");
 
 jQuery(document).ready(function($) {
   $('.facet_view').facetview({
-  // $('.main_content').facetview({
     search_url: 'https://dev.uconnect.wisc.edu/searchblox/servlet/SearchServlet',
     search_index: 'searchblox',
 	autosuggestflag: false,
     facets: [
-        //{'field': 'language', 'display': 'Language'},
-		//{'field': 'title', 'display': 'Headlines'},
-		//{'field': 'generator', 'display': 'Meta'},
-        {'field': 'labels','display': 'Institution'},
+        {'field': 'labels','display': 'Organization'},
 		{'field': 'typeofcontent', 'display': 'Type'},
+		{'field': 'pageCategories', 'display': 'Category'},
         {'field': 'keywords',  'display': 'Tag'}
 
     ]
   });
-
+  
     if (typeof String.prototype.startsWith != 'function') {
 	  String.prototype.startsWith = function (str){
 	    return this.slice(0, str.length) == str;
 	  };
 	}
-
+  
   if (typeof String.prototype.trim != 'function') {
 	  String.prototype.trim = function (){
 		  return this.replace(/^\s+|\s+$/g, '');
 	  };
 	}
-
+  
   if (typeof String.prototype.splitOnFirst != 'function') {
 	  String.prototype.splitOnFirst = function (str){
 		  var d = this.indexOf(str);
@@ -2175,7 +2196,7 @@ jQuery(document).ready(function($) {
 		  }
 	  };
 	}
-
+  
   function shuffle(items)
   {
       var cached = items.slice(0), temp, i = cached.length, rand;
@@ -2199,14 +2220,37 @@ jQuery(document).ready(function($) {
           ++i;
       }
   }
-
+  
   function toArray(obj) {
 	  var array = [];
 	  // iterate backwards ensuring that length is an UInt32
-	  for (var i = obj.length >>> 0; i--;) {
+	  for (var i = obj.length >>> 0; i--;) { 
 	    array[i] = obj[i];
 	  }
 	  return array;
 	}
          // $('.facetview_clear_all_filters').bind('click',clearallfilters);
+});
+jQuery(document).ready(function($) {
+	$("#sidebar").html("");
+	var new_sidebar = $("#sidebarSearch").html();
+	$("#sidebar").append(new_sidebar);
+	$("#sidebarSearch").remove();
+	//$("a[forcloudtag='policy']").click();
+	//setInterval(function () {$("a[forcloudtag='policy']").click()}, 1000);
+	function getFilteredFreetext(str) {
+		return str.split(':')[1];
+	}
+	function getFilteredFreetextAnd(str) {
+		return str.split('AND')[0];
+	}
+	if ($('#facetview_freetext').text().indexOf("keywords:") > -1) {
+		var freetext = $('#facetview_freetext').text();
+		$('#facetview_freetext').text('"'+getFilteredFreetext(freetext));
+		$('#page_name small').text('All Things Tagged');
+	}	
+	if ($('#facetview_freetext').text().indexOf("AND") > -1) {
+		var freetext = $('#facetview_freetext').text();
+		$('#facetview_freetext').text($.trim(getFilteredFreetextAnd(freetext))+'"');
+	}	
 });

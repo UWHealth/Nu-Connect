@@ -17,15 +17,6 @@ require(['jquery', 'magnific', 'magnific_init'], function($) {
     });
 
     //-------------------------------
-    // Update ID Number // to account for multiple versions of embedded content's unique ids
-    //-------------------------------
-    // function updateIdNumber() {
-    //     var id_number = $('#id_number_js');
-    //     $('.body_content .tabs .tab').click(function() {       
-    //     });
-    // }
-
-    //-------------------------------
     // Setup iFrame
     //-------------------------------
     function setupIframe() {

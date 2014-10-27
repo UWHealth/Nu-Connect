@@ -7,7 +7,7 @@ $scale_ratio:               1.214 !default;
 
 $primary_font_stack:      	'opensans', verdana, helvetica, arial, sans-serif;
 $secondary_font_stack:     	'bitter', Georgia, serif;
-$monospace_font_stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+$monospace_font_stack: 		"Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", Courier, monospace;
 $icon_font_stack:			'uconnect';
 
 $use_web_fonts: 		true     !default;
@@ -56,7 +56,7 @@ $breakpoints: (
 	'bigs' '(min-width: 641px)'
 	//Everything larger than 640px. Tablets and Desktops.
 	//Must be at the end to be abstracted into a variable.
-	//Position within this list doesn't effect cascade.
+	//Position within this list doesnt effect cascade.
 );
 
 // Give grid-abilities to breakpoints.
@@ -85,13 +85,13 @@ $colors: (
 		base: #fe0202
 	),
 	action: (
-		base: #4c7659
+		base: #5fc65f
 	),
 	function: (
 		base: #d4c9ad
 	),
 	alert: (
-		base: #b22727
+		base: #cd6363
 	),
 	gray: (
 		base: #9da9b3

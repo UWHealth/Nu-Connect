@@ -1,4 +1,15 @@
-require(['jquery'], function($) {
+var dependencies = [
+        'jquery'
+    ];
+
+require(dependencies, function($) {
+
+    // ------------------------------------------------
+    // Browser Check: =IE
+    // ------------------------------------------------
+    if ($('html').hasClass('ie')) {
+        require(['polyfills_ie']);
+    }
 
     // ------------------------------------------------
     // Browser Check: =IE8
@@ -8,7 +19,7 @@ require(['jquery'], function($) {
     }
 
     // ------------------------------------------------
-    // Browser Check: <IE8
+    // Browser Check: <=IE8
     // ------------------------------------------------
     if ($('html').hasClass('lte8')) {
         require(['polyfills_lte_ie8']);
@@ -22,7 +33,7 @@ require(['jquery'], function($) {
     }
 
     // ------------------------------------------------
-    // Browser Check: <IE9
+    // Browser Check: <=IE9
     // ------------------------------------------------
     if ($('html').hasClass('lte9')) {
         require(['polyfills_lte_ie9']);

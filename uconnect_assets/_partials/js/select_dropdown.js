@@ -1,4 +1,8 @@
-require(['jquery'], function($) {
+var dependencies = [
+        'jquery'
+    ];
+
+require(dependencies, function($) {
 
     // http://www.icant.co.uk/forreview/tamingselect/
     // ala http://www.scribbletribe.com/how-to-style-the-select-dropdown/

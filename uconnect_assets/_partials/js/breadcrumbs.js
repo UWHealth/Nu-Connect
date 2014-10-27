@@ -1,4 +1,10 @@
-require(['jquery', 'jbreadcrumb', 'hover_intent'], function($) {
+var dependencies = [
+        'jquery',
+        'jbreadcrumb',
+        'hover_intent'
+    ];
+
+require(dependencies, function($) {
 
     //////////////////////////////////////////////////////////////////////////
     // Footer

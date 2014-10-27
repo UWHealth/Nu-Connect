@@ -211,7 +211,7 @@ $tab_minimal_include: 				true 					!default;
 	// @include mq(smalls){
  //        min-height: 44px;
 	// }
-    a {
+    .tab {
         @extend %txt_upper;
     }
 }
@@ -327,7 +327,7 @@ $tab_minimal_include: 				true 					!default;
 		border: 0;
 		color: color(text);
 	    cursor: default;
-		display: inline-block;
+		@extend %inline-block;
 		font-weight: bold;
 	    text-decoration: none;
 	    &:hover, &:focus, &:active, &.active {
@@ -343,14 +343,14 @@ $tab_minimal_include: 				true 					!default;
 	        // @include type_space(margin-top, 1);
 	        // padding-left: 0;
 	    // }
-	    &[href="#directory"], &[href="#Directory"] {
+	    &[href="#directory"] {
 	    	display: none;
 	    }
 	    &:first-child {
 	    	@include type_space(margin-top, 1);
 	    }
 	}
-	#directory, #Directory {
+	#directory {
 		display: none;
 	}
 	.tab_inline_link {
@@ -484,13 +484,13 @@ $tab_minimal_include: 				true 					!default;
 			}
 			&.active{
 				opacity: 1;
-				color: $alert_color;
+				color: color(select);
 				border-bottom-width: 2px;
-				border-color: $alert_color;
+				border-color: color(select);
 				@extend %tab_border_current;
 				background-color: transparent;
 				&:hover {
-					border-color: $alert_color;
+					border-color: color(select);
 				}
 			}
 		}
@@ -571,7 +571,7 @@ $tab_minimal_include: 				true 					!default;
 //------------------------------------
 .tab_inline_link {
 	@extend %pad_b;
-	right: 0;
+	@extend %abs_right;
 	a {
 		@extend %pad_v;
 		text-decoration: none;
@@ -579,12 +579,12 @@ $tab_minimal_include: 				true 					!default;
 	&_abs {
 		min-width: 200px;
 		position: absolute;
-		right: 0;
+		@extend %abs_right;
 		a {
 			@include rems(top, -$base_line_height*5);
 			@extend %pad;
 			position: absolute;
-			right: 0;
+			@extend %abs_right;
 			text-decoration: none;
 			z-index: 2;
 		}

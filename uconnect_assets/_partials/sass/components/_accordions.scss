@@ -24,7 +24,7 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 		color: $link_color;
 		cursor: pointer;
 		margin-top: .6em;
-		right: 0;
+		@extend %abs_right;
 	}
 	&:hover, &:focus, &:active {
 		&:before {
@@ -42,7 +42,7 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 .accordion_closed {
 	&:before {
 		content: "\e629" !important;
-		right: 0;
+		@extend %abs_right;
 	}
 	> * {
 		@extend %o_hide;
@@ -63,22 +63,22 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 }
 
 .accordion_tree{
-	position: relative;
 	@extend %space_b_half;
 	@extend %bigs_space_b;
 	@extend %bigs_pad_b_half;
+	position: relative;
 
 	&_head{
 		@extend %color_label;
-		display: inline-block;
+		@extend %inline_block;
 
 		//Create the border above the accordion_tree_head
 		&:before{
 			content: " ";
 			height: 2px;
 			background-color: color(form);
-			left: 0;
-			right: 0;
+			@extend %abs_left;
+			@extend %abs_right;
 			position: absolute;
 			top: -4px;
 		}
@@ -137,17 +137,14 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 		display: none;
 	}
 
-	& > a:first-child{
+	& > a:first-child, & > span a{
 		display: block;
 		@extend %pad_r_2;
 	}
-
 }
 
-// Accordion trigger is only useful
-// when it's child of accordion_split
-
 .accordion_trigger{
+	cursor: pointer;
 	transition: all 80ms ease-in-out;
 	position: absolute;
 	@include type-space(right, -.6);
@@ -170,11 +167,8 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 
 .accordion_target{
 	transform: translateZ(0);
-	transform-origin: 5% center;
-
-	&.inactive{
-		transform: scaleY(0.2);
-	}
+	transform-style: preserve-3d;
+	transform-origin: 50% 1%;
 }
 
 // ACCORDION_BORDERED

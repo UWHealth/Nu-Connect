@@ -30,30 +30,31 @@ $slick_dot_character: '\2022' !default;
 ////////////////////////
 @if $include_slider == true{
 .slider {
-	@include type_space(max-height, 14);
+	@include type_space(max-height, 16.5);
 	@extend %space_b;
+	@extend %pad_b_half;
 }
 .slick-slider {
-    display: block;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -ms-touch-action: none;
-    touch-action: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+	position: relative;
+	display: block;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	-ms-touch-action: pan-y;
+	touch-action: pan-y;
 	text-align: right;
 	z-index: 0;
 	@extend %o_hide;
 	@extend %cf;
+
 }
 .slick-list {
 	position: relative;
-	@extend %space_b;
+	@extend %space_b_half;
     display: block;
     padding: 0;
 	z-index: 2;
@@ -88,7 +89,37 @@ $slick_dot_character: '\2022' !default;
 		display: table;
 	}
 }
+.slide {
+	@extend %space_b_2;
+	@include type-space(height, 11.5);
+    max-height: none;
+
+	& .feature_body{
+		@include type-space(height, 11.5);
+	}
+	.no-js & {
+		@include type_space(margin-top, 2);
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+    & + .tabbed{
+        @extend %space_neg_t_2;
+    }
+}
+//This is applied to every slide by default.
+// Once slick has been initialized, .unlslicked gets removed.
+// This will prevent the change in margin once the slider has its wrapper.
+.js .unslicked.unslicked {
+    @include rems(margin-bottom, 100px);
+}
+.js .unslicked + .unslicked{
+    max-height: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+}
 .slick-slide {
+	margin-bottom: 0;
 	white-space: normal;
     float: left;
 	display: none;
@@ -119,7 +150,6 @@ $slick_dot_character: '\2022' !default;
 		position: relative;
 		z-index: 5;
 	}
-
 }
 ////////////////////////
 // Icons
@@ -213,8 +243,8 @@ $slick_dot_character: '\2022' !default;
             }
         }
         &.slick-active button {
-            background-color: $alert_color !important;
-            border-color: $alert_color !important;
+            background-color: color(select) !important;
+            border-color: color(select) !important;
             box-shadow: none !important;
             cursor: default !important;
             &:active, &.active {
@@ -223,4 +253,16 @@ $slick_dot_character: '\2022' !default;
         }
     }
 }
+
+//Only show two cards on smallest sizes
+
+.slide .card_row .third {
+	@include media-query((smalls, lap)){
+		width: 50%;
+		&:last-child {
+			display: none;
+		}
+	}
+}
+
 } // End IF include

@@ -2,15 +2,14 @@
     @include no-bullets;
     @extend %one_whole;
     @extend %type_reset;
-    @extend %txt_upper;
     @include type_space_sc(margin, 0,0,.5,0);
-    > li {
-        display: inline-block;
+    > li, > .list_item {
+		@extend %inline-block;
         white-space: nowrap;
         &:after{
             @extend %icon:after;
 			@include type_space(margin-left, .1);
-            content: "\25B8";
+			content: "\e643";
             position: relative;
 			@extend %pad_r_quarter;
         }
@@ -24,6 +23,10 @@
                 content: "" !important;
             }
         }
+	}
+
+	&.breadcrumbs_hide_last > li:last-child{
+		display: none;
 	}
 }
 .list_naked, %list_naked{
@@ -51,14 +54,9 @@
 .list_inline {
     @extend %display_inline_block;
     @extend %space_reset;
-    > li {
+    > li, .list_item {
         @extend %pad_v_quarter;
-        a {
-            @extend %pad_r_half;
-			@extend %bigs_pad_r;
-            @extend %pad_v_quarter;
-        }
-        display: inline-block;
+		@extend %inline-block;
         padding-left: 0;
         width: auto;
         vertical-align: middle;
@@ -66,12 +64,25 @@
             padding-right: 0;
         }
     }
+	>li a{
+		@extend %pad_r_half;
+		@extend %bigs_pad_r;
+		@extend %pad_v_quarter;
+	}
+}
+.list_inline_short{
+	>li, >.list_item {
+		a{
+			@extend %pad_r_quarter;
+			@extend %pad_n_v;
+		}
+	}
 }
 .list_inline_bordered{
     @extend %space_reset;
-    > li {
+    > li, > .list_item {
         @extend %pad_h_half;
-        display: inline-block;
+		@extend %inline-block;
         width: auto;
         vertical-align: middle;
         border-left: 1px solid;
@@ -107,19 +118,21 @@
     }
     .accordion {
         border-bottom: 0 !important;
-        > ul {
-            @extend %pad_l_half;
-        }
+		> ul{
+			transition: none;
+		}
     }
 }
 .list_bordered_short {
 	@extend %space_v;
+	list-style: none;
+
 	> li {
         @extend %pad_v_half;
-        border-top: 1px solid $border_color;
+        border-top: 2px solid color(form);
     }
     > li:first-child {
-        border-top: 1px solid transparent;
+        border-top: 2px solid transparent;
     }
 }
 .list_nav, %list_nav{
@@ -129,7 +142,7 @@
     }
     .accordion {
         > a {
-            display: inline-block;
+			@extend %inline_block;
         }
     }
 	&.list_inline > li{
@@ -137,4 +150,20 @@
 			@include type-space(padding-right, .5);
 		}
 	}
+}
+
+.list_tag {
+	@include type_font_size(modular-scale(-1));
+	list-style: none;
+
+	>li{
+		@extend %space_r_quarter;
+		@extend %inline_block;
+		a {
+			@extend %pad_v_quarter;
+			@extend %link_naked;
+			display: block;
+		}
+	}
+
 }

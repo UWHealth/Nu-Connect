@@ -1,17 +1,19 @@
 //Everything is scoped to body content from here forward.
 // Only applies to editor-defined areas.
 
-.body_content{
+.editor_content{
 	mark{
 		background-color: darken(color(primary_alt,lightest), 5%);
 	}
 	figure {
-		border-bottom: 2px solid $gray_color;
+		border-bottom: 2px solid color(label);
+		@extend %pad_b_half;
 		@extend %smalls_one_whole;
 		float: none;
 		& img{
 			display: block;
 			margin: 0 auto;
+			@include type-space(margin-bottom, .5);
 			float: none;
 		}
 	}
@@ -19,8 +21,8 @@
 		display: table;
 		overflow: visible !important;
 	}
-	p{
-		max-width: 47em;
+	p, li{
+		max-width: 55em;
 	}
 	h1, .heading{
 		@extend %heading;
@@ -31,28 +33,111 @@
 	h2, .sub_heading{
 		@extend %sub_heading;
 	}
-
-	h3, h4, h5, h6{
+	.small_heading{
+		@extend %space_b;
+	}
+	.small_heading + p{
+		@extend %space_neg_t;
+	}
+	.space_negative{
+		@extend %space_neg_t;
+	}
+	h3, h4, h5, h6, .small_heading{
 		@extend %txt_sans;
 		@include type_font_size(modular-scale(-1));
 		@extend %txt_bold;
 	}
+	.space{
+		@extend %pad_b_quarter;
+	}
+	.space_large{
+		@extend %pad_b_half;
+	}
+	.space_xl{
+		@extend %pad_b;
+	}
+	.indent{
+		@include type-space-important(margin-left, .25);
+	}
+	.indent_large{
+		@include type-space-important(margin-left, .5);
+	}
+	.indent_xl{
+		@include type-space-important(margin-left, 1);
+	}
+	.list_naked, .list_bordered{
+		padding-left: 0 !important;
+		text-indent: 0 !important;
+	}
+	ul, ol{
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 1.45em;
+		overflow: hidden;
+		text-indent: -.05em;
+	}
+	.space > li{
+		@extend %pad_v_quarter;
+	}
+	.space_large > li{
+		@extend %pad_v_half;
+	}
+	.space_xl > li{
+		@extend %pad_v;
+	}
+}
+
+
+
+
+main, .homepage_header {
+	.tab {
+		@include media-query(smalls){
+			@include rems_important(padding, $gutter*1.25);
+			&:before {
+				@include type_font_size(ceil(modular-scale(2)));
+				margin: -14px;
+			}
+			span {
+				display: none;
+			}
+		}
+	}
+}
+main, .homepage_header {
+	.tab {
+		@include media-query(smalls){
+			@include rems_important(padding, $gutter*1.25);
+			&:before {
+				@include type_font_size(ceil(modular-scale(2)));
+				margin: -14px;
+			}
+			span {
+				display: none;
+			}
+		}
+	}
+}
+.body_content_news .pod_right + p:first-of-type{
+	@extend %heading;
 }
 main {
 	transform: translateZ(0);
 	position: relative;
-	z-index: 0;
+	// <main> is z-index:1; .img_header is z-index:2; .footer is z-index:0; .sidebar is z-index: 241 (above dropdown)
+	z-index: 1;
 	.tabs {
 	    width: 100%;
 	}
 	.tab_content{
 		border-top-style: solid;
+		border-color: color(soft_action);
 	}
 	.tab {
+		@extend %icon;
 		float: left;
 		@extend %pad_l;
 		padding-right: 6%;
-		@extend %icon;
 		& span{
 			position: relative;
 			padding-left: .25em;
@@ -71,17 +156,17 @@ main {
 				display: none;
 			}
 		}
-		&[href*="#focus"], &[href*="#Focus"] {
+		&[href*="#focus"] {
 			@extend %icon_type_article;
 		}
-		&[href="#faq"], &[href="#FAQ"] {
+		&[href="#faq"] {
 			@extend %icon_info_faq;
 		}
-		&[href*="#resource"], &[href*="#Resource"] {
+		&[href*="#resource"] {
 			@extend %icon_file_resource;
 		}
-		&[href*="#Relate"], &[href*="#relate"] {
-			@extend %icon_network;
+		&[href*="#related"] {
+            @extend %icon_related;
 		}
 		&#dir_link{
 			margin-left: 0;
@@ -96,7 +181,6 @@ main {
 	}
 	.tabbed{
 		@extend %space_b_2;
-
 		.controls{
 			@extend %bigs_space_neg_l;
 			@extend %space_neg_l_half;
@@ -106,7 +190,6 @@ main {
 			@extend %bigs_pad_r;
 			@extend %pad_l_half;
 			@extend %pad_r_half;
-
 			.no-js &{
 				display: none;
 			}

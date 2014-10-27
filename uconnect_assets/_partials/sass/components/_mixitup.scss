@@ -15,6 +15,9 @@
 	}
 
 }
+.mix.uwhc.uwmf a {
+    padding-right: 2.65em;
+}
 .mixitup{
 	@extend %bigs_space_neg_l;
 	@extend %space_neg_l_half;
@@ -49,30 +52,17 @@
 			@include mq(bigs){
 				font-size: 20px;
 			}
-			position: absolute;
-			right: 0;
 		}
 	}
-	.icon_uwhealth {
-		&:before {
-			color: color(label, dark);
-		}
-	}
-	.icon_uwhc {
-		&:before {
-			@extend %color_link;
-		}
-	}
-	.icon_uwmf {
-		&:before {
-			color: color(link, darker);
-		}
+	[data-org] a{
+		@extend %pad_r;
 	}
 }
+
 .mix{
 	@extend %pad_l_half;
 	@extend %bigs_pad_l;
-    display: inline-block;
+	@extend %inline-block;
 	opacity: 1;
     &:first-child{
         border-top-color: #ddd;
@@ -81,6 +71,9 @@
     @extend %desk_one_third;
     @extend %lap_one_half;
 	@extend %smallish_one_half;
+}
+.mix[data-title="undefined"]:before{
+	display: none !important;
 }
 .js #Grid .mix, .js #Grid .column{
     display: none;
@@ -99,12 +92,7 @@
         @extend %pad_b_quarter;
     }
 	a {
-		@extend %pad_n;
-		////////////////////////
-		// /departments/uconnect-departments-index.hbs
-		&.company_uwhealth, &.company_uwhc, &.company_uwmf {
-			padding-right: $base_line_height !important;
-		}
+		padding: 0;
 	}
     .categoryHidden {
         overflow:hidden;

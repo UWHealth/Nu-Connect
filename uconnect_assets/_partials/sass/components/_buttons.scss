@@ -11,6 +11,7 @@
 {
 	color: $button_color_text;
     cursor: pointer;
+    line-height: normal;
     vertical-align: middle;
     user-select: none;
     display: inline-block;
@@ -45,8 +46,8 @@
                 color: mix($button_color_text, lighten($button_color_bg, 5%), 95%);
             } @else {
                 background-color: lighten($button_color_bg, 10%);
-                box-shadow: 0 2px 3px 0 rgba(color(text), .1),
-					0 1px 2px 1px rgba(color(text), .2);
+                box-shadow: 0 2px 3px 0 rgba(color(text), .075),
+					0 1px 2px  rgba(color(text), .15);
 				// Double shadow for realisitic depth.
                 color: $button_color_text;
             }
@@ -90,42 +91,63 @@
 	&::-moz-selection{background: transparent;}
 	&::-moz-focus-inner{border: 0}
 }
-%button, .button, input[type="submit"] {
+%button_transition{
+    transition: border 35ms ease-out, background 50ms ease-out, color 60ms ease-in, box-shadow 100ms ease-in;
+}
+%button, .button, [type="submit"] {
     @include button(true, #0c639a, blend_colordodge(#808080,#0c639a), #ebfbff, 2px, true);
-	line-height: normal;
 	@include rems(padding-top, (($base-line-height/4) - 3px));
     @include rems(padding-bottom, (($base-line-height/4) - 2px));
     @extend %txt_bold;
-	transition: border 35ms ease-out, background 50ms ease-out, color 60ms ease-in, box-shadow 100ms ease-in;
+	@extend %button_transition;
 	&:active{
 		outline: none;
 	}
 }
 %button_soft, .button_soft {
-	line-height: normal;
-    @include button(true, $highlight_color, $soft_action_color, $soft_action_color, 2px, true, true);
-    font-weight: bold !important;
-	transition: border 35ms ease-out, background 50ms ease-out, color 60ms ease-in, box-shadow 100ms ease-in;
+    @include button(true, $highlight_color, darken($soft_action_color, 2.5%), darken($soft_action_color, 2.5%), 2px, true, true);
+    @extend %txt_bold;
+	@extend %button_transition;
 }
 
-%button_disabled, .button_disabled, button:disabled, input[type="submit"].disabled, input[type="submit"]:disabled {
-	line-height: normal;
-    @include button(true, $form_color, $label_color, $label_color, 2px, true);
-    cursor: default !important;
-    &:hover, &:focus, &:active, &.active, &:visited {
-        background-color: $form_color !important;
-        border: 1px solid $label_color !important;
-        box-shadow: inset 0 2px $label_color !important;
-        color: $label_color !important;
+%button_secondary, .button_secondary{
+    @extend %inline_block;
+    border-radius: 3px;
+    background-color: tint(color(highlight), 60%);
+    @extend %color_link;
+    @extend %txt_bold;
+    user-select: none;
+    border: 1px solid transparent;
+    @include rems(padding-top, (($base-line-height/4) - 3px));
+    @include rems(padding-bottom, (($base-line-height/4) - 2px));
+    @extend %link_naked;
+    @extend %txt_center;
+    @extend %button_transition;
+
+    &:hover, &:focus{
+        background-color: tint(color(highlight), 80%);
+        color: color(link, light);
+        box-shadow: 0 2px 3px 0 rgba(color(text), 0.1),
+            0 1px 2px 0 rgba(color(link), 0.075);
+        border-bottom-color: rgba(color(link, light), .8);
+        outline: 0;
+    }
+    &:active{
+        @extend %color_link;
+        background-color: tint(color(highlight), 60%);
+        border-color: currentColor;
+        box-shadow: 0 -2px 3px 0 rgba(color(link), 0.1),
+            inset 0 1px 2px rgba(color(text), 0.15);
     }
 }
+
 %button_transparent, .button_transparent {
 	background-color: transparent !important;
 	border-color: transparent !important;
 	box-shadow: none !important;
 }
 %button_big, .button_big {
-    @include type_font_size(modular_scale(1), false);
+    @include type_font_size(modular_scale(.75), false);
     @include rems(padding-top, (($base-line-height/1.5) - 3px));
 	@include rems(padding-bottom, (($base-line-height/1.5) - 2px));
 	&.button_soft{
@@ -135,7 +157,7 @@
 	@include type-space(padding-left, 1);
 	@include type-space(padding-right, 1);
 }
-%button_med, .button_med{
+%button_med, .button_med {
 	@include rems(padding-top, (($base-line-height/2.35) - 3px));
 	@include rems(padding-bottom, (($base-line-height/2.35) - 2px));
 	&.button_soft{
@@ -161,23 +183,34 @@
 %button_quarter, .button_quarter {
     @extend %one_quarter;
 }
+
+%button_disabled, .button_disabled, button:disabled, button.disabled, input[type="submit"].disabled, input[type="submit"]:disabled {
+	color: color(label) !important;
+	vertical-align: middle;
+	text-align: center;
+	border: 1px solid $label_color !important;
+	cursor: default !important;
+	background-color: $form_color !important;
+	border: 1px solid $label_color !important;
+	box-shadow: inset 0 2px $label_color !important;
+}
 ////////////////////////
 // Button Group
 ////////////////////////
 .button_group {
 	display: table-row;
 	overflow: visible;
-    .button {
+    .button, .button_soft {
 		@extend %txt_upper;
 		display: table-cell;
         border-radius: 0;
         // margin-left: -1px;
-        &:first-child {
+        &:first-child, &:first-of-type {
             border-top-left-radius: 2px;
             border-bottom-left-radius: 2px;
             margin-left: 0;
         }
-        &:last-child {
+        &:last-child, &:last-of-type {
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
         }
@@ -206,6 +239,6 @@
 		text-align: center;
 	}
 }
-.button_icon_to_txt{
-
-}
+//.button_icon_to_txt{
+//
+//}

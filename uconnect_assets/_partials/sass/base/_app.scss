@@ -14,30 +14,30 @@
 ///////////////////////////////
 // Break-point check for JS
 ///////////////////////////////
-#mq_check {
+#check_mq {
 	@extend %o_hide;
 	@extend %visually_hidden;
 	&:before {
 		content: 'not_set';
-		@include mq(smalls){
+		@include mq(smalls) {
 			content: 'smalls';
 		}
-		@include mq(small){
+		@include mq(small) {
 			content: 'small';
 		}
-		@include mq(smallish){
+		@include mq(smallish) {
 			content: 'smallish';
 		}
-		@include mq(bigs){
+		@include mq(bigs) {
 			content: 'bigs';
 		}
-		@include mq(lap){
+		@include mq(lap) {
 			content: 'lap';
 		}
-		@include mq(desk){
+		@include mq(desk) {
 			content: 'desk';
 		}
-		@include mq(wide){
+		@include mq(wide) {
 			content: 'wide';
 		}
 	}
@@ -49,71 +49,80 @@ html {
 	background-color: $background_color;
 }
 .bg_ghost, %bg_ghost{
-	background-image: url(../img/bg/bg_white_75.png);
+	background-image: url('../img/bg/bg_white_75.png');
 }
 .bg_ghost_light, %bg_ghost_light{
-	background-image: url(../img/bg/bg_white_33.png);
+	background-image: url('../img/bg/bg_white_33.png');
+}
+.bg_dark_light, %bg_dark_light{
+    background-image: url('../img/bg/bg_black_33.png');
 }
 .loading {
-	background: url(../img/ajax-loader.gif) center center no-repeat;
+	background: url('../img/ajax-loader.gif') center center no-repeat;
+	min-height: 56px;
+	min-width: 48px;
+	background-size: 48px;
+	border-radius: 50%;
 }
 // noscript used for warning that JS is not enabled
 #js_warning p {
 	@extend %pad;
 	display: block;
 }
-
-
-#FAQ, #faq {
-	h1 {
-		@include type_font_size(modular-scale(1));
-		@extend %clear;
-		@extend %txt_left;
-		color: $primary_color_alt;
-	}
-	.faq.accordion {
-		h1 {
-			@include type_space(padding-bottom, .5);
-		}
-	}
-	.accordion_closed {
-		@include button(true, #5d9bbf, #a1c8dd, $color_white, 2px);
-		@extend %button_wide;
-		h1 {
-			@include type_space_sc(padding, .5,1,0,1);
-			color: $color_white !important;
-			float: left;
-			margin-bottom: 0;
-		}
-	}
-	p {
-		@include type_font_size(modular-scale(0));
-		color: $color_black;
-	}
+.circle {
+	border-radius: 50%;
+	display: block;
+	position: relative;
+	word-wrap: break-word;
 }
-.faq.accordion {
-	@include type_space_sc(padding, .5,.5,1,1);
-	@extend %space_b;
-	border-top: 2px solid $primary_color_alt_light;
-	border-bottom: 2px solid $gray_color_lighter;
-	&:before {
-		position: relative;
-		top: -12px;
-		@extend %pad_l_quarter;
-		color: $primary_color_alt;
-		left: 0;
-		z-index: 2;
+////////////////////////
+// FAQ
+////////////////////////
+.faq {
+	&:last-child{
+		@extend %space_neg_b;
 	}
-	h1 {
-		padding-top: 0;
+	.accordion_trigger{
+		position: static !important;
+		@extend %one_whole;
+		&:before{
+			float: right;
+			top: .25em;
+			position: relative;
+			@extend %icon_arrow_down;
+			@extend %pad_l;
+		}
+
+		&.active:before{
+			@extend %icon_arrow_up;
+		}
 	}
-	&.accordion_closed {
-		border: 0;
-		padding: 0;
-		@include type-space(padding-right, .5);
-		&:before {
-			top: 0;
-			color: $color_white;
+	&_question{
+		@extend %button_soft;
+		text-align: left;
+		font-weight: normal;
+
+		&.active{
+			border-width: 1px;
+			border-color: currentColor transparent transparent transparent;
+			padding-left: 0;
+			padding-right: 0;
+			background-color: transparent;
+			@extend %pad_n_b;
+		}
+	}
+	&_answer{
+		@extend %pad_b_half;
+		@extend %space_b;
+		padding-left: 0;
+		transform: translateZ(0);
+		border-bottom: 2px solid color(form);
+		transition: border 200ms ease-in;
+		&.inactive{
+			border-bottom-color: color(soft_action);
+			border-width: 0;
+			@extend %pad_l_half;
+			transition: border 200ms ease-in, padding 150ms ease-out;
 		}
 	}
 	@include media-query(smalls) {
@@ -121,140 +130,9 @@ html {
 		@include rems(padding-bottom, $base_line_height*.5);
 	}
 }
-
 ////////////////////////
-// Media / News Block
+// Media
 ////////////////////////
-.media_block{
-	@extend %media_block;
-	@extend %cf;
-	.box_card {
-		margin: 0;
-		overflow: visible;
-		position: relative;
-		z-index: 20;
-		&_body {
-			&.has_keywords {
-				@include type_space(max-height, 4);
-			}
-		}
-		&_foot {
-			@extend %pad_n_h;
-			box-shadow: none;
-			a {
-				color: $primary_color; // $link_color;
-			}
-		}
-		@include media-query(smalls){
-			max-width: none;
-		}
-	}
-	.body_wrapper, .body {
-		color: $color_black;
-	}
-	.body_wrapper {
-		@extend %pad;
-		@include media-query(smalls){
-			@include type_space(padding, .5);
-		}
-	}
-	.body {
-		height: 100%;
-		//        -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(70%, black), color-stop(95%, transparent));
-		@include media-query(smalls){
-			@include type_space(padding, 0);
-		}
-	}
-	.h5, .h6 {
-		@extend %color_link; // $link_color;
-	}
-	a {
-		color: color(text);
-		text-decoration: none;
-	}
-	p {
-		@extend %space_b_half;
-		@extend %txt_small;
-	}
-	time {
-		@extend %sub_heading;
-		@extend %color_label;
-	}
-	img {
-		@include media-query(lap){
-			max-width: 25%;
-		}
-		@include media-query(smalls){
-			max-width: 20%;
-			@include rems_important(margin-right, $gutter*.5);
-		}
-	}
-	.third {
-		@include media-query(lap){
-			width: 50%;
-			&:last-child {
-				display: none;
-			}
-		}
-		@include media-query(smalls){
-			display: none;
-			width: 100%;
-			&:first-child {
-				display: inline-block;
-			}
-		}
-	}
-	.list_inline > li {
-		@extend %pad_v_half;
-	}
-	.accordion {
-		&:before {
-			@include type_font_size(modular-scale(0));
-			line-height: 1.25;
-			@extend %pad_half;
-			color: $primary_color;
-			margin: 0;
-			z-index: 2;
-			position: absolute;
-		}
-		ul{
-			max-height: 200px;
-		}
-	}
-	.accordion_closed {
-		ul {
-			@include type-space(max-height, 2);
-		}
-	}
-	.tagged {
-		ul {
-			@extend %o_hide;
-			background-image: url('../img/bg/bg_white_90.png');
-			left: 0;
-			padding: 4px $gutter 0 $gutter/2;
-			position: relative;
-			transform: translateZ(0);
-			transition: max-height 200ms cubic-bezier(.22, -0.5, .58, 1.5);
-			width: 100%;
-		}
-		li {
-			padding: 10px 2px 10px 0;
-			&:first-child {
-				@include type_space(padding-right, .25);
-				@extend %cursor_default;
-			}
-		}
-		a {
-			@include type_space(padding-right, .25);
-			@include type_space(padding-left, 0);
-			padding: 14px 0;
-			&:before {
-				@include type_space(padding-right, 0);
-				position: relative;
-			}
-		}
-	}
-}
 .no-js {
 	.slide {
 		@include type_space(margin-top, 2);
@@ -262,40 +140,24 @@ html {
 			margin-top: 0;
 		}
 	}
-	.media_block {
-		.tagged {
-			&.accordion {
-				&:before {
-					content: none !important;
-				}
-			}
-			ul {
-				@extend %o_hide;
-				cursor: default;
-				max-height: 48px;
-			}
-		}
-	}
+	// .media_block {
+	// 	.tagged {
+	// 		&.accordion {
+	// 			&:before {
+	// 				content: none !important;
+	// 			}
+	// 		}
+	// 		ul {
+	// 			@extend %o_hide;
+	// 			cursor: default;
+	// 			max-height: 48px;
+	// 		}
+	// 	}
+	// }
 }
 .media_block_narrow .img{
 	@extend %space_r_half;
 	@extend %float_left;
-}
-.img_cover { // http://nicolasgallagher.com/flexible-css-cover-images/
-	background-position: 50% 0;
-	background-repeat: no-repeat;
-	background-size: cover;
-	max-width: 1600px;
-	max-height: 1000px;
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: 0 auto;
-	@include opacity(.55);
 }
 .embed_flex {
 	@extend %o_hide;
@@ -309,88 +171,53 @@ html {
 }
 .img, .image {
 	background-size: 100% 100%;
-	margin-bottom: type_space(.5);
+	@include type-space(margin-bottom, .5);
 }
 ////////////////////////
 // Promos
 ////////////////////////
-.half_content.promo {
-	@extend %bigs_pad_r;
-	@extend %lap_pad_r_half;
-	float: left;
-	@extend %smalls_one_whole;
-
-	& + .promo {
-		@extend %bigs_pad_l;
-		@extend %lap_pad_l_half;
-		padding-right: 0;
-	}
-}
 .promo {
-	display: inline-block;
-}
-.box_promo {
-	@include type_space(height, 5);
-	background-size: cover !important;
-	border-top: 0;
-	padding: 0;
-	background-color: white;
-	background-position: center center;
-	background-repeat: no-repeat;
-	transition: transform 120ms ease-out;
-	&_head{
-		@include type-space(line-height, 1);
-		@include type_space(padding-right, 1.25);
-		@extend %abs_center;
-		@extend %desk_two_thirds;
-		@extend %one_whole;
-		@extend %pad_v_half;
-		@extend %wide_one_half;
-		@extend %pad_l_half;
-		color: $color_white;
-		background: color(link); //fallback for non rgba
-		background-color: rgba(color(link), .5);
-		transition: width 400ms cubic-bezier(.32, .19, .32, 1.42),
-			padding 150ms ease-in, background 300ms ease-in;
-		z-index: 2;
-		@include mq(bigs){
-			padding-right: 2%;
+	.half_content {
+		@extend %bigs_pad_r;
+		@extend %lap_pad_r_half;
+		@extend %smalls_one_whole;
+		@extend %space_b;
+		float: left;
+		& + .promo {
+			@extend %bigs_pad_l;
+			@extend %lap_pad_l_half;
+			padding-right: 0;
 		}
 	}
-	&_body{
-		height: 100%;
-		position: relative;
-		&:after {
-			@include type_space(right, .25);
-			@include type_font_size(32px);
-			color: color(subtle);
-			line-height: 0;
-			position: absolute !important;
-			top: 50%;
-			z-index: 3;
-			@include opacity(.6);
+	.circle {
+		width: 55px;
+	}
+	&.promo_event {
+		@extend %space_b;
+		.circle {
+			background-color: color(highlight);
+			color: color(link);
 		}
-		&:hover, &:focus {
-			&:after {
-				color: white;
-				@include opacity(.8);
-			}
-		}
-		&:active {
-			&:after {
-				@include opacity(1);
-				color: $highlight_color_dark;
+	}
+	&.promo_important_date {
+		@extend %space_b;
+		.circle {
+			background-color: currentColor;
+			span{
+				@extend %color_highlight;
 			}
 		}
 	}
-	&:hover &_head{
-		width: 100% !important;
-		@include type_space(padding-right, 1.25);
-		background: color(primary); //fallback for non rgba
-		background: rgba(color(primary), .75);
-	}
-	&:active{
-		transform: translateY(2px);
+	&_numbers_of_note {
+		@extend %space_b;
+		span {
+			@include type_font_size(modular-scale(3));
+			@extend %txt_bold;
+			@extend %float_left;
+			@extend %pad_r_half;
+			@extend %pad_b_2;
+			@extend %color_select;
+		}
 	}
 }
 ////////////////////////
@@ -437,15 +264,15 @@ html {
 			}
 		}
 	}
-	.pdf_object {
-		display: inline;
-	}
+    [class^="embed_"] {
+		@extend %inline;
+    }
 	.side_content {
-		float: right;
+		@extend %float_right;
 	}
 }
 .no-js {
-	.pdf_object, .magnific_popup_iframe {
+	[class^="embed_"], .magnific_popup_iframe {
 		display: none;
 	}
 }

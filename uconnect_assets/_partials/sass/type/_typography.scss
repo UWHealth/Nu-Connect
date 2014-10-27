@@ -79,11 +79,6 @@
 //
 // }
 
-// A small, internally-used function to remove the units from a given value.
-// @function typecsset_strip_units($number) {
-//    @return $number / ($number * 0 + 1);
-// }
-
 %type_vertical_rhythm {
     @extend %space_reset;
     @extend %space_b;
@@ -105,16 +100,19 @@
    @extend %space_reset;
    font-size: percentage(14px / 16px);
    text-size-adjust: 100%;
-
-// If you have chosen to display a baseline grid, we turn it on here.
-   @if $show_baseline == true {
-        $type_baseline_size: strip_units($type_magic_number);
-        &.baseline_on{
-			background-image: url(http://basehold.it/i/#{$type_baseline_size}); // [3]
-			background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) 0 0 / auto $type_magic_ratio * 1em;
-        }
-    }
 }
+
+@if $show_baseline == true {
+	$type_baseline_size: strip_units($type_magic_number);
+	.baseline_on{
+		background-image: url(http://basehold.it/i/#{$type_baseline_size}); // [3]
+		background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) 0 0 / auto $type_magic_ratio * 1em;
+	}
+	.baseline_off{
+		background-image:none;
+	}
+}
+
 body {
 	font-size: 1em;
 	line-height: $base-line-height/$base-font-size;
@@ -122,13 +120,6 @@ body {
 
 }
 
-
-//Allow a toggle for baseline image
-@if $show_baseline == true {
-    .baseline_off{
-        background-image:none;
-    }
-}
 %type_family_secondary{
     font-family: $secondary_font_stack;
 }
@@ -239,12 +230,12 @@ body {
     @include headings-scale(1.17, small);
 }
 .heading, %heading{
-	@include type_font_size(ceil(modular-scale(1)));
+	@include type_font_size(ceil(modular-scale(1)), false);
+    line-height: 1.5;
 	@include type-space(margin-bottom, 1);
     @extend %txt_serif;
 
 	& + .sub_heading, & + %sub_heading{
-		color: color(label);
 		@extend %negative_top;
 	}
 }
@@ -254,6 +245,9 @@ body {
     font-weight: bold;
     font-family: $primary_font_stack;
 	@extend %txt_upper;
+}
+h1 > .sub_heading{
+	@include type-space(line-height, 1);
 }
 .header_gray, %header_gray {
     @extend %sub_heading;
@@ -309,17 +303,17 @@ abbr[title] {
 ul, ol, dd, menu {
     margin-top: 0;
 	padding: 0;
-    margin-bottom: $type_magic_number;
-    margin-bottom: $type_magic_ratio * 1rem;
-}
-.content_extended {
-    margin-left: $gutter !important;
+	@extend %space_b;
 }
 
 li > ul,
 li > ol {
     @extend %space_l;
     @extend %space_n_v;
+}
+
+dl, dt, dd{
+	margin: 0;
 }
 
 /*-------------------------------
@@ -387,7 +381,7 @@ b, strong, .bold, .strong {
 dfn, i, .italic {
     @extend %txt_italic;
 }
-small {
+small, .small {
     @extend %txt_small;
 }
 sub,sup {
@@ -401,6 +395,9 @@ sup {
 }
 sub {
     bottom: -0.25em;
+}
+figcaption p{
+	@extend %txt_small;
 }
 
 ////////////////////////
@@ -424,10 +421,6 @@ $readability: 44rem;
 .readability_double_padded{
     max-width: (($gutter*4)/($base_font_size)) + $readability;
 }
-
-// Font family declaration.
-// Allows for cleaner, consolodated code.
-
 //
 // A lot of elements in typography need to share some declarations (mainly for
 // vertical rhythm), so we `@extend` some silent classes.

@@ -92,7 +92,9 @@ a{
         color: color(select);
     }
 }
-
+[tabindex]:focus{
+    outline: 1px dotted #ddd;
+}
 @mixin link_color($color) {
     color: $color;
 

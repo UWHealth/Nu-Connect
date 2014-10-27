@@ -1,0 +1,40 @@
+.msg{
+    border-radius: 3px;
+    @extend %pad_h_quarter;
+    padding-top: .75em;
+    padding-bottom: .75em;
+    position: relative;
+    @extend %space_b;
+
+    &:before{
+        font-size: 1.25em;
+        line-height: 2.75em;
+        width: 2em;
+        text-align: center;
+        @extend %absolute;
+        @extend %abs_left;
+        @extend %abs_middle;
+        @extend %display_block;
+    }
+
+    &_success{
+        background-color: color(green, lighter);
+        border-color: color(green, dark);
+        padding-left: 2.25em;
+
+        &:before{
+            color: color(green, dark);
+            @extend %icon_info_success;
+        }
+    }
+    &_error{
+        @extend %highlight_red;
+        border-color: color(select);
+        padding-left: 2.25em;
+
+        &:before{
+            color: color(select);
+            @extend %icon_info_error;
+        }
+    }
+}

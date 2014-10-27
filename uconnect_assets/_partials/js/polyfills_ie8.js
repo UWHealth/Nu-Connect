@@ -1,3 +1,7 @@
-require(['jquery'], function($) {
+var dependencies = [
+        'jquery'
+    ];
+
+require(dependencies, function($) {
 
 });

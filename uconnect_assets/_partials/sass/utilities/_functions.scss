@@ -245,8 +245,6 @@ $golden_ratio:  golden();
 @mixin opacity($trans) {
   filter: alpha(opactiy=($trans * 100));
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$trans * 100})";
-  -moz-opacity: $trans;
-  -khtml-opacity: $trans;
   opacity: $trans;
 }
 
@@ -320,7 +318,7 @@ $golden_ratio:  golden();
 	//Easiest measurement of font-size deviation
 	$font-ratio: $font-size / $font-base;
 	//baseline
-	$bl: $type-magic-ratio * $font-base;
+	$bl: $type_magic_ratio * $font-base;
 	//Every other line.
 	$baseline-odd: $base-line-height / 2;
 	//Every third line.
@@ -632,7 +630,8 @@ $headings_use: 0;
     @if map-has-key($colors, $color){
 		@return map_get(map_get($colors, $color), $tone);
 	}@else{
-		@warn "#{$color} is not a registered color."
+		@warn "#{$color} is not a registered color.";
+        @return "";
 	}
 }
 //Same as above, but possibly more intuitively named

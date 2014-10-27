@@ -1,7 +1,12 @@
-// ------------------------------------------------
-// Custom Handlebars Helpers
-// ------------------------------------------------
-require(['handlebars'], function() {
+var dependencies = [
+        'handlebars'
+    ];
+
+require(dependencies, function() {
+
+	// ------------------------------------------------
+	// Custom Handlebars Helpers
+	// ------------------------------------------------
 
 	(function(Handlebars) {
 	// module.exports.register = function (Handlebars, options, params) {

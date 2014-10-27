@@ -7,7 +7,7 @@
 }
 .cartList {
 	a {
-		display: inline-block;
+		@extend %inline-block;
 		&.remove {
 			@extend %pad_h_half;
 			@extend %space_neg_r_half;

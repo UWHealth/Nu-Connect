@@ -206,18 +206,18 @@ $classtype: unquote(", .");
     }
     %#{$namespace}space_b#{$classtype}#{$namespace}space_b
 	{
-        @include rems(margin-bottom, $gutter);
+        @include type_space(margin-bottom, 1);
 		@at-root &_2{
-			@include rems(margin-bottom, ($gutter * 2) );
+			@include type_space(margin-bottom, 2 );
 		}
 		@at-root &_half{
-			@include rems(margin-bottom, ($gutter / 2) );
+			@include type_space(margin-bottom, .5 );
 		}
 		@at-root &_quarter{
-			@include rems(margin-bottom, ($gutter / 4) );
+			@include type_space(margin-bottom, .25);
 		}
 		@at-root &_3_quarters{
-			@include rems(margin-bottom, ($gutter * .75) );
+			@include type_space(margin-bottom, .75 );
 		}
     }
     %#{$namespace}space_l#{$classtype}#{$namespace}space_l
@@ -454,6 +454,7 @@ $classtype: unquote(", .");
     }
 
 }
+
 %negative_top{
 	@include type_space(margin-top, -1);
 }

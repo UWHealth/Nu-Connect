@@ -55,153 +55,237 @@ $colors: (
 	)
 ) !default;
 
-$colors: (
-	primary: (
-		base: colors(primary),
-		light: lighten(colors(primary), 10%),
-		lighter: lighten(colors(primary), 20%),
-		lightest: lighten(colors(primary), 40%),
-		dark: darken(colors(primary), 10%),
-		darker: darken(colors(primary), 20%),
-		darkest: darken(colors(primary), 40%)
-	),
-	primary_alt: (
-		base: colors(primary_alt),
-		light: lighten(colors(primary_alt), 10%),
-		lighter: lighten(colors(primary_alt), 20%),
-		lightest: lighten(colors(primary_alt), 40%),
-		dark: darken(colors(primary_alt), 10%),
-		darker: darken(colors(primary_alt), 20%),
-		darkest: darken(colors(primary_alt), 40%)
-	),
-	accent: (
-		base: colors(accent),
-		light: lighten(colors(accent), 10%),
-		lighter: lighten(colors(accent), 20%),
-		lightest: lighten(colors(accent), 40%),
-		dark: darken(colors(accent), 10%),
-		darker: darken(colors(accent), 20%),
-		darkest: darken(colors(accent), 40%)
-	),
-	accent_alt: (
-		base: colors(accent_alt),
-		light: lighten(colors(accent_alt), 10%),
-		lighter: lighten(colors(accent_alt), 20%),
-		lightest: lighten(colors(accent_alt), 40%),
-		dark: darken(colors(accent_alt), 10%),
-		darker: darken(colors(accent_alt), 20%),
-		darkest: darken(colors(accent_alt), 40%)
-	),
-	action: (
-		base: colors(action),
-		light: lighten(colors(action), 10%),
-		lighter: lighten(colors(action), 20%),
-		lightest: lighten(colors(action), 40%),
-		dark: darken(colors(action), 10%),
-		darker: darken(colors(action), 20%),
-		darkest: darken(colors(action), 40%)
-	),
-	function: (
-		base: colors(function),
-		light: lighten(colors(function), 10%),
-		lighter: lighten(colors(function), 20%),
-		lightest: lighten(colors(function), 40%),
-		dark: darken(colors(function), 10%),
-		darker: darken(colors(function), 20%),
-		darkest: darken(colors(function), 40%)
-	),
-	alert: (
-		base: colors(alert),
-		light: lighten(colors(alert), 10%),
-		lighter: lighten(colors(alert), 20%),
-		lightest: lighten(colors(alert), 40%),
-		dark: darken(colors(alert), 10%),
-		darker: darken(colors(alert), 20%),
-		darkest: darken(colors(alert), 40%)
+//Non-standard colors
+$additional_colors: (
+	yellow: (
+		base: #efee90
 	)
-	,gray: (
-		base: colors(gray),
-		light: lighten(colors(gray), 10%),
-		lighter: lighten(colors(gray), 20%),
-		lightest: lighten(colors(gray), 40%),
-		dark: darken(colors(gray), 10%),
-		darker: darken(colors(gray), 20%),
-		darkest: darken(colors(gray), 40%)
+	,orange: (
+		base: #faae2e
 	)
-	,text: (
-		base: colors(text),
-		light: lighten(colors(text), 10%),
-		lighter: lighten(colors(text), 20%),
-		lightest: lighten(colors(text), 40%),
-		dark: darken(colors(text), 10%),
-		darker: darken(colors(text), 20%),
-		darkest: darken(colors(text), 40%)
+	,green: (
+		base: #b6eba4
 	)
-	,link: (
-		base: colors(link),
-		light: lighten(colors(link), 10%),
-		lighter: lighten(colors(link), 20%),
-		lightest: lighten(colors(link), 40%),
-		dark: darken(colors(link), 10%),
-		darker: darken(colors(link), 20%),
-		darkest: darken(colors(link), 40%)
-	)
-	,label: (
-		base: colors(label),
-		light: lighten(colors(label), 10%),
-		lighter: lighten(colors(label), 20%),
-		lightest: lighten(colors(label), 40%),
-		dark: darken(colors(label), 10%),
-		darker: darken(colors(label), 20%),
-		darkest: darken(colors(label), 40%)
-	)
-	,soft_action: (
-		base: colors(soft_action),
-		light: lighten(colors(soft_action), 10%),
-		lighter: lighten(colors(soft_action), 20%),
-		lightest: lighten(colors(soft_action), 40%),
-		dark: darken(colors(soft_action), 10%),
-		darker: darken(colors(soft_action), 20%),
-		darkest: darken(colors(soft_action), 40%)
-	)
-	,form: (
-		base: colors(form),
-		light: lighten(colors(form), 10%),
-		lighter: lighten(colors(form), 20%),
-		lightest: lighten(colors(form), 40%),
-		dark: darken(colors(form), 10%),
-		darker: darken(colors(form), 20%),
-		darkest: darken(colors(form), 40%)
-	)
-	,subtle: (
-		base: colors(subtle),
-		light: lighten(colors(subtle), 10%),
-		lighter: lighten(colors(subtle), 20%),
-		lightest: lighten(colors(subtle), 40%),
-		dark: darken(colors(subtle), 10%),
-		darker: darken(colors(subtle), 20%),
-		darkest: darken(colors(subtle), 40%)
-	)
-	,select: (
-		base: colors(select),
-		light: lighten(colors(select), 10%),
-		lighter: lighten(colors(select), 20%),
-		lightest: lighten(colors(select), 40%),
-		dark: darken(colors(select), 10%),
-		darker: darken(colors(select), 20%),
-		darkest: darken(colors(select), 40%)
-	)
-	,highlight: (
-		base: colors(highlight),
-		light: lighten(colors(highlight), 10%),
-		lighter: lighten(colors(highlight), 20%),
-		lightest: lighten(colors(highlight), 40%),
-		dark: darken(colors(highlight), 10%),
-		darker: darken(colors(highlight), 20%),
-		darkest: darken(colors(highlight), 40%)
-	)
-
 );
+
+//Combines two color maps (or really any nested map)
+@function combine_colors($map1, $map2){
+	@each $pal, $color in $map2{
+		$value: ($pal: $color);
+		$map1: map-merge($map1, $value);
+	}
+	@return $map1;
+}
+
+//Adds lighter, darker variations to color map
+// 1. Gather variation names.
+// 2. Define the lighten/darken percentages.
+// 3. Get half the length of the varations for use later.
+// 4. Loop through the pallets and colors of the map input.
+// 5. Store the base color value that we'll add to throughout the next loop.
+// 6. Loop through the variation names.
+// 7. Grab the lighten/darken amount based on the loop iteration.
+// 8. If the loop is over half done, switch from lighten to darken.
+// 9. Create the variation and color definition in map format ("name": color).
+//10. Merge the current base color map with the new variant map.
+//11. Format the previous loops results into a nested map.
+//12. Merge the input map with itself and the new nested map.
+//13. Return the map with the new values.
+
+@function generate_color_variations($map, $tint:false){
+	$variations: light, lighter, lightest, dark, darker, darkest; //[1]
+	$incriments: 10%, 20%, 30%, 10%, 20%, 40%; 					  //[2]
+	$switch-variation: length($variations) / 2; 				  //[3]
+	$new-map: $map !global;
+
+	@each $pal, $color in $map{ 				//[4]
+		$values-list: $color !global;			//[5]
+
+		@each $variant in $variations {         //[6]
+			$i: index($variations, $variant);
+			$amount: nth($incriments, $i);		//[7]
+			@if $tint == false{
+				@if $i > $switch-variation { 									//[8]
+					$new-color: darken(map-get($color, base), $amount) !global; //[8]
+				}@else{
+					$new-color: lighten(map-get($color, base), $amount) !global; //[8]
+				}
+			}@else{
+				@if $i > $switch-variation { 									//[8]
+					$new-color: shade(map-get($color, base), $amount) !global; //[8]
+				}@else{
+					$new-color: tint(map-get($color, base), $amount) !global; //[8]
+				}
+			}
+			$value: ($variant: $new-color); 				  				//[9]
+			// This is required because sass maps are formatted as
+			// (first-level: ((second-level: value)) )
+			$values-list: map-merge($value, $values-list) !global;			//[10]
+
+		}
+
+		$inner-map: ($pal:($values-list));						//[11]
+		$new-map: combine_colors($new-map, $inner-map) !global;	//[12]
+
+	}
+	@return $new-map; 			//[13]
+}
+
+$additional_colors: generate_color_variations($additional_colors) !global;
+
+// Replaces all the code from line 134-279
+$colors: generate_color_variations($colors) !global;
+
+//Adding the additional colors to the colors map.
+$colors: combine_colors($colors, $additional_colors) !global;
+
+
+// $colors: (
+// 	primary: (
+// 		base: colors(primary),
+// 		light: lighten(colors(primary), 10%),
+// 		lighter: lighten(colors(primary), 20%),
+// 		lightest: lighten(colors(primary), 40%),
+// 		dark: darken(colors(primary), 10%),
+// 		darker: darken(colors(primary), 20%),
+// 		darkest: darken(colors(primary), 40%)
+// 	),
+// 	primary_alt: (
+// 		base: colors(primary_alt),
+// 		light: lighten(colors(primary_alt), 10%),
+// 		lighter: lighten(colors(primary_alt), 20%),
+// 		lightest: lighten(colors(primary_alt), 40%),
+// 		dark: darken(colors(primary_alt), 10%),
+// 		darker: darken(colors(primary_alt), 20%),
+// 		darkest: darken(colors(primary_alt), 40%)
+// 	),
+// 	accent: (
+// 		base: colors(accent),
+// 		light: lighten(colors(accent), 10%),
+// 		lighter: lighten(colors(accent), 20%),
+// 		lightest: lighten(colors(accent), 40%),
+// 		dark: darken(colors(accent), 10%),
+// 		darker: darken(colors(accent), 20%),
+// 		darkest: darken(colors(accent), 40%)
+// 	),
+// 	accent_alt: (
+// 		base: colors(accent_alt),
+// 		light: lighten(colors(accent_alt), 10%),
+// 		lighter: lighten(colors(accent_alt), 20%),
+// 		lightest: lighten(colors(accent_alt), 40%),
+// 		dark: darken(colors(accent_alt), 10%),
+// 		darker: darken(colors(accent_alt), 20%),
+// 		darkest: darken(colors(accent_alt), 40%)
+// 	),
+// 	action: (
+// 		base: colors(action),
+// 		light: lighten(colors(action), 10%),
+// 		lighter: lighten(colors(action), 20%),
+// 		lightest: lighten(colors(action), 40%),
+// 		dark: darken(colors(action), 10%),
+// 		darker: darken(colors(action), 20%),
+// 		darkest: darken(colors(action), 40%)
+// 	),
+// 	function: (
+// 		base: colors(function),
+// 		light: lighten(colors(function), 10%),
+// 		lighter: lighten(colors(function), 20%),
+// 		lightest: lighten(colors(function), 40%),
+// 		dark: darken(colors(function), 10%),
+// 		darker: darken(colors(function), 20%),
+// 		darkest: darken(colors(function), 40%)
+// 	),
+// 	alert: (
+// 		base: colors(alert),
+// 		light: lighten(colors(alert), 10%),
+// 		lighter: lighten(colors(alert), 20%),
+// 		lightest: lighten(colors(alert), 40%),
+// 		dark: darken(colors(alert), 10%),
+// 		darker: darken(colors(alert), 20%),
+// 		darkest: darken(colors(alert), 40%)
+// 	)
+// 	,gray: (
+// 		base: colors(gray),
+// 		light: lighten(colors(gray), 10%),
+// 		lighter: lighten(colors(gray), 20%),
+// 		lightest: lighten(colors(gray), 40%),
+// 		dark: darken(colors(gray), 10%),
+// 		darker: darken(colors(gray), 20%),
+// 		darkest: darken(colors(gray), 40%)
+// 	)
+// 	,text: (
+// 		base: colors(text),
+// 		light: lighten(colors(text), 10%),
+// 		lighter: lighten(colors(text), 20%),
+// 		lightest: lighten(colors(text), 40%),
+// 		dark: darken(colors(text), 10%),
+// 		darker: darken(colors(text), 20%),
+// 		darkest: darken(colors(text), 40%)
+// 	)
+// 	,link: (
+// 		base: colors(link),
+// 		light: lighten(colors(link), 10%),
+// 		lighter: lighten(colors(link), 20%),
+// 		lightest: lighten(colors(link), 40%),
+// 		dark: darken(colors(link), 10%),
+// 		darker: darken(colors(link), 20%),
+// 		darkest: darken(colors(link), 40%)
+// 	)
+// 	,label: (
+// 		base: colors(label),
+// 		light: lighten(colors(label), 10%),
+// 		lighter: lighten(colors(label), 20%),
+// 		lightest: lighten(colors(label), 40%),
+// 		dark: darken(colors(label), 10%),
+// 		darker: darken(colors(label), 20%),
+// 		darkest: darken(colors(label), 40%)
+// 	)
+// 	,soft_action: (
+// 		base: colors(soft_action),
+// 		light: lighten(colors(soft_action), 10%),
+// 		lighter: lighten(colors(soft_action), 20%),
+// 		lightest: lighten(colors(soft_action), 40%),
+// 		dark: darken(colors(soft_action), 10%),
+// 		darker: darken(colors(soft_action), 20%),
+// 		darkest: darken(colors(soft_action), 40%)
+// 	)
+// 	,form: (
+// 		base: colors(form),
+// 		light: lighten(colors(form), 10%),
+// 		lighter: lighten(colors(form), 20%),
+// 		lightest: lighten(colors(form), 40%),
+// 		dark: darken(colors(form), 10%),
+// 		darker: darken(colors(form), 20%),
+// 		darkest: darken(colors(form), 40%)
+// 	)
+// 	,subtle: (
+// 		base: colors(subtle),
+// 		light: lighten(colors(subtle), 10%),
+// 		lighter: lighten(colors(subtle), 20%),
+// 		lightest: lighten(colors(subtle), 40%),
+// 		dark: darken(colors(subtle), 10%),
+// 		darker: darken(colors(subtle), 20%),
+// 		darkest: darken(colors(subtle), 40%)
+// 	)
+// 	,select: (
+// 		base: colors(select),
+// 		light: lighten(colors(select), 10%),
+// 		lighter: lighten(colors(select), 20%),
+// 		lightest: lighten(colors(select), 40%),
+// 		dark: darken(colors(select), 10%),
+// 		darker: darken(colors(select), 20%),
+// 		darkest: darken(colors(select), 40%)
+// 	)
+// 	,highlight: (
+// 		base: colors(highlight),
+// 		light: lighten(colors(highlight), 10%),
+// 		lighter: lighten(colors(highlight), 20%),
+// 		lightest: lighten(colors(highlight), 40%),
+// 		dark: darken(colors(highlight), 10%),
+// 		darker: darken(colors(highlight), 20%),
+// 		darkest: darken(colors(highlight), 40%)
+// 	)
+// ) !global;
 
 $primary_color: colors(primary) !default;        		//UW Blue (dark blue)
 $primary_color_alt: colors(primary_alt) !default;    	//UW Steel Blue
@@ -297,9 +381,33 @@ $highlight_color_lighter: lighten($highlight_color, 20%)                !default
 $color_white: #fff;
 $color_black: #000;
 
-.color_white, %color_white { color: white; }
-.color_txt, %color_txt { color: color(text); }
-.color_alert, %color_alert { color: color(alert); }
-.color_link, %color_link   { color: color(link);  }
-.color_highlight, %color_highlight { color: color(highlight); }
-.color_label, %color_label {color: color(label)};
+%color_white, .color_white { color: white; }
+%color_txt, .color_txt { color: color(text); }
+%color_alert, %color_select, .color_alert { color: color(select); }
+%color_link, .color_link { color: color(link); }
+%color_highlight, .color_highlight { color: color(highlight); }
+%color_label, .color_label { color: color(label); }
+%color_soft, .color_soft { color:color(soft_action); }
+
+//Background colors.
+
+%highlight, .highlight{
+	&_yellow{
+		background-color: color(yellow, light) !important;
+	}
+	&_red{
+		background-color: color(alert, lightest) !important;
+	}
+	&_blue{
+		background-color: color(highlight) !important;
+	}
+	&_gray{
+		background-color: color(form) !important;
+	}
+	&_green{
+		background-color: color(green, light) !important;
+	}
+	&_orange{
+		background-color: color(orange, lightest) !important;
+	}
+}

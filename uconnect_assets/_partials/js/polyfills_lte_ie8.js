@@ -1,6 +1,11 @@
-require(['jquery', 'placeholder'], function($) {
+var dependencies = [
+        'jquery',
+        'placeholder'
+    ];
 
-    // getComputedStyle - used in mq_check()
+require(dependencies, function($) {
+
+    // getComputedStyle - used in check_mq()
     // http://snipplr.com/view/13523/
     // if (!window.getComputedStyle) {
     //     window.getComputedStyle = function(el, pseudo) {

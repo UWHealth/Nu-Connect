@@ -43,7 +43,7 @@ require(['jquery', 'velocity'], function(a) {
                     } while (a(w).hasClass("tab_button") === true);
 
                     //Check if we've already added this tab to a grouping.
-                    if (a(y).data("tabbed") !== true && a(y).attr('data-tabbed') != 'true') {
+                    if (a(y).data("tabbed") !== true && a(y).attr('data-tabbed') != 'true' && a(y).parent().attr('data-tabbed') != 'true') {
 
                         //Grab data-tab attributes (since they can be used as optional style alternatives)
                         if (a(y).attr("data-tab") !== undefined) {
@@ -65,27 +65,32 @@ require(['jquery', 'velocity'], function(a) {
 
                 }
 
-                var tabbed = a('.tabbed');
+                var $tabbed = a('.tabbed');
 
                 //Add a nav element to the top of the groups
                 //only if they contain more than one tab_content child
-                a(tabbed).each(function() {
-                    if (a(this).children('.tab_content').length > 1 && a(this).attr('data-tabbed') != 'true') {
+                $tabbed.not('[data-tabbed="true"]').each(function() {
+                    if (a(this).children('.tab_content').length > 1 && a(this).attr('data-tabbed') !== 'true') {
                         a(this).prepend("<nav class='tabs' />");
-                    };
+                    }
                 });
 
                 //Duplicate tab_buttons and put them inside nav.tabs
                 a(".tab_button:not([data-tabbed='true'])").each(function() {
                     //Find the appropriate nav.tabs
-                    var tabNav = a(this).closest(".tabbed").children(".tabs");
+                    var $this = a(this),
+                        tab_parent = $this.closest(".tabbed");
 
-                    //Clone the tab_buttons and move them to nav.tabs
-                    //Meanwhile add .tab and remove .tab_button classes for style purposes.
-                    a(this).clone()
-                        .appendTo(tabNav)
-                        .addClass('tab')
-                        .removeClass("tab_button");
+                    if(tab_parent.attr('data-tabbed')!=='true'){
+                        var tabNav = tab_parent.children(".tabs");
+
+                        //Clone the tab_buttons and move them to nav.tabs
+                        //Meanwhile add .tab and remove .tab_button classes for style purposes.
+                        $this.clone()
+                            .appendTo(tabNav)
+                            .addClass('tab')
+                            .removeClass("tab_button");
+                    }
                 });
 
                 //Make the first tab and tab_button in each grouping the active tab.
@@ -120,6 +125,7 @@ require(['jquery', 'velocity'], function(a) {
                 $('#mega_nav .tabbed .tab_button').addClass('toggle');
                 $('#mega_nav .tabbed .tab_button').not('.tab_link').addClass('icon');
                 $('#mega_nav').removeClass('invisible');
+				$('#mega_nav .tabbed').show();
 
 
                 //----------------------------------------------------------
@@ -140,33 +146,35 @@ require(['jquery', 'velocity'], function(a) {
 
 
 							//Do Velocity Stuff if available
-                            if (typeof a.velocity == 'object') {
+                            if (typeof($.Velocity) == 'function') {
 
 								//TOGGLE BEHAVIOR
 								//
 								if ($this.hasClass('toggle')) {
 
-									//Hiding target's sibling tab_content
+									//Hiding Sibling tab_content
 									//By sliding up and fading out
+
                                     a(d).siblings(".tab_content:visible")
                                         .velocity({
-                                            translateY: ["-10%", "easeOut", "0"],
-                                            opacity: [0, "easeIn", 1]
+                                            translateY: ["-1%", "easeOutQuad", "0"],
+                                            opacity: [0, "easeOut", 1],
+											scaleY: ["0", "easeOut", "1"]
                                         }, {
                                             display: "none"
                                         }, {
                                             duration: 120
                                         });
-
+									//cubic-bezier(.1, 1.23, 1, 1.13)
 									//Make target slide out (with a bounce) and fade in
                                     a(d).velocity({
-										scaleY: ["1", "easeOutExpo", "0.05"],
-                                        translateY: ["0", [480, 22], "-30%"],
-                                        opacity: [1, "easeIn", 0],
+										scaleY: ["1", [320, 21], "0"],
+                                        translateY: ["0", [200, 15], "-2%"],
+                                        opacity: [1, "easeOut", .5],
                                     }, {
                                         display: "block"
                                     }, {
-                                        duration: c.options.speed
+                                        duration: 150
                                     });
 
 								//NON-TOGGLE, just do fade fade
@@ -202,13 +210,13 @@ require(['jquery', 'velocity'], function(a) {
                             a(this).addClass("active");
                             a("a[href='" + d + "'].tab_button").addClass("active");
 
-                        // Toggle-tabs (if active)
+                        // ACTIVE Toggle-tabs
                         } else if ( a(this).hasClass('toggle') ) {
 
 							d = a(this).attr("href");
 
 							//Check for Velocity
-							if (typeof a.velocity == 'object') {
+							if (typeof($.Velocity) == 'function') {
 
 								//Shrink target and move it up slightly.
 								a(d).velocity({

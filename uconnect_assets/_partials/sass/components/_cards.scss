@@ -1,0 +1,424 @@
+//http://codepen.io/Cleecanth/pen/jDvhi
+
+////////////////////////
+// CARDS
+////////////////////////
+//---------------------------------------------
+// DEMO: http://codepen.io/Cleecanth/pen/jDvhi
+//---------------------------------------------
+
+%relative{
+	position: relative;
+}
+
+//Card modifiers
+.card{
+	@extend %box_panel;
+	@extend %one_whole;
+	@extend %o_hide;
+	display: block;
+	@include type-space(height, 16.5);
+	@include type-space(max-width, 17);
+	@include type-space(margin-bottom, 1.5);
+	transform: translateZ(0);
+	transition: all 120ms ease-in-out;
+
+	&_short{
+		@include type-space(height, 11.5);
+		@include type-space(max-width, 15);
+	}
+	&_wide{
+		@include type-space(max-width, 18);
+	}
+	&_thin{
+		@include type-space(max-width, 13);
+	}
+	&_center{
+		margin-left: auto;
+		margin-right: auto;
+	}
+	&_row &{
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	&_expand{
+		@include type-space(max-height, 16.5);
+		transition: all 150ms ease-in-out;
+		width: 100%;
+		@extend %relative;
+		display: block;
+		@extend %abs_left;
+		@extend %abs_right;
+
+		&:hover, &:focus{
+			width: 104%;
+			left: -2%;
+			right: -2%;
+			transform: translateY(-1rem);
+			outline: 0;
+		}
+	}
+
+	&_expand:hover &, &_expand:focus &{
+		@include type-space(height, 18);
+		box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.1),
+			0 1px 6px rgba(0, 0, 0, 0.2);
+
+		&.card_short{
+			@include type-space(height, 14);
+		}
+		&_media{
+			padding-bottom: 0;
+			@include type-space(min-height, 1.95);
+		}
+
+		&_heading{
+			@include type-space(padding-bottom, .5);
+			text-decoration: none;
+		}
+	}
+}
+
+//Padding
+.card{
+	&_body, &_content,
+	&_foot, &_head{
+		@extend %pad_h_half;
+		@extend %pad_t_quarter;
+		@extend %pad_b_half;
+		@extend %relative;
+		transform: translateZ(0);
+		transition: all 200ms ease-in-out;
+
+		.card_wide &{
+			@extend %pad_h;
+			@extend %smalls_pad_h_half;
+		}
+		.card_thin &{
+			padding-left: 4%;
+			padding-right: 4%;
+		}
+		.card_expand:hover &, .card_expand:focus &{
+			padding-left: 3%;
+			padding-right: 3%;
+		}
+	}
+
+	&_flush{
+		padding: 0;
+	}
+
+	&_heading{
+		@include type-space(line-height, 1);
+		@extend %pad_t_half;
+		margin-bottom: 0;
+		transition: padding 200ms ease-in;
+
+		@include mq(smalls){
+			word-wrap: break-word;
+		}
+	}
+	//Removes negative margins when combined with headings
+	p{
+		margin-top: 0;
+	}
+}
+//Card Components
+.card{
+	&_head{
+		@include type-space(padding-bottom, .75)
+	}
+	&_media{
+		overflow: hidden;
+		@include type-space(min-height, 6.5);
+		background-position: center;
+		background-size: cover;
+		position: relative;
+		transition: min-height 200ms ease-in;
+		background-color: color(highlight);
+
+		.card_short &{
+			@include type-space(min-height, 4.5);
+		}
+	}
+	&_media_icon{
+		display: table;
+		height: 100%;
+		width: 100%;
+		margin: auto !important;
+		text-align: center;
+		position: absolute;
+		line-height: 1;
+		@extend %abs_all;
+	}
+	//card_info
+	//Only used when footer is switched out for an action on hover
+	//Must be nested in card_foot
+	&_info{
+		transition: opacity 200ms ease-in 200ms,
+			padding 150ms ease-in-out 200ms,
+			max-height 200ms ease-in;
+
+		.card_expand &{
+			max-height: 0;
+			padding-bottom: 0;
+		}
+
+		.card_expand:hover &, .card_expand:focus &{
+			opacity: 0;
+			padding: 0;
+		}
+	}
+
+	//Adds a top border and padding to links
+	//Must be nested inside card_foot
+	&_action{
+		list-style: none;
+		@extend %relative;
+		// Since actions receive vertical padding, we need to negate the card_foot_padding.
+		@include type-space(margin-bottom, -.5);
+		// Negative top margin makes border visible.
+		margin-top: -1px;
+		border-top: 1px solid color(form);
+		display: block;
+		transform-origin: bottom center;
+		transition: opacity 200ms ease-in 150ms,
+			padding 450ms ease,
+			transform 300ms ease-in,
+			line-height 200ms ease-out,
+			margin 150ms ease;
+		& a{
+			@extend %pad_v_half;
+			@extend %inline-block
+		}
+		//Card action with card_expand inheritance
+		.card_expand &{
+			margin-top: -2px;
+			opacity: 0;
+			transform: scaleY(0);
+			padding: 0;
+			@extend %one_whole;
+			line-height: 0;
+			@include type-space(bottom, -.75);
+		}
+
+		.card_expand:hover &, .card_expanded &, .card_expand:focus &{
+			transition: opacity 200ms ease-out 100ms,
+				padding 350ms ease-in-out,
+				transform 300ms ease 200ms
+				margin 200ms ease-in,
+				bottom 200ms ease;
+			transform: scaleY(1);
+			opacity: 1;
+			margin-bottom: 0;
+			line-height: 1.5rem;
+			top: 0;
+			margin-top: 0;
+			bottom: 0;
+			background-color: white;
+			@extend %pad_t_half;
+			@extend %pad_b_quarter;
+		}
+	}//End card_action
+
+
+	//Mostly used for labels inside media
+	&_label{
+		display: block;
+		@extend %relative;
+		margin-bottom: 0;
+		@extend %pad_v_quarter;
+		@extend %pad_h_half;
+		transition: padding 200ms ease-in-out,
+			background 350ms ease-in;
+		z-index: 1;
+
+		.card_wide &{
+			@extend %pad_h;
+		}
+		.card_thin &{
+			padding-left: 5%;
+			padding-right: 5%;
+		}
+
+		&:before{
+			transition: opacity 300ms ease;
+			height: 120%;
+			margin-top: 0 !important;
+			transform: scaleY(-1);
+			@extend %abs_top;
+			@include type-space(bottom, -1.5);
+		}
+		//Card expansion transition
+		.card_expand:hover &, .card_expand:focus &{
+			background-color: color(link);
+			position: relative;
+			margin-bottom: 0;
+			@extend %pad_v_half;
+
+			&:before{
+				transform: scaleY(-1);
+				opacity: 0;
+			}
+		}
+	}
+
+	//Used for absolute bottom alignment
+	//Mostly used for labels
+	//Can be used as an alternative
+	//padding from card_foot
+	&_bottom{
+		vertical-align: middle;
+		position: absolute;
+		@extend %abs_bottom;
+		@extend %abs_left;
+		@extend %abs_right;
+		@extend %one_whole;
+
+		&:before{
+			@include type-space(margin-top, -1.5);
+			transform: scaleY(1);
+		}
+	}
+
+	&_foot{
+		padding-top: 0;
+		background-color: white;
+		position: absolute;
+		bottom: 0;
+		@extend %one_whole;
+		@extend %pad_b_half;
+
+		&:before{
+			@include type-space(margin-top, -3);
+			@include type-space(margin-bottom, 1.25)
+		}
+	}
+
+}
+//Cover/Masks
+
+//Used for extensions below
+%card_cover{
+	&:before{
+		@include type-space(min-height, 2.5);
+		content: " ";
+		@extend %abs_all;
+		display: block;
+		@extend %one_whole;
+		position: absolute;
+		z-index: -1;
+	}
+}
+
+.card{
+	//White cover
+	&_cover:before{
+		@extend %card_cover;
+		transform: translateZ(0);
+		// background-image: linear-gradient(to bottom,
+		// 	rgba(255,255,255, 0) 0%,
+		// 	rgba(255,255,255, 1) 74%);
+		transition: transform 300ms ease-in;
+		background-image: url("../img/bg/card_mask_light.svg");
+		background-size: auto 100%;
+	}
+
+	//Dark cover
+	&_cover_dark:before{
+		@extend %card_cover:before;
+		background-image: linear-gradient(to bottom,
+			rgba(color(text, light), 0) 0%,
+			rgba(color(text, light), .4) 90%);
+		background-image: url("../img/bg/card_mask_dark.svg");
+		background-size: auto 100%;
+	}
+
+	&_cover{
+		background-color: white;
+	}
+}
+
+.card_tags{
+	@extend %txt_small;
+	@include type-space(height, 2);
+	list-style: none;
+	overflow: hidden;
+	margin: 0;
+	@extend %relative;
+	@extend %desk_pad_t_quarter;
+	@extend %inline-block;
+	width: auto;
+
+	&.open{
+		margin-top: -1.5px;
+	}
+
+	& .tag{
+		@extend %desk_pad_v_quarter;
+		text-decoration: none;
+		@extend %pad_r_quarter;
+	}
+}
+.card_tag{
+	@extend %space_n;
+	@extend %inline-block;
+
+	&:first-child{
+		@extend %pad_v_quarter;
+		@include mq((lap,smalls)){
+			display: none;
+		}
+	}
+	.card_thin &:first-child{
+		display: none;
+	}
+}
+.card_tags_toggle{
+	cursor: pointer;
+	position: absolute;
+	right: -1.15em;
+	top: 0;
+	z-index: 5;
+	@extend %pad_half;
+
+	&.active:before{
+		@extend %icon_arrow_down;
+	}
+}
+
+.card_dashbox {
+	@include type-space(height, 15);
+	.circle {
+		@extend %txt_upper;
+		height: 115px;
+		width: 115px;
+	}
+	.knob {
+		@extend %hide;
+		left: 78px !important;
+		top: -5px !important;
+		width: 100% !important;
+	}
+	.knob_data {
+		@include type_font_size(modular-scale(4));
+		@extend %type_family_secondary;
+		left: 16px;
+		letter-spacing: 1px;
+		position: absolute;
+		top: 35px;
+		span {
+			@include type_font_size(modular-scale(2));
+		}
+	}
+	.card_media {
+		@include media-query(smalls) {
+			@include type-space(min-height, 4.5);
+		}
+	}
+	@include media-query(smalls) {
+		@include type-space(height, 12.5);
+		max-width: none;
+	}
+}
