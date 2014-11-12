@@ -137,8 +137,9 @@
 .box_flag{
 	display: table;
 	width: 100%;
-	table-layout: fixed;
-
+    &_fixed{
+        table-layout: fixed;
+    }
 	&_media, &_body{
 		margin: 0;
 	}
@@ -155,6 +156,9 @@
 			@extend %inline_block;
 			vertical-align: middle;
 		}
+        a{
+            max-width: 100%;
+        }
 	}
 
 	&_body{
@@ -231,7 +235,7 @@
 		&:active {
 			&:after {
 				@include opacity(1);
-				color: $highlight_color_dark;
+				color: color(highlight, dark);
 			}
 		}
 	}

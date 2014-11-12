@@ -21,14 +21,14 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 	cursor: pointer;
 
 	&:before {
-		color: $link_color;
+		color: color(link);
 		cursor: pointer;
 		margin-top: .6em;
 		@extend %abs_right;
 	}
 	&:hover, &:focus, &:active {
 		&:before {
-			color: darken($link_color, 15%);
+			color: darken(color(link), 15%);
 		}
 	}
 	> *{
@@ -67,6 +67,10 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 	@extend %bigs_space_b;
 	@extend %bigs_pad_b_half;
 	position: relative;
+
+	ul, li, a{
+		transition: background-color 200ms ease-in, padding 200ms ease-in;
+	}
 
 	&_head{
 		@extend %color_label;

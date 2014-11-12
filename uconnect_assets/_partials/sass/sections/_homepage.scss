@@ -3,7 +3,7 @@
 ////////////////////////
 .img_header {
 	&_homepage {
-		background-color: color(highlight) !important;
+		background-color: color(highlight);
 		position: relative !important;
 		z-index: 1 !important;
 		max-width: none;
@@ -92,7 +92,9 @@
 // main
 ////////////////////////
 .homepage_main {
-	.tab_content {
+	z-index: 0;
+
+	> .wrap > .tab_content {
 		border: none;
 		background-color: transparent;
 	}
@@ -135,7 +137,6 @@
 // Mission Watch
 ////////////////////////
 .mission_watch {
-	@extend %right;
 	@extend %space_n_l;
 	@extend %pad_b;
 	@extend %bigs_pad_t;
@@ -149,6 +150,8 @@
 // The Feed
 ////////////////////////
 .homepage_feed {
+	transform: translateZ(0);
+	zoom: 1;
 	@extend %lap_one_whole;
 	@extend %smalls_one_whole;
 	.half {
@@ -157,12 +160,23 @@
 	.card {
 		@include media-query(smalls) {
 			// @include type-space(height, 13.5);
-			@include type-space(height, 11.5);
-			max-width: none !important;
+			@include type-space(height, 15.5);
+			@include type-space(max-width, 22);
+		}
+		@media screen and (max-height: 758px){
+			@include type-space(height, 13.5);
+			@include type-space(max-width, 20);
+
+			.card_expand:hover{
+				@include type-space(height, 14.5);
+			}
 		}
 	}
 	.card_media {
 		@include media-query(smalls) {
+			@include type-space(min-height, 6.5);
+		}
+		@media screen and (max-height: 758px){
 			@include type-space(min-height, 4.5);
 		}
 	}
@@ -202,6 +216,7 @@
 	}
 	.sub_heading {
 		@extend %smalls_space_neg_b_half;
+		@extend %color_label;
 	}
 	.five_eighths {
 		@extend %smalls_one_whole;
@@ -234,4 +249,9 @@
 	@extend %txt_upper;
 	border-color: currentColor;
 	color: color(link);
+}
+.row_homepage .sidebar{
+	@include mq(desk){
+		width: 24.5%; // Firefox Fix
+	}
 }

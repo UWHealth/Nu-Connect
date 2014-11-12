@@ -38,7 +38,7 @@
 ////////////////////////
 .footer_breadcrumbs {
 	background-color: #f5fbfe;
-	color: $link_color;
+	color: color(link);
 	border-top: 1px solid white;
 	.wide_content {
 		@extend %overflow_hidden;
@@ -47,49 +47,52 @@
 			width: 75%;
 		}
 	}
+
+	li {
+		margin: 0;
+		padding-right: 0;
+		position: relative;
+		z-index: 0;
+		a {
+			@extend %link_naked;
+			@extend %o_hide;
+			@extend %pad_v_half;
+			background: none;
+			margin: 0;
+		}
+		span {
+			@extend %o_hide;
+			display: block;
+		}
+		&.first {
+			padding: 0;
+			display: none;
+			.breadcrumb_ellipse {
+				display: none;
+			}
+			a {
+				margin: 0 5px 0 0px;
+			}
+		}
+		&.current_page {
+			@extend %color_select;
+			a {
+				@extend %color_select;
+				cursor: default;
+			}
+		}
+		&:nth-last-child(2n){
+			display: none;
+			///Hides the second to last breadcrumb because it is always a duplicate of the current page.
+		}
+	}
+
 	.breadcrumbs {
 		@extend %txt_upper;
         @extend %txt_bold;
         overflow-x: auto;
 		overflow-y: hidden;
-		li {
-			margin: 0;
-			padding-right: 0;
-			position: relative;
-			z-index: 0;
-			a {
-                @extend %link_naked;
-                @extend %o_hide;
-                @extend %pad_v_half;
-                background: none;
-                margin: 0;
-			}
-			span {
-                @extend %o_hide;
-                display: block;
-			}
-			&.first {
-				padding: 0;
-				display: none;
-				.breadcrumb_ellipse {
-					display: none;
-				}
-				a {
-					margin: 0 5px 0 0px;
-				}
-			}
-			&.current_page { // &:last-child {
-				@extend %color_select;
-				a {
-					@extend %color_select;
-					cursor: default;
-				}
-			}
-			&:nth-last-child(2n){
-				display: none;
-				///Hides the second to last breadcrumb because it is always a duplicate of the current page.
-			}
-		}
+
 		@include media-query(bigs){
 			overflow: hidden;
 		}
@@ -126,6 +129,7 @@
 			}
 		}
 	}
+
 	.breadcrumb_ellipse {
 		background: none;
 		display: none;
@@ -178,9 +182,6 @@
 	@include type_space(margin-bottom, 1);
 	// height: 249px;
 	overflow: visible; // hidden;
-	.box_card {
-        @include type_space(margin-top, .5);
-	}
 	.card_short {
 		@include media-query((lap,smalls)){
 			max-width: none;

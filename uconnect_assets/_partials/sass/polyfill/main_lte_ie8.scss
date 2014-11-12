@@ -23,10 +23,10 @@ input, textarea {
 	background-color: color(form);
     background: transparent url(../../img/bg/bg_black_10.png) top left repeat;
 	&:hover{
-		border-top-color: $soft_action_color;
-        border-right-color: $soft_action_color_light;
-        border-bottom-color: $soft_action_color_lighter;
-        border-left-color: $soft_action_color_light;
+		border-top-color: color(soft_action);
+        border-right-color: color(soft_action,light);
+        border-bottom-color: color(soft_action,lighter);
+        border-left-color: color(soft_action,light);
 	}
 	&:focus{
 		background-color: white;
@@ -59,7 +59,7 @@ input, textarea {
 		display: block !important;
 	}
 }
-.utility { 
+.utility {
 	.icon_menu {
 		.visually_hidden {
 			position: relative !important;
@@ -133,7 +133,7 @@ header {
 		color: #5d9bc0;
 		&:after {
 			color: #5d9bc0;
-		}		
+		}
 	}
 }
 #hffy_cart_js {

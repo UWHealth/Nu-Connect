@@ -3,28 +3,43 @@
 ////////////////////////
 label {
 	@extend %color_label;
+	@extend %txt_small;
+	@extend %txt_upper;
+	@extend %txt_bold;
 }
 .label{
 	@extend %color_label;
 	@extend %sub_heading;
 }
+//Useful variables that coorespond to the overall height of inputs
+// (as defined below)
+$bigs-input-padding:
+	((($base_line_height / 2) + $base_font_size) / $base_font_size) * 1rem;
+$smalls-input-padding:
+	(($base_line_height + $base_font_size)/ $base_font_size) * 1rem;
+
 input, textarea {
+	@include type_font_size(modular-scale(0), false);
     @include type-space(line-height, 1);
     @extend %type_family_primary;
-    @extend %pad_v_half;
-	@extend %bigs_pad_v_quarter;
 	@extend %abs_left;
-    background-color: rgba(color(text), .1);
+	@extend %color_txt;
+	@extend %pad_v_half;
+	@extend %bigs_pad_v_quarter;
+	padding-left: .75em;
+	padding-right: 1em;
+	font-weight: normal;
+	letter-spacing: 0;
+	text-transform: none;
+	background-color: rgba(color(text), .1);
+	box-shadow: inset 0 1px 1px 0px rgba(color(text),0.075);
     border: 1px solid transparent;
-    border-radius: 2px;
-    background-color: rgba(color(text), .1);
-    font-size: inherit; //Allows for flexibly sized inputs.
+    border-radius: 2.5px;
     outline: none;
-    padding-left: 1em;
-    padding-right: 1em;
-    position: relative;
+	position: relative;
     transition: all 200ms ease-in;
-    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+
     &::placeholder {
         @include type_font_size(modular-scale(-1));
     }
@@ -39,29 +54,19 @@ input, textarea {
     }
     &:focus, &:active, &.active {
         background-color: white;
-        border: 1px solid $soft_action_color;
+        border: 1px solid color(soft_action);
         box-shadow: inset 0 2px 1px 0 rgba(color(label), .8);
         color: color(text);
     }
     &.input_big {
         padding: .75em 8.5em .75em 1.5em;
     }
-    &.valid, &.error, &.invalid {
-		@extend %txt_normal;
-        @extend %txt_bold;
-    }
-    &.valid {
-        background-color: color(form);
-    }
-    &.error, &.invalid {
-        @extend %highlight_red; // $alert_color_lighter;
-    }
     &:disabled, &.disabled {
         background-color: #e8ecf3 !important;
-        border: 1px dotted $label_color !important;
+        border: 1px dotted color(label) !important;
         box-shadow: none !important;
         &::placeholder {
-            color: $label_color_light !important;
+            color: color(label, light) !important;
         }
     }
 }
@@ -73,6 +78,7 @@ input, textarea {
 	}
 	[class*='button'] {
         @extend %button_inside;
+		z-index: 3;
 	}
 }
 input[type="search"]:-webkit-autofill{
@@ -130,7 +136,7 @@ select {
     &.icon {
         &:after {
             @include type_font_size(modular-scale(1));
-            color: $primary_color;
+            color: color(primary);
             top: $base_line_height/2;
             @extend %abs_right;
         }
@@ -140,7 +146,7 @@ select {
         @include type_space(padding-top, .25);
         @include type_space(padding-bottom, .25);
         transition: all .15s linear;
-        width: 100%;
+        @extend %one_whole;
     }
 }
 *::placeholder {
@@ -210,7 +216,7 @@ input::-webkit-inner-spin-button {
 .dd_container {
     @include type_font_size(modular-scale(-1));
     @extend %txt_upper;
-    border: 1px solid $link_color;
+    border: 1px solid color(link);
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     box-shadow: 0 2px 1px rgba(color(text), .1);
@@ -233,7 +239,8 @@ input::-webkit-inner-spin-button {
         z-index: 220;
     }
     li {
-        @extend %pad_h_half;
+        @extend %pad_l_half;
+        @extend %pad_r;
         @extend %pad_v_quarter;
         cursor: pointer;
 		transform: scaleY(1);
@@ -259,7 +266,7 @@ input::-webkit-inner-spin-button {
     overflow: visible; //Overrides the fallback.
 
 	& li{
-		transform: scaleY(0.1);
+		transform: scaleY(0);
 	}
 }
 .dd_hidden{ //Fallback for browsers without css-transforms
@@ -337,33 +344,172 @@ input::-webkit-inner-spin-button {
 //         color: #2fbb79;
 //     }
 // }
-
+input{
+	&.valid, &.error, &.invalid {
+		@extend %txt_normal;
+		@extend %txt_bold;
+	}
+	&.valid {
+		background-color: color(form);
+	}
+	&.error, &.invalid {
+		background-color: mix(color(form), color(alert, lightest), 80%);
+	}
+}
 .validation{
-	z-index: 1;
-	@include type-space(right, .25);
-	padding: 0;
+	//Applied to the label
+	// Wraps the input and validation message
+	@extend %display_inline_block;
+	@extend %one_whole;
+	@extend %contain;
 
-	&_error{
-		@extend %txt_small;
-		top: 100%;
-		text-align: left;
-		@extend %space_neg_b;
-		@extend %abs_right;
-		padding: 0 !important;
+	//The container for validation messages.
+	&_msg{
+		padding: 0;
 		display: table;
+		vertical-align: middle;
+		@extend %absolute;
+		table-layout: fixed;
+		z-index: 1;
 
-		.error{
-			@extend %color_txt;
-			@extend %display_block;
+		&:before{
+			@extend %absolute;
+			font-size: 1.25em;
+			line-height: 1;
+			z-index: 0;
 		}
-
-		& .validation_body{
-			padding: .75em .75em .75em 2.25em;
+		&:after{
+			display: none;
+			z-index: 0;
 		}
 	}
 
-	&_success:before{
-		color: color(green, darkest);
-		line-height: 2.25;
+	&_body{	//validation message body
+		padding: .5em .75em;
+		display: inline-block;
+		color: transparent;
+		border: 1px solid transparent;
+		border-radius: 3px;
+		z-index: 1;
+		position: relative;
+	}
+}
+
+.vld{
+	&_top{
+		bottom: 100%;
+		@extend %space_neg_b;
+		@extend %abs_right;
+		padding-bottom: .15rem;
+
+		&:before{ //Icon Placement
+			bottom: 0;
+			@extend %abs_right;
+			margin-bottom: -($smalls-input-padding - .35rem);
+			@include mq(bigs){
+				margin-bottom: -($bigs-input-padding - .15rem);
+			}
+		}
+		&:after{ //Triangle placement
+			bottom: -.85em;
+			right: 1px;
+			@include triangle('down', 2em, currentColor);
+			z-index: 1;
+		}
+	}
+	&_bottom{
+		top: 100%;
+		@extend %space_neg_t;
+		@extend %abs_right;
+		padding-top: .15rem;
+
+		&:before{ //Icon Placement
+			@extend %abs_right;
+			margin-top: -($smalls-input-padding - .25rem);
+			@include mq(bigs){
+				margin-top: -($bigs-input-padding);
+			}
+		}
+		&:after{ //Triangle placement
+			top: -.85em;
+			right: 1px;
+			@include triangle('up', 2em, currentColor);
+		}
+	}
+	&_right{
+		left: 100%;
+		@extend %space_l_half;
+		vertical-align: middle;
+
+		&:before{ //Icon Placement
+			@extend %abs_left;
+			margin-left: -($smalls-input-padding - .5rem);
+			@include mq(bigs){
+				margin-left: -($bigs-input-padding);
+			}
+		}
+
+		&:after{ //Triangle placement
+			left: -.85em;
+			@include triangle('left', 2em, currentColor);
+		}
+	}
+	&_left{
+		right: 100%;
+		@extend %space_r_half;
+		vertical-align: middle;
+
+		&:before{ //Icon Placement
+			@extend %abs_right;
+			margin-right: -($smalls-input-padding - .5rem);
+			@include mq(bigs){
+				margin-right: -($bigs-input-padding);
+			}
+		}
+		&:after{ //Triangle placement
+			right: -.85em;
+			@include triangle('right', 2em, currentColor);
+		}
+	}
+
+	&_right, &_right:after,
+	&_left, &_left:after{ //Vertical alignment
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+
+.validation{
+	&_error{
+		@extend %txt_small;
+		line-height: 1.1;
+		text-align: left;
+
+		.validation_body{
+			background-color: color(alert, lightest);
+			border-bottom-color: color(select);
+			z-index: 1;
+		}
+
+		.error{
+			color: color(select, darker);
+			@extend %display_table;
+			@extend %txt_normal;
+		}
+
+		&:after{
+			display: inline-block;
+			color: color(alert, lightest);
+		}
+	}
+	&_success{
+		&:before{
+			color: color(green, darkest);
+		}
+	}
+}
+.validation_msg.icon{
+	&_error:before{
+		@extend %color_select;
 	}
 }

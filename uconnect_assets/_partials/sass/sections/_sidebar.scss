@@ -71,6 +71,12 @@
 	@extend %txt_upper;
 	@extend %txt_bold;
 }
+.js .sidebar_nav li > ul{
+	display: none;
+}
+.js .sidebar_nav li > .currentbranch0 ~ ul{
+	display: block;
+}
 .sidebar_content > ul{
 	margin-left: 0;
 }

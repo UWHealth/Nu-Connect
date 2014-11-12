@@ -71,7 +71,7 @@ html {
 }
 .circle {
 	border-radius: 50%;
-	display: block;
+	@extend %display_inline_block;
 	position: relative;
 	word-wrap: break-word;
 }
@@ -112,6 +112,9 @@ html {
 		}
 	}
 	&_answer{
+		.js &{
+			display: none;
+		}
 		@extend %pad_b_half;
 		@extend %space_b;
 		padding-left: 0;
@@ -177,6 +180,10 @@ html {
 // Promos
 ////////////////////////
 .promo {
+	//Modular page promos
+	.box_flag_media{
+		vertical-align: top;
+	}
 	.half_content {
 		@extend %bigs_pad_r;
 		@extend %lap_pad_r_half;
@@ -189,24 +196,10 @@ html {
 			padding-right: 0;
 		}
 	}
+
 	.circle {
-		width: 55px;
-	}
-	&.promo_event {
-		@extend %space_b;
-		.circle {
-			background-color: color(highlight);
-			color: color(link);
-		}
-	}
-	&.promo_important_date {
-		@extend %space_b;
-		.circle {
-			background-color: currentColor;
-			span{
-				@extend %color_highlight;
-			}
-		}
+		@include rems(width, 55px);
+		@include rems(height, 55px);
 	}
 	&_numbers_of_note {
 		@extend %space_b;
@@ -217,6 +210,31 @@ html {
 			@extend %pad_r_half;
 			@extend %pad_b_2;
 			@extend %color_select;
+		}
+	}
+}
+.promo_important_date {
+	@extend %space_b;
+	.circle {
+		background-color: currentColor;
+		span{
+			@extend %color_highlight;
+		}
+	}
+}
+.promo_event {
+	@extend %space_b;
+	.circle {
+		background-color: color(highlight);
+		color: currentColor;
+	}
+	br{
+		display: none;
+	}
+	a{
+		@extend %display_block;
+		&:hover .circle{
+			background-color: color(highlight,dark);
 		}
 	}
 }
@@ -272,7 +290,67 @@ html {
 	}
 }
 .no-js {
-	[class^="embed_"], .magnific_popup_iframe {
+	[class^="embed_"], .mfp_iframe, .mfp_iframe_login {
 		display: none;
+	}
+}
+
+//Used before JS kicks in and reformats these into accordion trees
+// Should prevent jarring vertical bounce.
+.list_child_tree{
+	& > ul > li > a {
+	    color: color(label);
+	    font-family: 'bitter';
+	    font-size: 1.3em;
+	    border-top: 2px solid color(form);
+	    display: block;
+	    margin-bottom: 1.5rem;
+	}
+
+	& ul {
+	    list-style: none;
+	    margin-left: 0;
+	    margin-bottom: 1.5rem !important;
+	}
+
+	& a {
+	    text-decoration: none;
+	}
+
+	& li > ul > li {
+	    width: 50%;
+	    float: left;
+	    padding: .75rem;
+	    margin-bottom: .75rem;
+		background-color: white;
+		transition: width 200ms ease-out;
+	}
+
+	& li > ul > li:nth-child(2n+2) {
+	    float: right;
+	}
+
+	& ul:after {
+	    content: "";
+	    display:  table;
+	    clear: both;
+	}
+
+	& li>ul>li>ul>li {
+	    width: 100%;
+	    padding: .375rem;
+	    margin-bottom: 0;
+	}
+
+	& li>ul>li>ul {
+	    margin-bottom: .375rem !important;
+	}
+
+	& >ul>li>a:last-child {
+	    padding-bottom: 2.25rem;
+	}
+
+	& li > ul a + ul {
+	    padding-top: .75rem;
 	}
 }

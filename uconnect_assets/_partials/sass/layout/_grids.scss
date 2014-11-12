@@ -192,7 +192,7 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     padding:0;                      // [2]
     @include rems(margin-left, -$gutter);
     @if $use_markup_fix != true and $use_floats != true{
-        letter-spacing:-0.31em;
+        letter-spacing:-0.34em;
     }
     @if $use_floats == true {
         @extend %clearfix;
@@ -843,15 +843,6 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
         z-index: 10;
     }
 }
-.full_width_page {
-    @extend %full_width;
-    box-shadow: none;
-    display: inline-block;
-    &:after {
-        box-shadow: none;
-        display: inline-block;
-    }
-}
 .half{
     @extend %one_half;
 }
@@ -999,9 +990,7 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 .row_auto {
     display: table-row;
 }
-[class*="width_"]{
-    @extend %grid_item;
-}
+
 .row_paginated > .column{
 	@extend %smalls_one_whole;
 	& .button_group{

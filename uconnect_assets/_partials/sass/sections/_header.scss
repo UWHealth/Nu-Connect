@@ -1,6 +1,9 @@
 .top_nav{
 	z-index: 100;
 	box-shadow: 0 3px 4px rgba(5, 14, 43, 0.1);
+	@media screen and (min-width: 1125px){
+		@include rems(max-height, 150px);
+	}
 }
 .skip_nav{
 	transition: all 200ms ease-out;
@@ -44,6 +47,9 @@
 			@include type-space(padding-left, .25);
 			@include type-space(padding-right, .25)
 		}
+	}
+	@include mq(bigs){
+		@include rems(max-height, 42px);
 	}
 	& .button_inset{
 		transform: translateZ(0);
@@ -171,8 +177,8 @@
 	}
 	.button{
 		@include mq(smalls){
-			padding-right: 1.75%;
-			padding-left: 1.75%;
+			padding-right: 4px;
+			padding-left: 4px;
 		}
 	}
 }
@@ -343,6 +349,7 @@
 		}
 	}
 }
+
 #tab_quick-links, .tab_quick_links{
 	color: color(link) !important;
 	border-bottom-color: transparent !important;
@@ -373,7 +380,7 @@
 //  Mega Menu
 /////////////////////////
 .mega_menu {
-    @include type-space(margin-top, -3);
+    @include type-space(margin-top, -4);
     @extend %one_whole;
 	transform: translateZ(0);
 	transform-style: preserve-3d;
@@ -387,6 +394,7 @@
         display: block !important;
         margin-top: 0 !important;
         z-index: -1;
+		box-shadow: none;
     }
     .wrap {
         padding: 0;
@@ -396,14 +404,19 @@
 		display: none;
 		transform-style: preserve-3d;
 		transform-origin: top center;
-		box-shadow: 0 2px 3px rgba(color(text), .15),
-			0 2px 8px -1px rgba(color(text) ,.12);
         min-height: 0;
 
 		@include mq(smalls){
 			width: 96%;
 			margin-left: auto;
 			margin-right: auto;
+			box-shadow: 0 2px 3px rgba(color(text), .15),
+				0 2px 8px -1px rgba(color(text) ,.12);
+
+		}
+		&.loaded{
+			box-shadow: 0 2px 3px rgba(color(text), .15),
+				0 2px 8px -1px rgba(color(text) ,.12);
 		}
         > .tab_content {
 			transform-origin: top center;
@@ -414,9 +427,12 @@
             margin: 0;
             opacity: 1;
 			transform: translateZ(0);
+			height: auto;
 
 			@include mq(bigs){
-				box-shadow: 0 4px 6px rgba(color(text),0.15);
+				&.loaded{
+					box-shadow: 0 4px 6px rgba(color(text),0.15);
+				}
 				padding: 0;
 				position: absolute;
 			}
@@ -557,6 +573,11 @@
 				border-top-color: transparent;
 			}
 		}
+	}
+}
+@include mq(smalls){
+	.quick_links .column{
+		padding-left: 0;
 	}
 }
 
@@ -736,6 +757,9 @@
         color: $color_white;
         text-transform: none !important;
 		text-decoration: none;
+		&:hover{
+			text-decoration: underline;
+		}
     }
     @include mq(smalls){
         color: color(primary);
@@ -804,21 +828,22 @@
 	max-width: none;
 }
 .flair {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
 	background-repeat: no-repeat;
 	background-position: top center;
-	@extend %space_r_half;
+	overflow: visible;
+}
+//This is for the changing color backgrounds.
+.hidden_image{
+	position: absolute;
+	display: none;
 }
 .img_header {
-    background-color: $link_color;
+    background-color: color(link);
 	position: relative;
 	// <main> is z-index:1; .img_header is z-index:2; .footer is z-index:0; .sidebar is z-index: 241 (above dropdown)
 	z-index: 2;
 	transform: translateZ(0);
+	transition: background-color 400ms ease-in;
 }
 //If background flair, we add this class
 // to make sure lighter images don't obscure the overlaid typography
@@ -831,8 +856,12 @@
 		@extend %link_naked;
 		@include link_color(color(highlight));
 	}
+	.box_flag{
+		border-spacing: 1.25rem 0;
+	}
 	.box_flag_media{
 		background-color: transparent;
+		vertical-align: top;
 	}
 	.main_content{
 		position: relative;

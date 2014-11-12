@@ -208,6 +208,10 @@
     }
 }
 
+.bkg_n{
+    background: transparent !important;
+}
+
 //------------------------------------
 //    $RESPONSIVE MIXINS
 //------------------------------------
@@ -219,7 +223,6 @@
 	%#{$namespace}overflow_hidden, %#{$namespace}o_hide {
 		overflow: hidden;
 	}
-
     //Media block.
     // Taken from: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
     // Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.

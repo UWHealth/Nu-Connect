@@ -36,12 +36,12 @@ $tab_border:                  		$tab_button_bg           !default;
 //Active tab-bg color.
 //Note: If invert-active is set to false,
 //then this will apply to the inactive tabs.
-$tab_button_bg:                     $function_color_darker   !default;
+$tab_button_bg:                     color(function, darker)   !default;
 
 
 //Tab box content BG color.
 //Also applied to non-inverted-active tabs.
-$tab_content_bg:                    $function_color_lighter  !default;
+$tab_content_bg:                    color(function, lighter)  !default;
 
 //Inactive tab coloring
 $tab_button_secondary:              pick_best_color($tab_button_bg,(
@@ -167,7 +167,7 @@ $tab_minimal_include: 				true 					!default;
 		color: white;
 	}
 	&.active:hover{
-		color: color(alert);
+		@extend %color_select;
 	}
 }
  //Tab-box content style
@@ -590,6 +590,12 @@ $tab_minimal_include: 				true 					!default;
 		}
 	}
 }
+
+//Hide secondary tab_content before tabs.js loads
+.js .tab_content + .tab_button + .tab_content{
+	display: none;
+}
+
 
 } // End All Tabs output @IF
 

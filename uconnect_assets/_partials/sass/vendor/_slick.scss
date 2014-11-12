@@ -6,8 +6,8 @@
 $include_slider:        true !default;
 $slick_font_path: $font_file_location + "/" !default;
 $slick_loader_path: "../img/" !default;
-$slick_arrow_color: $soft_action_color;
-$slick_dot_color: $soft_action_color;
+$slick_arrow_color: color(soft_action);
+$slick_dot_color: color(soft_action);
 $slick_dot_character: '\2022' !default;
 @function slick-image-url($url) {
     @if function-exists(image-url) {
@@ -146,11 +146,24 @@ $slick_dot_character: '\2022' !default;
         height: auto;
         border: 1px solid transparent;
     }
-	.box_card{
-		position: relative;
-		z-index: 5;
-	}
 }
+.slide_media_container{
+    width: 33%;
+    // display: inline-block;
+    // float: left;
+}
+.slide_media{
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.slide_media img{
+    max-width: none;
+    // @include fluid-ratio(344px 254px, 277px 242px);
+}
+// .feature_body{
+//     width: 66%;
+// }
+
 ////////////////////////
 // Icons
 ////////////////////////
@@ -225,20 +238,16 @@ $slick_dot_character: '\2022' !default;
         margin: 0 $gutter 0 0;
         cursor: pointer;
         button {
-            @include button(true, $highlight_color, $soft_action_color, $soft_action_color, 50%, true, true);
-            border-width: 1px;
+            @include button(true, color(highlight), color(soft_action), color(soft_action), 50%, true, true);
             color: transparent !important;
-            cursor: pointer;
-            display: block;
+            position: absolute !important;
             height: 20px;
+            width: 20px;
             left: 5px;
+            top: 4px;
             outline: 0;
             padding: 10px;
-            position: absolute;
-            top: 4px;
-            width: 20px;
             &:active, &.active {
-                position: absolute;
                 top: 5px;
             }
         }

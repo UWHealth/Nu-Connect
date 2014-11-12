@@ -19,6 +19,7 @@
     padding-right: 2.65em;
 }
 .mixitup{
+    transform: translateZ(0);
 	@extend %bigs_space_neg_l;
 	@extend %space_neg_l_half;
 	letter-spacing: -.75em;
@@ -110,7 +111,7 @@
 .sorted .mix:before {
     content: attr(data-title);
     display: block;
-    white-space:pre;
+    // white-space:pre;
 	@extend %txt_small;
 	color: color(label);
 }
