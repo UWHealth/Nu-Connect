@@ -1,8 +1,6 @@
-var dependencies = [
-        'jquery'
-    ];
-
-require(dependencies, function($) {
+require([
+    'jquery'
+], function($) {
 
     //Helper for hiding/showing baseline-grid
     $('#toggles').children().click(function(e) {

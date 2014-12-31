@@ -1,8 +1,4 @@
-var dependencies = [
-        'jquery'
-    ];
-
-define(dependencies, function($) {
+define(function() {
 
     return {
 

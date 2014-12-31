@@ -1,8 +1,5 @@
-var dependencies = [
-        'jquery'
-    ];
 
-define(dependencies, function($) {
+define(['jquery'], function($) {
 
     return {
 
@@ -15,7 +12,17 @@ define(dependencies, function($) {
             }
             return window.location.origin;
         }),
-        
+
+        // ------------------------------------------------
+        // Get contentWindow.location.href
+        // ------------------------------------------------
+        // get_iframe_href: (function() {
+        //     if (!document.getElementsByClassName('mfp-iframe').get(0).contentWindow.location.href) {
+        //         document.getElementsByClassName('mfp-iframe').get(0).contentWindow.location.href = document.frames['cas'].document.location.href
+        //     }
+        //     return window.location.origin;
+        // }),
+
         // ------------------------------------------------
         // Check string for specific variable
         // ------------------------------------------------
@@ -247,7 +254,10 @@ define(dependencies, function($) {
             } else {
                 return false;
             }
-        })
+        }),
+        ease_out_back:  [0.175, 0.885, 0.32, 1.275],
+        ease_in_back: [0.6, -0.28, 0.735, 0.045],
+        ease_in_out_back: [0.68, -0.55, 0.265, 1.55]
 
     };
 

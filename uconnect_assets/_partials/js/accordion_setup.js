@@ -1,10 +1,8 @@
-var dependencies = [
-        'jquery',
-        'general_functions',
-        'toggle'
-    ];
-
-require(dependencies, function($, gf, toggles) {
+require([
+    'jquery',
+    'general_functions',
+    'toggle'
+], function($, gf, toggles) {
 
 $(function() {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +18,7 @@ $(function() {
 	var headname = 'accordion_tree_head',
 		headclass = '.'+headname,
 		$headobj = $(headclass);
+
 
 	$('.js_flat_accordion').each(function(i){
 		var $this = $(this),
@@ -72,27 +71,37 @@ $(function() {
 			//Add accordion target styling
 			$this.find('.accordion_split > ul').addClass('pad_t_half pad_r_2 accordion_target');
 
-            $('.list_child_tree').removeClass('list_child_tree');
 		}
 	});
+    $('.list_child_tree').each(function(){
 
+        if($(this).has('ul') === false){
+            $(this).remove();
+        }else{
+            $(this).removeClass('list_child_tree');
+        }
+    });
 
 	// Sidenav
     $("#sidebar li").has('ul').addClass('accordion_split')
 	.find('> a, > span').after(accordion_object);
 	$('#sidebar .accordion_split ul').addClass('accordion_target js_squish');
 
-    require(['toggle_this'], function(toggle_this){
-        $('#sidebar .accordion_trigger').each(function(){
-            if( !$(this).next('ul').has('.currentbranch0')
-               || !$(this).prev().hasClass('currentbranch0')){
-                toggle_this($('#sidebar .accordion_trigger'));
-            }
-        });
-    });
+
+    /* Unnecessary as this is now solved with CSS
+     * Keeping it around in case of future bugs.
+    */
+
+    // require(['toggle_this'], function(toggle_this){
+    //     $('#sidebar .accordion_trigger').each(function(){
+    //         if( $(this).prev().hasClass('currentbranch0') || !$(this).has('.currentbranch0')){
+    //             toggle_this($('#sidebar .accordion_trigger'));
+    //         }
+    //     });
+    // });
 
     // Initialize accordions
-    require(['accordion_init']);
+    // require(['accordion_init']);
 
 });
 

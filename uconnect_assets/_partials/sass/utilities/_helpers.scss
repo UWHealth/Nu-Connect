@@ -8,7 +8,7 @@
 
 //
 // Enclose a block of code with a media query as named in `$breakpoints`.
-// To create more consolodated code, most (if not all) media queries should be called through
+// To create more consolidated code, most (if not all) media queries should be called through
 // this mixin.
 // Multiple media-queries can be defined by using:
 // @include mq((breakpoint, breakpoint)){
@@ -107,7 +107,9 @@
         display: table-footer-group;
     }
 }
-
+%content_blank{
+    content: "";
+}
 %cursor_default, .cursor_default {
     cursor: default;
 }
@@ -148,12 +150,12 @@
 %replace_image{
     white-space: nowrap;
     @extend %o_hide;
-    background-color: transparent;
+    @extend %bg_transparent;
     border: 0;
     *text-indent: -9999px;
 }
 %replace_image:before {
-    content: "";
+    @extend %content_blank;
     @extend %display_block;
     width: 0;
     height: 150%;
@@ -172,7 +174,7 @@
 	mask: url(../img/bg/grad_mask.svg#mask_2);
 	-webkit-mask: url(../img/bg/grad_mask.svg#mask) -3px 0 / cover;
 }
-.o_show{
+.o_show, %o_show{
     overflow: visible !important;
 }
 
@@ -331,51 +333,51 @@
         }
     }
     .#{$namespace}pad_v{
-        @extend .#{$namespace}pad_t;
-        @extend .#{$namespace}pad_b;
+        @extend %#{$namespace}pad_t;
+        @extend %#{$namespace}pad_b;
         @at-root &_2{
-            @extend .#{$namespace}pad_t_2;
-        	@extend .#{$namespace}pad_b_2;
+            @extend %#{$namespace}pad_t_2;
+        	@extend %#{$namespace}pad_b_2;
         }
         @at-root &_half{
-            @extend .#{$namespace}pad_t_half;
-        	@extend .#{$namespace}pad_b_half;
+            @extend %#{$namespace}pad_t_half;
+        	@extend %#{$namespace}pad_b_half;
         }
         @at-root &_quarter{
-            @extend .#{$namespace}pad_t_quarter;
-        	@extend .#{$namespace}pad_b_quarter;
+            @extend %#{$namespace}pad_t_quarter;
+        	@extend %#{$namespace}pad_b_quarter;
         }
     }
     .#{$namespace}pad_h{
-        @extend .#{$namespace}pad_l;
-        @extend .#{$namespace}pad_r;
+        @extend %#{$namespace}pad_l;
+        @extend %#{$namespace}pad_r;
         @at-root &_2{
-            @extend .#{$namespace}pad_l_2;
-        	@extend .#{$namespace}pad_r_2;
+            @extend %#{$namespace}pad_l_2;
+        	@extend %#{$namespace}pad_r_2;
         }
         @at-root &_half{
-			@extend .#{$namespace}pad_l_half;
-			@extend .#{$namespace}pad_r_half;
+			@extend %#{$namespace}pad_l_half;
+			@extend %#{$namespace}pad_r_half;
         }
         @at-root &_quarter{
-            @extend .#{$namespace}pad_l_quarter;
-			@extend .#{$namespace}pad_r_quarter;
+            @extend %#{$namespace}pad_l_quarter;
+			@extend %#{$namespace}pad_r_quarter;
         }
     }
     .#{$namespace}pad{
-        @extend .#{$namespace}pad_h;
-        @extend .#{$namespace}pad_v;
+        @extend %#{$namespace}pad_h;
+        @extend %#{$namespace}pad_v;
         @at-root &_2{
-            @extend .#{$namespace}pad_h_2;
-        	@extend .#{$namespace}pad_v_2;
+            @extend %#{$namespace}pad_h_2;
+        	@extend %#{$namespace}pad_v_2;
         }
         @at-root &_half{
-            @extend .#{$namespace}pad_h_half;
-        	@extend .#{$namespace}pad_v_half;
+            @extend %#{$namespace}pad_h_half;
+        	@extend %#{$namespace}pad_v_half;
         }
         @at-root &_quarter{
-            @extend .#{$namespace}pad_h_quarter;
-        	@extend .#{$namespace}pad_v_quarter;
+            @extend %#{$namespace}pad_h_quarter;
+        	@extend %#{$namespace}pad_v_quarter;
         }
     }
     .#{$namespace}pad_n_v{
@@ -397,8 +399,8 @@
         @extend %#{$namespace}pad_n_l;
     }
     .#{$namespace}pad_n{
-        @extend .#{$namespace}pad_n_v;
-        @extend .#{$namespace}pad_n_h;
+        @extend %#{$namespace}pad_n_v;
+        @extend %#{$namespace}pad_n_h;
     }
     .#{$namespace}space_t{
         @extend %#{$namespace}space_t;
@@ -449,27 +451,27 @@
         }
     }
     .#{$namespace}space{
-        @extend .#{$namespace}space_t;
-        @extend .#{$namespace}space_r;
-        @extend .#{$namespace}space_b;
-        @extend .#{$namespace}space_l;
+        @extend %#{$namespace}space_t;
+        @extend %#{$namespace}space_r;
+        @extend %#{$namespace}space_b;
+        @extend %#{$namespace}space_l;
         &_2{
-            @extend .#{$namespace}space_t_2;
-            @extend .#{$namespace}space_r_2;
-            @extend .#{$namespace}space_b_2;
-            @extend .#{$namespace}space_l_2;
+            @extend %#{$namespace}space_t_2;
+            @extend %#{$namespace}space_r_2;
+            @extend %#{$namespace}space_b_2;
+            @extend %#{$namespace}space_l_2;
         }
         &_half{
-            @extend .#{$namespace}space_t_half;
-            @extend .#{$namespace}space_r_half;
-            @extend .#{$namespace}space_b_half;
-            @extend .#{$namespace}space_l_half;
+            @extend %#{$namespace}space_t_half;
+            @extend %#{$namespace}space_r_half;
+            @extend %#{$namespace}space_b_half;
+            @extend %#{$namespace}space_l_half;
         }
         &_quarter{
-            @extend .#{$namespace}space_t_quarter;
-            @extend .#{$namespace}space_r_quarter;
-            @extend .#{$namespace}space_b_quarter;
-            @extend .#{$namespace}space_l_quarter;
+            @extend %#{$namespace}space_t_quarter;
+            @extend %#{$namespace}space_r_quarter;
+            @extend %#{$namespace}space_b_quarter;
+            @extend %#{$namespace}space_l_quarter;
         }
     }
 	.#{$namespace}space_n_t{
@@ -542,61 +544,66 @@
         }
     }
     .#{$namespace}space_neg{
-        @extend .#{$namespace}space_neg_t;
-        @extend .#{$namespace}space_neg_r;
-        @extend .#{$namespace}space_neg_b;
-        @extend .#{$namespace}space_neg_l;
+        @extend %#{$namespace}space_neg_t;
+        @extend %#{$namespace}space_neg_r;
+        @extend %#{$namespace}space_neg_b;
+        @extend %#{$namespace}space_neg_l;
         @at-root &_2{
-            @extend .#{$namespace}space_neg_t_2;
-            @extend .#{$namespace}space_neg_r_2;
-            @extend .#{$namespace}space_neg_b_2;
-            @extend .#{$namespace}space_neg_l_2;
+            @extend %#{$namespace}space_neg_t_2;
+            @extend %#{$namespace}space_neg_r_2;
+            @extend %#{$namespace}space_neg_b_2;
+            @extend %#{$namespace}space_neg_l_2;
         }
         @at-root &_half{
-            @extend .#{$namespace}space_neg_t_half;
-            @extend .#{$namespace}space_neg_r_half;
-            @extend .#{$namespace}space_neg_b_half;
-            @extend .#{$namespace}space_neg_l_half;
+            @extend %#{$namespace}space_neg_t_half;
+            @extend %#{$namespace}space_neg_r_half;
+            @extend %#{$namespace}space_neg_b_half;
+            @extend %#{$namespace}space_neg_l_half;
         }
         @at-root &_quarter{
-            @extend .#{$namespace}space_neg_t_quarter;
-            @extend .#{$namespace}space_neg_r_quarter;
-            @extend .#{$namespace}space_neg_b_quarter;
-            @extend .#{$namespace}space_neg_l_quarter;
+            @extend %#{$namespace}space_neg_t_quarter;
+            @extend %#{$namespace}space_neg_r_quarter;
+            @extend %#{$namespace}space_neg_b_quarter;
+            @extend %#{$namespace}space_neg_l_quarter;
         }
     }
     .#{$namespace}space_neg_h{
-        @extend .#{$namespace}space_neg_r;
-        @extend .#{$namespace}space_neg_l;
+        @extend %#{$namespace}space_neg_r;
+        @extend %#{$namespace}space_neg_l;
         @at-root &_2{
-            @extend .#{$namespace}space_neg_r_2;
-            @extend .#{$namespace}space_neg_l_2;
+            @extend %#{$namespace}space_neg_r_2;
+            @extend %#{$namespace}space_neg_l_2;
         }
         @at-root &_half{
-            @extend .#{$namespace}space_neg_r_half;
-            @extend .#{$namespace}space_neg_l_half;
+            @extend %#{$namespace}space_neg_r_half;
+            @extend %#{$namespace}space_neg_l_half;
         }
         @at-root &_quarter{
-            @extend .#{$namespace}space_neg_r_quarter;
-            @extend .#{$namespace}space_neg_l_quarter;
+            @extend %#{$namespace}space_neg_r_quarter;
+            @extend %#{$namespace}space_neg_l_quarter;
         }
     }
     .#{$namespace}space_neg_v{
-        @extend .#{$namespace}space_neg_t;
-        @extend .#{$namespace}space_neg_b;
+        @extend %#{$namespace}space_neg_t;
+        @extend %#{$namespace}space_neg_b;
         &_2{
-            @extend .#{$namespace}space_neg_t_2;
-            @extend .#{$namespace}space_neg_b_2;
+            @extend %#{$namespace}space_neg_t_2;
+            @extend %#{$namespace}space_neg_b_2;
         }
         &_half{
-            @extend .#{$namespace}space_neg_t_half;
-            @extend .#{$namespace}space_neg_b_half;
+            @extend %#{$namespace}space_neg_t_half;
+            @extend %#{$namespace}space_neg_b_half;
         }
         &_quarter{
-            @extend .#{$namespace}space_neg_t_quarter;
-            @extend .#{$namespace}space_neg_b_quarter;
+            @extend %#{$namespace}space_neg_t_quarter;
+            @extend %#{$namespace}space_neg_b_quarter;
         }
     }
+}
+
+//Non-important, non-responsive display none placeholder.
+%display_none{
+    display: none;
 }
 
 @mixin responsive_hides($namespace:""){

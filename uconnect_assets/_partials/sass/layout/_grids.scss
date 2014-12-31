@@ -892,6 +892,9 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 .eighth {
     @extend %one_eighth;
 }
+.twelfth {
+    @extend %one_twelfth;
+}
 .five_eighths {
     @extend %five_eighths;
 }

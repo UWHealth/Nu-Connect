@@ -138,8 +138,8 @@ $tab_minimal_include: 				true 					!default;
 .tab_button {
 	border-style: solid;
 	width: 100%;
-	cursor: pointer;
-	display: none;
+	@extend %cursor_pointer;
+	@extend %display_none;
 	@extend %grid_reset; // Just making letter-spacing is normal;
 	line-height: 3;
 	text-decoration: none;
@@ -152,12 +152,12 @@ $tab_minimal_include: 				true 					!default;
 	}
 	@if $tab_invert_active == true{
 		background-color: color(link);
-		color: #fff;
+		@extend %color_white;
 		@extend %tab_border_color;
 
 	}@else{
 		background-color: color(link);
-		color: #fff;
+		@extend %color_white;
 		border-color: blend_multiply(color(link), color(link));
 		position: relative;
 		z-index: 1;
@@ -189,6 +189,17 @@ $tab_minimal_include: 				true 					!default;
     }
 }
 
+// .tab_single{
+// 	@extend %box_panel;
+// 	@extend %pad_h;
+// 	@include type-space(padding-top, 1.5);
+// 	@include type-space(padding-bottom, 1.5);
+// }
+// .feed.tab_single{
+// 	background-color: transparent;
+// 	box-shadow: none;
+// }
+
 //First mobile tab_button will show inherit the tab border_radius.
 //Creates a rounded box.
 .tabs + .tab_button {
@@ -214,6 +225,9 @@ $tab_minimal_include: 				true 					!default;
     .tab {
         @extend %txt_upper;
     }
+	&:empty{
+		display: none;
+	}
 }
 
 //Inactive Top-tabs stylings.
@@ -232,7 +246,7 @@ $tab_minimal_include: 				true 					!default;
 	text-decoration: none;
 	border-bottom-color: transparent;
     border-radius: $tab_border_radius $tab_border_radius 0 0;
-    cursor: pointer;
+    @extend %cursor_pointer;
     transition: background-color 100ms ease-out, border-color 200ms ease-out;
 	border-style: solid;
 
@@ -323,7 +337,7 @@ $tab_minimal_include: 				true 					!default;
 	    @include type_space(margin-top, 2);
 	    @include type_space(margin-bottom, .5);
 	    @include rems(margin-right, $gutter);
-	    background-color: transparent;
+	    @extend %bg_transparent;
 		border: 0;
 		color: color(text);
 	    cursor: default;
@@ -334,7 +348,7 @@ $tab_minimal_include: 				true 					!default;
 	    	color: color(text);
 	    }
 	    &:before {
-	    	content: '';
+	    	@extend %content_blank;
 	    }
 	    // & + .tab_content{
 			// @extend %#{$bigs}_four_fifths;
@@ -344,14 +358,14 @@ $tab_minimal_include: 				true 					!default;
 	        // padding-left: 0;
 	    // }
 	    &[href="#directory"] {
-	    	display: none;
+	    	@extend %display_none;
 	    }
 	    &:first-child {
 	    	@include type_space(margin-top, 1);
 	    }
 	}
 	#directory {
-		display: none;
+		@extend %display_none;
 	}
 	.tab_inline_link {
 		a {
@@ -440,7 +454,7 @@ $tab_minimal_include: 				true 					!default;
 		.tab{
 			border-width: 0;
 			&:not(.active){
-				background-color: transparent;
+				@extend %bg_transparent;
 				color: $tab_button_secondary;
 				&:hover{
 					@extend %color_link;
@@ -465,7 +479,7 @@ $tab_minimal_include: 				true 					!default;
 .tab_line {
 	> .tabs {
 		.tab{
-			background-color: transparent;
+			@extend %bg_transparent;
 			border-width: 0;
 			margin-right: 0;
 			top: 2px;
@@ -488,7 +502,7 @@ $tab_minimal_include: 				true 					!default;
 				border-bottom-width: 2px;
 				border-color: color(select);
 				@extend %tab_border_current;
-				background-color: transparent;
+				@extend %bg_transparent;
 				&:hover {
 					border-color: color(select);
 				}
@@ -499,9 +513,8 @@ $tab_minimal_include: 				true 					!default;
 	&.tab_minimal {
 		> .tab_content{
 			@include rems((padding-left, padding-right), ($gutter));
-			@include rems((padding-top), ($base_line_height*2));
-			@include rems((padding-bottom), ($base_line_height*3));
-			background-color: transparent;
+			@include type-space(padding-top, 1.5);
+			@include type-space(padding-bottom, 3);
 			border-top-width: 2px;
 			border-top-color: tint($tab_border, 50%);
 			margin-top: -2px;
@@ -518,7 +531,7 @@ $tab_minimal_include: 				true 					!default;
 		background-color: color(highlight);
 		border-radius: $tab_border_radius $tab_border_radius 0 0;
 		.tab{
-			text-indent: 0px;
+			text-indent: 0;
 			@extend %pad_v;
 
 			&.active{
@@ -545,7 +558,7 @@ $tab_minimal_include: 				true 					!default;
 //    $IE8
 //------------------------------------
 .lt-ie9 .tab_line > .tabs .tab:hover{
-	background-color: #fff;
+	@extend %bg_white;
 }
 .lt-ie9 .tab_button:hover{
 	@if $tab_invert_active == true{
@@ -593,7 +606,7 @@ $tab_minimal_include: 				true 					!default;
 
 //Hide secondary tab_content before tabs.js loads
 .js .tab_content + .tab_button + .tab_content{
-	display: none;
+	@extend %display_none;
 }
 
 

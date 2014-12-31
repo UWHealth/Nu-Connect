@@ -3,7 +3,10 @@ var dependencies = [
         'general_functions'
     ];
 
-require(dependencies, function($, gf) {
+require([
+        'jquery',
+        'general_functions'
+    ], function($, gf) {
 
     // Add current year to copyright text
     var current_year = new Date().getFullYear();
@@ -37,12 +40,12 @@ require(dependencies, function($, gf) {
                     var keyword_tags = [];
                     // format each keyword tag into <li>
                     $.each(this.keywordTags, function(i, keyword) {
-                        keyword_tags += '<dd class="card_tag"><a class="tag icon" href="/search/?query=keywords:' + keyword + '">' + keyword + '</a></dd>';
+                        keyword_tags += '<dd class="card_tag"><a class="tag icon" href="/tag/?query=keywords:' + keyword + '&col=all' +'">' + keyword + '</a></dd>';
                     });
                     // add each news article's html
                     footerArticleWrapper.append('<div class="column third"><article class="card box_panel card_short"><header class="card_head"><h1 class="heading card_heading"><a href="' + this.url + '" class="link_naked">' + this.title + '</a></h1></header><div class="card_body txt_small"><time class="block txt_upper txt_small color_label">' + this.date + '</time>' + summary + '</div><footer class="card_foot card_cover"><div class="card_action"><dl class="card_tags txt_small"><dt class="card_tag txt_upper color_label pad_r_quarter">Tagged</dt>' + keyword_tags + '</dl></div></footer></article></div>');
                 } else {
-                    footerArticleWrapper.append('<div class="column third"><article class="card box_panel card_short"><header class="card_head"><h1 class="heading card_heading"><a href="' + this.url + '" class="link_naked">' + this.title + '</a></h1></header><div class="card_body"><time class="block txt_upper txt_small color_label">' + this.date + '</time>' + summary + '</div></article></div>');
+                    footerArticleWrapper.append('<div class="column third"><article class="card box_panel card_short"><header class="card_head"><h1 class="heading card_heading"><a href="' + this.url + '" class="link_naked">' + this.title + '</a></h1></header><div class="card_body txt_small"><time class="block txt_upper txt_small color_label">' + this.date + '</time>' + summary + '</div></article></div>');
                 }
                 // Clear dummy text
                 $('#uconnect_updates_formatter').text('');

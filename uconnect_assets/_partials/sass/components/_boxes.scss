@@ -38,7 +38,7 @@
 	.body{
 		@include type_space_sc(padding, .5,.5,0,.5);
 		@extend %grid_reset;
-		display: block;
+		@extend %display_block;
         position: absolute;
 		@extend %abs_left;
 		@extend %abs_top;
@@ -46,10 +46,10 @@
 	}
 	&:before{
 		margin-top: 100%;
-		display:block;
+		@extend %display_block;
 		font-size: 0;
 		color: transparent;
-		content:" ";
+		@extend %content_blank;
 	}
 }
 //
@@ -64,11 +64,11 @@
 	margin-top: 50%;
 }
 .box_light, %box_light{
-	background-color: #fff;
+	@extend %bg_white;
 }
 .box_dark, %box_dark{
 	background-color: colors(function);
-	color: #fff;
+	@extend %color_white;
 	border-color: currentColor;
 }
 .box_glass, %box_glass{
@@ -76,7 +76,7 @@
 	box-shadow: 0 2px 2px -.5px rgba(color(text), .1);
 }
 %panel_shadow{
-    box-shadow: 0px 2px 0px rgba(color(text), .1);
+    box-shadow: 0 2px 0 rgba(color(text), .1);
 }
 .box_panel, %box_panel {
 	@extend %box_light;
@@ -163,7 +163,7 @@
 
 	&_body{
 		@extend %one_whole;
-		display: block;
+		@extend %block;
 		@extend %pad_b_half;
 		@extend %pad_t_quarter;
 		@extend %pad_h_half;
@@ -182,6 +182,10 @@
             text-align: center;
         }
     }
+}
+.promo.half_content{
+    float: left;
+    @include type-space(padding-right, .5);
 }
 
 .box_promo {
@@ -220,15 +224,20 @@
 			@include type_space(right, .25);
 			@include type_font_size(32px);
 			color: color(subtle);
+            @include mq(bigs){
+                transform: translateX(-1rem);
+            }
 			line-height: 0;
 			position: absolute !important;
 			top: 50%;
 			z-index: 3;
 			@include opacity(.6);
+            transition: transform 300ms cubic-bezier(0.31734, 0, 0.55734, 1.34) 50ms;
 		}
 		&:hover, &:focus {
 			&:after {
-				color: white;
+                transform: translateX(0);
+				@extend %color_white;
 				@include opacity(.8);
 			}
 		}
@@ -240,7 +249,7 @@
 		}
 	}
 	&:hover &_head{
-		width: 100% !important;
+		width: 101% !important;
 		@include type_space(padding-right, 1.25);
 		background: color(primary); //fallback for non rgba
 		background: rgba(color(primary), .85);

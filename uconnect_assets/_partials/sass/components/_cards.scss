@@ -7,6 +7,8 @@
 // DEMO: http://codepen.io/Cleecanth/pen/jDvhi
 //---------------------------------------------
 
+
+
 %relative{
 	position: relative;
 }
@@ -16,9 +18,9 @@
 	@extend %box_panel;
 	@extend %one_whole;
 	@extend %o_hide;
-	display: block;
+	@extend %block;
 	@include type-space(height, 16.5);
-	@include type-space(max-width, 17);
+	@include type-space(max-width, 19);
 	@include type-space(margin-bottom, 1.5);
 	transition: all 120ms ease-in-out;
 
@@ -27,7 +29,7 @@
 		@include type-space(max-width, 15);
 	}
 	&_wide{
-		@include type-space(max-width, 18);
+		@include type-space(max-width, 20);
 	}
 	&_thin{
 		@include type-space(max-width, 13);
@@ -46,7 +48,7 @@
 		transition: all 150ms ease-in-out;
 		width: 100%;
 		@extend %relative;
-		display: block;
+		@extend %block;
 		@extend %abs_left;
 		@extend %abs_right;
 
@@ -63,7 +65,7 @@
 	}
 	&_expand:hover &, &_expand:focus &{
 		@include type-space(height, 18);
-		box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.1),
+		box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1),
 			0 1px 6px rgba(0, 0, 0, 0.2);
 
 		&.card_short{
@@ -182,16 +184,16 @@
 		// Negative top margin makes border visible.
 		margin-top: -1px;
 		border-top: 1px solid color(form);
-		display: block;
+		@extend %block;
 		transform-origin: bottom center;
 		transition: opacity 200ms ease-in 150ms,
 			padding 450ms ease,
 			transform 300ms ease-in,
 			line-height 200ms ease-out,
 			margin 150ms ease;
-		& a{
+		& a {
 			@extend %pad_v_half;
-			@extend %inline-block
+			@extend %inline-block;
 		}
 		//Card action with card_expand inheritance
 		.card_expand &{
@@ -217,7 +219,7 @@
 			top: 0;
 			margin-top: 0;
 			bottom: 0;
-			background-color: white;
+			@extend %bg_white;
 			@extend %pad_t_half;
 			@extend %pad_b_quarter;
 		}
@@ -226,7 +228,7 @@
 
 	//Mostly used for labels inside media
 	&_label{
-		display: block;
+		@extend %block;
 		@extend %relative;
 		margin-bottom: 0;
 		@extend %pad_v_quarter;
@@ -285,7 +287,7 @@
 
 	&_foot{
 		padding-top: 0;
-		background-color: white;
+		@extend %bg_white;
 		position: absolute;
 		bottom: 0;
 		@extend %one_whole;
@@ -304,9 +306,9 @@
 %card_cover{
 	&:before{
 		@include type-space(min-height, 2.5);
-		content: " ";
+		@extend %content_blank;
 		@extend %abs_all;
-		display: block;
+		@extend %block;
 		@extend %one_whole;
 		position: absolute;
 		z-index: -1;
@@ -329,15 +331,15 @@
 	//Dark cover
 	&_cover_dark:before{
 		@extend %card_cover:before;
+		background-image: url("../img/bg/card_mask_dark.svg");
 		background-image: linear-gradient(to bottom,
 			rgba(color(text, light), 0) 0%,
 			rgba(color(text, light), .4) 90%);
-		background-image: url("../img/bg/card_mask_dark.svg");
 		background-size: auto 100%;
 	}
 
 	&_cover{
-		background-color: white;
+		@extend %bg_white;
 	}
 }
 
@@ -373,12 +375,12 @@
 		}
 	}
 	.card_thin &:first-child{
-		display: none;
+		@extend %display_none;
 	}
 }
 .card_tags_toggle{
-	cursor: pointer;
-	position: absolute;
+	@extend %cursor_pointer;
+	@extend %absolute;
 	right: -1.15em;
 	top: 0;
 	z-index: 5;
@@ -422,5 +424,75 @@
 	@include media-query(smalls) {
 		@include type-space(height, 12.5);
 		max-width: none;
+	}
+}
+///////////////
+//List View
+///////////////
+.list_view{
+	.card {
+		max-width: 59em !important;
+		max-height: 11.5em !important;
+		@include type-space(height, 7.75);
+	}
+	.card_expand{
+		max-height: 12em !important;
+	}
+	.card_media{
+		float: left;
+		transition: height 120ms ease-out;
+		@include type-space(height, 8.5);
+		width: 30%;
+	}
+	& > .column{
+		width: 100%;
+		height: 13.75em;
+	}
+	& > .feature_wide{
+		height: auto;
+	}
+	.card_label{
+		background-color: transparent !important;
+		@include type-space(padding-bottom, 1);
+		@include type-space(padding-left, .5);
+	}
+	.card_foot{
+		width: 70%;
+		right: 0;
+		left: auto;
+		@include type-space(padding-right, 1.25);
+	}
+	.card_body{
+		display: block;
+		width: 70%;
+		@include type-space(height, 6.5);
+		overflow: hidden;
+		@include type-space(padding-right, 1.25);
+		max-width: 32em;
+	}
+
+	.card_expand:hover, .card_expand:focus{
+		.card{
+			@include type-space(height, 9.5);
+			max-height: 13.5em !important;
+		}
+		.card_media {
+			@include type-space(height, 9.75);
+		}
+		.card_body{
+			max-width: 34em;
+			@include type-space(height, 7);
+			@include type-space(padding-right, 1.25);
+		}
+		.card_body, .card_foot{
+			@include type-space(padding-left, .75);
+		}
+		.card_action{
+			padding-bottom: 0;
+		}
+		.card_heading{
+			@include type-space(padding-top, .25);
+			padding-bottom: 0;
+		}
 	}
 }

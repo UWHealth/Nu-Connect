@@ -1,11 +1,27 @@
-var dependencies = [
-        'jquery',
-        'search/cookie',
-        'moment',
-        'jquery_linkify'
-    ];
+define([
+    'jquery',
+    'cookie',
+    'general_functions',
+    'moment',
+    'jquery_linkify'
+], function($, cookie, gf) {
 
-require(dependencies, function($, cookie) {
+    // Development environment Localhost vs DEV/STAGING/PROD
+    var search_url_ReportServlet,
+        search_url_SearchServlet;
+    //if (gf.check_string(gf.get_origin(), 'localhost') || gf.check_string(gf.get_origin(), 'local')) {
+    if(window.location.host == "localhost" || window.location.host == "localhost:8888"){
+        search_url_ReportServlet = 'https://n.uconnect.wisc.edu/searchblox/servlet/ReportServlet';
+        search_url_SearchServlet = 'https://n.uconnect.wisc.edu/searchblox/servlet/SearchServlet'
+        // [prod]
+    } else {
+        search_url_ReportServlet = '/searchblox/servlet/ReportServlet';
+        search_url_SearchServlet = '/searchblox/servlet/SearchServlet';
+    }
+
+    //console.log('search_url_ReportServlet: '+search_url_ReportServlet);
+    //console.log('search_url_SearchServlet: '+search_url_SearchServlet);
+    //console.log(window.location.host);
 
     /*
      * jquery.facetview.js
@@ -15,7 +31,7 @@ require(dependencies, function($, cookie) {
      * or a config variable can point to a remote config
     */
 
-    // first define the bind with delay function from (saves loading it separately) 
+    // first define the bind with delay function from (saves loading it separately)
     // https://github.com/bgrins/bindWithDelay/blob/master/bindWithDelay.js
 
     (function($) {
@@ -52,15 +68,15 @@ require(dependencies, function($, cookie) {
             var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&')
             for ( var i = 0; i < hashes.length; i++ ) {
                 hash = hashes[i].split('=');
-                if ( hash.length > 1 ) {
+				                if ( hash.length > 1 ) {
                 	hash[1] = decodeURI(hash[1]);
                     if ( hash[1].replace(/%22/gi,"")[0] == "[" || hash[1].replace(/%22/gi,"")[0] == "{" ) {
                         hash[1] = hash[1].replace(/^%22/,"").replace(/%22$/,"")
                         var newval = JSON.parse(unescape(hash[1].replace(/%22/gi,'"')))
                     } else {
                         var newval = unescape(hash[1].replace(/%22/gi,""))
+                        newval = newval.replace(/\//gi," ")
                     }
-    				//alert(newval);
                     params[hash[0]] = newval
                 }
             }
@@ -77,7 +93,9 @@ require(dependencies, function($, cookie) {
         $.fn.facetview = function(options) {
     	//the query variable
     	var filterq=new Array();
-    	var filterqn=-1;
+		//var search_all_string = "&col=4&col=6&col=7&col=8&col=9&col=11&col=17&col=18";
+    	var search_all_string = "&cname=Events&cname=News&cname=External-Links&cname=Policies&cname=Health-Facts-For-You&cname=U-Connect-Pages&cname=U-Connect-Files&cname=Uconnect-Directory";
+        var filterqn=-1;
     	var sortq="";
     	var direction="&sortdir=desc";
     	var sizeq=new Array();
@@ -91,14 +109,14 @@ require(dependencies, function($, cookie) {
           var resdisplay = [
                 [
     		    {
-    		    	'field':'labels',		
-    		    },	
+    		    	'field':'labels',
+    		    },
     		    {
     		    	'field':'contenttype',
-    		    },	
+    		    },
     			{
     		    	'field':'breadcrumbs',
-    		    },						   	
+    		    },
     			{
     		    	'field':'url',
     		    },
@@ -128,10 +146,13 @@ require(dependencies, function($, cookie) {
                 },
     			{
                     "field": "directory-email",
-                },					
+                },
                 {
                   	"field":"keywords",
                 },
+				{
+					"field": "context.#text",
+				},
     			{
                      "field":"mediaFeature",
                 },
@@ -139,14 +160,17 @@ require(dependencies, function($, cookie) {
                     	"field":"mediumMediaFeature",
                 },
     			{
+                    	"field":"link",
+                },
+    			{
     				"field":"og-title",
     			}
-                ],				
+                ],
             ]
             // specify the defaults
             var defaults = {
                 "config_file": false,           // a remote config file URL
-                "facets":[],                    // facet objects: {"field":"blah", "display":"arg",...} 
+                "facets":[],                    // facet objects: {"field":"blah", "display":"arg",...}
                 "result_display": resdisplay,   // display template for search results
                 "display_images": true,         // whether or not to display images found in links in search results
                 "description":"",               // a description of the current search to embed in the display
@@ -154,7 +178,7 @@ require(dependencies, function($, cookie) {
                 'default_url_params': {
           		'facet':'on',
           		'xsl':'json'
-        	},        
+        	},
     // any params that the search URL needs by default
                 "freetext_submit_delay":"500",  // delay for auto-update of search results
                 "query_parameter":"query",          // the query parameter if required for setting to the search URL
@@ -167,16 +191,19 @@ require(dependencies, function($, cookie) {
                 "filter":[],
                 "nofsuggest":10
             }
-    		
+
             // and add in any overrides from the call
             // these options are also overridable by URL parameters
             // facetview options are declared as a function so they are available externally
             // (see bottom of this file)
+			function capitaliseFirstLetter(string){
+				return string.charAt(0).toUpperCase() + string.slice(1);
+			}
             var provided_options = $.extend(defaults, options)
             var url_options = $.getUrlVars()
             $.fn.facetview.options = $.extend(provided_options,url_options)
             var options = $.fn.facetview.options
-            
+
     		var first=true;
             // ===============================================
             // functions to do with filters
@@ -192,10 +219,10 @@ require(dependencies, function($, cookie) {
                 } else {
                     $(this).children('i').replaceWith('<i class="icon-minus"></i>')
                     $(this).addClass('facetview_open');
-                    $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();      
+                    $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();
                 }
             }
-            
+
             // show the filter values initially
             var showfiltervalsinit = function() {
             	$('.facetview_filtershow').each(function(){
@@ -204,7 +231,7 @@ require(dependencies, function($, cookie) {
                     } else {
                         $(this).children('i').replaceWith('<i class="icon-minus"></i>')
                         $(this).addClass('facetview_open');
-                        $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();      
+                        $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();
                     }
             	});
             	$('.facetview_advfiltershow1').each(function(){
@@ -213,7 +240,7 @@ require(dependencies, function($, cookie) {
                     } else {
                         $(this).children('i').replaceWith('<i class="icon-minus"></i>')
                         $(this).addClass('facetview_open');
-                        $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();      
+                        $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();
                     }
             	});
             	$('.facetview_advfiltershow2').each(function(){
@@ -222,7 +249,7 @@ require(dependencies, function($, cookie) {
                     } else {
                         $(this).children('i').replaceWith('<i class="icon-minus"></i>')
                         $(this).addClass('facetview_open');
-                        $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();      
+                        $(document.getElementById('facetview_' + $(this).attr('rel'))).children().show();
                     }
             	});
             }
@@ -237,7 +264,7 @@ require(dependencies, function($, cookie) {
                 } else {
                     var currentval = 10
                 }
-                var newmore = prompt('Currently showing ' + currentval + 
+                var newmore = prompt('Currently showing ' + currentval +
                     '. How many would you like instead?')
                 //if (newmore) {
                 //    options.facets[ $(this).attr('rel') ]['size'] = parseInt(newmore);
@@ -256,7 +283,7 @@ require(dependencies, function($, cookie) {
                 for ( var idx in filters ) {
                     var _filterTmpl = ' \
                         <div id="facetview_filterbuttons" class=""> \
-                        <h2 style="" class="facetview_filtershow srch_filter sub_heading color_lable space_n_b" \
+                        <h2 style="" class="facetview_filtershow srch_filter sub_heading color_label space_n_b" \
                           rel="{{FILTER_NAME}}" href=""> \
                           <!--<i class="icon-plus"></i>--> \
                           {{FILTER_DISPLAY}}</h2> \
@@ -397,10 +424,10 @@ require(dependencies, function($, cookie) {
                 	clickdatefilterchoice("From "+datefrom1+" to "+dateto1);
                 });
             }
-            
+
             var clicksizefilterchoice = function(a) {
                 //event.preventDefault();
-                
+
                 var view="";
                 if(a=='0')view="&lt100kB";
                 else if(a=='1')view="100kB to 500kB";
@@ -410,14 +437,14 @@ require(dependencies, function($, cookie) {
                 view1=view.replace(/ /g,'_');
                 view1=view1.replace(/&/g,'_');
 
-                var newobj = '<li><a class="facetview_filterselected facetview_clear icon icon_after close ' + 
-                    'btn btn-info"' + 
+                var newobj = '<li><a class="facetview_filterselected facetview_clear icon icon_after close ' +
+                    'btn btn-info"' +
                     '" alt="Remove" title="Remove"' +
                     ' href="javascript:void(0)" rel="sizefilter"' + ' filtername='+view1+' ><span class="txt_bold">' +
                     view.replace(/\(.*\)/,'') + '</span></a></li>';
-                
-    			// var newobj = '<a class="facetview_filterselected facetview_clear ' + 
-                //    'btn btn-info"' + 
+
+    			// var newobj = '<a class="facetview_filterselected facetview_clear ' +
+                //    'btn btn-info"' +
                 //    '" alt="remove" title="remove"' +
                 //    ' href="javascript:void(0)" rel="sizefilter"' + ' filtername='+view1+' >' +
                 //    view.replace(/\(.*\)/,'') + ' <i class="icon-remove"></i></a>';
@@ -438,7 +465,7 @@ require(dependencies, function($, cookie) {
                 }
                 //else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername="'+view+'"]').attr('filtername')+" already exist!!");}
             }
-            
+
             var clearsizefilter = function(event) {
                 event.preventDefault();
                 $(this).remove();
@@ -448,16 +475,16 @@ require(dependencies, function($, cookie) {
                 else
                 	dummy =false;
             }
-            
+
             var clickdatefilterchoice = function(a) {
                 var view=a;
                 view=view.replace(/ /g,'_');
-                var newobj = '<a class="facetview_filterselected facetview_clear ' + 
-                    'btn btn-info"' + 
+                var newobj = '<a class="facetview_filterselected facetview_clear ' +
+                    'btn btn-info"' +
                     '" alt="Remove" title="Remove"' +
                     ' href="javascript:void(0)" rel="datefilter"' + ' filtername='+view+' >' +
                     view.replace(/\(.*\)/,'') + ' <i class="icon-remove"></i></a>';
-                
+
                 if($('#facetview_selectedfilters').find('a[filtername="'+view+'"]').attr('filtername')==undefined){
                 //filterclick($(this).attr("rel"),$(this).attr('id').split('_')[1]);
                 	var temp = startdate;
@@ -476,7 +503,7 @@ require(dependencies, function($, cookie) {
                 }
                 //else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername="'+view+'"]').attr('filtername')+" already exist!!");}
             }
-            
+
             var cleardatefilter = function(event) {
                 event.preventDefault();
                 $(this).remove();
@@ -486,8 +513,8 @@ require(dependencies, function($, cookie) {
                 else
                 	dummy =false;
             }
-            
-            
+
+
             var sizerangeclick = function(a)
             {
                 switch(a)
@@ -496,31 +523,31 @@ require(dependencies, function($, cookie) {
                 case '0':
                 	sizefilter="&f.size.filter=[*TO102400]"
                 	break;
-                	
+
                 case '1':
                 	sizefilter="&f.size.filter=[102400TO512000]"
                 	break;
-                	
+
                 case '2':
                 	sizefilter="&f.size.filter=[512000TO1048576]"
                 	break;
-                	
+
                 case '3':
                 	sizefilter="&f.size.filter=[1048576TO10485760]"
                 	break;
-                	
+
                 case '4':
                 	sizefilter="&f.size.filter=[10485760TO*]"
                 	break;
-                
+
                 default:
-                	sizefilter="";	
+                	sizefilter="";
                 }
                 clicksizefilterchoice(a);
             }
-            
+
             var activedate=-1;
-            
+
             var daterangeclick = function(b)
             {
                 $('.daterange_facet').children().hide();
@@ -530,43 +557,43 @@ require(dependencies, function($, cookie) {
             	startdate="&f.lastmodified.filter=["+moment().subtract('days',1).format('YYYY-MM-DDTHH:mm:ss')+"TO*]";
             	activedate=0;
             	break;
-            	
+
                 case 'Past Week':
                 	startdate="&f.lastmodified.filter=["+moment().subtract('days',7).format('YYYY-MM-DDTHH:mm:ss')+"TO*]";
                 	activedate=1;
             	break;
-            	
+
                 case 'Past Month':
                 	startdate="&f.lastmodified.filter=["+moment().subtract('months',1).format('YYYY-MM-DDTHH:mm:ss')+"TO*]";
                 	activedate=2;
             	break;
-            	
+
                 case 'Past Year':
                 	startdate="&f.lastmodified.filter=["+moment().subtract('years',1).format('YYYY-MM-DDTHH:mm:ss')+"TO*]";
                 	activedate=3;
             	break;
-       
+
                 case 'Custom':
             	$('.daterange_facet').children().show();
                     $('#start_date').datepicker();
                     $('#end_date').datepicker();
-                    
+
             	break;
-            	
+
                 default:
             	startdate="";
                 	enddate="";
                 }
                 if(b!='Custom')clickdatefilterchoice("From "+b);
             }
-            
+
     	// match options filter and data filter
     	var findfilterindata = function(filter)
     	{
     		var found="false";
     		for(var i in options.data["facets"])
     			for(var n in options.data["facets"][i])
-    			{	
+    			{
     				if(n == filter){
     				found="true";
     				return i;}
@@ -574,7 +601,7 @@ require(dependencies, function($, cookie) {
     		if(found!=true)
     		return -1;
     	}
-    	
+
     	var filterquery = new Array();
     	var nf=-1;
 
@@ -592,9 +619,9 @@ require(dependencies, function($, cookie) {
     		}
     		//viewfilter();
     	}
-    	
+
     	var removeallcontenttypefilterquery = function(){
-    		
+
     		var s=validatefilteradd('contenttype','*');
     		//alert(s);
     		while(s!=-1){
@@ -604,16 +631,16 @@ require(dependencies, function($, cookie) {
     			s=validatefilteradd('contenttype','*');
     		}
     	}
-    		
+
     	var validatefilteradd = function(facet,filtername)
     		{
     			if(filtername == '*'){
     				//alert(i);
-    				for(var i in filterquery){	
+    				for(var i in filterquery){
     					//alert(filterquery[i]['0']);
-    					if(filterquery[i]['0']==facet && filterquery[i]['1']==filtername) 
+    					if(filterquery[i]['0']==facet && filterquery[i]['1']==filtername)
     						var dummy;
-    						return i;			
+    						return i;
     				}
     			}
     			else{
@@ -635,7 +662,7 @@ require(dependencies, function($, cookie) {
     			alert(JSON.stringify(filterquery[i]));
     		}
     	}
-    		
+
     	var addfilterquery = function(facet,filtername)
     		{
     	    	var s=validatefilteradd(facet,filtername);
@@ -646,12 +673,12 @@ require(dependencies, function($, cookie) {
     	        }
     	        //else alert("Validate fail");
     		}
-    	
+
     	var filterclick = function(rel,html)
-    	{	
+    	{
     		addfilterquery(rel,escape(html.replace(/%%%/g,' ')));
     	}
-    	
+
     	var appendfilterstoquery = function(a)
     	{
     		var b="";
@@ -676,7 +703,7 @@ require(dependencies, function($, cookie) {
     		if(options.facets[each]['field']=='lastmodified')
     		{
     		for ( var item in records[1]) {
-                        var append = '<li class="fltchoice"><p id="fltchoice_'+records[1][item][a]+ 
+                        var append = '<li class="fltchoice"><p id="fltchoice_'+records[1][item][a]+
                             '" rel="' + options.facets[each]['field'] + '"   class="facetview_filterchoice"'+' href="#">' + moment((isNumber(records[1][item][a])?parseInt(records[1][item][a]):records[1][item][a])).format("dddd, MMMM Do YYYY, h:mm:ss a") +
                             ' (' + records[1][item]['#text'] + ')</p></li>';
                         $('#facetview_' + options.facets[each]['field'].replace(/\./gi,'_')).append(append);
@@ -685,7 +712,7 @@ require(dependencies, function($, cookie) {
     		else if(options.facets[each]['field']=='indexdate')
     		{
     			for ( var item in records[1]) {
-    	                    var append = '<li class="fltchoice"><p id="fltchoice_'+records[1][item][a]+ 
+    	                    var append = '<li class="fltchoice"><p id="fltchoice_'+records[1][item][a]+
     	                        '" rel="' + options.facets[each]['field'] + '"   class="facetview_filterchoice"'+' href="#">' + moment((isNumber(records[1][item][a])?parseInt(records[1][item][a]):records[1][item][a])).format("dddd, MMMM Do YYYY, h:mm:ss a") +
     	                        ' (' + records[1][item]['#text'] + ')</p></li>';
     	                    $('#facetview_' + options.facets[each]['field'].replace(/\./gi,'_')).append(append);
@@ -698,7 +725,7 @@ require(dependencies, function($, cookie) {
     			    var type="bytes";
     			    if(sz>1024){sz=sz/1024;type="KB"}
     			    if(sz>1024){sz=sz/1024;type="MB"}
-    	                    var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a]+ 
+    	                    var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a]+
     	                        '" rel="' + options.facets[each]['field'] + '"   class="facetview_filterchoice"'+' href="#">' + Math.floor(sz) + " " + type +
     	                        ' (' + records[1][item]['#text'] + ')</a></li>';
     	                    $('#facetview_' + options.facets[each]['field'].replace(/\./gi,'_')).append(append);
@@ -708,7 +735,7 @@ require(dependencies, function($, cookie) {
     		else if(options.facets[each]['field']=='keywords')
     		{
                     for ( var item in records[1]) {
-                        var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a].replace(/ /g,'%%%')+ 
+                        var append = '<li class="fltchoice"><a id="fltchoice_'+records[1][item][a].replace(/ /g,'%%%')+
                             '" rel="' + options.facets[each]['field'] + '" class="facetview_filterchoice"'+' href="#" forcloudrel="'+records[1][item]['#text']+'" forcloudtag="'+records[1][item][a]+'"><span class="icon icon_before org_color icon_tag"></span>' + records[1][item][a] +
                             ' <span class="color_label">(' + records[1][item]['#text'] + ')</span></a></li>';
                         $(document.getElementById('facetview_' + options.facets[each]['field'].replace(/\./gi,'_'))).append(append);
@@ -716,28 +743,28 @@ require(dependencies, function($, cookie) {
              }
     		else{
                     for ( var item in records[1]) {
-                        var append = '<li class="fltchoice"><a style="text-transform: capitalize;" id="fltchoice_'+records[1][item][a].replace(/ /g,'%%%')+ 
+                        var append = '<li class="fltchoice"><a style="text-transform: capitalize;" id="fltchoice_'+records[1][item][a].replace(/ /g,'%%%')+
                             '" rel="' + options.facets[each]['field'] + '" class="facetview_filterchoice "'+' href="#" forcloudrel="'+records[1][item]['#text']+'" forcloudtag="'+records[1][item][a]+'"><span class="icon icon_before org_color icon_'+records[1][item][a].toLowerCase().replace(/ /g, '')+'"></span>' + records[1][item][a] +
                             ' <span class="color_label">(' + records[1][item]['#text'] + ')</span></a></li>';
                         $(document.getElementById('facetview_' + options.facets[each]['field'].replace(/\./gi,'_'))).append(append);
                     }
                 }
-    		
+
     		if ( !$('.facetview_filtershow[rel="' + options.facets[each]['field'].replace(/\./gi,'_') + '"]').hasClass('facetview_open') ) {
                         $(document.getElementById('facetview_' + options.facets[each]['field'].replace(/\./gi,'_'))).children().hide();
             }
           }
-    		
+
         $('.facetview_filterchoice').bind('click',clickfilterchoice);
       }
-            
-            
+
+
       //function to check if string only contains numbers
             var isNumber = function(string){
             	var isnum = /^\d+$/.test(string);
             	return isnum;
             }
-            
+
             // ===============================================
             // functions to do with building results
             // ===============================================
@@ -749,7 +776,7 @@ require(dependencies, function($, cookie) {
                 resultobj["records"] = new Array();
                 resultobj["start"] = "";
                 resultobj["found"] = "";
-               
+
                     for (var item in dataobj.results.result) {
                         if(item=="@no")
                         {
@@ -768,7 +795,7 @@ require(dependencies, function($, cookie) {
     		var fname="";
     		var count="";
     		var facetsobj = new Object();
-                    for (var item in dataobj.facets.facet) 
+                    for (var item in dataobj.facets.facet)
     		{
     			var values = new Object();
     			if(item == "@name")
@@ -790,14 +817,14 @@ require(dependencies, function($, cookie) {
     		options.noffilters=1;
     	}
     	else
-    	{	
+    	{
     		var n=0;
     		for(n in dataobj.facets)
     		{
     			var fname="";
     			var count="";
     			var facetsobj = new Object();
-                for (var item in dataobj.facets[n]) 
+                for (var item in dataobj.facets[n])
     			{
     				var values = new Object();
     				if(item == "@name"){
@@ -852,7 +879,7 @@ require(dependencies, function($, cookie) {
                     dosearch();
                 }
             }
-    		
+
     		// go to "page" result set
             var go_to_page = function(event) {
                 event.preventDefault()
@@ -880,12 +907,20 @@ require(dependencies, function($, cookie) {
                     options.paging.size = parseInt(options.paging.size)
                 }
     			var metaTmpl = ' \
-                  <div id="js_srch_buttons" class="row row_narrow row_paginated"><div class="column column_auto space_b float_left"><div class="button_group">\
-                      <a class="button_soft pad_v_half pad_h" data-icon="previous" id="facetview_decrement" href="{{from}}" title="Previous 10 Results"></a> \
+                  <div id="js_srch_buttons" class="row row_narrow row_paginated"><div class="column space_b"><div class="button_group srch_button_group">\
+                      <a class="button_soft pad_v_half pad_h_half" data-icon="previous" id="facetview_decrement" href="{{from}}" title="Previous 10 Results"></a> \
     				  {{pages}} \
-                      <a  class="button_soft pad_v_half pad_h" data-icon="next" id="facetview_increment" href="{{to}}" title="Next 10 Results"></a> \
+                      <a  class="button_soft pad_v_half pad_h_half" data-icon="next" id="facetview_increment" href="{{to}}" title="Next 10 Results"></a> \
                   </div></div></div> \
                   ';
+				  var top_pagination = '<span class="txt_small">Showing <strong>Results {{from}} &ndash; {{to}} </strong> of {{total}}</span>';
+				// <ul class="pagination" style="float:left;padding:16px;"> \
+                 //    <li class="prev"><a id="facetview_decrement" href="{{from}}">&laquo; back</a></li> \
+                 //    <li class="active"><a>{{from}} &ndash; {{to}} of {{total}}</a></li> \
+                 //  <li class="next"><a id="facetview_increment" href="{{to}}">next &raquo;</a></li> \
+                 //   </ul> \
+                 // </div> \
+                 // ';
                // var metaTmpl = ' \
                //   <div> \
                //     <ul class="pagination" style="float:left;padding:16px;"> \
@@ -895,11 +930,15 @@ require(dependencies, function($, cookie) {
                //     </ul> \
               //    </div> \
               //    ';
-                $('#facetview_metadata').html("Your search for<b> "+options.query+" </b>did not match any documents..." +
-                		"<br/><br/>" +
-                		"* Suggestions: Make sure all words are spelled correctly.</br>" +
-                		"* Use similar words or synonyms.</br>" +
-                		"* Try more general keywords.");
+                $('#facetview_metadata').html("<div class='editor_content box box_panel space_neg_t_2'>" +
+                    "<h1 class='heading space_neg_t_2'>Your search for<strong> "+options.query+" </strong>did not match any documents</h1>" +
+                		"<h2 class='sub_heading color_label space_n_t'>Suggestions</h2>" +
+                        "<ul>" +
+                            "<li>Make sure all words are spelled correctly</li>" +
+                    		"<li>Use similar words or synonyms</li>" +
+                    		"<li>Try more general keywords</li>"+
+                        "</ul>"+
+                        "</div>");
                 if (data.found) {
                     var from = options.paging.from + 1
                     var size = options.paging.size
@@ -910,7 +949,7 @@ require(dependencies, function($, cookie) {
                     var to = options.paging.from+size
     				var current_page = Math.floor(to/10);
     				//alert (current_page);
-    				var pages_holder_final = '';		
+    				var pages_holder_final = '';
     				if (num_pages < 9) {
     					for (i = 0; i < (num_pages); i++) {
     						if ((i+1) == current_page) {
@@ -918,7 +957,7 @@ require(dependencies, function($, cookie) {
     						} else {
     							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page"';
     						}
-    						var pages_holder = '<a '+pagination_css+' data-icon="" id="" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
+    						var pages_holder = '<a '+pagination_css+' data-icon="" id="filter_page_'+(i+1)+'" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
     						pages_holder_final = pages_holder_final+pages_holder;
     					}
     				} else if ((num_pages > 9) && (current_page < 6)) {
@@ -928,7 +967,7 @@ require(dependencies, function($, cookie) {
     						} else {
     							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page"';
     						}
-    						var pages_holder = '<a '+pagination_css+' data-icon="" id="" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
+    						var pages_holder = '<a '+pagination_css+' data-icon="" id="filter_page_'+(i+1)+'" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
     						pages_holder_final = pages_holder_final+pages_holder;
     					}
     				} else if ((num_pages > 9) && (num_pages -current_page <= 4)) {
@@ -938,9 +977,9 @@ require(dependencies, function($, cookie) {
     						} else {
     							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page"';
     						}
-    						var pages_holder = '<a '+pagination_css+' data-icon="" id="" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
+    						var pages_holder = '<a '+pagination_css+' data-icon="" id="filter_page_'+(i+1)+'" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
     						pages_holder_final = pages_holder_final+pages_holder;
-    					}	
+    					}
     				} else if ((num_pages > 9) && (current_page >= 6)) {
     					for (i = (current_page - 5); i < (current_page + 4); i++) {
     						if ((i+1) == current_page) {
@@ -948,7 +987,7 @@ require(dependencies, function($, cookie) {
     						} else {
     							pagination_css = 'class="button_soft pad_v_half pad_h facetview_go_to_page"';
     						}
-    						var pages_holder = '<a '+pagination_css+' data-icon="" id="" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
+    						var pages_holder = '<a '+pagination_css+' data-icon="" id="filter_page_'+(i+1)+'" href="'+i*10+'" title="Page '+(i+1)+'">'+(i+1)+'</a>';
     						pages_holder_final = pages_holder_final+pages_holder;
     					}
     				}
@@ -958,7 +997,11 @@ require(dependencies, function($, cookie) {
                     meta = meta.replace(/{{to}}/g, to);
     				meta = meta.replace(/{{pages}}/g, pages_holder_final);
                     meta = meta.replace(/{{total}}/g, data.found);
+					var top_p = top_pagination.replace(/{{from}}/g, from);
+                    top_p = top_p.replace(/{{to}}/g, to);
+                    top_p = top_p.replace(/{{total}}/g, data.found);
                     $('#facetview_metadata').html("").append(meta);
+					$('#top_pagination').html("").append(top_p);
                     $('#facetview_decrement').bind('click',decrement)
                     //from < size ? $('#facetview_decrement').html('..') : ""
     				from < size ? $('#facetview_decrement').hide() : ""
@@ -978,7 +1021,7 @@ require(dependencies, function($, cookie) {
             	   }
             	   return canPlay;
             }
-            
+
             var _uid="";
             // given a result record, build how it should look on the page
             var buildrecord = function(index) {
@@ -1020,21 +1063,22 @@ require(dependencies, function($, cookie) {
                     		img[1]=recstr;
                     		var isFile = true;
                     }}
-                    
+
                     var recstri = JSON.stringify(record['_autocomplete'])
                     //alert(recstri);
                     var regexi = /(http:\/\/\S+?\.(jpg|png|gif|jpeg))/
                     var imgi = regexi.exec(recstri);
-                    
+
                 }
                 // add the record based on display template if available
                 var display = options.result_display
-                var lines = ''
+				var lines = ''
+
                 //for (var lineitem in display) {
     			if (record['og-title']=="UW Health U-Connect Directory") {
     				var isDirectory = true;
     			}
-    			
+
                     line = "";
     				//**********************************************************************************************************
     				//"Template" the result
@@ -1047,9 +1091,11 @@ require(dependencies, function($, cookie) {
     				}
     				line = line+'<figure class="box_flag_media srch_media"';
     				if (record['mediaFeature']) {
-    					line = line+' style="background-image: url(\'https://n.uconnect.wisc.edu/'+record['mediumMediaFeature']+'\'); background-repeat: no-repeat; background-size: cover; background-position: center center;">';
+                        var parser = document.createElement('a');
+                        parser.href = record['url'];
+    					line = line+' style="background-image: url(\''+parser.protocol+'//'+parser.host+record['mediumMediaFeature']+'\'); background-repeat: no-repeat; background-size: cover; background-position: center center;">';
     				} else {
-    					line = line+'>';	
+    					line = line+'>';
     				}
     				if (record['directory-photo']) {
     					line=line+'<img class="center" src="'+record['directory-photo']+'">';
@@ -1088,21 +1134,23 @@ require(dependencies, function($, cookie) {
 
     				if (record['pageCategories']) {
     					var c=record['pageCategories'];
-    					var keyArray = c.toString().split(',');								
+    					var keyArray = c.toString().split(',');
     					var keyArrayLength = keyArray.length;
     					if (keyArray.length > 0) {
     						for (var i = 0; i < keyArrayLength; i++) {
-    							line=line+'<span class="icon icon_before icon_page_category icon_'+keyArray[i].trim().toLowerCase()+'">&nbsp;</span>';	
+    							line=line+'<span class="icon icon_before icon_page_category icon_'+keyArray[i].trim().toLowerCase()+'">&nbsp;</span>';
     						}
                             } else {
-    								
+
     					}
-    				}				
+    				}
 
             		line = line+'</figure><div class="box_flag_body srch_result_body pad_n_v">';
-    				if (isDirectory){ 
-    					line = line+'<ul class="breadcrumbs srch_breadcrumbs space_n_b color_label breadcrumbs_hide_last txt_small">'+record['directory-breadcrumb']+'</a></ul>'
-    				} else {
+    				if (isDirectory){
+    					line = line+'<ul class="breadcrumbs srch_breadcrumbs space_n_b color_label txt_small">'+record['breadcrumbs']+'</a></ul>'
+					} else if (record['link']) {
+						line = line+'';
+					} else {
     					line = line+'<ul class="breadcrumbs srch_breadcrumbs space_n_b color_label breadcrumbs_hide_last txt_small">'+record['breadcrumbs']+'</a></ul>'
     				}
     				if (isDirectory) {
@@ -1126,8 +1174,10 @@ require(dependencies, function($, cookie) {
     						line=line+'<dt class="pad_n list_item">Email:&nbsp;</dt><dd class="list_item pad_n">'+record['directory-email']+'</dd>';
     					}
     					line=line+'</dl><br><br>';
-    				} else {			
-    					if (record['url']) {
+    				} else {
+						if (record['link']) {
+							line=line+'<h1 class="heading srch_heading"><a class="link_naked" href="'+record['link']+'" target="_blank">'+record['title']+'&nbsp;</a>';
+						} else if (record['url']) {
     						line=line+'<h1 class="heading srch_heading"><a class="link_naked" href="'+record['url']+'">'+record['title']+'&nbsp;</a>';
     					} else {
     						line=line+'<h1 class="heading srch_heading color_link"><a class="link_naked" href="'+record['url']+'">'+record['title']+'&nbsp;</a>';
@@ -1137,39 +1187,90 @@ require(dependencies, function($, cookie) {
     				if (record['labels']) {
     				line=line+'<aside class="srch_org"><h1 class="visually_hidden">Organization</h1>';
                        var c=record['labels'];
-    					var keyArray = c.toString().split(',');								
+    					var keyArray = c.toString().split(',');
     					var keyArrayLength = keyArray.length;
     					if (keyArray.length > 0) {
     						for (var i = 0; i < keyArrayLength; i++) {
-    							line=line+'<span class="icon icon_before org_color icon_'+keyArray[i].trim()+'"></span>';	
+    							line=line+'<span class="icon icon_before org_color icon_'+keyArray[i].trim()+'"></span>';
     						}
                             } else {
-    								
-    					}								
+
+    					}
     				line=line+'</aside>';
     				}
+                    line=line+'<p class="txt_small color_label txt_capital space_n_v">';
     				if (record['displayDate']) {
-    					line=line+'<time class="txt_small color_label txt_capital">'+record['displayDate']+'</time>';
+    					line=line+'<time>'+record['displayDate']+'</time>';
     				}
+                    if (record['hffyNumber']) {
+                        if (record['displayDate']){
+                            line=line+'&nbsp;&middot;&nbsp;'
+                        }
+                        line=line+'health fact ID:&nbsp;'+record['hffyNumber']+'';
+                    }
+                    if (record['policyNumber']) {
+                        if (record['displayDate']){
+                            line=line+'&nbsp;&middot;&nbsp;'
+                        }
+                        line=line+'policy number:&nbsp;'+record['policyNumber']+'';
+                    }
+                    //line=line+'</p>';
     				if (!isDirectory) {
-    					if (record['description']) {
-    						line = line+'<div class="p space_n_b srch_description">'+record['description']+'</div>';
-    					}					
+    					//if (record['description']) {
+						line=line+'<div class="p space_n_b srch_description">';
+						var temp_line = '';
+						if (record['context']) {
+							var a=JSON.stringify(record['context']['#text']);
+                           	var b=JSON.stringify(record['context']['highlight']);
+							var a_length = a.split(',"').length
+							var b_length = b.split(',"').length
+							//var temp_line = '';
+							//alert(b.split(',').length);
+                           //	if(b.split(',').length==1) {
+							if(b_length==1) {
+                            		 //line=line+record['context']['#text'][0]+"<strong>"+record['context']['highlight']+"</strong>"+record['context']['#text'][1];
+									 temp_line=temp_line+record['context']['#text'][0]+"<strong>"+record['context']['highlight']+"</strong>"+record['context']['#text'][1];
+									 if(a_length==2) {
+									// if(a.split(',').length==2) {
+										 //line=line+record['context']['#text'][1]
+										 temp_line=temp_line+record['context']['#text'][1]
+									 }
+                            } else {
+                            	for(c in a) {
+                            		if(record['context']['highlight'][c]) {
+                            				//line=line+record['context']['#text'][c]+"<strong>"+record['context']['highlight'][c]+"</strong>";
+											temp_line=temp_line+record['context']['#text'][c]+"<strong>"+record['context']['highlight'][c]+"</strong>";
+									}
+                            	}
+								if (a_length > b_length) {
+									temp_line=temp_line+record['context']['#text'][a_length-1];
+									//line=line+record['context']['#text'][a_length-1];
+								}
+							}
+						} else {
+							temp_line=temp_line+record['description'];
+							//line=line+record['description'];
+						}
+						//temp_line=temp_line.replace('undefined','adfadf');
+						//alert(temp_line);
+						line=line+temp_line.replace(/(?:undefined)/g,' ');
+						line=line+'</div>';
     				}
+					line=line+'</p>';
     				if (record['keywords']) {
     					line=line+'<ul class="list_tag txt_small space_n_b">';
                         var c=record['keywords'];
-    					var keyArray = c.toString().split(',');								
+    					var keyArray = c.toString().split(',');
     					var keyArrayLength = keyArray.length;
     					if ((keyArray.length > 0)  && (keyArray[0] !== "")) {
     						for (var i = 0; i < keyArrayLength; i++) {
-    							line=line+'<li><a class="tag icon icon_before link_naked" href="/search/?query=keywords:'+encodeURIComponent(keyArray[i].trim())+'">'+keyArray[i].trim()+'</a></li>';	
+    							line=line+'<li><a class="tag icon icon_before link_naked" href="/tag/?query=keywords:'+encodeURIComponent(keyArray[i].trim())+'">'+keyArray[i].trim()+'</a></li>';
     						}
                             } else {
-    								
-    					}					
+
+    					}
     					line=line+'</ul>';
-    				}			
+    				}
                     if (line) {
                         lines += line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'');
                     }
@@ -1180,16 +1281,16 @@ require(dependencies, function($, cookie) {
     			result +='</div></article>';
     			//alert(result);
                 return result;
-    			
+
             }
-            
+
 
             // put the results on the page
             showresults = function(sdata) {
             	//alert("Ajax Success");
                 var data = parseresults(sdata);
                 options.data = data;
-                
+
                 //show suggestion if available
                 var suggest = sdata["results"]['@suggest'];
                 var suggestexist = false;
@@ -1209,7 +1310,7 @@ require(dependencies, function($, cookie) {
                // else{
                // 	$('#suggest').html('');
                // }
-                
+
                 //show ads if available
                 var adsexist = false;
                 if(sdata["ads"]){
@@ -1225,7 +1326,7 @@ require(dependencies, function($, cookie) {
                 		//		<div class=\"span10\">\
                 		//		<div style=\"float:left\">\
                 		temp+= "<a class=\"link_naked\" href=\"" + sdata["ads"][temp1]['@url'] + "\">" + sdata["ads"][temp1]['@title'] + "</a></h1></header>";
-                		
+
                 		//temp += '<div class="row-fluid" style="height:20px"></div><div class="row-fluid">';
                 		if(ads_graphic_url!='')
                 			temp += '<a href="'+ sdata["ads"][temp1]['@graphic_url'] +'" rel="prettyPhoto"> <img class="thumbnail" style="float:left; width:100px; margin:0 5px 10px 0; max-height:150px;" src="'+ sdata["ads"][temp1]['@graphic_url'] +'" /> </a>';
@@ -1237,7 +1338,7 @@ require(dependencies, function($, cookie) {
                 		}
                 		//temp += '</div>';
                 		//temp += '<div class="bigs_pad_r pad_b">' + sdata["ads"][temp1]['@url'] + '</div>';
-                		
+
                 		//temp += '</tr>';
                 	}
                 	temp += "</section></div></article>";
@@ -1246,7 +1347,7 @@ require(dependencies, function($, cookie) {
                 	else
                 		$('#ads').html('');
                 }
-                
+
     	    if(data["facets"])
     		    putvalsinfilters(data);
                 // put result metadata on the page
@@ -1259,7 +1360,7 @@ require(dependencies, function($, cookie) {
                     $('#facetview_results').append( buildrecord(index) );
                     $('#facetview_results tr:last-child').linkify()
                 });
-                
+
                 fixadvfiltercount();
                 if(options.data['found'] && first==true)
                 	{
@@ -1270,7 +1371,7 @@ require(dependencies, function($, cookie) {
         				first=false;
                     	showfiltervalsinit();
                 	}
-                
+
                 $('[id=searchresult]').each(function(){
                 	if($(this).attr('href').startsWith('db')){
                 		var temp = options.search_url.split('servlet')[0] + 'servlet/DBServlet?col=' + $(this).attr('collectionno') + '&id=' + $(this).attr('uid');
@@ -1285,14 +1386,14 @@ require(dependencies, function($, cookie) {
                 		if(!$(this).attr('href').startsWith('http')){
                 			$(this).attr('href',temp);
                 		}
-                		
+
                 	}
                 	else if($(this).attr('href').split(':')[0] == 'eml'){
                 		var temp = options.search_url.split('servlet')[0] + 'servlet/EmailViewer?url=' + $(this).attr('uid') + '&col=' + $(this).attr('collectionno');
                 		$(this).attr('href',temp);
                 	}
                 })
-                
+
     	    //update total number of results
                 if(options.data['found'])
                 	{
@@ -1313,7 +1414,7 @@ require(dependencies, function($, cookie) {
                 		$('#nofresults').html("0 results found");
                 		$('#sort_btn_aligner').hide();
                 	}
-                
+
                $('[thumbid=_video]').each(function(){
                 	$(this).bind('click',function(){
                 	$(this).attr('controls','')
@@ -1322,7 +1423,7 @@ require(dependencies, function($, cookie) {
                 	$(this).attr('poster','')
                 	})
                 })
-                
+
                 //$('a[rel^="prettyPhoto"]').prettyPhoto();
                 $('[id=searchresult]').each(function(){
                 	$(this).bind('click',function(){
@@ -1332,13 +1433,13 @@ require(dependencies, function($, cookie) {
                 		var clickedurl = escape($(this).attr('href'));
                 		$.ajax({
                             type: "get",
-    						url: "https://dev.uconnect.wisc.edu/searchblox/servlet/ReportServlet",
+    						url: "/searchblox/servlet/ReportServlet",
                            // url: "../servlet/ReportServlet",
                             data:"addclick=yes&col="+clickedcol+"&uid="+clickeduid+"&title="+clickedtitle+"&url="+clickedurl+"&query="+escape(options.query)
                 		});
                 	});
                 });
-               
+
                 $('[id=topclickedresult]').each(function(){
                 	$(this).bind('click',function(){
                 		var clickedcol = $(this).attr('collectionno');
@@ -1347,13 +1448,13 @@ require(dependencies, function($, cookie) {
                 		var clickedurl = $(this).attr('href');
                 		$.ajax({
                             type: "get",
-    						url: "https://dev.uconnect.wisc.edu/searchblox/servlet/ReportServlet",
+    						url: search_url_ReportServlet,
                             //url: "../servlet/ReportServlet",
                             data:"addclick=yes&col="+clickedcol+"&uid="+clickeduid+"&title="+clickedtitle+"&url="+clickedurl+"&query="+escape(options.query)
                 		});
                 	});
                 });
-                
+
                 //tagcloud preperation
                // {
                // 	var taghtml = "<h3>Most Used Tags</h3></br><div id='facettagcloud'>";
@@ -1379,14 +1480,14 @@ require(dependencies, function($, cookie) {
                // 	else
                // 		$('#facetview_leftcol_tagcloud').hide();
                // }
-                
+
                 //test percolator
                 {
                 	$('#facetview_leftcol_percolator > a').bind('click',function(){
                 		bootalert("Register Alert","","btn-primary");
                 	})
                 }
-                            
+
             }
 
             // ===============================================
@@ -1395,7 +1496,7 @@ require(dependencies, function($, cookie) {
 
     	//add default params to query
     	var adddefaultparams = function ( a )
-    	{	
+    	{
     		var b="";
     		for(each in options.default_url_params)
     		{
@@ -1410,7 +1511,22 @@ require(dependencies, function($, cookie) {
     		}
     		return (a+b);
     	}
-    	
+
+		var addcolparams = function ( a ) {
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			var b = "";
+            for ( var i = 0; i < hashes.length; i++ ) {
+				if ((hashes[i].indexOf('col=') + 1) || (hashes[i].indexOf('cname=') + 1)) {
+					if ((hashes[i].indexOf('cname=all') + 1) || (hashes[i].indexOf('col=all') + 1)) {
+						b = b + search_all_string;
+						break;
+					} else {
+						b = b + '&'+hashes[i];
+					}
+				}
+            }
+			return (a+b);
+		}
     	// add extra filters to query
     	var appendextrafilterstoquery = function( a ){
     		var b = "";
@@ -1438,7 +1554,7 @@ require(dependencies, function($, cookie) {
     		}
     		return(a+b);
     	}
-    	
+
     	var addsizevalues = function(a)
     	{
     	    	var b="";
@@ -1456,20 +1572,20 @@ require(dependencies, function($, cookie) {
     		var b='&facet.field=lastmodified&f.lastmodified.range=['+moment().subtract("days",1).format("YYYY-MM-DDTHH:mm:ss")+'TO*]&f.lastmodified.range=['+moment().subtract('days',7).format("YYYY-MM-DDTHH:mm:ss")+'TO*]&f.lastmodified.range=['+moment().subtract('months',1).format("YYYY-MM-DDTHH:mm:ss")+'TO*]&f.lastmodified.range=['+moment().subtract('years',1).format("YYYY-MM-DDTHH:mm:ss")+'TO*]';
     		return(q+b);
     	}
-    	
+
     	var adddefaultsizefacet=function(q)
     	{
     		var b='&facet.field=size&f.size.range=[*TO102400]&f.size.range=[102400TO512000]&f.size.range=[512000TO1048576]&f.size.range=[1048576TO10485760]&f.size.range=[10485760TO*]';
     		return(q+b);
     	}
-    	
-    	
+
+
     	var trim = function(s)
     	{
     		var a=s.replace(" ","");
     		return(a);
     	}
-    	
+
     	var contains = function (a,e) {
     		for (var i = 0; i < a.length; i++) {
     		if (a[i] == e) {
@@ -1478,12 +1594,12 @@ require(dependencies, function($, cookie) {
     		}
     		return false;
     		}
-            	
+
     	var z= new Array();
         // execute a search
     	var oldquery = "";
     	var oldsearchquery = "";
-    	
+
     	var percolate = function(name, email, frequency, nodocs){
     		$.ajax({
                 type: "get",
@@ -1493,9 +1609,9 @@ require(dependencies, function($, cookie) {
                 }
     		});
     	}
-    	
+
     	var bootalert = function(heading, msg, btnClass) {
-    		
+
     		var fadeClass = "fade";
     		{
     		    var isIE = window.ActiveXObject || "ActiveXObject" in window;
@@ -1503,7 +1619,7 @@ require(dependencies, function($, cookie) {
     		        fadeClass = "";
     		    }
     		}
-    		
+
     		$("#dataAlertModal .modal-footer button").removeClass().addClass("btn").addClass(btnClass);
     		if (!$('#dataAlertModal').length) {
     			$('body').append('\
@@ -1579,9 +1695,9 @@ require(dependencies, function($, cookie) {
     				$('#dataAlertTempOK').trigger('click');
     			});
     	}
-    	
+
     	$('.facetview_clear_all_filters').bind('click',clearallfilters);
-    	
+
         var dosearch = function() {
         	$('.facetview_clear_all_filters').bind('click',clearallfilters);
             // update the options with the latest query value from query box
@@ -1607,7 +1723,7 @@ require(dependencies, function($, cookie) {
                     		for(var i in data[0]){
                     			temp.push(data[0][i]);
                     		}
-                    		
+
                 			if(temp.length>=1)
                 			{
                 				z=temp;
@@ -1621,15 +1737,17 @@ require(dependencies, function($, cookie) {
             else{
             	//$('#facetview_freetext').autocomplete( "destroy" );
             }
-        		  	
-            	
+
+
     	    //refresh query
     	    q=" ";
-                // make the search query
+            // make the search query
     	    //q="query="+encodeURI(escape(options.query));
-    	    q="query="+escape(encodeURIComponent(options.query));
+    	    q="query="+escape(encodeURIComponent(options.query +' AND -filename:index.html'));
     	    // add default params
     	    q=adddefaultparams(q);
+			// add column filters
+			q=addcolparams(q);
     	    // add facet filter values to query
     	    q=appendfilterstoquery(q);
     	    // add extra filters to query
@@ -1641,7 +1759,7 @@ require(dependencies, function($, cookie) {
     	    q+=direction;
     	    // update start page variable on new query
     	    if(oldsearchquery != encodeURIComponent(options.query).trim())
-    	    	options.paging.from = 0;
+    	    options.paging.from = 0;
     	    // update the page variable
     	    var d = parseInt(options.paging.from) == 0 ? d = 1 : d = (parseInt(options.paging.from) / parseInt(options.paging.size))+1;
     	    q=q+"&page="+parseInt(d);
@@ -1654,7 +1772,7 @@ require(dependencies, function($, cookie) {
     	    //update query with size filters
     	    q+=sizefilter
     	    //q=trim(q);
-    	    
+
     	   // alert(q.trim().replace(/ /g,''));
     	   // alert(oldquery.trim().replace(/ /g,''));
     	    if(q.trim() == oldquery.trim()){
@@ -1664,16 +1782,16 @@ require(dependencies, function($, cookie) {
     	    //.replace(/ /g,'')
     	    oldquery = q.trim();
     	    oldsearchquery = encodeURIComponent(options.query).trim();
-    	    
+
     	    //addlastmodifiedfacetsilent
     	    q=adddefaultdatefacet(q);
-    		
+
     		function getKeywordFilter(str) {
     			return str.split(':')[1];
     		}
     		function getFilteredQuery(str) {
     			return str.split('keywords')[0];
-    		}		
+    		}
     		if (options.query.indexOf("keywords:") > -1) {
     			q=q+"&f.keywords.filter="+encodeURIComponent(getKeywordFilter(options.query));
     			//q=q.replace(escape(encodeURIComponent(options.query)),getFilteredQuery(options.query));
@@ -1690,35 +1808,36 @@ require(dependencies, function($, cookie) {
     	    	displayloader();
     	    	$.getJSON(options.search_url,"callback=?&"+q,
     	    			function(data) {
-    						//alert(q);
     	    				cookie.createCookie("searchblox_plugin_query",q,0);
-    	    				$.getJSON("https://dev.uconnect.wisc.edu/searchblox/servlet/ReportServlet","callback=?&gettopclicks=yes&nodocs=5&query="+options.query,function(_data){
+							//alert("created cookie");
+    	    				//$.getJSON("https://dev.uconnect.wisc.edu/searchblox/servlet/ReportServlet","callback=?&gettopclicks=yes&nodocs=5&query="+options.query,function(_data){
+							//$.getJSON(options.search_url,"callback=?&gettopclicks=yes&nodocs=5&query="+options.query,function(_data){
     						//$.getJSON("../servlet/ReportServlet","callback=?&gettopclicks=yes&nodocs=5&query="+options.query,function(_data){
-    	    					data=_data.response;
-    	    					var temphtml = "<h3>Most Viewed</h3></br>";
-    	    					if(data!="nodocs"&&data!="queryerror"&&data!="")
+    	    				//	data=_data.response;
+    	    				//	var temphtml = "<h3>Most Viewed</h3></br>";
+    	    				//	if(data!="nodocs"&&data!="queryerror"&&data!="")
     	    						/*for(var x in data[0]){
     	    							temphtml += data[0][x];
     	    						}*/
-    	    						for(var x in data)
-    	    							for(var y in data[x])
-    	    								temphtml += data[x][y];
-    	    					$('#facetview_leftcol_topclicks').html(temphtml);
-                            	if(data!="nodocs"&&data!="queryerror"&&data!="")$('#facetview_leftcol_topclicks').show();
-                            	else $('#facetview_leftcol_topclicks').hide();
-    	    				})
-    	    				
+    	    				//		for(var x in data)
+    	    				//			for(var y in data[x])
+    	    				//				temphtml += data[x][y];
+    	    				//	$('#facetview_leftcol_topclicks').html(temphtml);
+                            //	if(data!="nodocs"&&data!="queryerror"&&data!="")$('#facetview_leftcol_topclicks').show();
+                            //	else $('#facetview_leftcol_topclicks').hide();
+    	    				//})
+
     	    				if(data["error"]!=undefined){
     	    					$('#ads').html('<div class="alert alert-danger">'+
     	    							'<div class="content" style="color:red;font-weight:bold;text-align:center;letter-spacing:1px;">' +
-    	    							data["error"] + 
+    	    							data["error"] +
     	    							'</div></div>');
     	    					$('#ads').parent().parent().css("margin-left", "-100px");
     	    					$('#ads').parent().parent().css("float", "left");
     	    					hideloader();
     	    					return;
     	    				}
-    	    				
+
         					$('#ads').html('');
         					$('#ads').parent().parent().css("margin-left", "");
         					$('#ads').parent().parent().css("float", "");
@@ -1733,8 +1852,8 @@ require(dependencies, function($, cookie) {
                 event.preventDefault();
     			            var newobj = '<li class="filterable"><a class="facetview_filterselected facetview_clear icon icon_after close btn btn-info" rel="' + $(this).attr("rel") + '" alt="remove" title="remove" href="' + $(this).attr("href") + '" filtername=' + splitStringfromFirst($(this).attr('id'),'_')[1] + '><span class="txt_bold">' + $(this).html().replace(/\(.*\)/,'') + '</span></a></li>';
                 //alert($(this).attr('id'));
-               // var newobj = '<a class="facetview_filterselected facetview_clear icon ' + 
-               //     'btn btn-info" rel="' + $(this).attr("rel") + 
+               // var newobj = '<a class="facetview_filterselected facetview_clear icon ' +
+               //     'btn btn-info" rel="' + $(this).attr("rel") +
                //     '" alt="remove" title="remove"' +
                //     ' href="' + $(this).attr("href") + '" filtername='+splitStringfromFirst($(this).attr('id'),'_')[1]+' >' +
               //      $(this).html().replace(/\(.*\)/,'') + ' <i class="icon-remove"></i></a>';
@@ -1748,7 +1867,7 @@ require(dependencies, function($, cookie) {
                 dosearch();}
                 //else{alert("Filter:"+$('#facetview_selectedfilters').find('a[filtername=\''+splitStringfromFirst($(this).attr('id'),'_')[1]+'\']').attr('filtername')+" already exist!!");}
             }
-            
+
             var splitStringfromFirst = function(str,splitter){
             	var d = str.indexOf(splitter);
       		  	if(0>d)return str;
@@ -1766,7 +1885,7 @@ require(dependencies, function($, cookie) {
     			options.paging.from = 0;
                 dosearch();
             }
-    		
+
     		//$('.facetview_clear_all_filters').bind('click',clearallfilters);
             // clear all filters
             var clearallfilters = function(event) {
@@ -1777,7 +1896,7 @@ require(dependencies, function($, cookie) {
     			$("#facetview_selectedfilters li.filterable").remove();
                 //$(this).remove();
                 dosearch();
-            }		
+            }
 
             // do search options
             var fixmatch = function(event) {
@@ -1794,7 +1913,7 @@ require(dependencies, function($, cookie) {
                             }
                         }
                     }
-    				
+
                     $('#facetview_freetext').val(newstring);
                 } else if ( $(this).attr('id') == "facetview_fuzzy_match" ) {
                     var newvals = $('#facetview_freetext').val().replace(/"/gi,'').replace(/\*/gi,'').replace(/\~/gi,'').split(' ');
@@ -1808,7 +1927,7 @@ require(dependencies, function($, cookie) {
                             }
                         }
                     }
-    				
+
                     $('#facetview_freetext').val(newstring);
                 } else if ( $(this).attr('id') == "facetview_exact_match" ) {
     //                var newvals = $('#facetview_freetext').val().replace(/"/gi,'').replace(/\*/gi,'').replace(/\~/gi,'').split(' ');
@@ -1824,7 +1943,7 @@ require(dependencies, function($, cookie) {
     //                }
     //                $.trim(newstring,' ');
     //                $('#facetview_freetext').val(newstring);
-                	
+
 
                     var newvals = $('#facetview_freetext').val().replace(/"/gi,'').replace(/\*/gi,'').replace(/\~/gi,'').split(' ');
     				//alert(newvals);
@@ -1840,14 +1959,14 @@ require(dependencies, function($, cookie) {
                     }
                     $.trim(newstring,' ');
                     $('#facetview_freetext').val("\"" + newstring + "\"");
-                
-                	
+
+
                 } else if ( $(this).attr('id') == "facetview_match_all" ) {
-    				
+
                     $('#facetview_freetext').val($.trim($('#facetview_freetext').val().replace(/ OR /gi,' ')));
                     $('#facetview_freetext').val($('#facetview_freetext').val().replace(/ /gi,' AND '));
                 } else if ( $(this).attr('id') == "facetview_match_any" ) {
-                  
+
     				$('#facetview_freetext').val($.trim($('#facetview_freetext').val().replace(/ AND /gi,' ')));
                     $('#facetview_freetext').val($('#facetview_freetext').val().replace(/ /gi,' OR '));
                 }
@@ -1858,7 +1977,7 @@ require(dependencies, function($, cookie) {
             // adjust how many results are shown
             var howmany = function(event) {
                 event.preventDefault()
-                var newhowmany = prompt('Currently displaying ' + options.paging.size + 
+                var newhowmany = prompt('Currently displaying ' + options.paging.size +
                     ' results per page. How many would you like instead?')
                 if (newhowmany) {
                     options.paging.size = parseInt(newhowmany)
@@ -1871,7 +1990,7 @@ require(dependencies, function($, cookie) {
             // adjust how many suggestions are shown
             var howmanynofsuggest = function(event) {
                 event.preventDefault()
-                var newhowmany = prompt('Currently displaying ' + options.nofsuggest + 
+                var newhowmany = prompt('Currently displaying ' + options.nofsuggest +
                     ' suggestions per page. How many would you like instead?')
                 if (newhowmany) {
                     options.nofsuggest = parseInt(newhowmany)
@@ -1880,21 +1999,21 @@ require(dependencies, function($, cookie) {
                     dosearch();
                 }
             }
-            
+
             var displayloader = function(){
             	var height1 = $('#facetview_results').height();
             	var width1  = $('#facetview_results').width();
             	$('.loadingbg').height(height1);
             	$('.loadingbg').width(width1);
             	$('#loading').show();
-            	
+
             }
-            
+
             var hideloader = function(){
             	$('#loading').hide();
             }
 
-            
+
             // the facet view object to be appended to the page
             var thefacetview = ' \
             	<!--<div id="facetview"> \
@@ -1913,9 +2032,9 @@ require(dependencies, function($, cookie) {
                 			<!--<div class="well" id="facetview_leftcol_topclicks" style="display:none;width:100%;float:left"></div>--> \
             	    		<!--div class="well" id="facetview_leftcol_tagcloud"  style="display:none;width:100%;float:left"></div>--> \
                    		</aside> \
-    					<div class="split_main bigs_float_right">\
-                    	<div class="col-sm-8" id="facetview_rightcol" align="left" style=""> \
-                        	<div id="facetview-searchbar" style="margin-left:-280px;display:none;" class="input-group">\
+    					<div>\
+                    	<div class="col-sm-8" id="facetview_rightcol" align="left"> \
+                        	<div id="facetview-searchbar" style="display:none;" class="input-group">\
                         		<div class="input-group-addon" style="display:none;"><i class="glyphicon glyphicon-search"></i></div>\
                         		<input class="form-control" id="facetview_freetext" name="query" value="" placeholder="search term" autofocus autocomplete="off" style="display:none;"/>\
                         		<!--<div class="input-group-addon">\
@@ -1955,15 +2074,19 @@ require(dependencies, function($, cookie) {
             				</div>\
             				</div>\
                         <!--<div style="clear:both;" id="facetview_selectedfilters"></div>--> \
-          	  			<div><div id="suggest"></div>\
-                    	<div><div id="ads"></div>\
-    					<div class="box_panel pad_v srch_results space_b_2" id="facetview_results">\
+          	  			<div>\
+                    	<div>\
+						<div id="ads"></div>\
+        	<div id="loading" style="display:none;"> \
+         	<div class="" style="position: absolute; z-index: 1000;background-color: black; opacity: 0.2; ">\
+         	</div>\
+         	<img src="/cosmos/uconnect/img/ajax-loader.gif" style="position: absolute;top:43%;left:49%;z-index: 1000;"/>\
+         	</div>\
+    					<div id="top_pagination" class="pad_b color_label space_neg_t_half"></div>\
+						<div class="box_panel pad_v srch_results space_b_2" id="facetview_results">\
              	      	<!--<table class="table table-striped" id="facetview_results" style="word-break: break-all;"></table>-->\
     					</div>\
                       	<div class="row-fluid" id="facetview_metadata"></div>\
-    					<!--</div> \
-             		</div> \
-                  </div>--> \
                 ';
 
             var attrsetter = function(attrname)
@@ -1978,7 +2101,7 @@ require(dependencies, function($, cookie) {
             	$('#'+attrs[a]).removeAttr('disabled');
                 }
             }
-            
+
     	var sorter = function()
     	{
     	    	attrsetter($(this).attr('id'));
@@ -2013,7 +2136,7 @@ require(dependencies, function($, cookie) {
     		}
     		dosearch();
     	}
-    	
+
     	var autosuggest = function(event)
     	{event.preventDefault();
     		if(autosuggestflag){
@@ -2041,19 +2164,21 @@ require(dependencies, function($, cookie) {
             	//alert(options.data["facets"][n]["lastmodified"][1][$(this).attr('sn')]['#text']);
             });
     	}
-    	
-    	
-    	
-    	
+
+
+
+
             // what to do when ready to go
-            var whenready = function() {
+            var whenready = function(search_status) {
+				//alert(search_status);
+				//alert("whenready called");
                 // append the facetview object to this object
                 thefacetview = thefacetview.replace(/{{HOW_MANY}}/gi,options.paging.size);
                 thefacetview = thefacetview.replace(/{{HOW_MANY_nofsuggest}}/gi,options.nofsuggest);
                 $(obj).append(thefacetview);
-                
-                
-                
+
+
+
                 // setup search option triggers
                 $('#facetview_partial_match').bind('click',fixmatch)
                 $('#facetview_exact_match').bind('click',fixmatch)
@@ -2067,7 +2192,7 @@ require(dependencies, function($, cookie) {
                 $('#sort_relevance').bind('click',sorter);
                 $('#direction').bind('click',director);
                 $('#facetview_autosuggest').bind('click', autosuggest)
-                
+
                 // resize the searchbar
                 //var thewidth = $('#facetview_searchbar').parent().width()
                // $('#facetview_searchbar').css('width',thewidth - 140 + 'px')
@@ -2095,60 +2220,113 @@ require(dependencies, function($, cookie) {
     				$('#facetview_leftcol').show();
             		$('#facetview-searchbar').attr('style','margin-bottom:10px;');
             		//$('.header').attr('style','padding:5px;margin-top:15px;');
-    				
+
     				var freetext = options.query;
-    				var freetext = '"' + freetext + '"';
-    				
+    				// var freetext = '"' + freetext + '"';
+
                 	$('#facetview_freetext').val(options.query);
     				//$('#facetview_freetext').text(options.query);
     				$('#facetview_freetext').text(freetext);
-                   	dosearch(); 
+					//alert(cookie.readCookie("searchblox_plugin_query"));
+					if(search_status != "yes") {
+						//alert("Do search!");
+                   		dosearch();
+					} else {
+						//alert("Cookie Search!");
+						$.getJSON(options.search_url,"callback=?&"+cookie.readCookie("searchblox_plugin_query"),
+								function(data) {
+									//alert("go!");
+									cookie.createCookie("searchblox_click","false",0);
+									cookie.createCookie("searchblox_left_page","no",0);
+									//var temp = cookie.readCookie("searchblox_plugin_query");
+									//temp=temp.split('&')[0].split('=')[1];
+									//options.query=temp;
+									temp = cookie.readCookie("searchblox_plugin_query");
+									temp=temp.replace(/%20/g,' ');
+									temp=temp.replace(/%26/g,'^');
+									//alert(temp);
+									temp=temp.match(/f\.[a-zA-z0-9 ]+\.filter=[\w\d\s\-\[\:\*\^\]]+/g);
+									//var freetext = unescape(options.query);
+									//var freetext = '"' + freetext + '"';
+									$('#facetview_freetext').val(unescape(options.query));
+									//$('#facetview_freetext').val(freetext);
+									//alert(temp);
+									showresults(data);
+									//alert(temp);
+									for(var t in temp){
+										var filters_exist = "true";
+										var facetname=temp[t].split('.')[1];
+										//alert(facetname);
+										var filtername=temp[t].split('=')[1];
+										//alert(filtername);
+										filtername = filtername.replace(/ /g,'\\%\\%\\%');
+										filtername = filtername.replace('^','\\&');
+										//alert(facetname+":::"+filtername.replace(' ','%%%'));
+										//$('[id=fltchoice_'+filtername.replace(' ','\\%\\%\\%')+'][rel='+facetname+']').click();
+										$('[id=fltchoice_'+filtername+'][rel='+facetname+']').click();
+										//alert('#fltchoice_'+filtername.replace(/ /g,'.')+'[rel='+facetname+']');
+									}
+									var filtered_page=cookie.readCookie("searchblox_plugin_query");
+									//alert(filtered_page);
+									filtered_page=filtered_page.match(/page=[\w\d\s\-\[\:\*\^\]]+/g);
+									//alert(typeof filtered_page);
+									filtered_page=filtered_page.toString();
+									filtered_page=filtered_page.toString().replace('=','_');
+									//capitaliseFirstLetter(page);
+									//alert(filtered_page);
+									//alert("click!"+filtered_page);
+									if (filters_exist) {
+										$('[id=filter_'+filtered_page+']').click();
+									} else {
+										$('[id=filter_page_1]').removeClass('active');
+										$('[id=filter_'+filtered_page+']').addClass('active');
+									}
+
+
+						});
+					}
                 }
-                $('#facetview_freetext',obj).bindWithDelay('keyup',dosearch,options.freetext_submit_delay);
+                //$('#facetview_freetext',obj).bindWithDelay('keyup',dosearch,options.freetext_submit_delay);
                 //alert(cookie.readCookie("searchblox_plugin_query"));
-                if((cookie.readCookie("searchblox_plugin_query")=="new" || cookie.readCookie("searchblox_plugin_query")==null) && (cookie.readCookie("searchblox_click")=="false" || cookie.readCookie("searchblox_click")==null))
-                	cookie.createCookie("searchblox_plugin_query","new",0);
-                else if(cookie.readCookie("searchblox_click")=="false" && cookie.readCookie("searchblox_plugin_query")!="new")
-                {
-                	cookie.createCookie("searchblox_plugin_query","new",0);
-                }
-                else
-                	$.getJSON(options.search_url,"callback=?&"+cookie.readCookie("searchblox_plugin_query"),
-        	    			function(data) {
-                				cookie.createCookie("searchblox_click","false",0);
-                				var temp = cookie.readCookie("searchblox_plugin_query");
-                				temp=temp.split('&')[0].split('=')[1];
-                				options.query=temp;
-                				temp=cookie.readCookie("searchblox_plugin_query");
-                				temp=temp.match(/f\.[a-zA-z0-9 ]+\.filter=[\w\d\s\-\[\:\*\]]+/g);
-                				//var freetext = unescape(options.query);
-    							//var freetext = '"' + freetext + '"';
-                				$('#facetview_freetext').val(unescape(options.query));
-    							//$('#facetview_freetext').val(freetext);
-                				//alert(temp);
-        	    				showresults(data)
-        	    				for(var t in temp){
-                					var facetname=temp[t].split('.')[1];
-                					var filtername=temp[t].split('=')[1];
-                					//alert(facetname+":::"+filtername);
-                					$('[id=fltchoice_'+escape(filtername.replace(/ /g,'%%%'))+'][rel='+facetname+']').click();
-                					//alert('#fltchoice_'+filtername.replace(/ /g,'.')+'[rel='+facetname+']');
-                				}
-                	});
-                
+              //  if((cookie.readCookie("searchblox_plugin_query")=="new" || cookie.readCookie("searchblox_plugin_query")==null) && (cookie.readCookie("searchblox_click")=="false" || cookie.readCookie("searchblox_click")==null)) {
+              //  	cookie.createCookie("searchblox_plugin_query","new",0);
+					//alert("asdfkj asdfkljas fdl;akdsfj asd;lfkj");
+			//	}
+              //  else if(cookie.readCookie("searchblox_click")=="false" && cookie.readCookie("searchblox_plugin_query")!="new")
+              //  {
+              //  	cookie.createCookie("searchblox_plugin_query","new",0);
+					//alert("cookie2");
+              //  }
+               // else
+				// {
+
+//
+				// }
             }
 
             // ===============================================
             // now create the plugin on the page
             return this.each(function() {
-                // get this object
-                obj = $(this);
-                
-                whenready();
+            // get this object
+            obj = $(this);
+			// check for cookie and status
+            //var new_search_check = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			//var new_search_status = "";
+			var search_back = cookie.readCookie("searchblox_left_page");
+			//alert(temp);
+			//if (temp != null) {
+			//	temp=temp.split('&')[0].split('=')[1];
+				//options.query=temp;
+			//	temp=cookie.readCookie("searchblox_plugin_query");
+			//	temp=temp.match(/f\.[a-zA-z0-9 ]+\.filter=[\w\d\s\-\[\:\*\]]+/g);
+				//return (a+b);
+			//}
+			//alert(temp);
+            whenready(search_back);
 
     		$('body').scrollTop(0);
     		document.body.scrollTop = document.documentElement.scrollTop = 0;
-            }); // end of the function  
+            }); // end of the function
 
         };
 
@@ -2163,39 +2341,39 @@ require(dependencies, function($, cookie) {
          //   </div>
 
     //Insert the search header markup
-    $("#body_content section.row div.main_content").html("<div id=\"page_name\" class=\"main_content split_main column\"><small class=\"txt_small sub_heading\">You searched for</small>\<h1 id=\"facetview_freetext\" placeholder=\"search term\" class=\"h2 org space_n_b\" name=\"query\"></h1>");
+    $("#body_content .box_flag .box_flag_body").html("<div id=\"page_name\" class=\"main_content split_main column\"><small class=\"txt_small sub_heading\">You searched for</small>\<h1 placeholder=\"search term\" class=\"h2 org space_neg_b\" name=\"query\"><em id=\"facetview_freetext\"></em></h1>");
     //$("#body_content section.row div.main_content").html("<h1 id=\"page_name\" class=\"h2 org\"><small class=\"txt_upper txt_label\">You searched for</small><br>\"<span id=\"facetview_freetext\" placeholder=\"search term\" name=\"query\"></span>\"</h1>");
 
-    $("#tag_bar div.row").html("<div class=\"side_content column tag_title\" id=\"result_tally\"><span id=\"nofresults\" class=\"sub_heading\"></span></div><ul class=\"main_content column list_tag list_inline\" id=\"facetview_selectedfilters\"><li class=\"right\"><a  filtername=\"*\" title=\"remove\" alt=\"remove\" rel=\"keywords\" class=\"facetview_clear_all_filters txt_upper txt_bold\"><span class=\"icon icon_after close\"></span> Remove Filters</a></li></ul>");
+    $("#tag_bar div.row").html("<div class=\"smalls_show side_content column tag_title\" id=\"result_tally\"><span id=\"nofresults\" class=\"sub_heading\"></span></div><ul class=\"main_content column list_tag list_inline\" id=\"facetview_selectedfilters\"><li class=\"right\"><a  filtername=\"*\" title=\"Remove\" alt=\"Remove\" rel=\"keywords\" class=\"facetview_clear_all_filters txt_upper txt_bold\"><span class=\"icon icon_after close\"></span> Remove Filters</a></li></ul>");
     //Insert the search tag bar markup
     //$("#tag_bar div.row").html("<div id=\"nofresults\" class=\"side_content split_side column txt_upper txt_small tag_title\"></div><div id=\"nofresults\" class=\"txt_small bold txt_upper\" style=\"margin-right:20px;display:inline-block\"></div><div id=\"facetview_selectedfilters\" style=\"display:inline-block\" class=\"txt_small tag_title\"></div><a filtername=\"*\" href=\"#\" title=\"remove\" alt=\"remove\" rel=\"keywords\" class=\"facetview_clear_all_filters float_right icon icon_start txt_small bold txt_upper pad_v_half\" style=\"float:right;\" data-icon=\"delete\">Remove Filters<i class=\"icon-remove\"></i></a></div>");
 
     jQuery(document).ready(function($) {
       $('.facet_view').facetview({
-        search_url: 'https://dev.uconnect.wisc.edu/searchblox/servlet/SearchServlet',
+        search_url: search_url_SearchServlet,
         search_index: 'searchblox',
     	autosuggestflag: false,
         facets: [
             {'field': 'labels','display': 'Organization'},
     		{'field': 'typeofcontent', 'display': 'Type'},
     		{'field': 'pageCategories', 'display': 'Category'},
-            {'field': 'keywords',  'display': 'Tag'}
+            {'field': 'keywords',  'display': 'Tag', 'size':'50'}
 
         ]
       });
-      
+
         if (typeof String.prototype.startsWith != 'function') {
     	  String.prototype.startsWith = function (str){
     	    return this.slice(0, str.length) == str;
     	  };
     	}
-      
+
       if (typeof String.prototype.trim != 'function') {
     	  String.prototype.trim = function (){
     		  return this.replace(/^\s+|\s+$/g, '');
     	  };
     	}
-      
+
       if (typeof String.prototype.splitOnFirst != 'function') {
     	  String.prototype.splitOnFirst = function (str){
     		  var d = this.indexOf(str);
@@ -2205,7 +2383,7 @@ require(dependencies, function($, cookie) {
     		  }
     	  };
     	}
-      
+
       function shuffle(items)
       {
           var cached = items.slice(0), temp, i = cached.length, rand;
@@ -2229,11 +2407,11 @@ require(dependencies, function($, cookie) {
               ++i;
           }
       }
-      
+
       function toArray(obj) {
     	  var array = [];
     	  // iterate backwards ensuring that length is an UInt32
-    	  for (var i = obj.length >>> 0; i--;) { 
+    	  for (var i = obj.length >>> 0; i--;) {
     	    array[i] = obj[i];
     	  }
     	  return array;
@@ -2255,13 +2433,19 @@ require(dependencies, function($, cookie) {
     	}
     	if ($('#facetview_freetext').text().indexOf("keywords:") > -1) {
     		var freetext = $('#facetview_freetext').text();
-    		$('#facetview_freetext').text('"'+getFilteredFreetext(freetext));
+    		$('#facetview_freetext').text(''+getFilteredFreetext(freetext));
     		$('#page_name small').text('All Things Tagged');
-    	}	
+    	}
     	if ($('#facetview_freetext').text().indexOf("AND") > -1) {
     		var freetext = $('#facetview_freetext').text();
-    		$('#facetview_freetext').text($.trim(getFilteredFreetextAnd(freetext))+'"');
-    	}	
-    });
+    		$('#facetview_freetext').text($.trim(getFilteredFreetextAnd(freetext))+'');
+    	}
+       $(document).on('click','div.srch_result_body h1 a', function(e) {
+           cookie.createCookie("searchblox_left_page","yes",0);
+        });
+		$(document).on('click','div.srch_result_body ul.breadcrumbs li a', function(e) {
+           cookie.createCookie("searchblox_left_page","yes",0);
+        });
 
+    });
 });

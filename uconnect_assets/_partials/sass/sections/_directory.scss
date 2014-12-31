@@ -4,7 +4,7 @@
 // General
 ////////////////////////
 	@include type_font_size(modular-scale(0));
-	color: $color_black;
+	@extend %color_txt;
 	h1, h2, h3, h4, h5, h6, #top .top-right:after {
 		@include type_space(padding-left, 1.5);
 		@extend %type_family_primary;
@@ -13,7 +13,7 @@
 		color: color(label) !important;
 	}
 	a {
-		color: color(link);
+		@extend %color_link;
 	}
 	ul{
 	    list-style: none !important;
@@ -30,7 +30,7 @@
 			@extend %pad_b;
 		}
 		h1 {
-			display: none;
+			@extend %display_none;
 		}
 		@include type_space(padding-bottom, 2);
 		border-bottom: 2px solid color(label);
@@ -68,7 +68,7 @@
 			}
 		}
 		.gray-bar {
-			background-color: transparent;
+			@extend %bg_transparent;
 			border-bottom: 0;
 			display: inline-block !important;
 			margin: 0;
@@ -122,7 +122,7 @@
 			padding-bottom: 0;
 			line-height: 2.3em !important;
 			&:nth-of-type(odd) {
-				background-color: transparent;
+				@extend %bg_transparent;
 				border-bottom: 1px solid color(label, light);
 			}
 			&:last-child {
@@ -141,7 +141,7 @@
 		max-width: 32%;
 	}
 	.infopod {
-		display: none;
+		@extend %display_none;
 	}
 	.moreinfo-container {
 		a[target="_blank"], a[target="new"] {

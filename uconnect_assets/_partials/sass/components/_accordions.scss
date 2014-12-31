@@ -17,12 +17,12 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 .accordion {
 	@extend %icon_arrow_up;
 	position: relative;
-	display: block;
-	cursor: pointer;
+	@extend %block;
+	@extend %cursor_pointer;
 
 	&:before {
 		color: color(link);
-		cursor: pointer;
+		@extend %cursor_pointer;
 		margin-top: .6em;
 		@extend %abs_right;
 	}
@@ -78,7 +78,7 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 
 		//Create the border above the accordion_tree_head
 		&:before{
-			content: " ";
+			@extend %content_blank;
 			height: 2px;
 			background-color: color(form);
 			@extend %abs_left;
@@ -91,12 +91,17 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 			@extend %color_label;
 		}
 	}
+	& li > a {
+		font-size: .9em; //Used for better spacing between items.
+		padding-bottom: .209em; // Forces height back to 24px
+		display: inline-block;
+	}
 	@include mq((bigs, smallish)){
 		& .row{
 			@include type-space(margin-top, -1);
 
 			&:after{
-				content: " ";
+				content: "";
 				display: table;
 				clear: both;
 			}
@@ -138,17 +143,17 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 	position: relative;
 
 	&:before{
-		display: none;
+		@extend %display_none;
 	}
 
 	& > a:first-child, & > span a{
-		display: block;
+		@extend %block;
 		@extend %pad_r_2;
 	}
 }
 
 .accordion_trigger{
-	cursor: pointer;
+	@extend %cursor_pointer;
 	transition: all 80ms ease-in-out;
 	position: absolute;
 	@include type-space(right, -.6);
@@ -184,7 +189,7 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 		transition: color 50ms ease-in-out,
 			background 200ms ease-in,
 			border 150ms ease-in;
-		border-left: 0px solid color(highlight, dark);
+		border-left: 0 solid color(highlight, dark);
 		background-color: color(highlight);
 		@include type-space(bottom, -3);
 		@include type-space(top, -.5);
@@ -193,7 +198,7 @@ $acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
 		&.active{
 			transition: all 80ms ease-in-out;
 			border-color: color(highlight);
-			background-color: transparent;
+			@extend %bg_transparent;
 			border-radius: 2px;
 			border-left-width: 1px;
 		}

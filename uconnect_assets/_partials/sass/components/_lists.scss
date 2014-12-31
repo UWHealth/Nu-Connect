@@ -26,7 +26,7 @@
 	}
 
 	&.breadcrumbs_hide_last > li:last-child{
-		display: none;
+		@extend %display_none;
 	}
 }
 .list_naked, %list_naked{
@@ -43,7 +43,7 @@
 		@extend %one_half;
 
 		& > a{
-			display: block;
+			@extend %block;
 			@extend %box_small;
 			@extend %box_panel;
 			@extend %space_b_half;
@@ -114,7 +114,7 @@
 		@extend %pad_v;
     }
     a, span {
-        display: block;
+        @extend %block;
     }
     .accordion {
         border-bottom: 0 !important;
@@ -137,7 +137,7 @@
 }
 .list_nav, %list_nav{
     a {
-		display: block;
+		@extend %block;
 		text-decoration: none;
     }
     .accordion {
@@ -162,7 +162,7 @@
 		a {
 			@extend %pad_v_quarter;
 			@extend %link_naked;
-			display: block;
+			@extend %block;
 		}
 	}
 

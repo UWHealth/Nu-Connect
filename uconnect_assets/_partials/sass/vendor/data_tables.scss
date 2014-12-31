@@ -1,3 +1,7 @@
+@import '../utilities/_functions',
+		'../base/_config',
+		'../utilities/_variables',
+		'../colors/_colors';
 
  //
  // Colour customisation
@@ -14,7 +18,7 @@ $table-body-border: 1px solid #ddd;
 $table-row-background: #ffffff;
 
 // Row colour, when selected (tr.selected)
-$table-row-selected: #B0BED9;
+$table-row-selected: color(soft_action, light);
 
 // Text colour of the interaction control elements (info, filter, paging etc)
 $table-control-color: #333;
@@ -27,25 +31,9 @@ $table-paging-button-hover: #111;
 
 
 
-//
-// Functions / mixins
-//
-@function tint( $color, $percent ) {
-	@return mix(white, $color, $percent);
-}
-
-@function shade( $color, $percent ) {
-	@return mix(black, $color, $percent);
-}
-
 @mixin gradient( $from, $to ) {
 	background-color: $from;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$from), color-stop(100%,$to)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,     $from 0%, $to 100%); /* Chrome10+,Safari5.1+ */
-	background:    -moz-linear-gradient(top,     $from 0%, $to 100%); /* FF3.6+ */
-	background:     -ms-linear-gradient(top,     $from 0%, $to 100%); /* IE10+ */
-	background:      -o-linear-gradient(top,     $from 0%, $to 100%); /* Opera 11.10+ */
-	background:         linear-gradient(to bottom, $from 0%, $to 100%); /* W3C */
+	background: 	  linear-gradient(to bottom, $from 0%, $to 100%); /* W3C */
 }
 
 /*
@@ -89,24 +77,24 @@ table.dataTable {
 		.sorting_asc,
 		.sorting_desc,
 		.sorting {
-			cursor: pointer;
+			@extend %cursor_pointer;
 			*cursor: hand;
 		}
 
 		.sorting {
-			background: url('../images/sort_both.png') no-repeat center right;
+			background: url('../../img/vendor/data_tables/sort_both.png') no-repeat center right;
 		}
 		.sorting_asc {
-			background: url('../images/sort_asc.png') no-repeat center right;
+			background: url('../../img/vendor/data_tables/sort_asc.png') no-repeat center right;
 		}
 		.sorting_desc {
-			background: url('../images/sort_desc.png') no-repeat center right;
+			background: url('../../img/vendor/data_tables/sort_desc.png') no-repeat center right;
 		}
 		.sorting_asc_disabled {
-			background: url('../images/sort_asc_disabled.png') no-repeat center right;
+			background: url('../../img/vendor/data_tables/sort_asc_disabled.png') no-repeat center right;
 		}
 		.sorting_desc_disabled {
-			background: url('../images/sort_desc_disabled.png') no-repeat center right;
+			background: url('../../img/vendor/data_tables/sort_desc_disabled.png') no-repeat center right;
 		}
 	}
 
@@ -227,7 +215,7 @@ table.dataTable {
 			>.sorting_1 { background-color: shade($table-row-background, 2%); } // shade by fa
 			>.sorting_2 { background-color: shade($table-row-background, 1.2%); } // shade by fc
 			>.sorting_3 { background-color: shade($table-row-background, 0.4%); } // shade by fe
-			
+
 			&.selected {
 				>.sorting_1 { background-color: shade($table-row-selected, 2%); }
 				>.sorting_2 { background-color: shade($table-row-selected, 1.2%); }
@@ -420,7 +408,7 @@ table.dataTable td {
 			margin-left: 2px;
 			text-align: center;
 			text-decoration: none !important;
-			cursor: pointer;
+			@extend %cursor_pointer;
 			*cursor: hand;
 
 			color: $table-control-color !important;
@@ -570,4 +558,3 @@ table.dataTable td {
 		}
 	}
 }
-

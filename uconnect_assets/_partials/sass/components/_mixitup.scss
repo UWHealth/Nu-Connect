@@ -4,8 +4,8 @@
 #main {
     @extend %o_hide;
     @include mq(small){
-        border-left: 0px;
-        border-right: 0px;
+        border-left: 0;
+        border-right: 0;
     }
 }
 
@@ -42,7 +42,7 @@
 	a {
 		@include type_font-size(modular-scale(0));
 		@extend %link_naked;
-		display: block;
+		@extend %block;
 		position: relative;
 		border-bottom: 1px solid color(link);
 	}
@@ -74,10 +74,10 @@
 	@extend %smallish_one_half;
 }
 .mix[data-title="undefined"]:before{
-	display: none !important;
+	@extend %hide;
 }
 .js #Grid .mix, .js #Grid .column{
-    display: none;
+    @extend %display_none;
 }
 
 ////////////////////////
@@ -98,7 +98,7 @@
     .categoryHidden {
         overflow:hidden;
         height: 1px;
-        width: 0px;
+        width: 0;
         padding: 0;
         margin: 0;
 		opacity: 0;
@@ -106,7 +106,7 @@
     }
 }
 .mix_initiated .mix{
-    display: none;
+    @extend %display_none;
 }
 .sorted .mix:before {
     content: attr(data-title);

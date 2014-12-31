@@ -1,9 +1,9 @@
 // Avoid `console` errors in browsers that lack a console.
-var dependencies = [
-        'jquery'
-    ];
+// var dependencies = [
+//         'jquery'
+//     ];
 
-require(dependencies, function($) {
+require(['jquery'], function($) {
 
     var method;
     var noop = function() {};

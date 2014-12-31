@@ -1,10 +1,8 @@
-var dependencies = [
-        'jquery',
-        'general_functions',
-        'magnific_init'
-    ];
-
-require(dependencies, function($, gf) {
+require([
+    'jquery',
+    'general_functions',
+    'magnific_init'
+], function($, gf) {
 
     var object_class = 'object_';
 
@@ -19,7 +17,7 @@ require(dependencies, function($, gf) {
         embed_height = Math.ceil( embed_width / (3 / 4) ) + 'px';
         embed.attr('height', embed_height);
     }
-    
+
     // (re)fire height function on window resize
     $(window).resize(function() {
         updateEmbedHeight();
@@ -36,10 +34,11 @@ require(dependencies, function($, gf) {
                 embed_classes = embed.attr('class').split(' '); // Get array of class name(s)
                 embed_method = embed.data('method'),
                 embed_url = embed.data('file'),
-                embed_pdf_paramaters = "#toolbar=0&statusbar=1&messages=1&navpanes=0",
+                embed_pdf_paramaters = "#toolbar=0&statusbar=1&messages=1&navpanes=0&parenturl=" + encodeURIComponent(window.location.href),
                 embed_url_query_string = gf.get_query_string('page'),
                 embed_object = '',
                 browser_ie = gf.check_browser('ie');
+            // console.log('embed.data("file"): '+$(this).data('file'));
             // console.log('embed_url: '+embed_url);
 
             // Iterate the class(es) & return object var
@@ -68,23 +67,23 @@ require(dependencies, function($, gf) {
             if (embed_url.length > 0) {
                 if (embed_method == 'object') {
                     if (browser_ie == true) { // If IE, serve up <object>
-                        embed.replaceWith('<object width="100%" height="940px" class="embed '+object_class+embed_object+'" data="'+embed_url+'" type="application/'+embed_object+'"><embed src="'+embed_url+'" type="application/'+embed_object+'"/></object>');
+                        embed.replaceWith('<object width="100%" height="940px" id="js_embed" class="embed '+object_class+embed_object+'" data="'+embed_url+'" type="application/'+embed_object+'"><embed src="'+embed_url+'" type="application/'+embed_object+'"/></object>');
                     } else { // Else serve up iframe
-                        embed.replaceWith('<iframe width="100%" height="940px" class="embed '+object_class+embed_object+'" src="'+embed_url+'"></iframe>');
+                        embed.replaceWith('<iframe width="100%" height="940px" id="js_embed" class="embed '+object_class+embed_object+'" src="'+embed_url+'"></iframe>');
                     }
                 } else if (embed_method == 'iframe') {
                     if (browser_ie == true) { // If IE, serve up <object>
-                        embed.replaceWith('<object width="100%" height="940px" class="embed '+object_class+embed_object+'" data="'+embed_url+'" type="application/'+embed_object+'"><embed src="'+embed_url+'" type="application/'+embed_object+'"/></object>');
+                        embed.replaceWith('<object width="100%" height="940px" id="js_embed" class="embed '+object_class+embed_object+'" data="'+embed_url+'" type="application/'+embed_object+'"><embed src="'+embed_url+'" type="application/'+embed_object+'"/></object>');
                     } else { // Else serve up iframe
-                        embed.replaceWith('<iframe width="100%" height="940px" class="embed '+object_class+embed_object+'" src="'+embed_url+'"></iframe>');
+                        embed.replaceWith('<iframe width="100%" height="940px" id="js_embed" class="embed '+object_class+embed_object+'" src="'+embed_url+'"></iframe>');
                     }
                 } else if (embed_method == 'embed') {
-                    embed.replaceWith('<'+embed_method+' width="100%" height="940px" class="embed '+object_class+embed_object+'" src="'+embed_url+'"></'+embed_method+'>');
+                    embed.replaceWith('<'+embed_method+' width="100%" height="940px" id="js_embed" class="embed '+object_class+embed_object+'" src="'+embed_url+'"></'+embed_method+'>');
                 } else {
-                    embed.replaceWith('<iframe width="100%" height="940px" class="embed '+object_class+embed_object+'" src="'+embed_url+'"></iframe>');
+                    embed.replaceWith('<iframe width="100%" height="940px" id="js_embed" class="embed '+object_class+embed_object+'" src="'+embed_url+'"></iframe>');
                 }
             } else {
-                embed.parent().html('').append('<div class="pad center"><span class="icon icon_before color_alert" data-icon="error"></span>Document could not be loaded. <a href="mailto:uconnect@uwhealth.org?Subject=U-Connect embed Document Not Loading&body=[Page URL] ' + window.location + '">Please let us know about it.</a></div>');
+                embed.parent().html('').append('<div class="pad center"><span class="icon icon_before color_select" data-icon="error"></span>Document could not be loaded. <a href="mailto:uconnect@uwhealth.org?Subject=U-Connect embed Document Not Loading&body=[Page URL] ' + window.location + '">Please let us know about it.</a></div>');
             }
         });
 
@@ -97,6 +96,6 @@ require(dependencies, function($, gf) {
         // if (!$('html').hasClass('lte8')) { // don't load on lte ie8
             embedSetup();
         // }
-    });    
+    });
 
 });

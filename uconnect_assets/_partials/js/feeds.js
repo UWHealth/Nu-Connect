@@ -1,30 +1,28 @@
-var dependencies = [
-        'jquery',
-        'general_functions'
-    ];
-
-require(dependencies, function($, gf) {
+require([
+    'jquery',
+    'general_functions'
+], function($, gf) {
 
     function sortDataDate(a, b) {
-        return ($(b).data('date')) > ($(a).data('date')) ? 1 : -1; 
+        return ($(b).data('date')) > ($(a).data('date')) ? 1 : -1;
     }
 
     function sortDataIndex(a, b) {
-        return ($(b).data('index')) < ($(a).data('index')) ? 1 : -1; 
+        return ($(b).data('index')) < ($(a).data('index')) ? 1 : -1;
     }
 
     // ------------------------------------------------
     // Homepage "Feed"
     // ------------------------------------------------
-    // Wide features (via hbs) & feed articles (via SearchBlox RSS) sources are combined 
+    // Wide features (via hbs) & feed articles (via SearchBlox RSS) sources are combined
     // ------------------------------------------------
     // component/feature-wide.hbs
     // ------------------------------------------------
     // (1) featureWide_setDate() = Format date
     //      (a) create data-date (to be sorted)
-    //      (b) reformat date 
+    //      (b) reformat date
     // (2) featureWide_sortDate() = Sort data-date (descending)
-    // (3) featureWide_setIndex() = set data-index 
+    // (3) featureWide_setIndex() = set data-index
     //      (a) "X" in pattern: 1, 2, X, 4, 5, 6, X, 7, 8, 10, X, 12, 13, 14, X...
     //          (i) "X" = components/feature-wide.hbs
     // ------------------------------------------------
@@ -33,11 +31,12 @@ require(dependencies, function($, gf) {
     // (4) feed_buildUrl() = Get number of feeds to return from SearchBlox collection && build URL to retrieve SearchBlox collection
     // (5) getSearchbloxJSON() = Get feed
     // (6) parseSearchbloxJSON() = Parse necessary feed info
-    //      (a) Remove unnecessary HTML in "summary": output data to DOM container, use .text() to strip html, clear container
-    //      (b) feed_setCardCol() = Set feed (.card) column width
-    //      (c) format_month() = Format date
-    //      (d) feed_checkSource() = Check source of article
-    //      (e) feed_getArticleImg() = Return article img (if available) & change protocol
+    //      (a) Parse each result and replace http protocol w/ https (set when defining itemString var)
+    //      (b) Remove unnecessary HTML in "summary": output data to DOM container, use .text() to strip html, clear container
+    //      (c) feed_setCardCol() = Set feed (.card) column width
+    //      (d) format_month() = Format date
+    //      (e) Check source of article
+    //      (f) Change article img (if not available) to default
     // (7) feed_buildHtml() = Format RSS data to (.card) html
     // (8) feed_setIndex() = Set data-index
     //      (a) "X" in pattern: X, X, 3, X, X, X, 7, X, X, X, 11, X, X, X, 15...
@@ -51,7 +50,7 @@ require(dependencies, function($, gf) {
         featureWide_max = 6,
         featureWide_indexInterval = 3,
         html_index = 0,
-        feed_total = 0,
+        feed_total = 20,
         featureWide_indexArray = [],
         featureWide = $('#feature_wide_container .sort'),
         outputContainer = $('#feeds_modified'),
@@ -59,7 +58,7 @@ require(dependencies, function($, gf) {
         feed_checkUrl;
 
     // Add loading spinner
-    outputContainer.addClass('loading', '100');
+    outputContainer.addClass('loading');
 
     // ------------------------------------------------
     // Format date
@@ -120,27 +119,30 @@ require(dependencies, function($, gf) {
     // ------------------------------------------------
     function feed_buildUrl() {
         // Setup feed_total
-        feed_total = 26 - featureWide_max;
+        // feed_total = 26 - featureWide_max;
         // [local]
-        if (gf.check_string(gf.get_origin(), 'localhost')) {
+        if (gf.check_string(gf.get_origin(), 'localhost') || gf.check_string(gf.get_origin(), 'local') ) {
             feed_url = '/searchbloxUpdates.json';
         // [prod]
         } else {
-            feed_total = '&pagesize=' + feed_total;
-            feed_url = '/searchblox/servlet/SearchServlet?col=16&query=*&sort=lastmodified' + feed_total;
-        }          
+            // feed_total = '&pagesize=' + feed_total;
+            // feed_url = '/searchblox/servlet/SearchServlet?cname=U-Connect-Homepage&query=*&sort=lastmodified' + feed_total;
+            feed_url = '/feeds/json/homepage/index.json';
+        }
         // gather results
-        getSearchbloxJSON(feed_total, parseSearchbloxJSON);
+        // getSearchbloxJSON(feed_total, parseSearchbloxJSON);
+        getSearchbloxJSON(parseSearchbloxJSON);
         // console.log('feed_total: '+feed_total);
     }
 
     // ------------------------------------------------
     // Get feed
     // ------------------------------------------------
-    function getSearchbloxJSON(feed_total, callback) {
+    // function getSearchbloxJSON(feed_total, callback) {
+    function getSearchbloxJSON(callback) {
         $.ajax({
-            url: feed_url, // encodeURIComponent(url),
-            dataType: 'json', // 'jsonp'
+            url: feed_url,
+            dataType: 'json',
             success: function(data) {
                 callback(data.results);
             },
@@ -149,32 +151,12 @@ require(dependencies, function($, gf) {
     }
 
     // ------------------------------------------------
-    // Return article img (if available) & change protocol
-    // ------------------------------------------------
-    function feed_getArticleImg(element) {
-        var img_src = element.find('img:eq(0)').attr('src');
-        // console.log('img_src: '+img_src);
-        if (img_src === undefined) {
-            img_src == '../../img/bg/pat_bubble_large.png';
-        } else {
-            // http://www.uwhealth.orghttp//med.wisc.edu/files/smph/images/news_events/generic_thumbs/img-smph-crest-thumb.jpg
-            if (img_src.search('http://www.uwhealth.orghttp') >= 0) {
-                img_src = img_src.replace('http://www.uwhealth.orghttp', 'https');
-            } else {
-                img_src = img_src.replace('http://www.uwhealth.org', 'https://www.uwhealth.org');
-            }
-        }
-        // console.log('img_src: '+img_src);
-        return img_src;
-    }
-
-    // ------------------------------------------------
     // Check feed source
     // ------------------------------------------------
     function feed_checkSource(source) {
         if (gf.check_string(source, 'uwsmph')) {
             return 'med.wisc.edu';
-        } else if (gf.check_string(source, 'uwhealth')) {
+        } else if (gf.check_string(source, 'uwhealth.org')) {
             return 'uwhealth.org';
         } else {
             return 'U-Connect';
@@ -197,28 +179,85 @@ require(dependencies, function($, gf) {
     // ------------------------------------------------
     function parseSearchbloxJSON(feed_response) {
         $.each((feed_response.result), function(i) {
-            var itemString = feed_response.result[i].description,
-                itemString_text_container = $('#feeds_formatter').append(itemString),
-                html_col_type = feed_setCardCol(i),
-                summary = '<p>' + $('#feeds_formatter').text() + '</p>',
-                date = gf.format_date(feed_response.result[i].indexdate),
-                dateMonth = date.month,
-                dateDay = date.day,
-                title = feed_response.result[i].title,
-                link = feed_response.result[i].url,
-                image = feed_getArticleImg($('#feeds_formatter')),
-                source = feed_checkSource(link),
-                action_text = 'Read More',
-                content_type = 'News'; // 'Page Update'
-            // console.log('displayDate: '+displayDate);
-            // console.log('date: '+date);
-            // console.log('displayDate.getMonth(): '+displayDate.getMonth());
-            // console.log('dateMonth: '+dateMonth);
-            // console.log('dateDay: '+dateDay);
-            // Build html
-            feed_buildHtml(html_col_type, link, image, content_type, title, summary, source, date, dateMonth, dateDay, action_text);
-            // Clear dummy text
-            $('#feeds_formatter').text('');
+            // Stop at 20
+            if (i < 20) {
+                var content_type,
+                    image_src,
+                    image_src_helper,
+                    itemString = feed_response.result[i].description,
+                    link = feed_response.result[i].url,
+                    source = feed_checkSource(link),
+                    html_col_type = feed_setCardCol(i),
+                    date = gf.format_date(feed_response.result[i].lastmodified),
+                    dateMonth = date.month,
+                    dateDay = date.day,
+                    title = feed_response.result[i].title,
+                    icon_type = 'triangle right',
+                    action_text = 'Read More',
+                    itemString = itemString // Ensure protocols are https
+                                    .replace(/\\/g,'')
+                                    .replace(/(http\:\/\/www\.uwhealth\.orghttp)/g, '')
+                                    .replace(/(http\:\/\/www\.uwhealth\.org\/files\/smph\/)/g, '\/\/\med\.wisc\.edu\.org\/files\/smph\/')
+                                    .replace(/(http\:)/g, '');
+                // ------------------------------------------------
+                // Image, Article-Content-Type, & Action-Text Setup
+                // ------------------------------------------------
+                // [U-Connect] The description is JSON, it's a U-Connect update
+                // if ( itemString.toLowerCase().indexOf('<table>') ) {
+                if ( source === 'U-Connect' ) {
+                    desc_json = JSON.parse(itemString);
+                    content_type = desc_json[0];
+                    itemString = desc_json[2];
+                    // Should JSON have image path, use it
+                    if ( desc_json[1] !== '' ) {
+                        image_src = desc_json[1];
+                    // If no img available, use defaults: Page Update/News
+                    } else {
+                        if ( desc_json[0] === "Page Update" ) {
+                            image_src = '/cosmos/uconnect/img/bg/pat_bubble_large.png';
+                            action_text = 'View Update';
+                        } else {
+                            image_src = '/cosmos/uconnect/img/bg/bg_news.jpg';
+                        }
+                    }
+                // [Public] If description contains a <table> tag, it's a Feedburner/public site update
+                } else {
+                    content_type = 'News';
+                    itemString = $(itemString)[0];
+                    action_text = action_text;
+                    icon_type = "&#xe668"
+                    var img_public_src = $('#feeds_formatter').find('img:eq(0)').attr('src');
+                    // If no image supplied, then supply default(s)
+                    if ( img_public_src === undefined ) {
+                        // [SMPH]
+                        if ( source === 'med.wisc.edu' ) {
+                            image_src = '/cosmos/uconnect/img/defaults/smph_crest.jpg';
+                        }
+                        // [UW Health]
+                        if ( source === 'uwhealth.org' ) {
+                            image_src = '/cosmos/uconnect/img/defaults/uwhealth_logo.png';
+                        }
+                    }
+                }
+
+                var summary = '<p>' + $('#feeds_formatter').append(itemString).text() + '</p>';
+
+                // console.log(itemString);
+                // console.log(image_src);
+                // console.log('summary: '+summary);
+                // console.log('displayDate: '+displayDate);
+                // console.log('date: '+date);
+                // console.log('displayDate.getMonth(): '+displayDate.getMonth());
+                // console.log('dateMonth: '+dateMonth);
+                // console.log('dateDay: '+dateDay);
+
+                // ------------------------------------------------
+                // Build html
+                // ------------------------------------------------
+                feed_buildHtml(html_col_type, link, image_src, content_type, title, summary, source, date, dateMonth, dateDay, action_text, icon_type);
+                // Clear dummy text
+                $('#feeds_formatter').text('');
+            }
         });
         feed_setIndex()
     }
@@ -226,23 +265,23 @@ require(dependencies, function($, gf) {
     // ------------------------------------------------
     // Format RSS data to (.card) html
     // ------------------------------------------------
-    function feed_buildHtml(html_col_type, link, image, content_type, title, summary, source, date, dateMonth, dateDay, action_text) {
+    function feed_buildHtml(html_col_type, link, image_src, content_type, title, summary, source, date, dateMonth, dateDay, action_text, icon_type) {
         var html_card = '<div class="column '+html_col_type+' sort smalls_pad_n" data-date="'+date+'">' + // data-index="'+html_index+'"
                             '<a href="'+link+'" class="link_naked card_expand">' +
                                 '<article class="card box_panel">' +
-                                    '<header class="card_media" style="background-image: url(\''+image+'\');">' +
+                                    '<header class="card_media" style="background-image: url(\''+image_src+'\');">' +
                                         '<label class="sub_heading card_label card_bottom color_white card_cover_dark">' +
                                             content_type +
                                         '</label>' +
                                     '</header>' +
-                                    '<section class="card_body">' +
-                                        '<h1 class="heading card_heading">' +
+                                    '<div class="card_body">' +
+                                        '<h2 class="heading card_heading">' +
                                             title +
-                                        '</h1>' +
-                                        '<div class="txt_small">' +
+                                        '</h2>' +
+                                        '<div class="txt_small color_txt">' +
                                             summary +
                                         '</div>' +
-                                    '</section>' +
+                                    '</div>' +
                                     '<footer class="card_foot card_cover txt_small">' +
                                         '<div class="card_info color_label">' +
                                             source +
@@ -251,7 +290,7 @@ require(dependencies, function($, gf) {
                                             '</time>' +
                                         '</div>' +
                                         '<div class="card_action">' +
-                                            '<strong class="icon icon_after icon_absolute icon_absolute_right block" data-icon-after="triangle right">' +
+                                            '<strong class="icon icon_after icon_absolute icon_absolute_right block" data-icon-after="'+icon_type+'">' +
                                                 action_text +
                                             '</strong>' +
                                         '</div>' +
@@ -270,7 +309,7 @@ require(dependencies, function($, gf) {
             feed_index;
         $.each((feed), function(i) {
             feed_index++;
-            // Define the first three article's indexes manually 
+            // Define the first three article's indexes manually
             if (i == 0) {
                 feed_index = 1;
             } else if (i == 1) {
@@ -296,12 +335,12 @@ require(dependencies, function($, gf) {
         var elements_before_move = $('#feeds_container .sort');
         elements_before_move.sort(sortDataIndex).appendTo(outputContainer);
         // Remove loading spinner
-        outputContainer.removeClass('loading', '100');
+        outputContainer.removeClass('loading 100');
     }
 
     $(document).ready(function() {
         featureWide_setDate();
         // setOutputPattern();
-    });    
+    });
 
 });

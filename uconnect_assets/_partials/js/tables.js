@@ -1,8 +1,6 @@
-var dependencies = [
-        'jquery'
-    ];
-
-require(dependencies, function($, t) {
+require([
+    'jquery'
+], function($, t) {
 
     //Responsive tables
     (function(t) {

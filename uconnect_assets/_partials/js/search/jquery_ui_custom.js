@@ -1,8 +1,6 @@
-var dependencies = [
+require([
     'jquery'
-];
-
-require(dependencies, function($) {
+], function($) {
 
 	/*!
 	 * jQuery UI 1.8.18

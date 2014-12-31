@@ -1,15 +1,4 @@
-var dependencies = [
-        'jquery'
-    ];
-
-require(dependencies, function($) {
-
-    // ------------------------------------------------
-    // Browser Check: =IE
-    // ------------------------------------------------
-    if ($('html').hasClass('ie')) {
-        require(['polyfills_ie']);
-    }
+require(['jquery'], function($) {
 
     // ------------------------------------------------
     // Browser Check: =IE8

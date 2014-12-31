@@ -1,10 +1,10 @@
-var dependencies = [
-        'jquery',
-        'validate'
-    ];
+require([
+    'jquery',
+    'validate'
+], function($) {
 
-require(dependencies, function($) {
-
+    var ignore_validation = 'input:hidden, input[type=button], input[type=submit], input[type=reset], input.button, .js_ignore_validation, .validation_ignore, .vld_ignore',
+    elements_to_validate = $(".validate").find('fieldset, input, textarea, select').not(ignore_validation);
     // ------------------------------------------------
     // Modify Default Plugin Settings
     // ------------------------------------------------
@@ -12,86 +12,158 @@ require(dependencies, function($) {
 
     jQuery.extend(
         jQuery.validator.messages, {
-            required: "This field is required.",
-            remote: "Please fix this field.",
-            email: "Please enter a valid email address.",
-            url: "Please enter a valid URL.",
-            date: "Please enter a valid date.",
-            dateISO: "Please enter a valid date (ISO).",
-            number: "Please enter a valid number.",
-            digits: "Please enter only digits.",
-            creditcard: "Please enter a valid credit card number.",
-            equalTo: "Please enter the same value again.",
-            accept: "Please enter a value with a valid extension.",
-            maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
-            minlength: jQuery.validator.format("Please enter at least {0} characters."),
-            rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
-            range: jQuery.validator.format("Please enter a value between {0} and {1}."),
-            max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
-            min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+            required: "This field is required",
+            remote: "Please fix this field",
+            email: "Please enter an email address",
+            url: "Please enter a URL",
+            date: "Please enter a valid date",
+            dateISO: "Please enter a valid date (ISO)",
+            number: "Please enter a number",
+            digits: "Please enter only digits",
+            creditcard: "Please enter a valid credit card number",
+            equalTo: "Please enter the same value again",
+            accept: "Please enter a value with a valid extension",
+            maxlength: jQuery.validator.format("Please enter fewer than {0} characters"),
+            minlength: jQuery.validator.format("Please enter at least {0} characters"),
+            rangelength: jQuery.validator.format("Must be between {0} and {1} characters long"),
+            range: jQuery.validator.format("Must between {0} and {1}"),
+            max: jQuery.validator.format("Must be less than or equal to {0}"),
+            min: jQuery.validator.format("Must be greater than or equal to {0}")
         },
         jQuery.validator.setDefaults({
             // Error Element
-            debug: true,
-            error_classes: "msg msg_error validation_error error",
-            success_classes: "icon_success validation_success success",
-            ignore: ".js_ignore_validation",
-            errorElement: "span",
+            error_classes: ["validation_error", "icon_error color_select"],
+            success_classes: ["hidden", "icon_success"],
+            ignore: '.js_ignore_validation',
+            errorElement: "label",
             // Error Placement
-            errorPlacement: function(error, element, error_classes, success_classes) {
-                var $validation_container = element.prev('.validation'),
-                    $label = $validation_container.parent('label');
+            errorPlacement: function(error, element) {
+                var $error = $(error),
+                $input = $(element),
+                $wrap = $input.closest('.validation'),
+                $vld_msg = $wrap.find('.validation_msg')
+                $vld_bdy = $wrap.find('.validation_body'),
+                $vld_icon = $wrap.find('.vld_icon');
 
-                $label.removeClass('success').addClass('error contain');
-                $validation_container.removeClass(this.success_classes)
-                    .addClass(this.error_classes);
+                $vld_msg.removeClass(this.success_classes[0]);
+                $vld_msg.addClass(this.error_classes[0]);
 
-                error.appendTo(
-                    $validation_container.find('.validation_body')
-                );
+                $error.prependTo($vld_bdy);
 
+                if( element.attr('type') !== 'number'
+                && ! $input.is('textarea')
+                && ! $wrap.hasClass('vld_no_icon')){
+                        $vld_icon.addClass(this.error_classes[1])
+                            .removeClass(this.success_classes[1]);
+                }
             },
             success: function(label, element) {
                 // console.log('success handler');
-                var $element = $(element),
-                    $validation_container = $element.prev('.validation'),
-                    $label = $(element.labels[0]);
+                var $input = $(element),
+                    $wrap = $input.closest('.validation'),
+                    $vld_msg = $wrap.find('.validation_msg'),
+                    $vld_icon = $wrap.find('.vld_icon');
 
-                $label.removeClass('error').addClass('success contain');
-                $validation_container.removeClass(this.error_classes)
-                    .find('.error').remove();
+                $vld_msg.addClass(this.success_classes[0]);
 
-                if( $element.attr('type') !== 'number' ){
-                    $validation_container.addClass(this.success_classes);
+                if( $input.attr('type') !== 'number'
+                && ! $input.is('textarea')
+                && ! $wrap.hasClass('vld_no_icon')){
+                    $vld_icon.addClass(this.success_classes[1]);
                 }
-            }/*,
-            invalidHandler: function(element) {
-                element.parent().attr('data-icon', 'error').removeClass('icon_success').addClass('icon_error');
-            }*/
+                $vld_msg.find('.error').remove();
+
+                // var $element = $(element),
+                //     $validation_container = $element.prevUntil('.validation_msg'),
+                //     $label = $validation_container.parent('.validation');
+                //
+                // $validation_container.removeClass(this.error_classes)
+                //     .find('.error').remove();
+                //
+                // if( $element.attr('type') !== 'number' ){
+                //     $validation_container.addClass(this.success_classes)
+                // }
+            }
         })
     );
 
-
-    $(document).ready(function() {
-
         // ------------------------------------------------
-        // Add error/success icon container
+        // Add messages and icons to validation containers
         // ------------------------------------------------
-        var elements_to_validate = $(".validate").find('input, textarea, select').not('input[type=button], input[type=submit], input[type=reset]');
 
         $(elements_to_validate).each(function(){
             $this = $(this);
-            var validation_insert = "<div class='validation absolute'><div class='validation_body'></div></div>";
-            if( ! $this.prev().hasClass('validation') ){
-                $this.before(validation_insert);
-            }
-        });
-        $('.validation').addClass('icon');
-        $('.validation').parent('label').addClass('contain');
-        $('.validation_body').addClass('msg_body');
-        $('input[type=button], input[type=submit], input[type=reset]').addClass('js_ignore_validation');
+            var validation_insert = "<div class='validation_msg absolute'><div class='validation_body'></div></div>",
+                vld_icon = "<span class='vld_icon icon icon_before absolute'></span>",
+                $parent = $this.parent();
+                $parents = $this.parent().parent();
+                $pointer = $this.attr('id');
 
-        // validate_icon.insertAfter(elements_to_validate);
+            //Check if Parent(s) has validation class
+            if (! $parent.hasClass('validation')
+            && ! $parents.hasClass('validation')
+            && ! $this.hasClass('validation') ){
+                //If not, add it.
+
+                if (! $parent.siblings('.validation').length
+                && ! $parents.siblings('.validation').length
+                && ! $this.siblings('.validation').length ){
+                  $parent.addClass('validation');
+                }else{
+                  //If siblings have validation, then this is missing a wrapper
+                  $this.wrap('<div class="validation" />');
+                }
+            }
+
+            //Redefine parent to closest validation wrapper
+            // Useful for validation groups.
+            $parent = $this.closest('.validation');
+
+            //Check for validation message (if not, add it)
+            if (! $parent.has('.validation_msg').length){
+                $this.before(validation_insert);
+            };
+            //Check for validation icon (if not, add it)
+            if (! $parent.has('.vld_icon').length
+                && ! $parent.hasClass('vld_no_icon')) {
+                $parent.append(vld_icon);
+            };
+
+        });
+
+
+        var $validation_msg = $('.validation_msg'),
+            $validation_labels = $validation_msg.closest('.validation'),
+
+            //Move validation position instructions down to relevant elements
+            trickle_down_classes = function($this, direction_class) {
+                $this.removeClass(direction_class)
+                     .find('.validation_msg')
+                     .addClass(direction_class);
+            };
+
+        //Make sure absolute is added to icons and messages
+        $('.vld_icon').add($validation_msg).addClass('absolute');
+
+        //Normalize validation ignores
+        $(ignore_validation).addClass('js_ignore_validation');
+
+        $validation_labels.each(function() {
+            var $this = $(this);
+
+            if ($this.hasClass('vld_right')){
+                trickle_down_classes($this, 'vld_right');
+
+            }else if($this.hasClass('vld_left')){
+                trickle_down_classes($this, 'vld_left');
+
+            }else if($this.is('.vld_top', 'validation_group')){
+                trickle_down_classes($this, 'vld_top');
+
+            }else{
+                trickle_down_classes($this, 'vld_bottom');
+            };
+        });
 
         // ------------------------------------------------
         // Initialize
@@ -112,6 +184,6 @@ require(dependencies, function($) {
         //     /*});*/
         // });
 
-    });
+
 
 });

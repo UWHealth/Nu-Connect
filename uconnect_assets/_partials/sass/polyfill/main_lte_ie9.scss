@@ -18,9 +18,25 @@
 //         '../base/_app';
 
 ///////////////////////////////////////////////////////////////////
+// Search
+///////////////////////////////////////////////////////////////////
+.srch_result {
+    .srch_media {
+        img {
+            top: 147px;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////
 // Forms
 ///////////////////////////////////////////////////////////////////
 // used for lte ie9; applied via polyfills_lte_ie9.js
+.ie9 .search_close:before{
+    line-height: 23px;
+    margin-left: -.5em;
+    padding-top: .75em;
+}
 .container_placeholder {
     overflow: hidden;
     vertical-align: middle;
@@ -97,7 +113,11 @@ input, textarea {
 // .search_close:before{
 // 	margin-left: -.4em;
 // }
-
+@media screen and (min-width: 922px) and (max-width: 1010px) {
+    .logo {
+        min-width: 250px !important;
+    }
+}
 /////////////////////////////////////////////////////////////////
 // Main Content
 /////////////////////////////////////////////////////////////////

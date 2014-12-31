@@ -147,9 +147,6 @@ body {
         @include type_font_size($type_h1_size);
 		@extend %type_family_secondary;
 
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
     @if $type_scale_classes == true{
         .h1{
@@ -161,9 +158,6 @@ body {
 		@extend %type_vertical_rhythm;
         @include type_font_size($type_h2_size);
 		@extend %type_family_secondary;
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
     @if $type_scale_classes == true{
         .h2{
@@ -174,9 +168,6 @@ body {
 		@extend %txt_serif_normal;
 		@extend %type_vertical_rhythm;
         @include type_font_size($type_h3_size);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
     @if $type_scale_classes == true{
         .h3{
@@ -187,9 +178,6 @@ body {
 		@extend %txt_serif_normal;
 		@extend %type_vertical_rhythm;
         @include type_font_size($type_h4_size);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
     @if $type_scale_classes == true{
         .h4{
@@ -200,9 +188,6 @@ body {
 		@extend %txt_serif_normal;
 		@extend %type_vertical_rhythm;
         @include type_font_size($type_h5_size);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
     @if $type_scale_classes == true{
         .h5{
@@ -213,13 +198,15 @@ body {
 		@extend %txt_serif_normal;
 		@extend %type_vertical_rhythm;
         @include type_font_size($type_h6_size);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
     @if $type_scale_classes == true{
         .h6{
             @extend %h6;
+        }
+    }
+    h1,h2,h3,h4,h5,h6{
+        & + p{
+            @include type-space(margin-top, -1);
         }
     }
 }
@@ -234,10 +221,9 @@ body {
     line-height: 1.5;
 	@include type-space(margin-bottom, 1);
     @extend %txt_serif;
-
-	& + .sub_heading, & + %sub_heading{
-		@extend %negative_top;
-	}
+}
+.heading + .sub_heading{
+    @extend %negative_top;
 }
 .sub_heading, %sub_heading{
 	@include type_font_size(modular-scale(-1));
@@ -400,6 +386,12 @@ figcaption p{
 	@extend %txt_small;
 }
 
+legend{
+  @extend %txt_bold;
+  @extend %txt_upper;
+  @extend %txt_small;
+}
+
 ////////////////////////
 // Typography
 ////////////////////////
@@ -412,6 +404,7 @@ figcaption p{
 //    }
 //}
 $readability: 44rem;
+
 .readability{
     max-width: $readability;
 }

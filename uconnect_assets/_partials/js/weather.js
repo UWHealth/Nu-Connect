@@ -1,33 +1,48 @@
-var dependencies = [
-        'jquery'
-    ];
+require([
+    'jquery',
+    'general_functions'
+], function($, gf) {
 
-require(dependencies, function($) {
-
-    // DOCS: http://www.wunderground.com/weather/api/d/docs 
+    // DOCS: http://www.wunderground.com/weather/api/d/docs
     // ANALYTICS: http://www.wunderground.com/weather/api/
-    var w_url = 'https://api.wunderground.com/api/05f016985c202a7e/forecast/conditions/q/WI/Madison.json';
+    // T4 feeds/weather calls http://api.wunderground.com/api/05f016985c202a7e/forecast/conditions/q/WI/Madison.json every hour
+
+    // * Note: The weather is linked from uconnect-page-header to wunderground on #w_js
+
+    // [local]
+    if (gf.check_string(gf.get_origin(), 'localhost')) {
+        w_url = 'weather.json'; // [LOCAL]
+    // [prod]
+    } else {
+        w_url = '/feeds/json/weather/index.json'; // [PROD]
+    }
 
     // retrieve json
     function getWeather(callback) {
         $.ajax({
-            dataType: "jsonp",
             url: w_url,
-            success: parseWeather
+            dataType: "json",
+            success : function(parsed_json) {
+                parseWeather(parsed_json);
+            }
         });
     };
 
     // parse json
-    function parseWeather(data) {
+    function parseWeather(parsed_json) {
 
-        var w_temp_current = Math.ceil(data.current_observation.temp_f)+'&deg;',
-            w_temp_high = Math.ceil(data.forecast.simpleforecast.forecastday[0].high.fahrenheit)+'&deg;',
-            w_temp_low = Math.ceil(data.forecast.simpleforecast.forecastday[0].low.fahrenheit)+'&deg;',
-        	w_icon = data.current_observation.icon,
-            w_wind = Math.ceil(data.current_observation.wind_mph),
-        	w_icon_class = '';
+        var w_temp_current = Math.ceil(parsed_json['current_observation']['temp_f'])+'&deg;',
+            w_temp_high = Math.ceil(parsed_json['forecast']['simpleforecast']['forecastday'][0]['high']['fahrenheit'])+'&deg;',
+            w_temp_low = Math.ceil(parsed_json['forecast']['simpleforecast']['forecastday'][0]['low']['fahrenheit'])+'&deg;',
+            w_icon = parsed_json['current_observation']['icon'],
+            w_wind = Math.ceil(parsed_json['current_observation']['wind_mph']),
+            w_icon_class = '';
 
+        // console.log('w_temp_current: '+w_temp_current);
+        // console.log('w_temp_high: '+w_temp_high);
+        // console.log('w_temp_low: '+w_temp_low);
         // console.log('w_icon: '+w_icon);
+        // console.log('w_wind: '+w_wind);
 
         // Write temperatures
         $('#w_temp_current_js').html(w_temp_current);
@@ -40,12 +55,13 @@ require(dependencies, function($) {
             if ((w_wind >= 25) &&
                 (
                 w_icon == 'chanceofathunderstorm' ||
-                w_icon == 'chanceofrain' || 
-                w_icon == 'chanceofflurries' || 
+                w_icon == 'chanceofrain' ||
+                w_icon == 'chanceofflurries' ||
                 w_icon == 'chanceofsnow' ||
-                w_icon == 'chanceofsleet' || 
+                w_icon == 'chanceofsleet' ||
                 w_icon == 'hazy' ||
-                w_icon == 'sunny' || 
+                w_icon == 'fog' ||
+                w_icon == 'sunny' ||
                 w_icon == 'mostlysunny' ||
                 w_icon == 'clear' ||
                 w_icon == 'partlysunny' ||
@@ -79,7 +95,7 @@ require(dependencies, function($) {
         			w_icon_class = 'icon_weather_snowy';
         		}
         		// icon_weather_fog
-        		if (w_icon == 'hazy') {
+        		if (w_icon == 'hazy' || w_icon == 'fog') {
         			w_icon_class = 'icon_weather_fog';
         		}
         		// icon_weather_sunny
@@ -104,7 +120,9 @@ require(dependencies, function($) {
         $('#w_js').removeClass('hidden', 50);
     };
 
-    // Initialize Weather JSON
-    getWeather();
+    $(function() {
+        // Initialize Weather JSON
+        getWeather();
+    });
 
 });

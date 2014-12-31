@@ -30,6 +30,7 @@ $slick_dot_character: '\2022' !default;
 ////////////////////////
 @if $include_slider == true{
 .slider {
+    width: 100%;
 	@include type_space(max-height, 16.5);
 	@extend %space_b;
 	@extend %pad_b_half;
@@ -65,7 +66,7 @@ $slick_dot_character: '\2022' !default;
         background: #fff url("../img/ajax-loader.gif") center center no-repeat;
     }
     &.dragging {
-        cursor: pointer;
+        @extend %cursor_pointer;
         cursor: hand;
     }
 }
@@ -103,8 +104,12 @@ $slick_dot_character: '\2022' !default;
 			margin-top: 0;
 		}
 	}
-    & + .tabbed{
-        @extend %space_neg_t_2;
+    // & + .tabbed{
+    //     @extend %space_neg_t_2;
+    // }
+    .box_flag_media a{
+        @include type-space(max-height, 11.5);
+        background-size: auto 100%
     }
 }
 //This is applied to every slide by default.
@@ -113,7 +118,7 @@ $slick_dot_character: '\2022' !default;
 .js .unslicked.unslicked {
     @include rems(margin-bottom, 100px);
 }
-.js .unslicked + .unslicked{
+.js .unslicked + script + .unslicked, .js .unslicked + .unslicked{
     max-height: 0;
     overflow: hidden;
     margin-bottom: 0;
@@ -122,14 +127,14 @@ $slick_dot_character: '\2022' !default;
 	margin-bottom: 0;
 	white-space: normal;
     float: left;
-	display: none;
+	@extend %display_none;
     min-height: 1px;
 	z-index: 10;
     img {
         display: block;
     }
     &.slick-loading img {
-        display: none;
+        @extend %display_none;
     }
 
     &.dragging img {
@@ -142,7 +147,7 @@ $slick_dot_character: '\2022' !default;
         visibility: hidden;
     }
     .slick-vertical & {
-        display: block;
+        @extend %display_block;
         height: auto;
         border: 1px solid transparent;
     }
@@ -188,7 +193,7 @@ $slick_dot_character: '\2022' !default;
     width: 40px;
     line-height: 0;
     font-size: 0;
-    cursor: pointer;
+    @extend %cursor_pointer;
     padding: 0;
     outline: none;
 
@@ -236,7 +241,7 @@ $slick_dot_character: '\2022' !default;
         height: 20px;
         width: 20px;
         margin: 0 $gutter 0 0;
-        cursor: pointer;
+        @extend %cursor_pointer;
         button {
             @include button(true, color(highlight), color(soft_action), color(soft_action), 50%, true, true);
             color: transparent !important;

@@ -72,7 +72,7 @@
 	@extend %txt_bold;
 }
 .js .sidebar_nav li > ul{
-	display: none;
+	@extend %display_none;
 }
 .js .sidebar_nav li > .currentbranch0 ~ ul{
 	display: block;
@@ -194,7 +194,7 @@
 	padding-left: 0;
 
 	& > *:before{
-		display: none;
+		@extend %display_none;
 	}
 
 	& ~ li{
@@ -214,4 +214,11 @@
             padding-right: 0;
         }
     }
+}
+
+//Hides children of currentbranch when Child Tree Widget is on the same page.
+// This prevents overly long left-nav sections with duplicated child navigation.
+.has_child_tree .currentbranch0 ~ ul,
+.has_child_tree .currentbranch0 + .accordion_trigger {
+	display: none !important;
 }

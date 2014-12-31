@@ -50,6 +50,9 @@
 	}
 	word-wrap: break-word;
 }
+.facetview_filterselected .icon:before{
+	color: white;
+}
 .srch_breadcrumbs {
 	@extend %one_whole;
 	@include mq(bigs){
@@ -97,6 +100,8 @@
 }
 
 .srch_description{
+	word-break: break-word;
+
 	@include mq(smalls){
 		@include type-font-size(modular-scale(-1));
 	}
@@ -110,6 +115,18 @@
 .srch_result_body{
 	@extend %pad_l_quarter;
 }
+// .srch_button_group {
+// 	border-collapse: separate;
+// 	[class*="button"]{
+// 		padding-left: 2%;
+// 		padding-right: 2%;
+//
+// 		@include mq(bigs){
+// 			padding-right: 3%;
+// 			padding-left: 3%;
+// 		}
+// 	}
+// }
 
 [data-icon="previous"], [data-icon="next"]{
 	@extend %icon;

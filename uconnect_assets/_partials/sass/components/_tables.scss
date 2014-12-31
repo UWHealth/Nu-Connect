@@ -1,7 +1,7 @@
 table {
     @extend %type_vertical_rhythm;
     width: 100%;
-    background-color: transparent;
+    @extend %bg_transparent;
     border-collapse:collapse;
     border-spacing:0;
     @extend %space_b;
@@ -15,7 +15,7 @@ th, td {
 	vertical-align:top;
 	border: 0;
 	border-bottom: 1px;
-	border-top-width: 0px;
+	border-top-width: 0;
 	border-color: color(form);
 	border-style: solid;
 }
@@ -37,7 +37,7 @@ table thead th{
 	border-top-color: transparent;
 	color: color(form, darkest);
 	&:first-child{
-		border-left: 0px;
+		border-left: 0;
 		border-radius: 2px 0 0;
 	}
 	&:last-child{
@@ -52,7 +52,7 @@ thead + tbody td:before, thead + tbody th:before{
 	content: attr(data-th)" : ";
 	font-weight: bold;
 	padding-right: .25em;
-	display: none;
+	@extend %display_none;
 }
 //.table_fixed{
 //        table-layout: fixed;
@@ -88,7 +88,7 @@ thead + tbody td:before, thead + tbody th:before{
 	}
 	thead th{
 		padding: .35em;
-		border-width: 0px 1px 2px 1px;
+		border-width: 0 1px 2px 1px;
 	}
 }
 .table_striped tbody tr:nth-child(odd){
@@ -108,11 +108,12 @@ thead + tbody td:before, thead + tbody th:before{
 	max-width: 100%;
 	overflow-x: auto;
 	border: 1px solid color(form);
+    @extend %bg_white;
 	@include mq(bigs){
-		border: 0px;
+		border: 0;
         overflow-x: visible;
 	}
-	background-color: white;
+
 }
 @include mq(#{$smalls}){
 	table.table_responsive{

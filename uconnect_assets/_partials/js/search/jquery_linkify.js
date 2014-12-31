@@ -1,8 +1,6 @@
-var dependencies = [
+require([
     'jquery'
-];
-
-require(dependencies, function($) {
+], function($) {
 
 	// encoding: utf-8
 	// $.fn.linkify 1.0 - MIT/GPL Licensed - More info: http://github.com/maranomynet/linkify/

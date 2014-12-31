@@ -2,9 +2,8 @@ require([
     'jquery',
     'avoid_console_conflicts',
     'general_functions',
+    'tab_events',
     'menu',
-    // 'colors', // eventually on every page
-    'tables', // scrape dom, call another module(file) **create (modular) dom_scrape file
     'toggle',
     'accordion_setup',
     'search',
@@ -12,22 +11,29 @@ require([
     'header',
     'footer',
     'polyfills',
-    'select_dropdown', //potential: define module within dropdown, make unavailable; define function that scrapes dom for dropdown, then require dd module (in two files)
-    'faq',
-    'magnific_init'
-    /*,'analytics'*/
+    'magnific_init',
+    'analytics'
 ], function($){
 
     // ------------------------------------------------
     // Append page number to URL query string
+    // Steps to initialize:
+    // (1) create link in T4
+    // (2) under link's 'Events' tab, apply function to onclick handler: page(#)
     // ------------------------------------------------
-    window.page = (function(obj, pageNum){
-        if (require('general_functions').check_string(obj.href, '#') == false) {
-            location.href = obj.href + "#?page=" + pageNum;
-        } else {
-            location.href = obj.href + "?page=" + pageNum;
+    $('a[onclick]').each(function() {
+        var onclick = $(this).attr('onclick');
+        if (require('general_functions').check_string(onclick, 'page') === true) {
+            var href = $(this).attr('href'),
+                pageNum = onclick.replace(/[^0-9]/gi, ''),
+                url;
+            if (require('general_functions').check_string(href, '#') === false) {
+                url = href + "#?page=" + pageNum;
+            } else {
+                url = href + "?page=" + pageNum;
+            }
+            $(this).attr('href', url);
         }
-        return false;
     });
 
     //Prevent Click events
@@ -60,5 +66,25 @@ require([
             $(this).text(month + day);
         }
     });
+
+    // Check for FAQs before loading
+    if($('#faq, #FAQ').length){
+        require(['faq']);
+    };
+
+    // Check if tables exist before loading
+    if($('table').length){
+        require(['tables']);
+    };
+    if($('.validate').length){
+        require(['validate_init']);
+    };
+
+    // Check for dropdowns before loading
+    if( $('select, .dd').length){
+        require(['select_dropdown'], function(sd) {
+            sd.tamingselect();
+        });
+    };
 
 });

@@ -67,7 +67,7 @@ html {
 // noscript used for warning that JS is not enabled
 #js_warning p {
 	@extend %pad;
-	display: block;
+	@extend %block;
 }
 .circle {
 	border-radius: 50%;
@@ -87,7 +87,6 @@ html {
 		@extend %one_whole;
 		&:before{
 			float: right;
-			top: .25em;
 			position: relative;
 			@extend %icon_arrow_down;
 			@extend %pad_l;
@@ -107,13 +106,13 @@ html {
 			border-color: currentColor transparent transparent transparent;
 			padding-left: 0;
 			padding-right: 0;
-			background-color: transparent;
+			@extend %bg_transparent;
 			@extend %pad_n_b;
 		}
 	}
 	&_answer{
 		.js &{
-			display: none;
+			@extend %display_none;
 		}
 		@extend %pad_b_half;
 		@extend %space_b;
@@ -164,13 +163,14 @@ html {
 }
 .embed_flex {
 	@extend %o_hide;
-	display: block;
+	display: block !important;
 	position: relative;
 	&:before {
-		content: "";
-		display: block;
+		@extend %content_blank;
+		@extend %display_block;
 		width: 100%;
 	}
+	z-index: 1;
 }
 .img, .image {
 	background-size: 100% 100%;
@@ -185,7 +185,7 @@ html {
 		vertical-align: top;
 	}
 	.half_content {
-		@extend %bigs_pad_r;
+		@extend %bigs_space_r;
 		@extend %lap_pad_r_half;
 		@extend %smalls_one_whole;
 		@extend %space_b;
@@ -229,7 +229,7 @@ html {
 		color: currentColor;
 	}
 	br{
-		display: none;
+		@extend %display_none;
 	}
 	a{
 		@extend %display_block;
@@ -291,20 +291,22 @@ html {
 }
 .no-js {
 	[class^="embed_"], .mfp_iframe, .mfp_iframe_login {
-		display: none;
+		@extend %display_none;
 	}
 }
 
 //Used before JS kicks in and reformats these into accordion trees
 // Should prevent jarring vertical bounce.
+// Necessarily complex due to
 .list_child_tree{
 	& > ul > li > a {
 	    color: color(label);
 	    font-family: 'bitter';
 	    font-size: 1.3em;
 	    border-top: 2px solid color(form);
-	    display: block;
+	    @extend %block;
 	    margin-bottom: 1.5rem;
+		padding-bottom: 0;
 	}
 
 	& ul {
@@ -315,15 +317,21 @@ html {
 
 	& a {
 	    text-decoration: none;
+		font-size: .9em; //Used for better spacing between items.
+		padding-bottom: .209em; // Forces height back to 24px
+		display: inline-block;
+		width: 100%;
 	}
 
 	& li > ul > li {
-	    width: 50%;
+	    width: 49%;
 	    float: left;
 	    padding: .75rem;
 	    margin-bottom: .75rem;
 		background-color: white;
 		transition: width 200ms ease-out;
+		padding-bottom: 1.875rem;
+		border-radius: 2px;
 	}
 
 	& li > ul > li:nth-child(2n+2) {
@@ -331,26 +339,26 @@ html {
 	}
 
 	& ul:after {
-	    content: "";
-	    display:  table;
+	    @extend %content_blank;
+	    display: table;
 	    clear: both;
 	}
 
-	& li>ul>li>ul>li {
+	& li > ul > li > ul > li {
 	    width: 100%;
-	    padding: .375rem;
+	    padding: 0;
 	    margin-bottom: 0;
 	}
 
-	& li>ul>li>ul {
+	& li > ul > li > ul {
 	    margin-bottom: .375rem !important;
 	}
 
-	& >ul>li>a:last-child {
+	& > ul > li > a:last-child {
 	    padding-bottom: 2.25rem;
 	}
 
 	& li > ul a + ul {
-	    padding-top: .75rem;
+	    padding-top: .625rem;
 	}
 }

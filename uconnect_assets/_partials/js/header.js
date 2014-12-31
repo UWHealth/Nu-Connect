@@ -3,7 +3,11 @@ var dependencies = [
         'velocity'
     ];
 
-require(dependencies, function($) {
+require([
+        'jquery',
+        'velocity',
+        'general_functions'
+    ], function($, velocity, gf) {
 
 	if (!$('html').hasClass('lte8')) { // don't load on lte ie8
 
@@ -73,9 +77,8 @@ require(dependencies, function($) {
 				//[1]
 				$overview.velocity({
 					maxHeight: [overview_height, [375, 18], '3.75rem']
-				},{
-					duration: 550
 				}, {
+                    duration: 550,
 					begin: header_classes('#reveal_header','clicked'),
 					complete: header_classes('#overview, #tag_bar', 'mask')
 				});
@@ -91,7 +94,7 @@ require(dependencies, function($) {
 				$tagbar.css('max-height', '0');
 				//[3]
 				$tagbar.velocity({
-					scaleY: [1, ease_out_back, 0],
+					scaleY: [1, gf.ease_out_back, 0],
 					maxHeight: [tag_bar_height, "easeOutExpo", 0]
 				},{
 					delay: 350,

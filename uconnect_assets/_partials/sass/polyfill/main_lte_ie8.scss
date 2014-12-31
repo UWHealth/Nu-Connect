@@ -29,7 +29,7 @@ input, textarea {
         border-left-color: color(soft_action,light);
 	}
 	&:focus{
-		background-color: white;
+		@extend %bg_white;
 	}
 }
 .box_panel {
@@ -171,7 +171,7 @@ header {
 	overflow: hidden;
 }
 .box_glass{
-	background-color: #fff;
+	@extend %bg_white;
 }
 .build_flat_accordion .column > ul > li > ul > li {
 	margin-right: $gutter/2;

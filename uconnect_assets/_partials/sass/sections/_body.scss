@@ -33,6 +33,11 @@
 	h2, .sub_heading{
 		@extend %sub_heading;
 	}
+	h2{
+		& + ul, & + ol{
+			@extend %space_neg_t;
+		}
+	}
 	.small_heading{
 		@extend %space_b;
 	}
@@ -74,7 +79,19 @@
 		margin-left: 0;
 		padding-left: 1.45em;
 		overflow: hidden;
-		text-indent: -.05em;
+		text-indent: -.065em;
+	}
+	ol{
+		padding-left: 2.25em;
+		ol{
+			list-style-type: lower-alpha;
+			ol{
+				list-style-type: upper-roman;
+				ol{
+					list-style-type: lower-alpha;
+				}
+			}
+		}
 	}
 	.space > li{
 		@extend %pad_v_quarter;
@@ -87,6 +104,19 @@
 	}
 }
 
+.isolate{
+	zoom: 1;
+	overflow: hidden;
+	img{
+		float: left;
+		word-wrap: break-word;
+		display: inline-block;
+		@include type-space(margin-right, .5);
+	}
+	.isolate_body{
+		overflow: hidden;
+	}
+}
 
 
 
@@ -112,7 +142,7 @@ main, .homepage_header {
 				@include type_font_size(ceil(modular-scale(2)));
 				margin: -14px;
 			}
-			span {
+			.tab_title {
 				display: none;
 			}
 		}
@@ -131,6 +161,7 @@ main {
 	    width: 100%;
 	}
 	.tab_content{
+		@include type-space(padding-top, 1.5);
 		@include type_space(min-height, 20);
 		border-top-style: solid;
 		border-color: color(soft_action);
@@ -140,7 +171,7 @@ main {
 		float: left;
 		@extend %pad_l;
 		padding-right: 6%;
-		& span{
+		& .tab_title{
 			position: relative;
 			padding-left: .25em;
 			left: .25em;
@@ -154,7 +185,7 @@ main {
 				@include type_font_size(ceil(modular-scale(2)));
 				margin: -14px;
 			}
-			span {
+			.tab_title {
 				display: none;
 			}
 		}
@@ -193,7 +224,7 @@ main {
 			@extend %pad_l_half;
 			@extend %pad_r_half;
 			.no-js &{
-				display: none;
+				@extend %display_none;
 			}
 		}
 	}

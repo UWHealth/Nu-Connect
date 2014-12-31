@@ -1,9 +1,5 @@
-var dependencies = [
-        'jquery',
-        'velocity'
-    ];
 
-define("toggle_this", dependencies, function($, velocity) {
+require(['jquery','velocity','general_functions'], function($, velocity, gf) {
 
 	///////////////////////
 	// Toggle function ( toggle_this() )
@@ -21,7 +17,7 @@ define("toggle_this", dependencies, function($, velocity) {
 		var icon_switches = $this.attr('data-icon-switch'),
 			icon_original = $this.attr('data-icon'),
         //Default animation type and timing
-            anim_easing = [ease_in_back, ease_out_back, "default"],
+            anim_easing = [gf.ease_in_back, "easeOut", "default"],
             anim_time = [200, 200];
         //----------------------
         /////Error correction (in case variables aren't passed into function properly)
@@ -130,7 +126,7 @@ define("toggle_this", dependencies, function($, velocity) {
 					queue: false
 				})
 				.removeClass('inactive');
-                
+
                 //Squishing animation if requested
 				if($toggle_target.hasClass('js_squish')){
 					$toggle_target.velocity({
@@ -165,16 +161,10 @@ define("toggle_this", dependencies, function($, velocity) {
 		}
 	}
 
-	return function ($this, $toggle_target, $icons){
-		return toggle_this($this, $toggle_target, $icons);
-	}
+	// return function ($this, $toggle_target, $icons){
+	// 	return toggle_this($this, $toggle_target, $icons);
+	// }
 
-});
-
-define('toggle', ['jquery', 'velocity', 'toggle_this'], function($, velocity, toggle_this) {
-
-	//Default toggle object click handler
-	//Just needs the data-toggle attribute
 	$('body').on('click', '[data-toggle]', function(e) {
 		//Prevent links from doing their thang
 		e.preventDefault();
@@ -202,9 +192,9 @@ define('toggle', ['jquery', 'velocity', 'toggle_this'], function($, velocity, to
 	});
 
 
-///////////////////////
-// Card Toggles
-///////////////////////
+	///////////////////////
+	// Card Tag Toggles
+	///////////////////////
 
 	var cd_tag_width = [],
 		cd_width,
@@ -241,7 +231,10 @@ define('toggle', ['jquery', 'velocity', 'toggle_this'], function($, velocity, to
 				height: [auto_height,[300, 20], "3rem"]
 			},{
 				duration: 300,
-			}).css("height", "auto");
+				complete: function(element){
+					$(element).css("height", "auto");
+				}
+			});
 
 		}else{
 			$cd_target.removeClass('open')
@@ -253,4 +246,18 @@ define('toggle', ['jquery', 'velocity', 'toggle_this'], function($, velocity, to
 		}
 
 	});
+
+
+	////////////////////////
+	// Card/List View toggle
+	////////////////////////
+
+	$('#js_card_toggle').on('click','.button_soft', function(){
+		if(!$(this).hasClass('active')){
+			$('#feeds_modified').toggleClass('list_view');
+			$(this).addClass('active')
+			$(this).siblings('.button_soft').removeClass('active');
+		}
+	});
+
 });

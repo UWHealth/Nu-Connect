@@ -1,7 +1,6 @@
-var dependencies = [
-        'jquery'
-    ];
-
-require(dependencies, function($) {
+require([
+    'jquery',
+    'general_functions'
+], function($, gf) {
 
 });

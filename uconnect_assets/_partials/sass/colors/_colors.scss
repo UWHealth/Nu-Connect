@@ -87,7 +87,7 @@ $additional_colors: (
 // 1b. Variation names (output to map).
 // 1c. Function percentages (e.g. lighten($foo, [percentages])).
 // 2a. Determine how often to switch functions.
-// 2b. Define new map (for simpler return value).
+// 2b. Define new map (for easier to understand return value).
 // 3a. Loop through the pallets and colors of the map input.
 // 3b. Store $color map in a list
 //     (this is required to prevent bugs on colors with names of real colors).
@@ -113,6 +113,9 @@ $additional_colors: (
 	$increments: (10%, 20%, 30%, 10%, 20%, 40%), 				    	 //[1c]
 	$blending-color: null
 ){
+	@if $map == null {
+		@debug "Must enter a map to generate color variations";
+	}@else{
 	$variation-frequency:
 		length($variation-names) / length($color-functions); //[2a]
 	$new-map: $map !global;							 	     //[2b]
@@ -142,14 +145,15 @@ $additional_colors: (
 				$values-list: map-merge($value, $values-list) !global;		//[7c]
 			}
 
-			// This is required because sass maps are formatted as
-			// (first-level: ((second-level: value)) )
+			// This is required because sass maps are formatted
+			// with double parenthesis as they get more nested.
+			// (first-level: ( (second-level: value) ) )
 			$inner-map: ($pal:($values-list));				  		//[8a]
 			$new-map: combine_colors($new-map, $inner-map) !global; //[8b]
 
 		}
 		@return $new-map; 								//[9]
-
+	}
 }
 
 //Create new variations for the non-default colors we defined.
@@ -171,10 +175,11 @@ $color_black: #000;
 %color_highlight, .color_highlight { color: color(highlight); }
 %color_label, .color_label { color: color(label); }
 %color_soft, .color_soft { color:color(soft_action); }
+%color_current {color: currentColor; }
 
 //Background colors.
 
-%highlight, .highlight{
+%highlight, %bg, .highlight{
 	&_yellow{
 		background-color: color(yellow, light) !important;
 	}
@@ -192,6 +197,30 @@ $color_black: #000;
 	}
 	&_orange{
 		background-color: color(orange, lightest) !important;
+	}
+}
+//For extensions only
+%highlight, %bg{
+	&_white{
+		background-color: $color_white;
+	}
+	&_link{
+		background-color: color(link);
+	}
+	&_highlight{
+		background-color: color(highlight);
+	}
+	&_soft, &_soft_action{
+		background-color: color(soft_action);
+	}
+	&_subtle, &_bg{
+		background-color: color(subtle);
+	}
+	&_select{
+		background-color: color(select);
+	}
+	&_transparent{
+		background-color: transparent;
 	}
 }
 

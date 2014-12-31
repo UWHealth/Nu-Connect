@@ -10,14 +10,14 @@
     )
 {
 	color: $button_color_text;
-    cursor: pointer;
+    @extend %cursor_pointer;
     line-height: normal;
     vertical-align: middle;
     user-select: none;
-    display: inline-block;
+    @extend %inline_block;
     border-radius: $border_radius;
     text-decoration: none;
-    text-align: center;
+    @extend %txt_center_weak;
     background-color: $button_color_bg;
     @if $flat_button == true{
         box-shadow: none;
@@ -29,8 +29,8 @@
     } @else {
         background-image: linear-gradient(top, $button_color_bg 0.05%, $button_color_secondary 100% );
         filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='$button_color_bg', endColorstr='$button_color_secondary');
-        box-shadow:inset 0px -1px 0px 0px lighten($button_color_bg, 10%);
-        text-shadow: 1px 1px 0px pick_best_color($button_color_text,($button_color_secondary,darken($button_color_text,25%),lighten($button_color_text,25%),darken($button_color_bg,25%),lighten($button_color_bg,25%)));
+        box-shadow:inset 0 -1px 0 0 lighten($button_color_bg, 10%);
+        text-shadow: 1px 1px 0 pick_best_color($button_color_text,($button_color_secondary,darken($button_color_text,25%),lighten($button_color_text,25%),darken($button_color_bg,25%),lighten($button_color_bg,25%)));
     }
     &:hover, &:focus {
         @if $flat_button == true{
@@ -74,7 +74,7 @@
                 border-top-color: transparent;
 				border-top-width: 1px;
                 border-bottom-width: 1px;
-                box-shadow: inset 0 2px 0px darken($button_color_bg, 15%);
+                box-shadow: inset 0 2px 0 darken($button_color_bg, 15%);
                 color: mix($button_color_text, darken($button_color_bg, 5%), 80%);
             }
         } @else {
@@ -82,8 +82,8 @@
 			background-color: darken($button_color_secondary, 2%);
             background: linear-gradient( top, darken($button_color_secondary, 5%) 0.05%, darken($button_color_bg, 5%)100%);
             filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($button_color_secondary ,  5%)', endColorstr='darken($button_color_bg, 5%)');
-            box-shadow: inset 0px 1px 0px 0px darken($button_color_secondary, 8%);
-            text-shadow: -1px -1px 0px pick_best_color(darken($button_color_text, 10%),($button_color_secondary,darken($button_color_text,25%),lighten($button_color_text,25%),darken($button_color_bg,25%),lighten($button_color_bg,25%)));
+            box-shadow: inset 0 1px 0 0 darken($button_color_secondary, 8%);
+            text-shadow: -1px -1px 0 pick_best_color(darken($button_color_text, 10%),($button_color_secondary,darken($button_color_text,25%),lighten($button_color_text,25%),darken($button_color_bg,25%),lighten($button_color_bg,25%)));
             border-color: lighten($button_color_bg, 2%);
         }
     }
@@ -198,11 +198,11 @@
 // Button Group
 ////////////////////////
 .button_group {
-	display: table-row;
+	@extend %table;
 	overflow: visible;
     .button, .button_soft {
 		@extend %txt_upper;
-		display: table-cell;
+		@extend %table_cell;
         border-radius: 0;
         // margin-left: -1px;
         &:first-child, &:first-of-type {

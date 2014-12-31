@@ -1,15 +1,77 @@
-var dependencies = [
-        'jquery'
-    ];
+require([
+    'jquery',
+    'general_functions'
+], function($, gf) {
 
-require(dependencies, function($) {
+	var maxHeight;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // When opening mega-nav, slide embed content down
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function moveEmbedDown(maxHeight) {
+		$('.embed').velocity({
+            "margin-top": [maxHeight, 0]
+        }, {
+            duration: 360
+        });
+	}
+
+	function moveEmbedUp() {
+		$('.embed').velocity({
+            "margin-top": [0, 0]
+        }, {
+            duration: 360
+        });
+	}
+
+	$(function() {
+
+		if (gf.element_exists($('.embed')) === true) {
+			$('#mega_buttons .tab').click(function() {
+				if (! $(this).hasClass('active') ) {
+					var tabID = $(this).attr('href'),
+						height1 = $('.img_header #body_content').height(),
+						height2 = parseInt($('main > .wrap').css('padding-top')),
+						height3 = $('.main_content .tabs').height(),
+						height4 = parseInt($('main section.tab_content').css('padding-top')),
+						height_elementsBeforeEmbedContent = height1 + height2 + height3 + height4;
+					// console.log('tabID: ' + tabID);
+					// console.log('height1: ' + height1);
+					// console.log('height2: ' + height2);
+					// console.log('height3: ' + height3);
+					// console.log('height4: ' + height4);
+					// console.log('height_elementsBeforeEmbedContent: ' + height_elementsBeforeEmbedContent);
+					// console.log('$(tabID).height(): ' + $(tabID).height());
+					if ($(tabID).height() > height_elementsBeforeEmbedContent) {
+						maxHeight = $(tabID).height() / 3;
+						// console.log('if true, maxHeight: ' + maxHeight);
+					} else {
+						maxHeight = 0;
+						// console.log('if false, maxHeight: ' + maxHeight);
+					}
+					moveEmbedDown(maxHeight);
+				} else {
+					moveEmbedUp();
+				}
+			});
+		}
+
+	});
+
+    $(document).on('click', 'body', function(e) {
+        if (!$('#mega_buttons .tab').hasClass('active')) {
+            if (gf.check_click($('#mega_nav'), e) === false && gf.check_click($('#mega_buttons'), e) === false && gf.check_click($('[data-toggle="#mega_nav"]'), e) === false) {
+            	moveEmbedUp();
+            }
+        }
+    });
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Placeholder fix
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$(function() {
 		var input_container_inner = '<div class="container_placeholder contain"/>';
-		
+
     	$("form input:not([type=submit])").each(function(){
 
 		    var input = $(this),

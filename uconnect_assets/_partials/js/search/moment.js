@@ -1,7 +1,4 @@
-var dependencies = [
-];
-
-require(dependencies, function() {
+require(function() {
 
     // moment.js
     // version : 1.6.2

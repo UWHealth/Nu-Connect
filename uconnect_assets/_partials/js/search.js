@@ -1,10 +1,10 @@
-var dependencies = [
+
+
+require([
         'jquery',
         'velocity',
         'general_functions'
-    ];
-
-require(dependencies, function($, velocity, gf) {
+    ], function($, velocity, gf) {
 
     if (!$('html').hasClass('lte8')) { // don't load on lte ie8
 
@@ -16,6 +16,9 @@ require(dependencies, function($, velocity, gf) {
 			$srch_close = $("#search_close"),
 			$main_search = $('#global_search');
 
+        var toggle_search = function(focus_target){
+            $(focus_target).toggleClass('search_active');
+        }
         var searching = function(focused) {
 
 			var focus_target = $(focused).attr('data-focus');
@@ -49,16 +52,15 @@ require(dependencies, function($, velocity, gf) {
 					paddingTop: ["48px", [.3, .27, .32, 1.31],"0px"]
 				},{
 					duration: 380
-				})
-				;
+				});
+
 				$srch_column.velocity({
 					width: "100%",
 					top: ["7px","2px"]
 				},{
-					duration: 450,
+					duration: 700,
 					easing: "easeIn",
-				},{
-					complete: toggle_search(focus_target)
+                    complete: toggle_search(focus_target)
 				});
 			}else{
 				$srch_shade.velocity("reverse",{
@@ -90,9 +92,7 @@ require(dependencies, function($, velocity, gf) {
 				});
 			}
         };
-		var toggle_search = function (focus_target){
-			$(focus_target).toggleClass('search_active');
-		}
+
 
         $main_search.on('focus', function(e) {
     		e.stopPropagation();
@@ -133,10 +133,20 @@ require(dependencies, function($, velocity, gf) {
             e.stopPropagation();
             return false;
     	});
-
+		// For resetting the 'left page' cookie.
+		function createCookie(name,value,days) {
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime()+(days*24*60*60*1000));
+				var expires = "; expires="+date.toGMTString();
+			}
+			else var expires = "";
+			document.cookie = name+"="+value+expires+"; path=/";
+		}
 		//Handle the main search
 		$('form[name=main_search]').submit(function(e) {
 			e.preventDefault();
+			createCookie("searchblox_left_page","no",0);
 			var column_filter = $('input[name=column_filter]').val();
 			var search_query = $('input[name=query]').val();
 			if (column_filter == '') {
@@ -144,15 +154,16 @@ require(dependencies, function($, velocity, gf) {
 			} else if (column_filter == 'Forms' || column_filter == 'Tools'){
 				window.location.assign("/search/?query="+search_query+" AND pageCategories:"+column_filter+"");
 			} else {
-				window.location.assign("/search/?query="+search_query+" AND col:"+column_filter+"");
+				window.location.assign("/search/?query="+search_query+"&cname="+column_filter+"");
 			}
 		});
 		//Handle the policy search
-		$('form[name=policy_search]').submit(function(e) {
-			e.preventDefault();
-			var policy_query = $('input[name=search_policies]').val();
-			window.location.assign("/search/?query="+policy_query+" AND col:4");
-		});
+		// $('form[name=policy_search]').submit(function(e) {
+		// 	e.preventDefault();
+		// 	createCookie("searchblox_left_page","no",0);
+		// 	var policy_query = $('input[name=search_policies]').val();
+		// 	window.location.assign("/search/?query="+policy_query+"&cname=Policies");
+		// });
     }
 
 });

@@ -7,16 +7,19 @@
 		position: relative !important;
 		z-index: 1 !important;
 		max-width: none;
+		
+		.img_cover{
+			opacity: .8;
+		}
 	}
-}
-.img_cover {
-	opacity: .7 !important;
 }
 
 ////////////////////////
 // Header Bar
 ////////////////////////
 .homepage_header {
+	z-index: auto !important;
+
 	> .wrap {
 		@extend %pad_n;
 	}
@@ -43,9 +46,10 @@
 }
 .homepage_tabs {
 	// @extend %smallish_three_quarters;
+	min-height: 0;
 	@extend %smalls_three_quarters;
 	&.tab_line > .tabs .tab:not(.active) {
-		color: $color_white;
+		@extend %color_white;
 		opacity: .6;
 		&:hover {
 			opacity: 1;
@@ -96,7 +100,7 @@
 
 	> .wrap > .tab_content {
 		border: none;
-		background-color: transparent;
+		@extend %bg_transparent;
 	}
 }
 .row_homepage {
@@ -114,11 +118,15 @@
 ////////////////////////
 .homepage_slider {
 	@extend %lap_two_thirds;
-	@extend %smalls_pad_t_half;
+	@extend %smalls_pad_t;
+	@extend %smalls_space_t_half;
 	.box_flag_media {
 		@extend %bigs_two_fifths;
 		@extend %lap_one_third;
 		@extend %smalls_one_third;
+	}
+	a.slide_media{
+		@include type-space(max-height, 14);
 	}
 	.slick-slider {
 		@extend %smalls_space_n_b;
@@ -154,6 +162,7 @@
 	zoom: 1;
 	@extend %lap_one_whole;
 	@extend %smalls_one_whole;
+	@include type-space(min-height, 12);
 	.half {
 		@extend %smalls_one_whole;
 	}
@@ -165,10 +174,11 @@
 		}
 		@media screen and (max-height: 758px){
 			@include type-space(height, 13.5);
+			@include type-space(max-height, 14.5);
 			@include type-space(max-width, 20);
 
-			.card_expand:hover{
-				@include type-space(height, 14.5);
+			&_expand{
+				@include type-space(max-height, 13.5);
 			}
 		}
 	}
