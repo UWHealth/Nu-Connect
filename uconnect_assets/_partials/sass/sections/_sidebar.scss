@@ -8,29 +8,57 @@
 //     @extend %smalls_show;
 // }
 .sidebar {
-
+	// <main> is z-index:1; .img_header is z-index:2; .footer is z-index:0; .sidebar is z-index: 241 (above dropdown)
+	z-index: 241;
 	@include mq(bigs){
 		@include type_font_size(14px); // NOTE: This should remain as a pixel value. These links are an exception to the modular-scale rule.
 	}
 	@include media-query((lap,smalls)){
         @include type_space(padding-top, .5);
     }
-
 	.list_bordered{
 		@extend %pad_t_half;
-		@extend %bigs_pad_t;
-	}
+        @extend %bigs_pad_t;
+		border-bottom: 2px solid color(form);
+		@extend %space_b_2;
 
-	ul{
-		margin-left: 0;
+		ul{
+			margin-bottom: 0;
+		}
+		a{
+			@extend %pad_v_half;
+		}
+		p{
+			border-top: 2px solid color(form);
+			margin-bottom: 0;
+			margin-top: -2px;
+		}
+	}
+    #related {
+        .list_bordered{
+            @extend %bigs_pad_t_half;
+        }
 	}
 	li {
 		@extend %pad_n_v;
 	}
-    .list_nav {
-        @extend %txt_upper;
-		@extend %txt_bold;
-    }
+	.accordion_trigger{
+		top: -2px; //compensate for top borders on nav items.
+		color: color(soft_action);
+		right: -.5em;
+		padding-right: 0;
+		&:before{
+			font-size: 1.3em;
+			line-height: 1.3;
+			transition: line-height 100ms ease-out;
+		}
+		&:hover{
+			color: color(link, lighter) !important;
+		}
+		&.active:before{
+			line-height: 1.5;
+		}
+	}
 	a {
 		@extend %link_naked;
 		-webkit-font-smoothing: antialiased; // This corrects a weird optical illusion where sidebar links appear slightly purple.
@@ -38,31 +66,27 @@
 	.search_box{
 		@extend %pad_v_half;
 	}
-    .accordion {
-        @extend %icon_arrow_circle_down;
-        &:before {
-            @include type_font_size(22px);
-            @include type_space(margin-top, .25);
-            color: color(soft_action);
-        }
-        > a {
-            max-width: 80%;
-			max-height: none;
-			overflow: visible;
-        }
-        &.accordion_closed {
-            &:before {
-                content: "\e64d" !important;
-            }
-        }
-        &:hover, &:active {
-            &:before {
-                color: color(soft_action, light);
-            }
-        }
-    }
 }
-
+.sidebar_nav{
+	@extend %txt_upper;
+	@extend %txt_bold;
+}
+.js .sidebar_nav li > ul{
+	@extend %display_none;
+}
+.js .sidebar_nav li > .currentbranch0 ~ ul{
+	display: block;
+}
+.sidebar_content > ul{
+	margin-left: 0;
+}
+.sidebar_related h2{
+	@extend %color_label;
+	@extend %txt_upper;
+	@extend %txt_small;
+	margin-bottom: 0;
+	@extend %pad_t_half;
+}
 //Button has no label (span) on lap and smallish.
 // Label is hidden with visually_hidden class.
 .sidebar .sidebar_button { //Specificity HACK
@@ -82,12 +106,11 @@
 		}
 	}
 }
-
 .no-js {
     .sidebar {
         .list_nav {
             ul ul {
-                @include type_space(padding-left, 1);
+                @include type_space(margin-left, 1);
             }
         }
     }
@@ -99,10 +122,6 @@
     @extend %lap_pad_half;
     @extend %smalls_pad_half;
 	transform: translateZ(0);
-//    input {
-//        @include type_font_size(modular-scale(-1));
-//        padding: 12px 36px 12px 10px;
-//    }
     .button_inset {
         overflow: hidden;
     }
@@ -143,41 +162,63 @@
 	@extend %smalls_space_v;
 }
 .currentbranch0, .self {
+	border-top: 2px solid;
     border-color: color(select) !important;
     color: color(select) !important;
     cursor: default;
+	margin-top: -2px;
     a {
         color: color(select) !important;
         cursor: default;
         &:before {
             color: color(select) !important;
         }
-//        &:hover, &:focus, &:visited, &:active {
-//            &:before {
-//                color: color(select) !important;
-//            }
-//        }
     }
 }
-.grandparent, .self, .branch0, .branch_arrow {
-    @extend %pad_l_half;
-    a {
+.grandparent, .self, .branch0, .branch_arrow, .parent {
+    padding-left: 1.25em;
+    > * {
         @extend %icon;
         &:before {
             @extend %txt_normal;
-            display: inline-block;
-            margin: 0 0 0 -1.25em;
+			@extend %inline-block;
+            margin: 0 0 0 -1.35em;
             padding-right: .25em;
         }
     }
 }
+// For situations where both the grandparent and parent are shown.
+// Only grandparent should get the home icon.
+
+.grandparent + .parent{
+	padding-left: 0;
+
+	& > *:before{
+		@extend %display_none;
+	}
+
+	& ~ li{
+		@extend %space_l_half;
+	}
+}
+
 .grandparent, .self, .branch0, .parent {
-    a {
+    > * {
         @extend %icon_home;
     }
 }
 .branch_arrow {
-    a {
+    > * {
         @extend %icon_arrow_left;
+        &:before {
+            padding-right: 0;
+        }
     }
+}
+
+//Hides children of currentbranch when Child Tree Widget is on the same page.
+// This prevents overly long left-nav sections with duplicated child navigation.
+.has_child_tree .currentbranch0 ~ ul,
+.has_child_tree .currentbranch0 + .accordion_trigger {
+	display: none !important;
 }

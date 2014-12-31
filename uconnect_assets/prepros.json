@@ -451,20 +451,6 @@
         "sourcemaps": false
       }
     },
-    "09383a90": {
-      "id": "09383a90",
-      "pid": "6530b95b",
-      "name": "placeholder.js",
-      "input": "js/vendor/placeholder.js",
-      "customOutput": "js/vendor/placeholder.js",
-      "type": "Js",
-      "config": {
-        "autoCompile": true,
-        "uglify": true,
-        "mangle": true,
-        "sourcemaps": false
-      }
-    },
     "08c11972": {
       "id": "08c11972",
       "pid": "6530b95b",
@@ -625,20 +611,6 @@
       "pid": "6530b95b",
       "name": "header.js",
       "input": "_partials/js/header.js",
-      "customOutput": false,
-      "type": "Js",
-      "config": {
-        "autoCompile": true,
-        "uglify": false,
-        "mangle": true,
-        "sourcemaps": false
-      }
-    },
-    "d2535f39": {
-      "id": "d2535f39",
-      "pid": "6530b95b",
-      "name": "iframe_embed.js",
-      "input": "_partials/js/iframe_embed.js",
       "customOutput": false,
       "type": "Js",
       "config": {

@@ -25,6 +25,11 @@ if ('querySelector' in document && 'localStorage' in window && 'addEventListener
 var app = window.app || {};
 var mq; // set global var for media query check
 
+//Velocity Animation variables
+var ease_out_back = [0.175, 0.885, 0.32, 1.275],
+	ease_in_back = [0.6, -0.28, 0.735, 0.045],
+	ease_in_out_back = [0.68, -0.55, 0.265, 1.55];
+
 // ------------------------------------------------
 // require.js config
 // ------------------------------------------------
@@ -48,20 +53,26 @@ require.config({
         'hover_intent': '../../js/vendor/hover_intent',
         'jbreadcrumb': '../../js/vendor/jbreadcrumb',
         'select_dropdown': 'select_dropdown',
-        'placeholder': '../../js/vendor/placeholder',
         'wistia': '//fast.wistia.com/static/embed_shepherd-v1',
         'jquery_linkify': '../../js/vendor/jquery_linkify',
         'jquery_ui_custom': '../../js/vendor/jquery_ui_custom',
         'moment': '../../js/vendor/moment',
+        'knob': '../../js/vendor/knob',
+        'data_tables': '../../js/vendor/data_tables',
+        'data_tables_responsive': '../../js/vendor/data_tables_responsive',
         // ------------------------------------------------
         // Homegrown-based, called inline
         // ------------------------------------------------
         'directory': 'directory',
         // 'faq': 'faq',
-        'iframe_embed': 'iframe_embed',
+        'embed': 'embed',
         'slider': 'slider',
         'cookie': 'search/cookie',
-        'searchblox_search': 'search/searchblox_search'	
+        'feeds': 'feeds',
+        'knob_init': 'knob_init',
+        'icon': 'icon',
+        'searchblox_search': 'search/searchblox_search',
+        'weather': 'weather'
     },
     'shim': {
         // ------------------------------------------------
@@ -71,7 +82,10 @@ require.config({
             'exports': ['jquery', 'jQuery', '$']
         },
         'validate': {
-            'deps': ['jquery', 'additional_methods']
+            'deps': ['jquery']
+        },
+        'additional_methods': {
+            'deps': ['jquery', 'validate']
         },
         'velocity': {
             'deps': ['jquery']
@@ -91,8 +105,14 @@ require.config({
         'jbreadcrumb': {
             'deps': ['jquery', 'hover_intent']
         },
-        'placeholder': {
+        'knob': {
             'deps': ['jquery']
+        },
+        'data_tables': {
+            'deps': ['jquery']
+        },
+        'data_tables_responsive': {
+            'deps': ['jquery', 'data_tables']
         },
         // ------------------------------------------------
         // Homegrown-based, called inline
@@ -103,14 +123,23 @@ require.config({
         // 'faq': {
         //     'deps': ['jquery', 'tabs']
         // },
-        'iframe_embed': {
-            'deps': ['jquery', 'magnific', 'magnific_init']
+        'embed': {
+            'deps': ['jquery', 'magnific_init']
         },
         'slider': {
             'deps': ['jquery', 'slick']
         },
         'cookie': {
             'deps': ['jquery']
+        },
+        'feeds': {
+            'deps': ['jquery', 'general_functions']
+        },
+        'knob_init': {
+            'deps': ['jquery']
+        },
+        'icon': {
+            'deps': ['jquery', 'general_functions']
         },
         'jquery_linkify': {
             'deps': ['jquery']
@@ -123,7 +152,13 @@ require.config({
         },
         'searchblox_search': {
             'deps': ['jquery', 'cookie', 'moment', 'jquery_ui_custom', 'jquery_linkify']
-        }        
+        },
+        'weather': {
+            'deps': ['jquery', 'magnific_init', 'general_functions']
+        },
+        'accordion_setup':{
+            'deps': ['jquery','toggle']
+        }
     }
 });
 

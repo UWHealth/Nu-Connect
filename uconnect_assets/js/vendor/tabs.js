@@ -43,7 +43,7 @@ require(['jquery', 'velocity'], function(a) {
                     } while (a(w).hasClass("tab_button") === true);
 
                     //Check if we've already added this tab to a grouping.
-                    if (a(y).data("tabbed") !== true && a(y).attr('data-tabbed') != 'true') {
+                    if (a(y).data("tabbed") !== true && a(y).attr('data-tabbed') != 'true' && a(y).parent().attr('data-tabbed') != 'true') {
 
                         //Grab data-tab attributes (since they can be used as optional style alternatives)
                         if (a(y).attr("data-tab") !== undefined) {
@@ -65,27 +65,32 @@ require(['jquery', 'velocity'], function(a) {
 
                 }
 
-                var tabbed = a('.tabbed');
+                var $tabbed = a('.tabbed');
 
                 //Add a nav element to the top of the groups
                 //only if they contain more than one tab_content child
-                a(tabbed).each(function() {
-                    if (a(this).children('.tab_content').length > 1 && a(this).attr('data-tabbed') != 'true') {
+                $tabbed.not('[data-tabbed="true"]').each(function() {
+                    if (a(this).children('.tab_content').length > 1 && a(this).attr('data-tabbed') !== 'true') {
                         a(this).prepend("<nav class='tabs' />");
-                    };
+                    }
                 });
 
                 //Duplicate tab_buttons and put them inside nav.tabs
                 a(".tab_button:not([data-tabbed='true'])").each(function() {
                     //Find the appropriate nav.tabs
-                    var tabNav = a(this).closest(".tabbed").children(".tabs");
+                    var $this = a(this),
+                        tab_parent = $this.closest(".tabbed");
 
-                    //Clone the tab_buttons and move them to nav.tabs
-                    //Meanwhile add .tab and remove .tab_button classes for style purposes.
-                    a(this).clone()
-                        .appendTo(tabNav)
-                        .addClass('tab')
-                        .removeClass("tab_button");
+                    if(tab_parent.attr('data-tabbed')!=='true'){
+                        var tabNav = tab_parent.children(".tabs");
+
+                        //Clone the tab_buttons and move them to nav.tabs
+                        //Meanwhile add .tab and remove .tab_button classes for style purposes.
+                        $this.clone()
+                            .appendTo(tabNav)
+                            .addClass('tab')
+                            .removeClass("tab_button");
+                    }
                 });
 
                 //Make the first tab and tab_button in each grouping the active tab.
@@ -120,6 +125,7 @@ require(['jquery', 'velocity'], function(a) {
                 $('#mega_nav .tabbed .tab_button').addClass('toggle');
                 $('#mega_nav .tabbed .tab_button').not('.tab_link').addClass('icon');
                 $('#mega_nav').removeClass('invisible');
+				$('#mega_nav .tabbed').show();
 
 
                 //----------------------------------------------------------
@@ -133,33 +139,48 @@ require(['jquery', 'velocity'], function(a) {
                         // Just making sure we don't animate already active tabs.
                         if (a(this).hasClass('active') === false) {
 
-                            //Grab the target's ID through the clicked tab's href/hash value.
+                            //Grab the target's ID through the
+							//clicked tab's href/hash value.
                             var $this = a(this);
                             d = a(this).attr("href");
 
-                            //Unhide the correct tab content.
-                            if (typeof a.velocity == 'object') {
-                                if ($this.hasClass('toggle')) {
-                                    //Hiding all target siblings tab_content.
+
+							//Do Velocity Stuff if available
+                            if (typeof($.Velocity) == 'function') {
+
+								//TOGGLE BEHAVIOR
+								//
+								if ($this.hasClass('toggle')) {
+
+									//Hiding Sibling tab_content
+									//By sliding up and fading out
+
                                     a(d).siblings(".tab_content:visible")
                                         .velocity({
-                                            translateY: ["-10%", "easeOut", "0"],
-                                            opacity: [0, "easeIn", 1]
+                                            translateY: ["-1%", "easeOutQuad", "0"],
+                                            opacity: [0, "easeOut", 1],
+											scaleY: ["0", "easeOut", "1"]
                                         }, {
                                             display: "none"
                                         }, {
                                             duration: 120
                                         });
+									//cubic-bezier(.1, 1.23, 1, 1.13)
+									//Make target slide out (with a bounce) and fade in
                                     a(d).velocity({
-										rotateX: ["0", "easeOutExpo", "90deg"],
-                                        translateY: ["0", [480, 22], "-30%"],
-                                        opacity: [1, "easeIn", 0],
+										scaleY: ["1", [320, 21], "0"],
+                                        translateY: ["0", [200, 15], "-2%"],
+                                        opacity: [1, "easeOut", .5],
                                     }, {
                                         display: "block"
                                     }, {
-                                        duration: c.options.speed
+                                        duration: 150
                                     });
-                                } else {
+
+								//NON-TOGGLE, just do fade fade
+								//
+								} else {
+									//Hide target's sibilings
                                     a(d).siblings(".tab_content:visible").hide();
                                     a(d).velocity({
                                         opacity: [1, "easeIn", 0]
@@ -169,9 +190,12 @@ require(['jquery', 'velocity'], function(a) {
                                         duration: c.options.speed
                                     });
                                 }
+							//Fallback when velocity isn't available.
                             } else {
-                                //Hiding all target siblings tab_content.
+                                //Hiding all target siblings tab_content
                                 a(d).siblings(".tab_content").hide();
+
+								//Fade in target.
                                 a(d).fadeIn(c.options.speed);
                             }
                             //Finding tab and tab_button siblings
@@ -186,20 +210,27 @@ require(['jquery', 'velocity'], function(a) {
                             a(this).addClass("active");
                             a("a[href='" + d + "'].tab_button").addClass("active");
 
-                            // Toggle-tabs (if active)
-                        } else if (a(this).hasClass('toggle')) {
-                            d = a(this).attr("href");
+                        // ACTIVE Toggle-tabs
+                        } else if ( a(this).hasClass('toggle') ) {
 
-							if (typeof a.velocity == 'object') {
-                                a(d).velocity({
-                                    "margin-top": [0, 0],
-									rotateX: ["90deg", "easeOutExpo", "0"],
-                                    translateY: ["0", "easeOutExpo", "0"],
-                                    opacity: [0, "easeOut", 1]
+							d = a(this).attr("href");
+
+							//Check for Velocity
+							if (typeof($.Velocity) == 'function') {
+
+								//Shrink target and move it up slightly.
+								a(d).velocity({
+									//Required to fix weirdness when
+									//browser window resizes
+									"margin-top": [0, 0],
+									//Give it a little bounce
+									scaleY: ["0.05", [.41, -0.5, 0, 1.14], "1"],
+                                    translateY: ["0", "ease", "0"],
+                                    opacity: [0, "easeOutCirc", 1]
                                 }, {
                                     display: "none"
                                 }, {
-                                    duration: 45
+                                    duration: 35
                                 });
                             } else {
                                 a(d).fadeOut(75);
@@ -234,7 +265,7 @@ require(['jquery', 'velocity'], function(a) {
                                     .velocity({
                                         height: 0,
                                         translateY: 0,
-										rotateX: 0,
+										scaleY: 1
                                     }, {
                                         display: "none"
                                     }, {
@@ -243,7 +274,7 @@ require(['jquery', 'velocity'], function(a) {
                                         queue: false
                                     });
                                 a(d).velocity({
-									rotateX: 0,
+									scaleY: 1,
                                     translateY: 0,
                                     opacity: 1
                                 }, {
@@ -273,7 +304,8 @@ require(['jquery', 'velocity'], function(a) {
                                 a(d).slideUp(c.options.speed);
                             } else {
                                 a(d).velocity({
-									rotateX: 0,
+									scaleY: 1,
+									translateZ: 0,
                                     translateY: 0,
                                     opacity: 1
                                 }, {

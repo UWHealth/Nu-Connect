@@ -192,7 +192,7 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     padding:0;                      // [2]
     @include rems(margin-left, -$gutter);
     @if $use_markup_fix != true and $use_floats != true{
-        letter-spacing:-0.31em;
+        letter-spacing:-0.34em;
     }
     @if $use_floats == true {
         @extend %clearfix;
@@ -770,6 +770,8 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	}
     @include mq((lap,smalls)){
         width: 97%;
+    }
+    @include mq(smalls){
         @include type_space(padding-top, .5);
     }
 }
@@ -841,15 +843,6 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
         z-index: 10;
     }
 }
-.full_width_page {
-    @extend %full_width;
-    box-shadow: none;
-    display: inline-block;
-    &:after {
-        box-shadow: none;
-        display: inline-block;
-    }
-}
 .half{
     @extend %one_half;
 }
@@ -859,18 +852,21 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 .half_content{
     @extend %one_half;
 }
+.small_full{
+	@extend %small_one_whole;
+}
 .whole {
     @extend %one_whole;
 }
 .whole_half{
     @extend %bigs_one_whole;
-    @extend %one_half;
+    @extend %smalls_one_half;
 }
 .half_wide{
     @extend %smalls_one_whole;
 }
 .third{
-	@extend %one_whole;
+	@extend %smalls_one_whole;
     @extend %bigs_one_third;
 }
 .third_small{
@@ -881,11 +877,26 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 .two_thirds{
     @extend %bigs_two_thirds;
 }
+.two_fifths{
+    @extend %bigs_two_fifths;
+}
 .quarter{
     @extend %one_quarter;
 }
+.three_quarters{
+    @extend %three_quarters;
+}
 .sixth {
     @extend %one_sixth;
+}
+.eighth {
+    @extend %one_eighth;
+}
+.twelfth {
+    @extend %one_twelfth;
+}
+.five_eighths {
+    @extend %five_eighths;
 }
 .wide_content, %wide_content{
     @extend %four_fifths;
@@ -899,7 +910,7 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     @extend %wide_content;
     @extend %ten_twelfths;
 }
-.main_content{
+.main_content {
     @extend %bigs_four_fifths;
     @extend %desk_three_quarters;
     @extend %overflow_hidden; // * This is for the .list_tag accordion
@@ -912,7 +923,6 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 .side_content{
     @extend %lap_one_fifth;
     @extend %desk_one_quarter;
-    // @extend %smalls_one_quarter;
 }
 .side_content_fixed{
     @extend %one_quarter;
@@ -971,6 +981,9 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 .row_bottom{
     @extend %grid_bottom;
 }
+.row_reversed{
+    @extend %grid_rev;
+}
 .row_middle{
     @extend %grid_middle;
     > .column {
@@ -980,8 +993,14 @@ $human_readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 .row_auto {
     display: table-row;
 }
-[class*="width_"]{
-    @extend %grid_item;
+
+.row_paginated > .column{
+	@extend %smalls_one_whole;
+	& .button_group{
+		display: table;
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 ////////////////////////////////////
 // no JS

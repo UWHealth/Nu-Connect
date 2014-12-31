@@ -127,7 +127,7 @@ $mfp-use-visuallyhidden:              false !default; // Hide content from brows
 .mfp-align-top {
   .mfp-container {
     &:before {
-      display: none;
+      @extend %display_none;
     }
   }
 }
@@ -161,7 +161,7 @@ $mfp-use-visuallyhidden:              false !default; // Hide content from brows
   }
 }
 .mfp-zoom {
-  cursor: pointer;
+  @extend %cursor_pointer;
   cursor: -webkit-zoom-in;
   cursor: -moz-zoom-in;
   cursor: zoom-in;
@@ -184,7 +184,7 @@ $mfp-use-visuallyhidden:              false !default; // Hide content from brows
 // Hide the image during the loading
 .mfp-loading {
   &.mfp-figure {
-    display: none;
+    @extend %display_none;
   }
 }
 
@@ -203,7 +203,7 @@ $mfp-use-visuallyhidden:              false !default; // Hide content from brows
   }
 } @else {
   .mfp-hide {
-    display: none !important;
+    @extend %hide;
   }
 }
 
@@ -214,6 +214,7 @@ $mfp-use-visuallyhidden:              false !default; // Hide content from brows
 
 // Preloader and text that displays error messages
 .mfp-preloader {
+  @extend .loading;
   color: $mfp-controls-text-color;
   position: absolute;
   top: 50%;
@@ -234,14 +235,14 @@ $mfp-use-visuallyhidden:              false !default; // Hide content from brows
 // Hide preloader when content successfully loaded
 .mfp-s-ready {
   .mfp-preloader {
-    display: none;
+    @extend %display_none;;
   }
 }
 
 // Hide content when it was not loaded
 .mfp-s-error {
   .mfp-content {
-    display: none;
+    @extend %display_none;
   }
 }
 
@@ -250,7 +251,7 @@ button {
   &.mfp-close,
   &.mfp-arrow {
     overflow: visible;
-    cursor: pointer;
+    @extend %cursor_pointer;
     background: transparent;
     border: 0;
     -webkit-appearance: none;
@@ -424,6 +425,7 @@ button {
     padding-bottom: $mfp-iframe-padding-top;
     .mfp-content {
       line-height: 0;
+      height: 98%;
       width: 98%;
       max-width: $mfp-iframe-max-width;
     }
@@ -509,7 +511,7 @@ button {
     text-align: left;
     line-height: 18px;
     color: $mfp-caption-title-color;
-    word-wrap: break-word;
+    @extend %breakword;
     padding-right: 36px; // leave some space for counter at right side
   }
 
@@ -522,7 +524,7 @@ button {
   .mfp-gallery {
     .mfp-image-holder {
       .mfp-figure {
-        cursor: pointer;
+        @extend %cursor_pointer;
       }
     }
   }

@@ -1,3 +1,6 @@
-require(['jquery'], function($) {
+require([
+    'jquery',
+    'general_functions'
+], function($, gf) {
 
 });

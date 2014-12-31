@@ -1,91 +1,91 @@
-//------------------------------------
-//    $Functions
-//------------------------------------
-
- // CONTENTS
- // INTRODUCTION.........Explanation.
- // REFERENCE............List of functions and how to use them.
- // MATH.................Complex calculations and variables.
- // HELPERS..............Simple functions to fix some features missing in Sass.
- // TYPOGRAPHY...........Most often referenced from within type/_typography.scss.
- // MODULAR SCALE........Making typographic scaling more harmonious.
- // COLORS...............Calculating color differences.
- // LISTS................Mixins for easier control of lists.
-
+@charset "UTF-8";
 
 //------------------------------------
-//    $INTRODUCTION
+//	$Functions
+//------------------------------------
+
+// CONTENTS
+// INTRODUCTION.........Explanation.
+// REFERENCE............List of functions and how to use them.
+// MATH.................Complex calculations and variables.
+// HELPERS..............Simple functions to fix some features missing in Sass.
+// TYPOGRAPHY...........Most often referenced from within type/_typography.scss.
+// MODULAR SCALE........Making typographic scaling more harmonious.
+// COLORS...............Calculating color differences.
+// LISTS................Mixins for easier control of lists.
+
+
+//------------------------------------
+//	$INTRODUCTION
 //------------------------------------
 
 // General functions to make Sass a little more powerful. Taken from various places.
 
 //------------------------------------
-//    $REFERENCE
+//	$REFERENCE
 //------------------------------------
 //NOTE: Words in brackets[] represent values. Can either be strings, numbers, or variables.
 
- // exponent.......Exponentially multiply (cube, square, etc) a number.
- //                exponent([number-you-want-to-multiply], [exponent]);
+// exponent.......Exponentially multiply (cube, square, etc) a number.
+//				exponent([number-you-want-to-multiply], [exponent]);
 
- // pow............A more robust exponent multiplication which allows for decimal-based exponents.
- //    ............This replaces Compass' pow() function.
- //                pow([number-you-want-to-multiply], [exponent]);
+// pow............A more robust exponent multiplication which allows for decimal-based exponents.
+//	............This replaces Compass' pow() function.
+//				pow([number-you-want-to-multiply], [exponent]);
 
- //gcd.............Greatest Common Divisor calculation (useful for calculating grids and widths)
- //                gcd([first-number], [second-number])
+//gcd.............Greatest Common Divisor calculation (useful for calculating grids and widths)
+//				gcd([first-number], [second-number])
 
- //nth_root........Advanced calculation for squareroots, cuberoots, etc. of a value.
- //                nth_root([number-you-want-to-find-the-root-of], [root-divisor]);
+//nth_root........Advanced calculation for squareroots, cuberoots, etc. of a value.
+//				nth_root([number-you-want-to-find-the-root-of], [root-divisor]);
 
- //sqrt............Find the square root of a value.
- //                sqrt([number-you-want-the-square-root-of]);
+//sqrt............Find the square root of a value.
+//				sqrt([number-you-want-the-square-root-of]);
 
- //rand............Generate a random number.
- //                rand();
+//rand............Generate a random number.
+//				rand();
 
- // golden.........Generate the golden ratio.
- //                golden();
+// golden.........Generate the golden ratio.
+//				golden();
 
- // strip_units....Remove px,em,rem, etc. from a value. Usually a variable.
- //                strip_units([value-you-want-units-removed-from]);
+// strip_units....Remove px,em,rem, etc. from a value. Usually a variable.
+//				strip_units([value-you-want-units-removed-from]);
 
- // opacity........MIXIN used to generate cross-browser opacity (including IE8)
- //                @include opacity([decimal-number-you-need-for-opacity]);
+// opacity........MIXIN used to generate cross-browser opacity (including IE8)
+//				@include opacity([decimal-number-you-need-for-opacity]);
 
- // rems...........MIXIN used to generate rem value with a pixel fall-back (only accepts pixel values).
- //                @include([property-you-want-to-give-a-value], [pixel-value]);
+// rems...........MIXIN used to generate rem value with a pixel fall-back (only accepts pixel values).
+//				@include([property-you-want-to-give-a-value], [pixel-value]);
 
- //type_font_size..MIXIN used for generating font_sizes and line_heights that line up to the baseline grid.
- //                @include([font_size-in-pixels]);
+//type_font_size..MIXIN used for generating font_sizes and line_heights that line up to the baseline grid.
+//				@include([font_size-in-pixels]);
 
- //type_space......MIXIN used for generating spacing that cooresponds to the baseline grid.
- //          ......The values you enter should be value-less as they will be calculated as multiples.
- //                @include type_space([property-you-want-to-give-a-value], [multiple-of-spacing]);
+//type_space......MIXIN used for generating spacing that cooresponds to the baseline grid.
+//		  ......The values you enter should be value-less as they will be calculated as multiples.
+//				@include type_space([property-you-want-to-give-a-value], [multiple-of-spacing]);
 
- //type_space_sc...MIXIN used for generating spacing for properties that accept shortcut values (e.g. padding: 2px 3px 4px 5px).
- //             ...The values you enter should be value-less as they will be calculated as multiples.
- //                @include type_space([property-you-want-to-give-a-value], [top-value], [right-value], [bottom-value], [left-value]);
- //                NOTE: This also accepts just a vertical(top) value and horizontal(right)-value. Assumes bottom = top, and left = right.
+//type_space_sc...MIXIN used for generating spacing for properties that accept shortcut values (e.g. padding: 2px 3px 4px 5px).
+//			 ...The values you enter should be value-less as they will be calculated as multiples.
+//				@include type_space([property-you-want-to-give-a-value], [top-value], [right-value], [bottom-value], [left-value]);
+//				NOTE: This also accepts just a vertical(top) value and horizontal(right)-value. Assumes bottom = top, and left = right.
 
- //modular_scale...Generates a pixel value that is an exponent of a ratio (defaults to $scale_ratio value).
- //                modular_scale([number-on-the-scale-you-want], [ratio-to-use-as-scale]);
+//modular_scale...Generates a pixel value that is an exponent of a ratio (defaults to $scale_ratio value).
+//				modular_scale([number-on-the-scale-you-want], [ratio-to-use-as-scale]);
 
- //type_scale......MIXIN for generating numbers for properties on the typographic scale (with a rem value and pixel fallback).
- //                @include type_scale([property-you-want-to-use], [number-on-the-scale]);
+//type_scale......MIXIN for generating numbers for properties on the typographic scale (with a rem value and pixel fallback).
+//				@include type_scale([property-you-want-to-use], [number-on-the-scale]);
 
- //headings_scale..MIXIN for generating heading sizes on a typographic scale. Accepts any scale ratio.
- //                @include headings_scale([scale-you-want-to-base_font_sizes-on]);
+//headings_scale..MIXIN for generating heading sizes on a typographic scale. Accepts any scale ratio.
+//				@include headings_scale([scale-you-want-to-base_font_sizes-on]);
 
- //set_text_color..Generates either white or black based on the lightness of the color you pass it (Accepts HEX values).
- //                set_text_color([color-you-need-to-test-contrast-of]);
+//set_text_color..Generates either white or black based on the lightness of the color you pass it (Accepts HEX values).
+//				set_text_color([color-you-need-to-test-contrast-of]);
 
- //pick_best_color..Outputs the color with the highest contrast to the first color you pass it (Accepts multiple color options).
- //                 pick_best_color([color-you-need-to-test-contrast-of], (color-option-1, color-option-2, color-option-3));
-
-
+//pick_best_color..Outputs the color with the highest contrast to the first color you pass it (Accepts multiple color options).
+//				 pick_best_color([color-you-need-to-test-contrast-of], (color-option-1, color-option-2, color-option-3));
 
 //------------------------------------
-//    $MATH
+//	$MATH
 //------------------------------------
 
 // All functions taken from SassyMath:
@@ -93,58 +93,61 @@
 
 //Useful variables for calculating math functions
 $pi: 3.1415926535897932384626433832795028841971693993751;
-$π: $pi;
 $e: 2.71828182845904523536028747135266249775724709369995;
 
 $iter: 50;
 
 // Exponent function (for square, cubes, etc.)
 @function exponent($base, $exponent) {
-  // reset value
-  $value: $base;
-  // positive intergers get multiplied
-  @if $exponent > 1 {
-    @for $i from 2 through $exponent {
-      $value: $value * $base; } }
-  // negitive intergers get divided. A number divided by itself is 1
-  @if $exponent < 1 {
-    @for $i from 0 through -$exponent {
-      $value: $value / $base; } }
-  // return the last value written
-  @return $value;
+    // reset value
+    $value: $base;
+// positive intergers get multiplied
+	@if $exponent > 1 {
+    	@for $i from 2 through $exponent {
+    	    $value: $value * $base; }
+        }
+// negitive intergers get divided. A number divided by itself is 1
+	@if $exponent < 1 {
+    	@for $i from 0 through -$exponent {
+            $value: $value / $base;
+        }
+    }
+// return the last value written
+	@return $value;
 }
 
 //More advanced exponent function — very similar to Compass' pow() function, except all SASS-based.
 @function pow($base, $exponent, $prec: 12) {
-  // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
-  @if (floor($exponent) != $exponent) {
-    $prec2 : pow(10, $prec);
-    $exponent: round($exponent * $prec2);
-    $denominator: gcd($exponent, $prec2);
-    @return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
-  }
+// Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
+	@if (floor($exponent) != $exponent) {
+		$prec2 : pow(10, $prec);
+		$exponent: round($exponent * $prec2);
+		$denominator: gcd($exponent, $prec2);
+		@return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
+	}
 
-  $value: $base;
-  @if $exponent > 1 {
-    @for $i from 2 through $exponent {
-      $value: $value * $base;
-    }
-  } @else if $exponent < 1 {
-    @for $i from 0 through -$exponent {
-      $value: $value / $base;
-    }
-  }
+	$value: $base;
+	@if $exponent > 1 {
+		@for $i from 2 through $exponent {
+		    $value: $value * $base;
+		}
+	}
+	@else if $exponent < 1 {
+		@for $i from 0 through -$exponent {
+		    $value: $value / $base;
+		}
+	}
 
-  @return $value;
+	@return $value;
 }
 //Greatest Common Divisor
 @function gcd($a, $b) {
-  // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
-  @if ($b != 0) {
-    @return gcd($b, $a % $b);
-  } @else {
-    @return abs($a);
-  }
+// From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
+	@if ($b != 0) {
+		@return gcd($b, $a % $b);
+	} @else {
+		@return abs($a);
+	}
 }
 //Least common Multiple
 //Use with caution...if there is no LCM, then you compilation will error out.
@@ -159,43 +162,34 @@ $iter: 50;
 
 //Nth Root Function
 @function nth_root($num, $n: 2, $prec: 12) {
-  // From: http://rosettacode.org/wiki/Nth_root#JavaScript
-  $x: 1;
+	// From: http://rosettacode.org/wiki/Nth_root#JavaScript
+	$x: 1;
 
-  @for $i from 0 through $prec {
-    $x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
-  }
+	@for $i from 0 through $prec {
+		$x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
+	}
 
-  @return $x;
+	@return $x;
 }
 
 //Random number generator.
 @function rand() {
-  @return 4;
+	@return 4;
 }
 
 //Square Root functions
 @function sqrt($number) {
-  $guess: rand();
-  $root: $guess;
-  @for $i from 1 through $iter {
-    $root: $root - (pow($root, 2) - $number) / (2 * $root);
-  }
-  @return $root;
+	$guess: rand();
+	$root: $guess;
+	@for $i from 1 through $iter {
+		$root: $root - (pow($root, 2) - $number) / (2 * $root);
+	}
+	@return $root;
 }
-@function √($number) {
-  @return sqrt($number);
-}
-
-
 
 //Golden Ratio generator.
-
 @function golden() {
-  @return 1/2 + sqrt(5) / 2;
-}
-@function ϕ() {
-  @return golden();
+	@return 1/2 + sqrt(5) / 2;
 }
 
 $golden_ratio:  golden();
@@ -206,69 +200,69 @@ $golden_ratio:  golden();
 // Halve and double numbers, returning rounded integers. E.g.:
 //
 // .foo {
-//     padding: halve(3.2px);
+//	 padding: halve(3.2px);
 // }
 //
 // Outputs:
 // .foo{padding: 2px;}
 //
 @function quarter($number) {
-    @return round($number / 4);
+	@return round($number / 4);
 }
 
 @function halve($number) {
-    @return round($number / 2);
+	@return round($number / 2);
 }
 
 @function double($number) {
-    @return round($number * 2);
+	@return round($number * 2);
 }
 
 @function quadruple($number) {
-    @return round($number * 4);
+	@return round($number * 4);
 }
 
 //------------------------------------
-//    $HELPERS
+//	$HELPERS
 //------------------------------------
 
 // Strip units from a sass value
 // Taken from:
 // http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
 @function strip_units($value) {
-    @return $value / ($value * 0 + 1);
+	@return $value / ($value * 0 + 1);
 }
 
 // Cross-browser (including IE) opacity
 // Taken from:
 // https://gist.github.com/jgv/745754
 @mixin opacity($trans) {
-  filter: alpha(opactiy=($trans * 100));
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$trans * 100})";
-  -moz-opacity: $trans;
-  -khtml-opacity: $trans;
-  opacity: $trans;
+	$interp_trans: unquote('alpha(opactiy=($trans * 100))');
+
+	filter: #{$interp_trans};
+	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$trans * 100});
+	opacity: $trans;
 }
 
 // REM generator
 // Used to create a property with a rem value and PX fallback
-@mixin rems($properties, $size){
+@mixin rems($properties, $size) {
 	@if (unitless($size) == true){
 		$size: $size * 1px;
 	}
-    @each $property in $properties{
+	@each $property in $properties {
 		#{$property}: $size;
 		#{$property}: ($size / $base_font_size) * 1rem;
 	}
 }
-@mixin rems_important($properties, $size){
-  @if (unitless($size) == true){
-    $size: $size * 1px !important;
-  }
-    @each $property in $properties{
-    #{$property}: $size !important;
-    #{$property}: ($size / $base_font_size) * 1rem !important;
-  }
+@mixin rems_important($properties, $size) {
+	@if (unitless($size) == true) {
+		$size: $size * 1px !important;
+	  }
+	@each $property in $properties {
+		#{$property}: $size !important;
+		#{$property}: ($size / $base_font_size) * 1rem !important;
+	}
 }
 
 //String Helpers.
@@ -276,51 +270,54 @@ $golden_ratio:  golden();
 
 //String-contains function
 @function str_contains($string, $substr, $pos: 0) {
+	$string: str_slice($string, $pos);
 
-  $string: str_slice($string, $pos);
-
-  @if str_index($string, $substr) != 0 {
-    @return true;
-  }
-  @else {
-    @return false;
-  }
+	@if str_index($string, $substr) != 0 {
+		@return true;
+	}
+	@else {
+		@return false;
+	}
 }
 
 //String Joining
 @function str_join($list, $separator: ",") {
-  $string: "";
+	$string: "";
 
-  @for $i from 1 through length($list) {
-    $string: _str_append($string, #{nth($list, $i)});
+	@for $i from 1 through length($list) {
+		$string: _str_append($string, #{nth($list, $i)});
 
-    @if $i != length($list) {
-      $string: _str_append($string, $separator);
-    }
-  }
+		@if $i != length($list) {
+		  $string: _str_append($string, $separator);
+		}
+	}
 
-  @return $string;
+	@return $string;
+}
+//Ratio creator
+@mixin aspect_ratio($width, $height) {
+	height: 0;
+	padding-bottom: percentage($height/$width);
 }
 
-
 //------------------------------------
-//    $TYPOGRAPHY
+//	$TYPOGRAPHY
 //------------------------------------
 
 //Baseline function. Converts to floated integer.
-@function baseline($font-size, $baseline){
+@function baseline($font-size, $baseline) {
 	@return ceil($font-size / $baseline) * ($baseline) / $font-size;
 }
 
 @function baseline-calc(
 	$font-size: $base-font-size,
 	$font-base: $base-font-size,
-	$small-override: false){
+	$small-override: false) {
 
 	//Easiest measurement of font-size deviation
 	$font-ratio: $font-size / $font-base;
 	//baseline
-	$bl: $type-magic-ratio * $font-base;
+	$bl: $type_magic_ratio * $font-base;
 	//Every other line.
 	$baseline-odd: $base-line-height / 2;
 	//Every third line.
@@ -332,14 +329,14 @@ $golden_ratio:  golden();
 	// and gives more leeway with larger ones.
 
 	$baseline: baseline($font-size, $baseline-odd);
-    //If this produces either too small or large a line-height,
+	//If this produces either too small or large a line-height,
 	// then let's make some corrections (only if the font is not the base).
 	@if $font-size > $font-base or $small-override == true {
 
 		//First we can try using every third line.
 		@if $baseline > 1.8 or $baseline <= 1.2{
-				$baseline-cache: $baseline;
-				$baseline: baseline($font-size, $baseline-odder);
+			$baseline-cache: $baseline;
+			$baseline: baseline($font-size, $baseline-odder);
 		}
 		@if $baseline < 1.1 or $baseline > 1.9{
 			//If that's not working, let's see if
@@ -355,20 +352,20 @@ $golden_ratio:  golden();
 	@return $baseline;
 }
 
-@function baseline-lcm($font-size, $line-height){
+@function baseline-lcm($font-size, $line-height) {
 	$esl: $line-height * $font-size;
-	@return lcm( $esl, $base-line-height );
+	@return lcm($esl, $base-line-height);
 }
 // Quickly generate a font-size in rems, with a pixel fallback, based on the
 // value we pass into the mixin, e.g.:
 // h1 {
-//     @include type-font-size(24px);
+//	 @include type-font-size(24px);
 // }
 // 1. Set the base element’s `font-size` to the value of your choosing. Set in
-//    rems, assuming a browser default of 16px.
+//	rems, assuming a browser default of 16px.
 // 2. Work out the unitless `line-height` for your project based around your
-//    desired `line-height` (defined previously in pixels), and your project’s
-//    base font size.
+//	desired `line-height` (defined previously in pixels), and your project’s
+//	base font size.
 
 @mixin type-font-size(
 		$font-size,
@@ -379,7 +376,7 @@ $golden_ratio:  golden();
 	//Create REM-based font-size
 	@include rems(font-size, $font-size);
 
-    @if $line-height == true {
+	@if $line-height == true {
 		$line-height: baseline-calc($font-size, $font-base);
 
 		line-height: $line-height;
@@ -389,89 +386,93 @@ $golden_ratio:  golden();
  // Space elements by an amount based on your magic number. Pass in the property
  // to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
  // pre {
- //     @include type_space(padding-left, 1);
+ //	 @include type_space(padding-left, 1);
  // }
 
 @mixin type_space($property, $multiplier: 2) {
-    #{$property}: $multiplier * $type_magic_number;
-    #{$property}: $multiplier * $type_magic_ratio * 1rem;
+	#{$property}: $multiplier * $type_magic_number;
+	#{$property}: $multiplier * $type_magic_ratio * 1rem;
 }
 
 @mixin type_space_important($property, $multiplier: 2) {
-    #{$property}: $multiplier * $type_magic_number !important;
-    #{$property}: $multiplier * $type_magic_ratio * 1rem !important;
+	#{$property}: $multiplier * $type_magic_number !important;
+	#{$property}: $multiplier * $type_magic_ratio * 1rem !important;
 }
 
 // Same as above, but for shortcut properties.
 // Use this for padding or margin shortcuts. e.g.:
 // pre {
-//    @include type_space(padding, 1, 2, 1, 0);
+//	@include type_space(padding, 1, 2, 1, 0);
 // }
-@mixin type_space_sc($property, $top: 0, $right: 0, $bottom: false, $left: false){
-    @if $bottom == false{
-        $bottom: $top;
-    }
-    @if $left == false{
-        $left: $right;
-    }
-    // If top and bottom are equal, only generate first and second properties
-    // This cuts down on file size a little bit.
-    @if $right == $left and $top == $bottom{
-        #{$property}: ($top * $type_magic_number) ($right * $type_magic_number);
-        #{$property}: ($top * $type_magic_ratio) * 1rem ($right * $type_magic_ratio) * 1rem;
-    }@else{
-        #{$property}: ($top * $type_magic_number) ($right * $type_magic_number) ($bottom * $type_magic_number) ($left * $type_magic_number);
-        #{$property}: ($top * $type_magic_ratio) * 1rem ($right * $type_magic_ratio) * 1rem ($bottom * $type_magic_ratio) * 1rem ($left * $type_magic_ratio) * 1rem;
-    }
+@mixin type_space_sc($property, $top: 0, $right: 0, $bottom: false, $left: false) {
+	@if $bottom == false{
+		$bottom: $top;
+	}
+	@if $left == false{
+		$left: $right;
+	}
+	// If top and bottom are equal, only generate first and second properties
+	// This cuts down on file size a little bit.
+	@if $right == $left and $top == $bottom{
+		#{$property}: ($top * $type_magic_number) ($right * $type_magic_number);
+		#{$property}: ($top * $type_magic_ratio) * 1rem ($right * $type_magic_ratio) * 1rem;
+	}
+	@else{
+		#{$property}: ($top * $type_magic_number) ($right * $type_magic_number) ($bottom * $type_magic_number) ($left * $type_magic_number);
+		#{$property}: ($top * $type_magic_ratio) * 1rem ($right * $type_magic_ratio) * 1rem ($bottom * $type_magic_ratio) * 1rem ($left * $type_magic_ratio) * 1rem;
+	}
 }
 
 //Same as above, but in function form
-@function type_space($multiplier: 2){
-    @return $multiplier * $type_magic_number;
+@function type_space($multiplier: 2) {
+	@return $multiplier * $type_magic_number;
 }
-@function type_space_important($multiplier: 2){
-    @return $multiplier * $type_magic_number !important;
+
+@function type_space_important($multiplier: 2) {
+	@return $multiplier * $type_magic_number !important;
 }
 
 
 // Style any number of headings in one fell swoop, e.g.:
 //
 //   .foo{
-//       @include headings(1, 3){
-//           color:#BADA55;
-//       }
-//    }
+//	   @include headings(1, 3){
+//		   color:#BADA55;
+//	   }
+//	}
 //
 // Lifted from inuit.css:
 // github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
 
 $headings-use: 0;
 
-@mixin headings($from: 1, $to: 6){
-    //Used for multiple calls to this mixin.
+@mixin headings($from: 1, $to: 6) {
+	//Used for multiple calls to this mixin.
 	// Ensures no double extends.
 	$headings-use: $headings-use + 1 !global;
 
 	%base-heading#{$headings-use} {
-        @content;
-    }
+		@content;
+	}
 
-    @if $from >= 1 and $to <= 6{
+	@if $from >= 1 and $to <= 6{
 
-        @if $type-scale-classes == true{
-            @for $i from $from through $to{
-                h#{$i}, .h#{$i}{
-                    @extend %base-heading#{$headings-use};
-                }
-            }
-        }@else{
-            @for $i from $from through $to{
-                h#{$i}{
-                    @extend %base-heading#{$headings-use};
-                }
-            }
-        }
-    }@else{
+		@if $type-scale-classes == true{
+			@for $i from $from through $to {
+				h#{$i}, .h#{$i} {
+					@extend %base-heading#{$headings-use};
+				}
+			}
+		}
+		@else{
+			@for $i from $from through $to {
+				h#{$i} {
+					@extend %base-heading#{$headings-use};
+				}
+			}
+		}
+	}
+	@else{
 		@warn "You need to supply numbers between 1 and 6 for headings to work";
 	}
 }
@@ -490,32 +491,32 @@ $headings-use: 0;
 // If you need to generate other formats check out the Font Squirrel font generator
 
 @mixin font_face($name, $font_files, $weight: false, $style: false, $eot: false) {
-  $iefont: unquote("#{$eot}?#iefix");
-  @font-face {
-    font-family: quote($name);
-    @if $eot {
-      src: url($eot);
-      $font_files: url($iefont) unquote("format('embedded-opentype')"), $font_files;
-    }
-    src: $font_files;
-    @if $weight {
-      font-weight: $weight;
-    }
-    @if $style {
-      font-style: $style;
-    }
-  }
+	$iefont: unquote("#{$eot}?#iefix");
+	@font-face {
+		font-family: quote($name);
+		@if $eot {
+		  src: url($eot);
+		  $font_files: url($iefont) unquote("format('embedded-opentype')"), $font_files;
+		}
+		src: $font_files;
+		@if $weight {
+		  font-weight: $weight;
+		}
+		@if $style {
+		  font-style: $style;
+		}
+	}
 }
 
 //------------------------------------
-//    $MODULAR SCALE
+//	$MODULAR SCALE
 //------------------------------------
 
 // Modular scale function to scale type up or down.
-@function modular_scale($i, $scale: $scale_ratio){
-    $modular_scale: $scale;
-    $stripped_base_font-size:  strip_units($base_font_size) !global;
-    @return pow($modular_scale, $i)*($stripped_base_font_size) * 1px;
+@function modular_scale($i, $scale: $scale_ratio) {
+	$modular_scale: $scale;
+	$stripped_base_font-size:  strip_units($base_font_size) !global;
+	@return pow($modular_scale, $i)*($stripped_base_font_size) * 1px;
 }
 
 // This is essentially the same function as above,
@@ -523,20 +524,20 @@ $headings-use: 0;
 // By using @include type_scale([property], [scale number]);.
 // This is most useful for font sizing, but can be used for any property
 // e.g.: div{
-//          @include type_scale(margin-top, 2);}
+//		  @include type_scale(margin-top, 2);}
 // Would produce a margin-top value of the second value within your typographic scale.
 // If your scale is set to 3,4, your output would be: div{margin-top: 20.63314px; margin-top: 1.4738rem;}
 
-@mixin type_scale($property: font_size, $mod_scale_value: 1){
-    @if $property == "font_size"{
-        $font_size: modular_scale($mod_scale_value);
-        @include type_font_size($font_size, true);
-    }
-    @else{
-        $scale: modular_scale($mod_scale_value);
-        #{$property}: $scale;
-        #{$property}: ($scale / $base_font_size) * 1rem;
-    }
+@mixin type_scale($property: font_size, $mod_scale_value: 1) {
+	@if $property == "font_size"{
+		$font_size: modular_scale($mod_scale_value);
+		@include type_font_size($font_size, true);
+	}
+	@else{
+		$scale: modular_scale($mod_scale_value);
+		#{$property}: $scale;
+		#{$property}: ($scale / $base_font_size) * 1rem;
+	}
 }
 
 
@@ -544,83 +545,96 @@ $headings-use: 0;
 // Lifted from inuit.css:
 // github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
 //   .foo{
-//       @include headings(1, 3){
-//           color:#BADA55;
-//       }
-//    }
+//	   @include headings(1, 3){
+//		   color:#BADA55;
+//	   }
+//	}
 $headings_use: 0;
-@mixin headings($from: 1, $to: 6){
-  //Used for multiple calls to this mixin.
-  // Ensures no double extends.
-  $headings_use: $headings_use + 1 !global;
-  %base_heading#{$headings_use} {
-        @content;
-    }
-    @if $from >= 1 and $to <= 6{
-        @if $type_scale_classes == true{
-            @for $i from $from through $to{
-                h#{$i}, .h#{$i}{
-                    @extend %base_heading#{$headings_use};
-                }
-            }
-        }@else{
-            @for $i from $from through $to{
-                h#{$i}{
-                    @extend %base_heading#{$headings_use};
-                }
-            }
-        }
-    }@else{
-    @warn "You need to supply numbers between 1 and 6 for headings to work";
-  }
+@mixin headings($from: 1, $to: 6) {
+	//Used for multiple calls to this mixin.
+	// Ensures no double extends.
+	$headings_use: $headings_use + 1 !global;
+
+	%base_heading#{$headings_use} {
+		@content;
+	}
+
+	@if $from >= 1 and $to <= 6 {
+		@if $type_scale_classes == true {
+			@for $i from $from through $to {
+				h#{$i}, .h#{$i}{
+					@extend %base_heading#{$headings_use};
+				}
+			}
+		}
+		@else{
+			@for $i from $from through $to {
+				h#{$i} {
+					@extend %base_heading#{$headings_use};
+				}
+			}
+		}
+	}
+	@else{
+		@warn "You need to supply numbers between 1 and 6 for headings to work";
+	}
 }
 
 
-@mixin headings_scale($scale: $scale_ratio, $name_space:""){
-    //Checking for floats in $scale
-    @if length($scale) == 2{
-    // Making sure we don't have a ratio below 1.
-        @if nth($scale,1) < nth($scale,2){
-            $scale:   nth($scale, 2)/nth($scale, 1);
-        }@else{
-            $scale:   nth($scale, 1)/nth($scale, 2);
-        }
-    }
-    @each $i in $type_headings{
+@mixin headings_scale($scale: $scale_ratio, $name_space:"") {
+	//Checking for floats in $scale
+	@if length($scale) == 2 {
+	// Making sure we don't have a ratio below 1.
+		@if nth($scale,1) < nth($scale,2){
+			$scale:   nth($scale, 2)/nth($scale, 1);
+		}@else{
+			$scale:   nth($scale, 1)/nth($scale, 2);
+		}
+	}
+	@each $i in $type_headings {
 
 		$font_size: modular_scale($i, $scale);
-		$current_heading: nth($type_headings,$i);
+		$current_heading: nth($type_headings, $i);
 
-		@if $type_scale_classes == true{
-            h#{$current_heading}, .h#{$current_heading}, %h#{$current_heading} {
-                @include type_font_size($font_size, true);
-				@extend %#{$name_space}type_space_v !optional;
-                + p{
-                    @extend %#{$name_space}negative_top !optional;
-                }
-            }
-        }@else{
-            h#{$current_heading}, %h#{$current_heading}{
-                @include type_font_size($font_size, true);
-                + p{
-                    @extend %#{$name_space}negative_top !optional;
-                }
-            }
-        }
-        $i: $i + 1;
-    }
+		%#{$name_space}h#{$current_heading} {
+			@include type_font_size($font_size, true);
+			@extend %#{$name_space}space_b !optional;
+		}
+
+		@if $type_scale_classes == true {
+
+			h#{$current_heading},
+			.h#{$current_heading} {
+				@extend %#{$name_space}h#{$current_heading};
+
+				& + p {
+					@extend %#{$name_space}negative_top !optional;
+				}
+			}
+		}
+		@else {
+			h#{$current_heading} {
+				@extend %h#{$current_heading};
+
+				+ p{
+					@extend %#{$name_space}negative_top !optional;
+				}
+			}
+		}
+		$i: $i + 1;
+	}
 }
 
 
 //------------------------------------
-//    $COLORS
+//	$COLORS
 //------------------------------------
 
 // Blending modes
 //====================================
 // Uses similar formula's to photoshop's layer blending modes.
 // See file for more documentation.
-@import "../colors/blendmodes";
+@import "../colors/_blendmodes";
 
 //Color map function
 //====================================
@@ -629,39 +643,41 @@ $headings_use: 0;
 //	  background-color: colors(primary, light)
 //}
 @function colors($color, $tone: 'base') {
-    @if map-has-key($colors, $color){
+	@if map-has-key($colors, $color) {
 		@return map_get(map_get($colors, $color), $tone);
-	}@else{
-		@warn "#{$color} is not a registered color."
+	}
+	@else {
+		@warn "#{$color} is not a registered color.";
+		@return "";
 	}
 }
 //Same as above, but possibly more intuitively named
 @function color($color, $tone: 'base') {
-    @return colors($color, $tone);
+	@return colors($color, $tone);
 }
 //Shortname
 @function clr($color, $tone: 'base') {
-    @return colors($color, $tone);
+	@return colors($color, $tone);
 }
 
 // Output black or white
 //====================================
 // Change text color based on background-color's darkness, e.g.:
 // div{
-//    background-color: #f8cd12;
-//    color: set_text_color(#f8cd12);
-//    }
+//	background-color: #f8cd12;
+//	color: set_text_color(#f8cd12);
+//	}
 //  Your text color would be black because #f8cd12 and #00000 contain enough
 //  contrast to be readable.
 //  This will ONLY give you black or white.
 // Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
 @function set_text_color($color) {
-    @if (lightness( $color ) > 45) {
-      @return #000000;
-    }
-    @else {
-      @return #FFFFFF;
-    }
+	@if (lightness($color) > 45) {
+	  @return #000;
+	}
+	@else {
+	  @return #FFF;
+	}
 }
 
 //Pick best color
@@ -670,23 +686,23 @@ $headings_use: 0;
 //Taken from: https://gist.github.com/voxpelli/6304812
 //USAGE:
 // div{
-//    background-color: #f8cd12;
-//    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
-//    }
+//	background-color: #f8cd12;
+//	color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
+//	}
 // The function would test the colors and find that #2c2c2c is the best.
 
 @function pick_best_color($base, $colors, $tolerance: 0) {
-  $contrast: color_contrast($base, nth($colors, 1));
-  $best: nth($colors, 1);
+	$contrast: color_contrast($base, nth($colors, 1));
+	$best: nth($colors, 1);
 
-  @for $i from 2 through length($colors) {
-    $current_contrast: color_contrast($base, nth($colors, $i));
-    @if ($current_contrast - $contrast > $tolerance) {
-      $contrast: color_contrast($base, nth($colors, $i));
-      $best: nth($colors, $i);
-    }
-  }
-  @return $best;
+	@for $i from 2 through length($colors) {
+		$current_contrast: color_contrast($base, nth($colors, $i));
+		@if ($current_contrast - $contrast > $tolerance) {
+			$contrast: color_contrast($base, nth($colors, $i));
+			$best: nth($colors, $i);
+		}
+	}
+	@return $best;
 }
 
 
@@ -696,120 +712,143 @@ $headings_use: 0;
 // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
 @function color_luminance($color) {
 
-  $rgba: red($color), green($color), blue($color);
-  $rgba2: ();
+	$rgba: red($color), green($color), blue($color);
+	$rgba2: ();
 
-  @for $i from 1 through 3 {
-    $rgb: nth($rgba, $i);
-    $rgb: $rgb / 255;
+	@for $i from 1 through 3 {
+		$rgb: nth($rgba, $i);
+		$rgb: $rgb / 255;
 
-    $rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
+		$rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
 
-    $rgba2: append($rgba2, $rgb);
-  }
+		$rgba2: append($rgba2, $rgb);
+	}
 
-  @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
+	@return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
 }
 
 //Calculate contrast between two colors
 //===============================
 @function color_contrast($color1, $color2) {
-  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
-  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
-  $luminance1: color_luminance($color1) + .05;
-  $luminance2: color_luminance($color2) + .05;
-  $ratio: $luminance1 / $luminance2;
+	// Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+	// Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+	$luminance1: color_luminance($color1) + .05;
+	$luminance2: color_luminance($color2) + .05;
+	$ratio: $luminance1 / $luminance2;
 
-  @if $luminance2 > $luminance1 {
-    $ratio: 1 / $ratio;
-  }
+	@if $luminance2 > $luminance1 {
+		$ratio: 1 / $ratio;
+	}
 
-  $ratio: round($ratio * 10) / 10;
+	$ratio: round($ratio * 10) / 10;
 
-  @return $ratio;
+	@return $ratio;
 }
 
 //------------------------------------
-//    $LISTS
+//	$LISTS
 //------------------------------------
 // http://compass-style.org/reference/compass/typography/lists/
 // Turn off the bullet for an element of a list
 
 @mixin no_bullet {
-  list-style-image : none;
-  list-style-type  : none;
-  margin-left      : 0;
+	list-style-image: none;
+	list-style-type: none;
+	margin-left: 0;
 }
 
 // turns off the bullets for an entire list
 @mixin no_bullets {
-  list-style: none;
-  > li { @include no_bullet; }
+	list-style: none;
+
+	> li { @include no_bullet; }
 }
 
 // Make a list(ul/ol) have an image bullet.
 //
 // The mixin should be used like this for an icon that is 5x7:
 //
-//     ul.pretty
-//       +pretty_bullets("my-icon.png", 5px, 7px)
+//	 ul.pretty
+//	   +pretty_bullets("my-icon.png", 5px, 7px)
 //
 // Additionally, if the image dimensions are not provided,
 // The image dimensions will be extracted from the image itself.
 //
-//     ul.pretty
-//       +pretty_bullets("my-icon.png")
+//	 ul.pretty
+//	   +pretty_bullets("my-icon.png")
 //
 @mixin pretty_bullets(
 	$bullet_icon,
 	$width: image-width($bullet_icon),
 	$height: image-height($bullet_icon),
 	$line-height: $base_line_height,
-	$padding:
-	$type_magic_number) {
+	$padding: $type_magic_number) {
 
-  margin-left: 0;
-  li {
-    padding-left: $padding;
-    background: image_url($bullet_icon) no-repeat ($padding - $width) / 2 ($line_height - $height) / 2;
-    list-style-type: none;
-  }
+	margin-left: 0;
+
+	li {
+		padding-left: $padding;
+		background: image_url($bullet_icon) no-repeat ($padding - $width) / 2 ($line_height - $height) / 2;
+		list-style-type: none;
+	}
 }
 
 //------------------------------------
-//    $TRIANGLES
+//	$TRIANGLES
 //------------------------------------
-@mixin triangle($direction:'up', $size: 6px, $color: #222){
-  content: '';
-  display: block;
-  position: absolute;
-  height: 0; width: 0;
-  @if ($direction == 'up'){
-    border-bottom: $size solid $color;
-    border-left: 1/2*$size solid transparent;
-    border-right: 1/2*$size solid transparent;
-  }
-  @else if ($direction == 'down'){
-    border-top: $size solid $color;
-    border-left: 1/2*$size solid transparent;
-    border-right: 1/2*$size solid transparent;
-  }
-  @else if ($direction == 'left'){
-    border-top: 1/2*$size solid transparent;
-    border-bottom: 1/2*$size solid transparent;
-    border-right: $size solid $color;
-  }
-  @else if ($direction == 'right'){
-    border-top: 1/2*$size solid transparent;
-    border-bottom: 1/2*$size solid transparent;
-    border-left: $size solid $color;
-  }
-  @else if ($direction == 'none'){
-    border: 0;
-  }
+@mixin triangle($direction:'up', $size: 6px, $color: #222) {
+	@extend %content_blank;
+	@extend %absolute;
+	height: 0;
+	width: 0;
+
+	@if ($direction == 'up') {
+		border-bottom: $size solid $color;
+		border-left: 1/2*$size solid transparent;
+		border-right: 1/2*$size solid transparent;
+	}
+	@else if ($direction == 'down') {
+		border-top: $size solid $color;
+		border-left: 1/2*$size solid transparent;
+		border-right: 1/2*$size solid transparent;
+	}
+	@else if ($direction == 'left') {
+		border-top: 1/2*$size solid transparent;
+		border-bottom: 1/2*$size solid transparent;
+		border-right: $size solid $color;
+	}
+	@else if ($direction == 'right') {
+		border-top: 1/2*$size solid transparent;
+		border-bottom: 1/2*$size solid transparent;
+		border-left: $size solid $color;
+	}
+	@else if ($direction == 'none') {
+		border: 0;
+	}
 }
 
-// https://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
+//------------------------------------
+//	$Fluid Ratios
+//	Adapted from: http://voormedia.com/blog/2012/11/responsive-background-images-with-fixed-or-fluid-aspect-ratios
+//------------------------------------
+@mixin fluid-ratio($large-size, $small-size) {
+	$width-large: nth($large-size, 1);
+	$width-small: nth($small-size, 1);
+	$height-large: nth($large-size, 2);
+	$height-small: nth($small-size, 2);
+	$slope: ($height-large - $height-small) / ($width-large - $width-small);
+	$height: $height-small - $width-small * $slope;
+
+	padding-top: $slope * 100%;
+	height: $height;
+
+	background-size: cover;
+	-moz-background-size: cover;  /* Firefox 3.6 */
+	background-position: center;  /* Internet Explorer 7/8 */
+}
+
+
+//Strip units from any number
 @function strip_units($number) {
-  @return $number / ($number * 0 + 1);
+	@return $number / ($number * 0 + 1);
 }

@@ -58,59 +58,60 @@
 
 
 
-@mixin fonts($name: $font-file-name,
-					$path: $font_file_location,
-					$weights: $font-weights,
-					$italics: $font-italics)
-	{
-		$weight-group: $weights;
+@mixin fonts(
+	$name: $font_file_name,
+	$path: $font_file_location,
+	$weights: $font_weights,
+	$italics: $font_italics) {
+	
+	$weight_group: $weights;
 
-		@if length($font-file-name) > 1{
-			$weight-group: nth($weights, $loop);		//[1]
+	@if length($font_file_name) > 1{
+		$weight-group: nth($weights, $loop);		//[1]
+	}
+
+	@each $weight in $weight-group {			//[1B]
+
+		$font-eot: false;
+		$svg-id: ('##{$name}#{$weight}');		//[2]
+		$font-name: #{$path}/#{$name}-#{$weight};		//[3]
+
+		$font-files: (
+			unquote('url("#{$font-name}.woff") format("woff")'),
+			unquote('url("#{$font-name}.ttf") format("truetype")'),
+			unquote('url("#{$font-name}.svg#{$svg-id}") format("svg")')
+		);
+		@if $font-include-eot == true{
+			$font-eot: '#{$font-name}.eot';		//[4]
 		}
 
-		@each $weight in $weight-group{			//[1B]
+		@include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
 
-			$font-eot: false;
-			$svg-id: ('##{$name}#{$weight}');		//[2]
-			$font-name: #{$path}/#{$name}-#{$weight};		//[3]
+		$italic: nth($italics, $loop);
+		@if length($italic) > 1 {
+			$italic: nth($italic, index($weight-group, $weight));
+		}
+		@if $italic == true{		//[6]
+			$svg-id: ('##{$name}#{$weight}italic');
 
 			$font-files: (
-				unquote('url("#{$font-name}.woff") format("woff")'),
-				unquote('url("#{$font-name}.ttf") format("truetype")'),
-				unquote('url("#{$font-name}.svg#{$svg-id}") format("svg")')
+				unquote("url('#{$font-name}-italic.woff') format('woff')"),
+				unquote("url('#{$font-name}-italic.ttf') format('truetype')"),
+				unquote("url('#{$font-name}-italic.svg#{$svg-id}') format('svg')")
 			);
+
 			@if $font-include-eot == true{
-				$font-eot: '#{$font-name}.eot';		//[4]
+				$font-eot: '#{$path}/#{$name}-#{$weight}-italic.eot';
 			}
 
-			@include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
-
-			$italic: nth($italics, $loop);
-			@if length($italic) > 1{
-				$italic: nth($italic, index($weight-group, $weight));
-			}
-			@if $italic == true{		//[6]
-				$svg-id: ('##{$name}#{$weight}italic');
-
-				$font-files: (
-					unquote("url('#{$font-name}-italic.woff') format('woff')"),
-					unquote("url('#{$font-name}-italic.ttf') format('truetype')"),
-					unquote("url('#{$font-name}-italic.svg#{$svg-id}') format('svg')")
-				);
-
-				@if $font-include-eot == true{
-					$font-eot: '#{$path}/#{$name}-#{$weight}-italic.eot';
-				}
-
-				@include font-face($name, $font-files, $weight, italic, $font-eot);
-			}
+			@include font-face($name, $font-files, $weight, italic, $font-eot);
 		}
+	}
 }
 
 $loop: 0;
 @if $use-web-fonts == true{
-	@each $font in $font-file-name{ //[7]
+	@each $font in $font-file-name { //[7]
 		$loop: $loop + 1 !global;
 		@include fonts($font);
 	}
@@ -147,4 +148,3 @@ $loop: 0;
 //    font-style: italic;
 //
 //}
-

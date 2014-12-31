@@ -1,13 +1,27 @@
-require(['jquery', 'accordion_setup'], function($) {
+var dependencies = [
+        'jquery',
+        'general_functions'
+    ];
+
+require([
+        'jquery',
+        'general_functions'
+    ], function($, gf) {
 
     // Add current year to copyright text
     var current_year = new Date().getFullYear();
     $('#current_year_js').html('').html(current_year);
 
     var footerArticleWrapper = $('#uconnect_updates_row'),
-        footerArticleURL =
-        '/feeds/json/homepage-updates/index.json'; /* [prod] */
-        //'../homepageUpdates.json'; /* [local] */
+        footerArticleURL;
+
+    // [local]
+    if (gf.check_string(gf.get_origin(), 'localhost')) {
+        footerArticleURL = '../homepageUpdates.json';
+    // [prod]
+    } else {
+        footerArticleURL = '/feeds/json/homepage-updates/index.json';
+    }
 
     // Ajax call
     $.getJSON(footerArticleURL, function(json) {
@@ -16,19 +30,25 @@ require(['jquery', 'accordion_setup'], function($) {
         if ($.isArray(json.homepageUpdates)) {
             // Each news-article
             $.each(json.homepageUpdates, function(i, article) {
+                // Remove html from summary by placing content in hidden DOM element then remove only text
+                var itemString = this.summary,
+                    itemString_text_container = $('#uconnect_updates_formatter').append(itemString),
+                    summary = $('#uconnect_updates_formatter').text();
                 // Check for valid JSON array
                 // && if news-article has keywords
                 if ($.isArray(this.keywordTags) && (this.keywordTags != '')) {
                     var keyword_tags = [];
                     // format each keyword tag into <li>
                     $.each(this.keywordTags, function(i, keyword) {
-                        keyword_tags += '<li><a class="icon tag" href="' + keyword + '">' + keyword + '</a></li>';
+                        keyword_tags += '<dd class="card_tag"><a class="tag icon" href="/tag/?query=keywords:' + keyword + '&col=all' +'">' + keyword + '</a></dd>';
                     });
                     // add each news article's html
-                    footerArticleWrapper.append('<article class="column third small_auto"><div class="box_panel box_card"><a href="' + this.url + '"><h3 class="h6 txt_serif box_card_head">' + this.title + '</h3><time class="txt_small txt_upper">' + this.date + '</time><div class="box_card_body has_keywords">' + this.summary + '</div></a><div class="box_card_foot accordion tagged icon icon_right"><ul class="list_inline txt_small list_space list_tag"><li class="txt_upper">Tagged</li>' + keyword_tags + '</ul></div>');
+                    footerArticleWrapper.append('<div class="column third"><article class="card box_panel card_short"><header class="card_head"><h1 class="heading card_heading"><a href="' + this.url + '" class="link_naked">' + this.title + '</a></h1></header><div class="card_body txt_small"><time class="block txt_upper txt_small color_label">' + this.date + '</time>' + summary + '</div><footer class="card_foot card_cover"><div class="card_action"><dl class="card_tags txt_small"><dt class="card_tag txt_upper color_label pad_r_quarter">Tagged</dt>' + keyword_tags + '</dl></div></footer></article></div>');
                 } else {
-                    footerArticleWrapper.append('<article class="column third small_auto"><div class="box_panel box_card"><a href="' + this.url + '"><h3 class="h6 txt_serif box_card_head">' + this.title + '</h3><time class="txt_small txt_upper">' + this.date + '</time><div class="box_card_body">' + this.summary + '</div></a>');
+                    footerArticleWrapper.append('<div class="column third"><article class="card box_panel card_short"><header class="card_head"><h1 class="heading card_heading"><a href="' + this.url + '" class="link_naked">' + this.title + '</a></h1></header><div class="card_body txt_small"><time class="block txt_upper txt_small color_label">' + this.date + '</time>' + summary + '</div></article></div>');
                 }
+                // Clear dummy text
+                $('#uconnect_updates_formatter').text('');
             });
         }
 

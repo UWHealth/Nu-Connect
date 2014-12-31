@@ -6,8 +6,8 @@
 $include_slider:        true !default;
 $slick_font_path: $font_file_location + "/" !default;
 $slick_loader_path: "../img/" !default;
-$slick_arrow_color: $soft_action_color;
-$slick_dot_color: $soft_action_color;
+$slick_arrow_color: color(soft_action);
+$slick_dot_color: color(soft_action);
 $slick_dot_character: '\2022' !default;
 @function slick-image-url($url) {
     @if function-exists(image-url) {
@@ -30,33 +30,35 @@ $slick_dot_character: '\2022' !default;
 ////////////////////////
 @if $include_slider == true{
 .slider {
-	@include type_space(max-height, 14);
+    width: 100%;
+	@include type_space(max-height, 16.5);
 	@extend %space_b;
+	@extend %pad_b_half;
 }
 .slick-slider {
-    display: block;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -ms-touch-action: none;
-    touch-action: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+	position: relative;
+	display: block;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	-ms-touch-action: pan-y;
+	touch-action: pan-y;
 	text-align: right;
 	z-index: 0;
 	@extend %o_hide;
 	@extend %cf;
+
 }
 .slick-list {
 	position: relative;
-	@extend %space_b;
+	@extend %space_b_half;
     display: block;
     padding: 0;
-	z-index: 1;
+	z-index: 2;
     &:focus {
         outline: none;
     }
@@ -64,7 +66,7 @@ $slick_dot_character: '\2022' !default;
         background: #fff url("../img/ajax-loader.gif") center center no-repeat;
     }
     &.dragging {
-        cursor: pointer;
+        @extend %cursor_pointer;
         cursor: hand;
     }
 }
@@ -88,17 +90,51 @@ $slick_dot_character: '\2022' !default;
 		display: table;
 	}
 }
+.slide {
+	@extend %space_b_2;
+	@include type-space(height, 11.5);
+    max-height: none;
+
+	& .feature_body{
+		@include type-space(height, 11.5);
+	}
+	.no-js & {
+		@include type_space(margin-top, 2);
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+    // & + .tabbed{
+    //     @extend %space_neg_t_2;
+    // }
+    .box_flag_media a{
+        @include type-space(max-height, 11.5);
+        background-size: auto 100%
+    }
+}
+//This is applied to every slide by default.
+// Once slick has been initialized, .unlslicked gets removed.
+// This will prevent the change in margin once the slider has its wrapper.
+.js .unslicked.unslicked {
+    @include rems(margin-bottom, 100px);
+}
+.js .unslicked + script + .unslicked, .js .unslicked + .unslicked{
+    max-height: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+}
 .slick-slide {
+	margin-bottom: 0;
 	white-space: normal;
     float: left;
-	display: none;
+	@extend %display_none;
     min-height: 1px;
 	z-index: 10;
     img {
         display: block;
     }
     &.slick-loading img {
-        display: none;
+        @extend %display_none;
     }
 
     &.dragging img {
@@ -111,16 +147,28 @@ $slick_dot_character: '\2022' !default;
         visibility: hidden;
     }
     .slick-vertical & {
-        display: block;
+        @extend %display_block;
         height: auto;
         border: 1px solid transparent;
     }
-	.box_card{
-		position: relative;
-		z-index: 5;
-	}
-
 }
+.slide_media_container{
+    width: 33%;
+    // display: inline-block;
+    // float: left;
+}
+.slide_media{
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.slide_media img{
+    max-width: none;
+    // @include fluid-ratio(344px 254px, 277px 242px);
+}
+// .feature_body{
+//     width: 66%;
+// }
+
 ////////////////////////
 // Icons
 ////////////////////////
@@ -145,7 +193,7 @@ $slick_dot_character: '\2022' !default;
     width: 40px;
     line-height: 0;
     font-size: 0;
-    cursor: pointer;
+    @extend %cursor_pointer;
     padding: 0;
     outline: none;
 
@@ -193,28 +241,24 @@ $slick_dot_character: '\2022' !default;
         height: 20px;
         width: 20px;
         margin: 0 $gutter 0 0;
-        cursor: pointer;
+        @extend %cursor_pointer;
         button {
-            @include button(true, $highlight_color, $soft_action_color, $soft_action_color, 50%, true, true);
-            border-width: 1px;
+            @include button(true, color(highlight), color(soft_action), color(soft_action), 50%, true, true);
             color: transparent !important;
-            cursor: pointer;
-            display: block;
+            position: absolute !important;
             height: 20px;
+            width: 20px;
             left: 5px;
+            top: 4px;
             outline: 0;
             padding: 10px;
-            position: absolute;
-            top: 4px;
-            width: 20px;
             &:active, &.active {
-                position: absolute;
                 top: 5px;
             }
         }
         &.slick-active button {
-            background-color: $alert_color !important;
-            border-color: $alert_color !important;
+            background-color: color(select) !important;
+            border-color: color(select) !important;
             box-shadow: none !important;
             cursor: default !important;
             &:active, &.active {
@@ -223,4 +267,16 @@ $slick_dot_character: '\2022' !default;
         }
     }
 }
+
+//Only show two cards on smallest sizes
+
+.slide .card_row .third {
+	@include media-query((smalls, lap)){
+		width: 50%;
+		&:last-child {
+			display: none;
+		}
+	}
+}
+
 } // End IF include

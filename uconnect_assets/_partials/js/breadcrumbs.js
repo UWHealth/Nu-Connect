@@ -1,4 +1,8 @@
-require(['jquery', 'jbreadcrumb', 'hover_intent'], function($) {
+require([
+    'jquery',
+    'jbreadcrumb',
+    'hover_intent'
+], function($) {
 
     //////////////////////////////////////////////////////////////////////////
     // Footer
@@ -60,7 +64,7 @@ require(['jquery', 'jbreadcrumb', 'hover_intent'], function($) {
                 opacity: 0
             }, 0, function() {
                 $(this).css({
-                    'background': 'url("../cosmos/uconnect/img/breadcrumb.png") no-repeat 100% 2px',
+                    'background': 'url("//n.uconnect.wisc.edu/cosmos/uconnect/img/breadcrumb.png") no-repeat 100% 2px',
                     'width': '14px',
                     'top': '13px'
                 });
@@ -72,7 +76,7 @@ require(['jquery', 'jbreadcrumb', 'hover_intent'], function($) {
                 opacity: 0
             }, 0, function() {
                 $(this).css({
-                    'background': 'url("../cosmos/uconnect/img/breadcrumb_ellipse.png") no-repeat 0px 0px',
+                    'background': 'url("//n.uconnect.wisc.edu/cosmos/uconnect/img/breadcrumb_ellipse.png") no-repeat 0px 0px',
                     'width': '30px',
                     'top': '14px'
                 });

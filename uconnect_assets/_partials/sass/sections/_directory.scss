@@ -4,18 +4,16 @@
 // General
 ////////////////////////
 	@include type_font_size(modular-scale(0));
-	color: $color_black;
-	h1, h2, h3, h4, h5, h6, #top .top-right:before {
+	@extend %color_txt;
+	h1, h2, h3, h4, h5, h6, #top .top-right:after {
 		@include type_space(padding-left, 1.5);
 		@extend %type_family_primary;
-		@extend %txt_upper;
 		@extend %display_block;
-		@extend %txt_bold;
-		// @extend %pad_l;
-		color: $gray_color !important;
+		@extend %sub_heading;
+		color: color(label) !important;
 	}
 	a {
-		color: $primary_color;
+		@extend %color_link;
 	}
 	ul{
 	    list-style: none !important;
@@ -27,14 +25,17 @@
 // Specific Components
 ////////////////////////
 	#top {
+		.header-link-container {
+			@include type_space(padding-left, 1.5);
+			@extend %pad_b;
+		}
 		h1 {
-			display: none;
+			@extend %display_none;
 		}
 		@include type_space(padding-bottom, 2);
-		border-bottom: 2px solid $gray_color;
+		border-bottom: 2px solid color(label);
 		.top-right {
 			@extend %display_inline_block;
-			@extend %icon;
 			@extend %icon_directory_location;
 			@extend %pad_t;
 			position: relative;
@@ -42,7 +43,11 @@
 			&:before {
 				@include type_font_size(36px);
 				@include type_space(margin-left, -2);
-				color: $gray_color !important;
+				@include type_space(padding-left, 1.5);
+				@extend %display_block;
+				@extend %sub_heading;
+				color: color(label) !important;
+				font-family: "uconnect" !important;
 				position: absolute;
 				top: -$base_line_height/2;
 			}
@@ -63,7 +68,7 @@
 			}
 		}
 		.gray-bar {
-			background-color: transparent;
+			@extend %bg_transparent;
 			border-bottom: 0;
 			display: inline-block !important;
 			margin: 0;
@@ -88,7 +93,7 @@
 	}
 	.inline-block {
 		@extend %pad_v;
-		border-bottom: 2px solid $gray_color;
+		border-bottom: 2px solid color(label);
 		h2 {
 			@extend %icon;
 			@extend %icon_info_info;
@@ -98,6 +103,9 @@
 				left: -4px;
 				position: absolute;
 				top: -14px;
+			}
+			.staff + &:before{
+				content: "\e610";
 			}
 		}
 		&:last-child {
@@ -110,12 +118,12 @@
 	#listing-container {
 		li {
 			@include type_space(padding-left, 1);
-			border-bottom: 1px solid $gray_color_light;
+			border-bottom: 1px solid color(label, light);
 			padding-bottom: 0;
 			line-height: 2.3em !important;
 			&:nth-of-type(odd) {
-				background-color: transparent;
-				border-bottom: 1px solid $gray_color_light;
+				@extend %bg_transparent;
+				border-bottom: 1px solid color(label, light);
 			}
 			&:last-child {
 				border-bottom: 0;
@@ -133,6 +141,14 @@
 		max-width: 32%;
 	}
 	.infopod {
-		display: none;
+		@extend %display_none;
+	}
+	.moreinfo-container {
+		a[target="_blank"], a[target="new"] {
+			@extend %o_hide;
+		}
+	}
+	.top-left-image {
+		@extend %o_hide;
 	}
 }

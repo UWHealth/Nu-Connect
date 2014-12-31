@@ -55,6 +55,10 @@ img {
 	margin: 0.5cm;
 }
 
+html{
+	font-size: 10pt !important;
+}
+
 p,
 h2,
 h3 {
@@ -65,4 +69,102 @@ h3 {
 h2,
 h3 {
 	page-break-after: avoid;
+}
+%hide{
+	display: none !important;
+}
+//Hidden items
+#top_nav{
+	@extend %hide;
+}
+#sidebar{
+	@extend %hide;
+}
+footer.footer{
+	@extend %hide;
+}
+#flair_icon_js{
+	@extend %hide;
+}
+.button, button, [type="submit"], .button_soft, .button_secondary{
+	@extend %hide;
+}
+// form label{
+// 	@extend %hide;
+// }
+#js_img_header{
+	background-color: transparent !important;
+}
+#js_header_resize .box_flag_body{
+	padding-left: 1.5rem !important;
+}
+.print_block{
+	display: block !important;
+}
+.print_inline_block{
+	display: inline-block !important;
+}
+th{
+	border-bottom-color: #aaa !important;
+}
+.table_scroll{
+	border: 0;
+}
+main .tabbed .tab_content{
+	padding-left: 0 !important;
+	padding-top: 8pt !important;
+	padding-bottom: 0 !important
+}
+.table_striped
+.print_hide{
+	@extend %hide;
+}
+#page_name{
+	font-size: 18pt;
+}
+.slider{
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+	max-height: 16.5rem !important;
+
+	.box_flag_media,
+	button,
+	.slick-dots{
+		@extend %hide;
+	}
+	.box_flag_body{
+		display: block;
+
+		.card_foot{
+			@extend %hide;
+		}
+	}
+	.slide, .slick-track{
+		width: 100% !important;
+		transform: none !important;
+	}
+	.slide{
+		display: none;
+	}
+	.slick-active{
+		display: block !important;
+	}
+}
+.promo.half_content{
+	@extend %hide;
+}
+#overview {
+	font-size: 9pt;
+	p{
+		max-width: none;
+	}
+}
+main .tabbed .tabs{
+	.tab{
+		display: none !important;
+
+		&.active{
+			display: block !important;
+		}
+	}
 }

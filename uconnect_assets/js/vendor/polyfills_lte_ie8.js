@@ -1,4 +1,4 @@
-require(['jquery', 'placeholder' /*, 'iframe_embed'*/ ], function($) {
+require(['jquery', 'placeholder' /*, 'embed'*/ ], function($) {
 
     // Placeholder text
     // http://mths.be/placeholder v2.0.8 by @mathias

@@ -1,323 +1,594 @@
 ////////////////////////
 // General form components
 ////////////////////////
-label{
-	@extend %sub_heading;
-	color: color(label);
+label {
+	@extend %color_label;
+	@extend %txt_small;
+	@extend %txt_upper;
+	@extend %txt_bold;
 }
-input, textarea {
-    @include type-space(line-height, 1);
-    @extend %type_family_primary;
-    @extend %pad_v_half;
+.label {
+	@extend %color_label;
+	@extend %sub_heading;
+	margin-bottom: 0;
+}
+//Useful variables that coorespond to the overall height of inputs
+// (as defined below)
+$bigs-input-padding:
+	((($base_line_height / 2) + $base_font_size) / $base_font_size) * 1rem;
+$smalls-input-padding:
+	(($base_line_height + $base_font_size)/ $base_font_size) * 1rem;
+
+input,
+textarea {
+	@extend %type_family_primary;
+	@extend %abs_left;
+	@extend %color_txt;
+	@extend %pad_v_half;
 	@extend %bigs_pad_v_quarter;
-    background-color: rgba(color(text), .1);
-    border: 1px solid transparent;
-    border-radius: 2px;
-    background-color: rgba(color(text), .1);
-    font-size: inherit; //Allows for flexibly sized inputs.
-    left: 0;
-    outline: none;
-    padding-left: 1em;
-    padding-right: 1em;
-    position: relative;
-    transition: all 200ms ease-in;
-    -webkit-transform: translateZ(0);
-    &:hover {
+	@include type_font_size(modular-scale(0), false);
+	@include type-space(line-height, 1);
+	color: color(text);
+	padding-left: .75em;
+	padding-right: 1em;
+	font-weight: normal;
+	letter-spacing: 0;
+	text-transform: none;
+	background-color: rgba(color(text), .1);
+	box-shadow: inset 0 1px 1px 0 rgba(color(text), .075);
+	border: 1px solid transparent;
+	border-radius: 2.5px;
+	outline: none;
+	position: relative;
+	transition: all 200ms ease-in;
+	transform: translateZ(0);
+
+	&::placeholder {
+		@include type_font_size(modular-scale(-1));
+	}
+
+	&:hover {
 		background-color: #f8fbfd;
-        background-color: rgba(color(soft_action, lightest), .7);
-        box-shadow: inset 0 1px 3px 0 rgba(color(link), .6);
+		background-color: rgba(tint(color(highlight), 50%), .7);
+		box-shadow: inset 0 1px 3px 0 rgba(color(link), .6);
 		border-top-color: tint(color(link), 40%);
 		border-left-color: tint(color(link, light), 50%);
 		border-right-color: tint(color(link, light), 50%);
 		border-bottom-color: color(label, light);
-    }
-    &:focus, &:active, &.active {
-        background-color: white;
-        border: 1px solid $soft_action_color;
-        box-shadow: inset 0 2px 1px 0 rgba(color(label), .8);
-        color: color(text);
-    }
-    &.input_big {
-        padding: .75em 8.5em .75em 1.5em; // .75em 8.5em .75em .75em; // 12px 18% 12px 14px;
-    }
-    &.valid, &.error, &.invalid {
-		@extend %txt_normal;
-        @extend %txt_bold;
-    }
-    &.valid {
-        background-color: color(form); // $form_color;
-    }
-    &.error, &.invalid {
-        background-color: rgba(178, 39, 39, .1); // $alert_color_lighter;
-    }
-    &:disabled, &.disabled {
-        background-color: #e8ecf3 !important;
-        border: 1px dotted $label_color !important;
-        box-shadow: none !important;
-        &::placeholder {
-            color: $label_color_light !important; // #c4ccd7;
-        }
-    }
+	}
+
+	&:focus,
+	&:active,
+	&.active {
+		@extend %bg_white;
+		@extend %color_txt;
+		border: 1px solid color(soft_action);
+		box-shadow: inset 0 2px 1px 0 rgba(color(label), .8);
+	}
+
+	&.input_big {
+		padding: .75em 8.5em .75em 1.5em;
+	}
+
+	&:disabled,
+	&.disabled {
+		background-color: #e8ecf3 !important;
+		border: 1px dotted color(label) !important;
+		box-shadow: none !important;
+
+		&::placeholder {
+			color: color(label, light) !important;
+		}
+	}
 }
+input{
+	&[type="radio"],
+	&[type="checkbox"] {
+		padding: 0;
+		@include type-space(margin-right, .25);
+		transition: none;
+		border: 0;
+
+		&:focus,
+		&:hover,
+		&:active {
+			box-shadow: 0 1px 7px 0 color(link);
+			border: 0;
+			background-color: color(link, dark);
+		}
+	}
+}
+textarea{
+	transition: none;
+}
+
 .button_inset {
-	position: relative;
 	@extend %o_hide;
+	position: relative;
+
 	input {
 		@extend %one_whole;
 	}
+
 	[class*='button'] {
-        @extend %button_inside;
+		@extend %button_inside;
+		z-index: 3;
 	}
 }
-%button_inside, .button_inside {
-    @include type-space(line-height, 1);
-    border-width: 0;
-    border-top-width: 1px;
-    height: calc(100% - 4px); // 2.5em;
-    margin: 0;
-    max-height: 20em;
-    max-width: 21em;
-    outline: 0;
-    position: absolute; // !important;
-    right: 2px; // .5%; // 1em;
-    top: 2px; // 0; // .25em; // 3px;
-    vertical-align: baseline !important;
-    white-space: nowrap;
-    &.button_search {
-        @extend %o_hide;
-        margin-right: .5%;
-        &:before, &:after {
-            @include type_font_size(14px);
-            display: inline;
-            position: relative;
-        }
-        @include mq(smalls) {
-            @include type_space(line-height, 1.5);
-        }
-    }
+
+input[type="search"]:-webkit-autofill {
+	background-color: rgba(color(form), .1) !important;
+
+	&:focus {
+		background-color: #fff !important;
+	}
 }
+
+%button_inside,
+.button_inside {
+	@include type-space(line-height, 1);
+	border-width: 0;
+	width: 25%;
+	border-top-width: 1px;
+	height: calc(100% - 4px); // 2.5em;
+	margin: 0;
+	max-height: 20em;
+	max-width: 12em;
+	outline: 0;
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	vertical-align: baseline !important;
+	white-space: nowrap;
+
+	&.button_search {
+		@extend %o_hide;
+		margin-right: .5%;
+
+		@include mq(smalls) {
+			@include type_space(line-height, 1.5);
+		}
+
+		&:before,
+		&:after {
+			@include type_font_size(14px);
+			@extend %inline;
+			position: relative;
+		}
+	}
+}
+
 select {
-    @extend %button_small;
-    @extend %button_soft;
-    letter-spacing: 0.1em !important;
-    outline: 0;
-    padding-left: $gutter/4;
-    text-transform: uppercase !important;
+	@extend %button_small;
+	@extend %button_soft;
+	letter-spacing: .1em !important;
+	outline: 0;
+	padding-left: $gutter/4;
+	text-transform: uppercase !important;
+	max-width: 100%;
 }
 ////////////////////////
 // Specific components
 ////////////////////////
-.box_panel {
-    form {
-        position: relative;
-    }
-    input {
-        padding: 12px 18% 12px 14px;
-    }
-    .button_inside {
-        @include type_space(top, .25);
-        width: 15%;
-    }
-}
-.valid, .error, .invalid {
-    @extend %icon;
-    &:before {
-        @include type_font_size(modular-scale(1));
-        @extend %icon_sym_checkmark;
-        color: $alert_color;
-        right: $base_line_height/4;
-        top: $base_line_height/2;
-    }
-}
-.valid {
-    &:before {
-        @extend %icon_info_cancel;
-        color: #2fbb79;
-    }
-}
 .search {
-    cursor: pointer;
-    display: block;
-    height: 100%;
-    position: relative;
-    z-index: 1;
-    &.icon {
-        &:after {
-            @include type_font_size(modular-scale(1));
-            color: $primary_color;
-            top: $base_line_height/2;
-            right: 0;
-        }
-    }
-    input {
-        @extend %type_family_primary;
-        @include type_space(padding-top, .25);
-        @include type_space(padding-bottom, .25);
-        transition: all 0.15s linear;
-        width: 100%;
-    }
+	@extend %cursor_pointer;
+	@extend %block;
+	height: 100%;
+	position: relative;
+	z-index: 1;
+
+	&.icon {
+		&:after {
+			@include type_font_size(modular-scale(1));
+			color: color(primary);
+			top: $base_line_height/2;
+			@extend %abs_right;
+		}
+	}
+
+	input {
+		@extend %type_family_primary;
+		@extend %one_whole;
+		@include type_space(padding-top, .25);
+		@include type_space(padding-bottom, .25);
+		transition: all .15s linear;
+	}
+}
+textarea{
+	transition: none;
 }
 *::placeholder {
-    font-size: inherit;
+	font-size: inherit;
 	line-height: inherit;
-    text-transform: uppercase;
-	letter-spacing: 0.1em;
-    color: color(link);
-	transiton: color 100ms ease-in;
+	text-transform: uppercase;
+	letter-spacing: .1em;
+	color: color(link);
+	transition: color 100ms ease-in;
 }
-input:focus::placeholder{
+
+input:focus::placeholder {
 	color: color(label);
+}
+
+input::-webkit-inner-spin-button {
+	position: relative;
+	right: -.25em;
 }
 
 ////////////////////////
 // Drop Down / <select>
 ////////////////////////
 .dd_wrapper {
-    // display: inline-block;
-    position: relative;
-    width: 100%;
-    z-index: 22;
+	// display: inline-block;
+	position: relative;
+	@extend %one_whole;
+	z-index: 220;
 }
 .dd_trigger, .dd_activetrigger {
-    @include type_font_size(modular-scale(-1), false);
-    @extend %button_med;
-    @extend %button_soft;
-    @extend %icon;
-    @extend %icon_right;
-    @extend %txt_upper;
-    display: block;
-    position: relative;
-    margin-bottom: 0;
-    text-align: left;
-    z-index: 24;
+	@include type_font_size(modular-scale(-1), false);
+	@extend %button_med;
+	@extend %button_soft;
+	@extend %icon;
+	@extend %icon_right;
+	@extend %txt_upper;
+	display: block;
+	position: relative;
+	margin-bottom: 0;
+	text-align: left;
+	z-index: 240;
+	outline: 0;
+
 	&:before{
 		margin-top: 3px;
 	}
 }
 .dd_trigger {
-    @extend %icon_arrow_down;
+	@extend %icon_arrow_down;
 }
+
 .dd_activetrigger {
-    @extend %icon_arrow_up;
-    background-color: #fff;
-    border-bottom-width: 1px;
-    border-color: $alert_color;
-    border-top-width: 1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    box-shadow: inset 0 1px 0 0 $alert_color;
-    color: $alert_color !important;
-    z-index: 24; // Keeps the trigger on top of the select container
-    &:focus, &:hover, &:active, &:visited {
-        background-color: #fff;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-color: $alert_color;
-        box-shadow: inset 0 1px 0 0 $alert_color;
-        color: $alert_color !important;
-    }
+	@extend %icon_arrow_up;
+	background-color: #fff;
+	border-bottom-width: 1px;
+	border-color: currentColor !important;
+	border-top-width: 1px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	box-shadow: inset 0 1px 0 0 color(select);
+	color: color(select) !important;
+	z-index: 240; // Keeps the trigger on top of the select container
+
+	&:focus, &:hover, &:active, &:visited {
+		background-color: #fff;
+		border-top-width: 1px;
+		color: color(select) !important;
+		border-bottom-width: 1px;
+		box-shadow: inset 0 1px 0 0 color(select);
+		color: color(select) !important;
+	}
 }
+
 .dd_container {
-    @include type_font_size(modular-scale(-1));
-    @extend %txt_upper;
-    border: 1px solid $link_color;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    box-shadow: 0 2px 1px rgba(color(text), .1);
-    margin-top: -4px; //Hides the container under the trigger
-    overflow-y: hidden;
-    overflow-x: auto;
-    position: absolute;
-    width: 100%;
-    z-index: 23;
-    -webkit-overflow-scrolling: touch;
-    > *{
-        background-image: url(../img/bg/bg_white_90.png);
-        border-top: 0;
-    }
-    ul {
-        border-top: none;
-        list-style-type: none;
-        margin-left: 0;
-        padding: 0;
-        z-index: 22;
-    }
-    li {
-        @extend %pad_h_half;
-        @extend %pad_v_quarter;
-        cursor: pointer;
-		transition: margin 300ms ease-in, opacity 200ms ease-in;
-        &:hover {
-            background: color(highlight);
-            outline: none;
-        }
-        &:last-child {
-            border-bottom: none;
-        }
-    }
-    a {
-        color: color(text);
-        text-decoration: none;
-    }
+	@extend %txt_upper;
+	@include type_font_size(modular-scale(-1));
+	border: 1px solid color(link);
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	box-shadow: 0 2px 1px rgba(color(text), .1);
+	margin-top: -4px; //Hides the container under the trigger
+	overflow-y: hidden;
+	overflow-x: auto;
+	position: absolute;
+	width: 100%;
+	z-index: 230;
+	-webkit-overflow-scrolling: touch;
+
+	> *{
+		background-image: url(../img/bg/bg_white_90.png);
+		border-top: 0;
+	}
+
+	ul {
+		border-top: none;
+		list-style-type: none;
+		margin-left: 0;
+		padding: 0;
+		z-index: 220;
+	}
+
+	li {
+		@extend %pad_l_half;
+		@extend %pad_r;
+		@extend %pad_v_quarter;
+		@extend %cursor_pointer;
+		transform: scaleY(1);
+		transition: transform 350ms ease-out,
+			margin 200ms ease-out,
+			opacity 200ms ease-in;
+
+		&:hover {
+			background: color(highlight);
+			outline: none;
+		}
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	a {
+		color: color(text);
+		text-decoration: none;
+	}
 }
+
 .csstransforms .dd_hidden {
-    transform: translateY(-110%);
-    margin-bottom: -100%; //Makes sure this the container is fully collapsed.
-    margin-top: 0; //Overrides the fallback.
-    height: auto; //Overrides the fallback.
-    overflow: visible; //Overrides the fallback.
+	transform: translateY(-110%) scaleY(0.1);
+	margin-bottom: -100%; //Makes sure this the container is fully collapsed.
+	margin-top: -25%; //Overrides the fallback.
+	height: auto; //Overrides the fallback.
+	overflow: visible; //Overrides the fallback.
+
+	& li {
+		transform: scaleY(0);
+	}
 }
+
 .dd_hidden{ //Fallback for browsers without css-transforms
-    margin-top: -100%;
-    transition: all 200ms cubic-bezier(.29, -0.45, .75, .65);
-    height: 0;
-    overflow: hidden;
+	margin-top: -100%;
+	transition: all 150ms cubic-bezier(.29, -0.45, .75, .65);
+	height: 0;
+	overflow: hidden;
+
 	li{
 		opacity: 0;
 		margin-bottom: -50%;
 	}
 }
+
 .dd_visible {
-    box-shadow: 0 2px 3px 0 rgba(color(text), .1);
-    height: auto;
-    margin-top: 3px;
-    margin-bottom: 0;
-    padding-top: 6px;
-    transition: all 250ms cubic-bezier(0, .43, .51, 1.38);
+	box-shadow: 0 2px 3px 0 rgba(color(text), .1);
+	height: auto;
+	margin-top: 3px;
+	margin-bottom: 0;
+	padding-top: 6px;
+	transition: margin 150ms ease-out,
+		transform 250ms cubic-bezier(0, .43, .51, 1.38);
+
 	li{
 		opacity: 1;
 		margin-bottom: 0;
 	}
-    &.scroll {
-        max-height: 200px;
-        overflow-y: scroll;
-        &.height_100 {
-            height: 100px;
-        }
-        &.height_200 {
-            height: 200px;
-        }
-        &.height_300 {
-            height: 300px;
-        }
-        &.height_400 {
-            height: 400px;
-        }
-        &.height_500 {
-            height: 500px;
-        }
-    }
+
+	&.scroll {
+		max-height: 200px;
+		overflow-y: scroll;
+
+		&.height_100 {
+			height: 100px;
+		}
+
+		&.height_200 {
+			height: 200px;
+		}
+
+		&.height_300 {
+			height: 300px;
+		}
+
+		&.height_400 {
+			height: 400px;
+		}
+
+		&.height_500 {
+		    height: 500px;
+		}
+	}
 }
 .dd_active_item {
-    @extend %txt_bold;
-    @extend %icon;
-    @extend %icon_after;
-    position: relative;
-    &:after {
-        color: color(label);
-        content: "\e626"; // 'check';
-        position: absolute;
-        right: 6px;
-        top: 6px;
-    }
+	@extend %txt_bold;
+	@extend %icon;
+	@extend %icon_after;
+	position: relative;
+
+	&:after {
+		@extend %color_label;
+		content: "\e626"; // 'check';
+		position: absolute;
+		right: 6px;
+		top: 6px;
+	}
+}
+
+
+input {
+	&.valid, &.error, &.invalid {
+		@extend %txt_normal;
+		@extend %txt_bold;
+	}
+	&.valid {
+		background-color: color(form);
+	}
+	&.error, &.invalid {
+		background-color: mix(color(form), color(alert, lightest), 80%);
+	}
+}
+.validation {
+	//Applied to the label/input container
+	// Wraps the input and validation message
+	@extend %contain;
+	display: inline-block;
+	//The container for validation messages.
+	&_msg{
+		@extend %absolute;
+		color: transparent;
+		padding: 0;
+		display: table;
+		vertical-align: middle;
+		table-layout: fixed;
+		z-index: 1;
+		word-break: break-word;
+
+		&:before {
+			@extend %absolute;
+			font-size: 1.25em;
+			line-height: 1;
+			z-index: 0;
+		}
+
+		&:after {
+			@extend %display_none;
+			z-index: 0;
+		}
+	}
+
+	&:after,
+	&:before {
+		position: absolute;
+	}
+
+	&_body {	//validation message body
+		padding: .5em .75em;
+		display: inline-block;
+		color: transparent;
+		border: 1px solid transparent;
+		border-radius: 3px;
+		z-index: 1;
+		position: relative;
+	}
+	&_group {
+		display: block;
+		@extend %space_t;
+	}
+}
+
+// Make sure arrows don't show up before JS has formatted everything.
+.vld {
+	&_top,
+	&_bottom,
+	&_left,
+	&_right {
+		&:after {
+			color: transparent;
+		}
+	}
+}
+
+.vld {
+	&_icon{
+		@include rems(font-size, 16px);
+		@include type-space(padding-bottom, .25);
+		right: 0;
+		bottom: 0;
+
+		&.icon_success{
+			color: color(green, darkest);
+		}
+	}
+
+	&_top {
+		@extend %abs_right;
+		bottom: 100%;
+
+		&:after { //Triangle placement
+			@include triangle('down', 2em, currentColor);
+			bottom: -1.85em;
+			right: 1px;
+			z-index: 1;
+		}
+		& .validation_body{
+			top: .85em;
+		}
+	}
+
+	&_bottom {
+		@extend %abs_right;
+		top: 100%;
+		padding-top: .15rem;
+
+		&:after { //Triangle placement
+			@include triangle('up', 2em, currentColor);
+			top: -.85em;
+			right: 1px;
+		}
+	}
+
+	&_right,
+	&_left.validation_success {
+		left: 100%;
+		vertical-align: middle;
+		margin-left: .25em;
+
+		@include mq(bigs) {
+			margin-left: .15em;
+		}
+
+		&:after { //Triangle placement
+			@include triangle('left', 2em, currentColor);
+			left: -.85em;
+		}
+	}
+
+	&_left {
+		right: 100%;
+		vertical-align: middle;
+		transform: translate(-100%, -50%) !important;
+
+		&.validation_success {
+			right: auto;
+			transform: translateY(-50%) !important;
+		}
+
+		&.validation_error:before {
+			display: none;
+		}
+
+		&:after { //Triangle placement
+			@include triangle('right', 2em, currentColor);
+			right: -.85em;
+		}
+
+		&.validation_error .validation_body {
+			margin-left: -1.5em;
+		}
+	}
+
+	&_right,
+	&_right:after,
+	&_left,
+	&_left:after { //Vertical alignment
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+
+.validation {
+	&_error {
+		@extend %txt_small;
+		line-height: 1.1;
+		text-align: left;
+
+		.validation_body {
+			background-color: color(alert, lightest);
+			border-bottom-color: color(select);
+			z-index: 1;
+		}
+
+		.error {
+			@extend %display_table;
+			@extend %txt_normal;
+			color: color(select, darker);
+		}
+
+		&:after {
+			display: inline-block;
+			color: color(alert, lightest);
+		}
+	}
+}
+
+.validation_msg.icon {
+	&_error:before {
+		@extend %color_select;
+	}
 }

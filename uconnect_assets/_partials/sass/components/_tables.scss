@@ -1,11 +1,10 @@
 table {
     @extend %type_vertical_rhythm;
     width: 100%;
-	table-layout: fixed;
-    background-color: transparent;
+    @extend %bg_transparent;
     border-collapse:collapse;
     border-spacing:0;
-    @extend %space_v;
+    @extend %space_b;
 	border-style: solid;
 	border-width: 1px;
 	border-color: transparent;
@@ -16,7 +15,7 @@ th, td {
 	vertical-align:top;
 	border: 0;
 	border-bottom: 1px;
-	border-top-width: 0px;
+	border-top-width: 0;
 	border-color: color(form);
 	border-style: solid;
 }
@@ -28,15 +27,32 @@ td{
 th {
 	@extend %txt_bold;
 }
-thead th {
-	vertical-align:bottom;
-	@include type_space_sc(padding, 1, 0, 0 );
+table thead th{
+	vertical-align: bottom;
+	word-wrap: break-word;
+	background-color: color(form);
+	border-color: color(form, dark);
+	border-bottom-width: 2px;
+	border-bottom-color: color(form, darker);
+	border-top-color: transparent;
+	color: color(form, darkest);
+	&:first-child{
+		border-left: 0;
+		border-radius: 2px 0 0;
+	}
+	&:last-child{
+		border-right-color: color(form);
+		border-radius: 0 2px 0 0;
+	}
 }
-thead + tbody td:before{
+thead th {
+	@include type_space(padding-top, .25);
+}
+thead + tbody td:before, thead + tbody th:before{
 	content: attr(data-th)" : ";
 	font-weight: bold;
 	padding-right: .25em;
-	display: none;
+	@extend %display_none;
 }
 //.table_fixed{
 //        table-layout: fixed;
@@ -46,43 +62,84 @@ thead + tbody td:before{
     & tr:nth-child(odd) td{
         background-color: color(highlight);
     }
-    & th, & td{
+    & tbody th, & td{
 		@extend %pad_r_half;
         @extend %pad_l_half;
         border-color: color(form);
         border-style: solid;
     }
 }
-@include mq(#{$smalls}){
-    .js table{
-		@extend %smalls_space_t;
-        th{
-            display: none
-        }
 
-        td {
-            display: block;
-            border-bottom: 0;
-            padding-top: 0;
-
-            &:first-child{
-                border-top-width: 1px;
-                @extend %smalls_pad_t_half;
-            }
-            &:before{
-				display: inline;
-            }
-        }
-    }
- }
 
 ////////////////////////
 // Tables
 ////////////////////////
-.table_striped tr:nth-child(odd) td {
-    background-color: color(highlight);
+.table_grid{
+	table-layout: auto;
+	@extend %txt_small;
+
+	tbody th, td{
+		border: 1px solid color(form);
+		padding: .35em;
+	}
+	tbody th{
+		vertical-align: middle;
+		word-wrap: break-word;
+	}
+	thead th{
+		padding: .35em;
+		border-width: 0 1px 2px 1px;
+	}
 }
-.table_striped th, .table_striped td {
-    border-color: color(soft_action);
+.table_striped tbody tr:nth-child(odd){
+	th, td{
+    	background-color: color(highlight);
+	}
+}
+.table_striped tbody th, .table_striped tbody td {
+    border-top-color: color(soft_action);
+	border-bottom-color: color(soft_action);
+	border-left-color: color(soft_action, lighter);
+	border-right-color: color(soft_action, lighter);
     border-style: solid;
+}
+
+.table_scroll{
+	max-width: 100%;
+	overflow-x: auto;
+	border: 1px solid color(form);
+    @extend %bg_white;
+	@include mq(bigs){
+		border: 0;
+        overflow-x: visible;
+	}
+
+}
+@include mq(#{$smalls}){
+	table.table_responsive{
+		@extend %smalls_space_t;
+		width: 100%;
+		empty-cells: hide;
+
+		thead th{
+			display: none;
+		}
+
+		td {
+			display: block;
+			border-bottom: 0 !important;
+			padding-top: 0;
+
+			&:first-child{
+				border-top-width: 1px;
+				@extend %smalls_pad_t_half;
+			}
+			&:before{
+				display: inline;
+			}
+		}
+		td:empty{
+			display: none;
+		}
+	}
 }

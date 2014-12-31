@@ -1,5 +1,9 @@
-.icon, %icon, .media_icon, %media_icon {
-	&:before, &:after {
+.icon,
+%icon,
+.media_icon,
+%media_icon {
+	&:before,
+	&:after {
 		@extend %type_family_icon;
 		speak: none;
 		font-style: normal;
@@ -21,34 +25,73 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 }
-.icon_right, %icon_right{
-	&:before, &:after {
+.icon_right,
+%icon_right {
+	&:before,
+	&:after {
 		float: right;
 	}
 }
-.icon_left, %icon_left{
-	&:before, &:after {
+
+.icon_left,
+%icon_left {
+	&:before,
+	&:after {
 		float: left;
 	}
 }
-.icon_center, %icon_center {
+
+.icon_center,
+%icon_center {
 	position: relative;
-	&:before, &:after {
+
+	&:before,
+	&:after {
 		left: 25%;
 		position: absolute;
 	}
 }
+
+.icon_absolute,
+%icon_absolute {
+	@extend %contain;
+
+	&:before,
+	&:after {
+		position: absolute;
+	}
+
+	&_right {
+
+		&:before,
+		&:after {
+			@extend %abs_right;
+		}
+	}
+
+	&_left {
+		&:before,
+		&:after {
+			@extend %abs_left;
+		}
+	}
+}
+
 .no-js {
-	@include media-query((lap,smalls)){
+	@include media-query((lap, smalls)) {
 		.icon_menu {
-			&.bigs_hide, &.desk_hide {
+			&.bigs_hide,
+			&.desk_hide {
 				display: none;
 			}
 		}
 	}
 }
 ///////////////////////////////////////////////////
-.icon_before, .media_icon, %icon_before, %media_icon {
+.icon_before,
+.media_icon,
+%icon_before,
+%media_icon {
 	&:before {
 		content: attr(data-icon);
 		padding-right: .25em;
@@ -60,19 +103,49 @@
 		padding-left: .25em;
 	}
 }
-.tag, [data-icon="tag"] {
+.tag,
+[data-icon="tag"],
+.icon_tag {
 	&:before {
 		content: "\e662";
 	}
 }
+.icon_pad_n:before,
+.icon_pad_n:after{
+	padding: 0;
+}
 .close {
 	&:after {
-		content: "delete";
+		content: "\e625";
 	}
 }
-.company {
+.org {
 	&:before {
 		content: attr(data-icon);
+	}
+}
+.org_color{
+	&.icon_uwhealth, .icon_uw, &.icon_UW {
+		&:before {
+			color: color(label, dark);
+		}
+	}
+	&.icon_uwhc, &.icon_UWHC {
+		&:before {
+			@extend %color_soft;
+		}
+	}
+	&.icon_uwmf, &.icon_UWMF {
+		&:before {
+			color: color(link, dark);
+		}
+	}
+}
+.icon_as_media{
+	@extend %color_soft;
+	font-size: 4em;
+	&:before{
+		padding: 0;
 	}
 }
 .icon_search:before{
@@ -122,6 +195,101 @@
 	@extend %icon_mf_icon;
 }
 ///////////////////////////////////////////////////
+.icon_cluster {
+	@extend %pad_l_quarter;
+	@include type-font-size(modular-scale(1), false);
+	@include type-space(line-height, 1.5);
+	bottom: 0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	z-index: 0;
+	text-align: left;
+}
+.icon_success{
+	@extend %icon_info_success;
+}
+.icon_success:before{
+	color: color(green, darker);
+}
+.icon_error{
+	@extend %icon_info_error;
+}
+.icon_error:before{
+	@extend %color_select;
+}
+[data-icon-after="triangle right"]:after {
+	content: "\e62c";
+}
+///////Content Type icons (used in search)///////////
+.icon_page_category {
+	@extend %icon_uconnect;
+}
+.icon_content_type,
+.icon_\(page\) {
+	@extend %icon_uconnect;
+}
+.icon_file_type {
+	@extend %icon_file_files;
+}
+.icon_link {
+	@extend %icon_type_external;
+}
+.icon_event {
+	@extend %icon_type_event;
+}
+.icon_directory {
+	@extend %icon_directory_logo;
+}
+.icon_hffy {
+	@extend %icon_hffy;
+}
+.icon_policy {
+	@extend %icon_policy;
+}
+.icon_tools {
+	@extend %icon_type_tool;
+}
+.icon_forms {
+	@extend %icon_type_form;
+}
+.icon_file {
+	@extend %icon_file_file;
+}
+.icon_video {
+	@extend %icon_type_video;
+}
+.icon_news {
+	@extend %icon_type_article;
+}
+.icon_pdf {
+	@extend %icon_file_pdf;
+}
+.icon_delete {
+	@extend %icon_sym_delete;
+}
+[class*="icon_xls"] {
+	@extend %icon_file_excel;
+}
+[class*="icon_doc"] {
+	@extend %icon_file_word;
+}
+[data-icon="previous"] {
+	@extend %icon_arrow_left;
+}
+[data-icon="next"] {
+	@extend %icon_arrow_right;
+}
+%icon_download, [data-icon="download"]:before{
+	content: "\e665";
+}
+%icon_uconnect:before,
+%icon_logo:before {
+	content: "\e636";
+}
+%icon_policy:before {
+	content: "\e663"
+}
 %icon_arrow_down:before {
 	content: "\e629";
 }
@@ -149,7 +317,7 @@
 %icon_info_check:before {
 	content: "\e63e";
 }
-%icon_info_cancel:before {
+%icon_info_cancel:before, [data-icon="cancel"] {
 	content: "\e63f";
 }
 %icon_sym_checkmark:before {
@@ -169,9 +337,6 @@
 }
 %icon_directory_phone:before {
 	content: "\e622";
-}
-%icon_uconnect:before {
-	content: "\e636";
 }
 %icon_sym_announce:before {
 	content: "\e615";
@@ -233,7 +398,7 @@
 %icon_sort_ascend:before {
 	content: "\e650";
 }
-%icon_zoom_in:before {
+%icon_zoom_in:before, [data-icon="zoom in"]:before {
 	content: "\e63a";
 }
 %icon_zoom_out:before {
@@ -248,11 +413,20 @@
 %icon_info_warning:before {
 	content: "\e65e";
 }
+%icon_related:before {
+	content: "\e616";
+}
 %icon_info_error:before {
+	content: "\e63e";
+}
+%icon_info_success:before {
 	content: "\e63d";
 }
 %icon_directory_location:before {
 	content: "\e617";
+}
+%icon_hffy:before {
+	content: "\e664";
 }
 %icon_fax:before {
 	content: "\e651";
@@ -314,7 +488,8 @@
 %icon_settings_cog:before {
 	content: "\e613";
 }
-%icon_symb_book:before {
+%icon_symb_book:before,
+[data-icon="book"]:before {
 	content: "\e61a";
 }
 %icon_tag_icon:before {
@@ -377,7 +552,7 @@
 %icon_lock_closed:before {
 	content: "\e62f";
 }
-%icon_symb_cart:before {
+%icon_symb_cart:before, [data-icon="cart"]:before {
 	content: "\e632";
 }
 %icon_symb_attach:before {

@@ -1,0 +1,267 @@
+////////////////////////
+// Header
+////////////////////////
+.img_header {
+	&_homepage {
+		background-color: color(highlight);
+		position: relative !important;
+		z-index: 1 !important;
+		max-width: none;
+		
+		.img_cover{
+			opacity: .8;
+		}
+	}
+}
+
+////////////////////////
+// Header Bar
+////////////////////////
+.homepage_header {
+	z-index: auto !important;
+
+	> .wrap {
+		@extend %pad_n;
+	}
+	.tab {
+		@include type_font_size(modular-scale(-1), false);
+		@extend %pad;
+		@extend %pad_l_quarter;
+		line-height: 1;
+		top: 0px !important;
+		&.active {
+			border-color: $color_white !important;
+			color: $color_white !important;
+		}
+	}
+}
+.homepage_header_tab_bar {
+	background-color: #0c639a;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: -2;
+}
+.homepage_tabs {
+	// @extend %smallish_three_quarters;
+	min-height: 0;
+	@extend %smalls_three_quarters;
+	&.tab_line > .tabs .tab:not(.active) {
+		@extend %color_white;
+		opacity: .6;
+		&:hover {
+			opacity: 1;
+		}
+	}
+}
+////////////////////////
+// Weather
+////////////////////////
+.weather {
+	// @extend %small_hide;
+	@extend %small_pad_n;
+	@extend %small_space_n;
+	// @extend %small_float_right;
+	@extend %smalls_one_quarter;
+	@extend %smalls_pad_t_half;
+	@extend %smalls_space_t_quarter;
+	@extend %space_n_l;
+	@extend %pad_n_l;
+	@extend %right;
+	@extend %txt_right;
+	color: $color_white !important;
+	.column {
+		@extend %small_one_whole;
+	}
+	.txt_right {
+		@include media-query(small) {
+			text-align: center !important;
+		}
+	}
+}
+.w_current {
+	@include type_font_size(modular-scale(3));
+}
+.w_icon {
+	@include type_font_size(modular-scale(6));
+	@include opacity(.75);
+	@include media-query(small) {
+		@include type_font_size(modular-scale(3));
+	}
+}
+
+////////////////////////
+// main
+////////////////////////
+.homepage_main {
+	z-index: 0;
+
+	> .wrap > .tab_content {
+		border: none;
+		@extend %bg_transparent;
+	}
+}
+.row_homepage {
+	@include media-query((lap,smalls)){
+		@include type-space(margin-bottom, 1.5);
+		// display: table;
+		// > .main_content {
+		// 	display: table-footer-group;
+		// }
+	}
+}
+
+////////////////////////
+// Slider
+////////////////////////
+.homepage_slider {
+	@extend %lap_two_thirds;
+	@extend %smalls_pad_t;
+	@extend %smalls_space_t_half;
+	.box_flag_media {
+		@extend %bigs_two_fifths;
+		@extend %lap_one_third;
+		@extend %smalls_one_third;
+	}
+	a.slide_media{
+		@include type-space(max-height, 14);
+	}
+	.slick-slider {
+		@extend %smalls_space_n_b;
+	}
+	.slide {
+		@extend %smalls_space_b_half;
+		@include type-space(height, 12.9);
+		//Weird number for alignment
+	}
+	.feature_body{
+		@include type-space(height, 12.9);
+	}
+}
+
+////////////////////////
+// Mission Watch
+////////////////////////
+.mission_watch {
+	@extend %space_n_l;
+	@extend %pad_b;
+	@extend %bigs_pad_t;
+	@extend %smalls_pad_b_half;
+	@include media-query(lap) {
+		width: 33.333% !important;
+	}
+}
+
+////////////////////////
+// The Feed
+////////////////////////
+.homepage_feed {
+	transform: translateZ(0);
+	zoom: 1;
+	@extend %lap_one_whole;
+	@extend %smalls_one_whole;
+	@include type-space(min-height, 12);
+	.half {
+		@extend %smalls_one_whole;
+	}
+	.card {
+		@include media-query(smalls) {
+			// @include type-space(height, 13.5);
+			@include type-space(height, 15.5);
+			@include type-space(max-width, 22);
+		}
+		@media screen and (max-height: 758px){
+			@include type-space(height, 13.5);
+			@include type-space(max-height, 14.5);
+			@include type-space(max-width, 20);
+
+			&_expand{
+				@include type-space(max-height, 13.5);
+			}
+		}
+	}
+	.card_media {
+		@include media-query(smalls) {
+			@include type-space(min-height, 6.5);
+		}
+		@media screen and (max-height: 758px){
+			@include type-space(min-height, 4.5);
+		}
+	}
+}
+.date_two_lines {
+	span {
+		@extend %block;
+	}
+	&.circle {
+		span {
+			@extend %txt_center;
+			&:first-child {
+				@extend %pad_t_quarter;
+			}
+			&:last-child {
+				@include type_font_size(modular-scale(2));
+				@extend %txt_serif;
+				@extend %space_neg_t_half;
+				padding-bottom: 2px;
+			}
+		}
+	}
+}
+
+.feature_wide {
+	@include type-space(margin-bottom, 1.5);
+	@extend %smalls_pad_n;
+	> div {
+		border-top: 2px solid color(form);
+		border-bottom: 2px solid color(form);
+	}
+	.eighth {
+		@extend %smalls_hide;
+	}
+	.quarter {
+		@extend %smalls_one_whole;
+	}
+	.sub_heading {
+		@extend %smalls_space_neg_b_half;
+		@extend %color_label;
+	}
+	.five_eighths {
+		@extend %smalls_one_whole;
+	}
+}
+
+////////////////////////
+// Promos
+////////////////////////
+.homepage_side_content {
+	@extend %bigs_one_quarter;
+	@extend %lap_one_whole;
+	// @extend %push_smalls_one_whole;
+	@extend %space_n_l;
+	@extend %right;
+}
+.homepage_promo_container {
+	.header_gray {
+		@include type-space(margin-top, 1.5);
+		@extend %pad_t_quarter;
+		@extend %pad_b;
+		@extend %border_t;
+	}
+}
+.see_all_events {
+	@include type-space(margin-top, 1.5);
+	@extend %block;
+	@extend %border_t_half;
+	@extend %pad_v_quarter;
+	@extend %txt_upper;
+	border-color: currentColor;
+	color: color(link);
+}
+.row_homepage .sidebar{
+	@include mq(desk){
+		width: 24.5%; // Firefox Fix
+	}
+}

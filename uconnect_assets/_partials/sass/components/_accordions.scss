@@ -1,0 +1,298 @@
+////////////////////////
+// Accordion
+////////////////////////
+
+$acc-bounce: unquote('cubic-bezier(.39, -0.18, .5, 1.22)');
+
+// BASIC ACCORDION
+// Required class for all proceeding accordions.
+// Class should be the wrapper for the entire accordion.
+// e.g.
+// <div class="accordion">
+//	 <a>Accordion title [always shown]</a>
+//	 <div>Accordion child</div>
+//	 <div>Accordion child</div>
+// </div>
+
+.accordion {
+	@extend %icon_arrow_up;
+	position: relative;
+	@extend %block;
+	@extend %cursor_pointer;
+
+	&:before {
+		color: color(link);
+		@extend %cursor_pointer;
+		margin-top: .6em;
+		@extend %abs_right;
+	}
+	&:hover, &:focus, &:active {
+		&:before {
+			color: darken(color(link), 15%);
+		}
+	}
+	> *{
+		transition: max-height 100ms $acc-bounce,
+			padding 200ms $acc-bounce,
+			margin 100ms $acc-bounce,
+			transform 150ms $acc-bounce;
+	}
+}
+
+.accordion_closed {
+	&:before {
+		content: "\e629" !important;
+		@extend %abs_right;
+	}
+	> * {
+		@extend %o_hide;
+		max-height: 0;
+		padding: 0;
+		margin: 0;
+	}
+	& .accordion_target{
+		transform: scale(1, 0.0001);
+		max-height: 0;
+	}
+	> :first-child{
+		display: inherit;
+		max-height: none;
+		overflow: visible;
+		position: relative;
+	}
+}
+
+.accordion_tree{
+	@extend %space_b_half;
+	@extend %bigs_space_b;
+	@extend %bigs_pad_b_half;
+	position: relative;
+
+	ul, li, a{
+		transition: background-color 200ms ease-in, padding 200ms ease-in;
+	}
+
+	&_head{
+		@extend %color_label;
+		@extend %inline_block;
+
+		//Create the border above the accordion_tree_head
+		&:before{
+			@extend %content_blank;
+			height: 2px;
+			background-color: color(form);
+			@extend %abs_left;
+			@extend %abs_right;
+			position: absolute;
+			top: -4px;
+		}
+
+		& + .accordion_trigger{
+			@extend %color_label;
+		}
+	}
+	& li > a {
+		font-size: .9em; //Used for better spacing between items.
+		padding-bottom: .209em; // Forces height back to 24px
+		display: inline-block;
+	}
+	@include mq((bigs, smallish)){
+		& .row{
+			@include type-space(margin-top, -1);
+
+			&:after{
+				content: "";
+				display: table;
+				clear: both;
+			}
+		}
+
+	//Creates a 'brick' style layout,
+	// reducing gaps between lines of columns
+		& .column{
+			float: left;
+
+			&:nth-child(2n+2){
+				float: right;
+			}
+
+			//HACK: fixes weird float issue
+			// Caused by sub_heading line-height being off by .1px
+			&:first-child{
+				position: relative;
+				margin-top: -1px;
+				top: 1px;
+			}
+		}
+	}
+
+
+}
+
+
+
+/*
+ * Split accordions (Where title is also clickable)
+ * Set up:
+ * <div class="accordion accordion_split">
+ * 	<a href="">
+ */
+
+
+.accordion_split{
+	position: relative;
+
+	&:before{
+		@extend %display_none;
+	}
+
+	& > a:first-child, & > span a{
+		@extend %block;
+		@extend %pad_r_2;
+	}
+}
+
+.accordion_trigger{
+	@extend %cursor_pointer;
+	transition: all 80ms ease-in-out;
+	position: absolute;
+	@include type-space(right, -.6);
+	@include type-space(top, -.25);
+	@extend %pad_half;
+	@extend %pad_b_quarter;
+	@include type-space(min-width, 2);
+	overflow: visible !important;
+	text-align: left;
+	max-height: none;
+	font-size: 1.2em;
+
+	&:before{
+		line-height: normal;
+		vertical-align: top;
+		padding-right: 0;
+		content: attr(data-icon);
+	}
+}
+
+.accordion_target{
+	transform: translateZ(0);
+	transform-style: preserve-3d;
+	transform-origin: 50% 1%;
+}
+
+// ACCORDION_BORDERED
+// Combine with accordion_split to create
+// an accordion button with a background and border
+
+.accordion_bordered{
+	.accordion_trigger{
+		transition: color 50ms ease-in-out,
+			background 200ms ease-in,
+			border 150ms ease-in;
+		border-left: 0 solid color(highlight, dark);
+		background-color: color(highlight);
+		@include type-space(bottom, -3);
+		@include type-space(top, -.5);
+		z-index: 1;
+
+		&.active{
+			transition: all 80ms ease-in-out;
+			border-color: color(highlight);
+			@extend %bg_transparent;
+			border-radius: 2px;
+			border-left-width: 1px;
+		}
+
+		&:hover, &:focus{
+			background-color: tint(color(highlight), 60%);
+			border-color: color(highlight);
+		}
+		&:active{
+			background-color: color(form, light);
+			border-color: mix(color(select), color(form, light), 30%);
+		}
+
+	}
+}
+
+
+
+
+//.build_flat_accordion {
+//	@include type_font_size(modular-scale(0));
+//    padding-bottom: 2px;
+//    a {
+//        @extend %link_naked;
+//    }
+//    ul {
+//        @extend %list_naked;
+//        padding: 0;
+//        margin: 0;
+//    }
+//    .accordion {
+//        &:before {
+//            @include type_font_size(modular-scale(1));
+//            @include type_space(padding, .5);
+//            content: "\e64e" !important;
+//            margin: 0;
+//            // position: absolute;
+//        }
+//    }
+//    .accordion_closed {
+//        &:before {
+//            content: "\e64d" !important;
+//        }
+//    }
+//    .column > ul {
+//        > li {
+//            @include type_space(margin-top, 1);
+//            @include type_space(padding-top, .5);
+//            border-top: 2px solid $label_color;
+//            > a:first-child {
+//                @extend %h6;
+//                color: $label_color;
+//            }
+//            > ul {
+//                // @extend %row;
+//                margin-top: 12px !important;
+//                > li {
+//                    @include type_space_sc(margin, 0,0,.5,0);
+//                    @include type_space(padding, 1);
+//                    // @extend %column;
+//                    @extend %box_panel;
+//                    background: white;
+//                    display: inline-block;
+//                    // max-width: 48%;
+//                    padding: 0;
+//                    vertical-align: top;
+//                    // width: 100%;
+//                    @include media-query(bigs) {
+//                        width: 48%;
+//                        &:nth-child(odd) {
+//                            margin-right: 2%;
+//                        }
+//                        &:nth-child(even) {
+//                            margin-left: 2%;
+//                        }
+//                    }
+//                    a {
+//                        @include type_space_sc(padding, .5,1,.5,1);
+//                        display: inline-block;
+//                        margin: 0;
+//                        max-width: calc(100% - 66px);
+//                    }
+//                    > a {
+//                        @include type_font_size(modular-scale(0));
+//                        @extend %txt_bold;
+//                    }
+//                    li {
+//                        border-top: 0 !important;
+//                        cursor: default;
+//                        margin: 0 !important;
+//                        padding: 0 !important;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}

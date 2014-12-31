@@ -1,0 +1,17 @@
+.cart {
+	.header_gray {
+		&:before {
+			@extend %pad_r_quarter;
+		}
+	}
+}
+.cartList {
+	a {
+		@extend %inline-block;
+		&.remove {
+			@extend %pad_h_half;
+			@extend %space_neg_r_half;
+			float: right;
+		}
+	}
+}

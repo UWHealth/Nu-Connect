@@ -1,22 +1,23 @@
-@charset "UTF-8";
+@charset 'UTF-8';
 
-//Imports (must be called after variables are defined).
+//Base Imports
+//Functionality are defined first (these generate no CSS).
 @import 'utilities/_functions',
-        'base/_config',
-        'utilities/_variables',
-        'colors/_colors',
-        'type/_fonts',
-		'utilities/_helpers',
-        'utilities/easings',
-		'layout/_import',
-        'type/_typography',
-		'type/_icons',
-        'type/_transforms',
-        'vendor/_calc',
-        'vendor/_normalize',
-        // 'vendor/_multiline-ellipsis',
-        'components/_import',
-        'vendor/_slick',
-        'vendor/_magnific',
-        'sections/_import',
-        'base/_app';
+		'base/_config',
+		'utilities/_variables';
+
+// App style imports
+@import 'type/_fonts',
+	   'colors/_colors',
+       'utilities/_helpers',
+       'layout/_import',
+       'type/_typography',
+       'type/_icons',
+       'type/_transforms',
+       'vendor/_calc',
+       'vendor/_normalize',
+       'components/_import',
+       'vendor/_slick',
+       'vendor/_magnific',
+       'sections/_import',
+       'base/_app';

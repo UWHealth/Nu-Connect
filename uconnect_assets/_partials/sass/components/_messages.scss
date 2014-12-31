@@ -1,0 +1,90 @@
+.msg{
+    border-radius: 3px;
+    @extend %pad_h_quarter;
+    padding-top: .75em;
+    padding-bottom: .75em;
+    position: relative;
+    @extend %space_b;
+
+    &:before{
+        font-size: 1.25em;
+        line-height: 2.75em;
+        width: 2em;
+        text-align: center;
+        @extend %absolute;
+        @extend %abs_left;
+        @extend %abs_middle;
+        @extend %display_block;
+    }
+
+    &_success{
+        background-color: color(green, lighter);
+        border-color: color(green, dark);
+        padding-left: 2.25em;
+
+        &:before{
+            color: color(green, dark);
+            @extend %icon_info_success;
+        }
+    }
+    &_error{
+        @extend %bg_red;
+        border-color: color(select);
+        padding-left: 2.25em;
+
+        &:before{
+            color: color(select);
+            @extend %icon_info_error;
+        }
+    }
+}
+.help_tip:hover .help_tip_inner:before {
+    border-top: 5px solid black;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    margin-bottom: -4px;
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 3px;
+    bottom: 125%;
+}
+
+.help_tip:hover .help_tip_inner:after {
+    content: attr(data-tip);
+    position: absolute;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-size: 14px;
+    padding: .45rem .8rem;
+    z-index: 2;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 125%;
+    width: 100%;
+}
+.help_icon{
+    color: color(link);
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    border-radius: 15px;
+    background-color: white;
+    line-height: 16px;
+    vertical-align: middle;
+    &:before{
+        padding: 0;
+    }
+}
+.help_tip_inner{
+    width: 400px;
+    display: table;
+}
+.help_tip {
+    @extend %type_family_primary;
+    z-index: 500;
+    font-size: 14px;
+}

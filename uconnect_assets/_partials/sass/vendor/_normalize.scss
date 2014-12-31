@@ -25,7 +25,9 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 audio,canvas,video,progress {
     display: inline-block;
     *display: inline;
-    *zoom: 1;}
+    *zoom: 1;
+    vertical-align: middle;
+}
 
 //
 // Prevent modern browsers from displaying `audio` without controls.
@@ -74,13 +76,14 @@ textarea {
 //
 
 a{
-    cursor: pointer;
-    color: color(link);
+    @extend %cursor_pointer;
+	@extend %color_link;
     background: transparent; //[1]
 
 	&:hover,
     &:focus {
-        color: lighten(color(link), 15%);
+        color: color(link, light);
+        outline: 0;
     }
 
     &:focus {
@@ -92,7 +95,9 @@ a{
         color: color(select);
     }
 }
-
+[tabindex]:focus{
+    outline: 1px dotted #ddd;
+}
 @mixin link_color($color) {
     color: $color;
 
@@ -114,8 +119,8 @@ a{
 
 fieldset {
     border: 0;
-    margin: 0 2px;
-    @include type_space(padding, .5);
+    margin: 0;
+    padding: 0;
 }
 
 //
@@ -258,7 +263,7 @@ html input[type="button"], //[1]
 input[type="reset"],
 input[type="submit"] {
     -webkit-appearance: button; //[2]
-    cursor: pointer; //[3]
+    @extend %cursor_pointer; //[3]
 }
 
 
@@ -330,7 +335,7 @@ html input[type="button"], // [1]
 input[type="reset"],
 input[type="submit"] {
     -webkit-appearance: button; // [2]
-    cursor: pointer; // [3]
+    @extend %cursor_pointer; // [3]
     *overflow: visible;  // [4]
 }
 
@@ -496,7 +501,7 @@ button,
 input,
 select,
 textarea {
-    color: #222;
+    @extend %color_txt;
 }
 
 ::-moz-selection {
@@ -525,7 +530,7 @@ hr {
 .chromeframe {
     margin: 0.2em 0;
     background: #ccc;
-    color: #000;
+    @extend %color_txt;
     padding: 0.2em 0;
 }
 

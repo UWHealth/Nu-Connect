@@ -4,8 +4,8 @@
 #main {
     @extend %o_hide;
     @include mq(small){
-        border-left: 0px;
-        border-right: 0px;
+        border-left: 0;
+        border-right: 0;
     }
 }
 
@@ -15,7 +15,11 @@
 	}
 
 }
+.mix.uwhc.uwmf a {
+    padding-right: 2.65em;
+}
 .mixitup{
+    transform: translateZ(0);
 	@extend %bigs_space_neg_l;
 	@extend %space_neg_l_half;
 	letter-spacing: -.75em;
@@ -38,7 +42,7 @@
 	a {
 		@include type_font-size(modular-scale(0));
 		@extend %link_naked;
-		display: block;
+		@extend %block;
 		position: relative;
 		border-bottom: 1px solid color(link);
 	}
@@ -49,30 +53,17 @@
 			@include mq(bigs){
 				font-size: 20px;
 			}
-			position: absolute;
-			right: 0;
 		}
 	}
-	.icon_uwhealth {
-		&:before {
-			color: color(label, dark);
-		}
-	}
-	.icon_uwhc {
-		&:before {
-			color: color(link);
-		}
-	}
-	.icon_uwmf {
-		&:before {
-			color: color(link, darker);
-		}
+	[data-org] a{
+		@extend %pad_r;
 	}
 }
+
 .mix{
 	@extend %pad_l_half;
 	@extend %bigs_pad_l;
-    display: inline-block;
+	@extend %inline-block;
 	opacity: 1;
     &:first-child{
         border-top-color: #ddd;
@@ -82,8 +73,11 @@
     @extend %lap_one_half;
 	@extend %smallish_one_half;
 }
+.mix[data-title="undefined"]:before{
+	@extend %hide;
+}
 .js #Grid .mix, .js #Grid .column{
-    display: none;
+    @extend %display_none;
 }
 
 ////////////////////////
@@ -99,17 +93,12 @@
         @extend %pad_b_quarter;
     }
 	a {
-		@extend %pad_n;
-		////////////////////////
-		// /departments/uconnect-departments-index.hbs
-		&.company_uwhealth, &.company_uwhc, &.company_uwmf {
-			padding-right: $base_line_height !important;
-		}
+		padding: 0;
 	}
     .categoryHidden {
         overflow:hidden;
         height: 1px;
-        width: 0px;
+        width: 0;
         padding: 0;
         margin: 0;
 		opacity: 0;
@@ -117,12 +106,12 @@
     }
 }
 .mix_initiated .mix{
-    display: none;
+    @extend %display_none;
 }
 .sorted .mix:before {
     content: attr(data-title);
     display: block;
-    white-space:pre;
+    // white-space:pre;
 	@extend %txt_small;
 	color: color(label);
 }

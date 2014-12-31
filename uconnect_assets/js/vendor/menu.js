@@ -1,15 +1,21 @@
-require(['jquery', 'tabs', 'general_functions'], function($) {
+var dependencies = [
+        'jquery',
+        'general_functions',
+        'tabs'
+    ];
+
+require(dependencies, function($, gf) {
 
     $(document).on('click', 'body', function(e) {
         if ($('#mega_buttons .tab').hasClass('active')) {
-            if (app.click_check($('#mega_nav'), e) === false && app.click_check($('#mega_buttons'), e) === false && app.click_check($('[data-toggle="#mega_nav"]'), e) === false) {
+            if (gf.check_click($('#mega_nav'), e) === false && gf.check_click($('#mega_buttons'), e) === false && gf.check_click($('[data-toggle="#mega_nav"]'), e) === false) {
                 $('#mega_nav').find('.tab_button.active').removeClass('active')
                 $('#mega_buttons').find('.active').removeClass('active');
                 // $('#mega_nav').not('.active').find('.tab_content:visible')
                 $('#mega_nav > .tabbed > .tab_content:visible')
                     .velocity({
                         "margin-top": [0, 0],
-						rotateX: ["90deg", [.41, -0.5, 0, 1.14], "0"],
+						scaleY: ["0.00001", [.41, -0.5, 0, 1.14], "1"],
 						//cubic-bezier(.41, -0.5, 0, 1.14)
                         translateY: ["-1%", [.31, -0.41, .5, .59], "0"],
                         opacity: [0, "easeOut", 1]
@@ -23,15 +29,6 @@ require(['jquery', 'tabs', 'general_functions'], function($) {
                 }
             }
         }
-    });
-
-    // Remove line-breaks from tab_buttons
-    function removeMainNavLineBreaks() {
-            $('#mega_nav .tab_button').find("br").remove();
-    }
-    removeMainNavLineBreaks();
-    $(window).resize(function() {
-        removeMainNavLineBreaks();
     });
 
     $(function() {
