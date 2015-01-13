@@ -106,7 +106,7 @@ html {
 			border-color: currentColor transparent transparent transparent;
 			padding-left: 0;
 			padding-right: 0;
-			@extend %bg_transparent;
+			background-color: transparent;
 			@extend %pad_n_b;
 		}
 	}

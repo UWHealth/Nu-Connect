@@ -159,7 +159,7 @@ define([
               "predefined_filters":{},        // predefined filters to apply to all searches
               "paging":{
                   "from":0,                   // where to start the results from
-                  "size":10                   // how many results to get
+                  "size": 14                  // how many results to get
               },
               "filter":[],
               "nofsuggest":10

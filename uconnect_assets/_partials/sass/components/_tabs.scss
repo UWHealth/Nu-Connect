@@ -554,6 +554,13 @@ $tab_minimal_include: 				true 					!default;
 
 } // End minimal tabs @IF
 
+//Single-tabbed sections
+// Removes top border
+main .tabbed > .tab_button:first-child + .tab_content {
+	border-top-width: 0;
+	border-radius: 3px;
+}
+
 //------------------------------------
 //    $IE8
 //------------------------------------

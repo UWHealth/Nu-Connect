@@ -161,7 +161,7 @@ define([
               "predefined_filters":{},        // predefined filters to apply to all searches
               "paging":{
                   "from":0,                   // where to start the results from
-                  "size":10                   // how many results to get
+                  "size":14                   // how many results to get
               },
               "filter":[],
               "nofsuggest":10
@@ -1074,28 +1074,28 @@ define([
             //  line=line+'</span>';
             // }
           var altDescription = "";
+          var c = record['keywords'];
           if(record['alternateDescription'] != "" & record['alternateDescription'] != null && record['alternateDescription'] != undefined && record['alternateDescription'] != "undefined")
             altDescription = record['alternateDescription'];
           line=line+'</label></header><div class="card_body"><h1 class="heading card_heading"><a class="link_naked" href="'+record['url']+'">'+record['title']+'</a></h1><p class="card_summary txt_small">'+altDescription+'</p></div><footer class="card_foot card_cover txt_small">';
-            if (record['keywords']) {
-              line=line+'<div class="card_action"><dl class="card_tags"><dt class="card_tag txt_upper color_label">Tagged</dt>';
-              var c=record['keywords'];
+            if (c) {
               var keyArray = c.toString().split(',');
               var keyArrayLength = keyArray.length;
-                if (keyArray.length > 0) {
-                  for (var i = 0; i < keyArrayLength; i++) {
-                    line=line+'<dd class="card_tag"><a class="tag icon" href="/tag/?query=keywords:'+keyArray[i].trim()+'&col=all">'+keyArray[i].trim()+'</a></dd>';
-                  }
-                } else {
+                if ((c.length > 0)  && (keyArray[0] !== "")) {
 
+                line=line+'<div class="card_action"><dl class="card_tags"><dt class="card_tag txt_upper color_label">Tagged</dt>';
+
+                  for (var i = 0; i < keyArrayLength; i++) {
+                    line = line+'<dd class="card_tag"><a class="tag icon" href="/tag/?query=keywords:'+keyArray[i].trim()+'&col=all">'+keyArray[i].trim()+'</a></dd>';
+                  }
                 }
               line=line+'</dl></div>'
             }
           line=line+'</footer></article>';
           line=line+'</div></div>';
           if (line) {
-                      lines += line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'');
-                  }
+            lines += line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'');
+          }
         //********************************************************************
               lines ? result += lines : result += JSON.stringify(record,"","    ")
               //result += '</td></tr>'

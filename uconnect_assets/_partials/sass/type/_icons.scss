@@ -268,6 +268,12 @@
 .icon_delete {
 	@extend %icon_sym_delete;
 }
+.icon_image {
+	@extend %icon_type_image;
+}
+.icon_zip{
+	@extend %icon_file_zip;
+}
 [class*="icon_xls"] {
 	@extend %icon_file_excel;
 }

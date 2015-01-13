@@ -135,3 +135,9 @@
 		display: none;
 	}
 }
+
+// Search JS puts inline-style: text-transform: capitalize
+// These selectors are for the different companies
+#fltchoice_uwhc, #fltchoice_uwmf {
+	text-transform: uppercase !important;
+}

@@ -7,7 +7,7 @@
 		position: relative !important;
 		z-index: 1 !important;
 		max-width: none;
-		
+
 		.img_cover{
 			opacity: .8;
 		}
@@ -60,17 +60,18 @@
 // Weather
 ////////////////////////
 .weather {
-	// @extend %small_hide;
 	@extend %small_pad_n;
 	@extend %small_space_n;
-	// @extend %small_float_right;
 	@extend %smalls_one_quarter;
 	@extend %smalls_pad_t_half;
 	@extend %smalls_space_t_quarter;
-	@extend %space_n_l;
 	@extend %pad_n_l;
 	@extend %right;
 	@extend %txt_right;
+	width: 19%; //Firefox fix
+	@include media(smalls){
+		width: 22%;
+	}
 	color: $color_white !important;
 	.column {
 		@extend %small_one_whole;

@@ -32,6 +32,11 @@
 .txt_capital, %txt_capital{
 	text-transform: capitalize;
 }
+.label {
+	@extend %color_label;
+	@extend %sub_heading;
+	margin-bottom: 0;
+}
 .txt_truncate, %txt_truncate {
 	@include rems(height, type_space(2));
 	@extend %o_hide;

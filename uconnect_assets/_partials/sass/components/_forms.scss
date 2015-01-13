@@ -7,11 +7,7 @@ label {
 	@extend %txt_upper;
 	@extend %txt_bold;
 }
-.label {
-	@extend %color_label;
-	@extend %sub_heading;
-	margin-bottom: 0;
-}
+
 //Useful variables that coorespond to the overall height of inputs
 // (as defined below)
 $bigs-input-padding:
@@ -116,7 +112,7 @@ textarea{
 	}
 }
 
-input[type="search"]:-webkit-autofill {
+input::-webkit-autofill {
 	background-color: rgba(color(form), .1) !important;
 
 	&:focus {
@@ -413,6 +409,7 @@ input {
 		background-color: mix(color(form), color(alert, lightest), 80%);
 	}
 }
+
 .validation {
 	//Applied to the label/input container
 	// Wraps the input and validation message
@@ -461,6 +458,16 @@ input {
 		@extend %space_t;
 	}
 }
+tr.validation {
+	display: table-row;
+
+	> td {
+		position: relative;
+	}
+}
+td.validation{
+	display: table-cell;
+}
 
 // Make sure arrows don't show up before JS has formatted everything.
 .vld {
@@ -474,30 +481,27 @@ input {
 	}
 }
 
-.vld {
-	&_icon{
-		@include rems(font-size, 16px);
-		@include type-space(padding-bottom, .25);
-		right: 0;
-		bottom: 0;
+.vld_icon{
+	@include rems(font-size, 16px);
+	@include type-space(padding-bottom, .25);
+	right: 0;
+	bottom: 0;
 
-		&.icon_success{
-			color: color(green, darkest);
-		}
+	&.icon_success{
+		color: color(green, darkest);
 	}
+}
 
+.validation .vld {
 	&_top {
 		@extend %abs_right;
 		bottom: 100%;
 
 		&:after { //Triangle placement
 			@include triangle('down', 2em, currentColor);
-			bottom: -1.85em;
+			bottom: -.85em;
 			right: 1px;
 			z-index: 1;
-		}
-		& .validation_body{
-			top: .85em;
 		}
 	}
 

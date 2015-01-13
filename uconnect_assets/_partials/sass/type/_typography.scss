@@ -391,6 +391,14 @@ legend{
   @extend %txt_upper;
   @extend %txt_small;
 }
+code {
+    width: 100%;
+    display: block;
+    overflow: auto;
+    padding: .75rem;
+    white-space: pre;
+    background-color: color(form, lightest);
+}
 
 ////////////////////////
 // Typography
