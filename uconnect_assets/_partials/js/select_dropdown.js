@@ -6,16 +6,16 @@ define([
 
         tamingselect: (function() {
 
-        // http://www.icant.co.uk/forreview/tamingselect/
-        // ala http://www.scribbletribe.com/how-to-style-the-select-dropdown/
+            // http://www.icant.co.uk/forreview/tamingselect/
+            // ala http://www.scribbletribe.com/how-to-style-the-select-dropdown/
 
             if (!document.getElementById && !document.createTextNode) {
                 return;
             }
 
             // Classes for the link and the visible dropdown
-            var ts_selectclass = 'select_dropdown'; // class to identify selects
-            var ts_select2class = 'dd_select2'; // class to identify select2 plugin dds, not this implementation
+            // var ts_selectclass = 'select_dropdown'; // class to identify selects
+            var ts_select2class = 'dd_select2'; // class to identify select2 plugin thus preventing this implementation
             var ts_listclass = 'dd_turnintoselect'; // class to identify ULs
             var ts_boxclass = 'dd_container'; // parent element
             var ts_trigger = 'dd';
@@ -30,11 +30,12 @@ define([
             var count = 0;
             var toreplace = new Array();
             var sels = document.getElementsByTagName('select');
+
             for (var i = 0; i < sels.length; i++) {
-                // Prevent initialization using class 'dd_no'
-                if (!$(sels[i]).hasClass(ts_select2class)) {
+                // Prevent initialization using class 'dd_select2'
+                if (!ts_check(sels[i], ts_select2class)) {
                     // check for scroll class on container, and apply if it exists
-                    if (ts_check(sels[i], ts_dropdownopen_scroll)) {
+                    if (!ts_check(sels[i], ts_dropdownopen_scroll)) {
                         ts_dropdownopen = 'dd_visible scroll';
                     }
                     var hiddenfield = document.createElement('input');
@@ -47,7 +48,7 @@ define([
                     ts_addclass(trigger, ts_trigger);
                     ts_addclass(trigger, ts_triggeroff);
                     trigger.href = '#';
-                    trigger.onclick = function () {
+                    trigger.onclick = function() {
                         ts_swapclass(this, ts_triggeroff, ts_triggeron)
                         ts_swapclass(this.parentNode.getElementsByTagName('ul')[0], ts_dropdownclosed, ts_dropdownopen);
                         return false;
@@ -65,8 +66,9 @@ define([
                         $(newli).attr('data-value', sels[i].getElementsByTagName('option')[j].value);
                         $(newli).attr('data-type', $(sels[i].getElementsByTagName('option')[j]).attr('data-type'));
                         newa.appendChild(document.createTextNode(
-                            sels[i].getElementsByTagName('option')[j].text));
-                        newli.onclick = function () {
+                            sels[i].getElementsByTagName('option')[j].text)
+                        );
+                        newli.onclick = function() {
                             this.elm.value = this.v;
                             ts_swapclass(this.istrigger, ts_triggeron, ts_triggeroff);
                             ts_swapclass(this.parentNode, ts_dropdownopen, ts_dropdownclosed);
@@ -86,69 +88,68 @@ define([
                     // wrap elements in <div>
                     $(div).wrapAll('<div class="' + ts_dropdown_wrapper + '"></div>');
                 }
-
-                // Turn all ULs with the class defined above into dropdown navigations
-                var uls = document.getElementsByTagName('ul');
-                for (var i = 0; i < uls.length; i++) {
-                    if (ts_check(uls[i], ts_listclass)) {
-                        var newform = document.createElement('form');
-                        var newselect = document.createElement('select');
-                        for (j = 0; j < uls[i].getElementsByTagName('a').length; j++) {
-                            var newopt = document.createElement('option');
-                            newopt.value = uls[i].getElementsByTagName('a')[j].href;
-                            newopt.appendChild(document.createTextNode(uls[i].getElementsByTagName('a')[j].innerHTML));
-                            newselect.appendChild(newopt);
-                        }
-                        newselect.onchange = function() {
-                            window.location = this.options[this.selectedIndex].value;
-                        }
-                        newform.appendChild(newselect);
-                        uls[i].parentNode.insertBefore(newform, uls[i]);
-                        toreplace[count] = uls[i];
-                        count++;
-                    }
-                }
-
-                for (i = 0; i < count; i++) {
-                    toreplace[i].parentNode.removeChild(toreplace[i]);
-                }
-
-                function ts_check(o, c) {
-                    return new RegExp('\\b' + c + '\\b').test(o.className);
-                }
-
-                function ts_swapclass(o, c1, c2) {
-                    var cn = o.className
-                    o.className = !ts_check(o, c1) ? cn.replace(c2, c1) : cn.replace(c1, c2);
-                }
-
-                function ts_addclass(o, c) {
-                    if (!ts_check(o, c)) {
-                        o.className += o.className == '' ? c : ' ' + c;
-                    }
-                }
-
-                // Close dropdown on document click
-                $(document).click(function(e) {
-                    if (!$('.dd_trigger, .dd_activetrigger, .dd_container').is(e.target)) { // if the target of the click isn't the trigger nor select options
-                        $('.dd_activetrigger').addClass('dd_trigger').removeClass('dd_activetrigger'); // add closed trigger class
-                        $('.dd_visible').addClass('dd_hidden').removeClass('dd_visible'); // add hide dropdown class
-                        e.stopImmediatePropagation();
-                    }
-                });
-
-                $(function() {
-                    // Add active li/option class to first-child
-                    $('.dd_container li:first-child').addClass('dd_active_item');
-                    // Toggle active li/option class
-                    $('.dd_container li').click(function(e) {
-                        $(this).parent().find('li').removeClass('dd_active_item');
-                        $(this).addClass('dd_active_item');
-                        e.preventDefault();
-                    });
-                });
-
             }
+
+            // Turn all ULs with the class defined above into dropdown navigations
+            var uls = document.getElementsByTagName('ul');
+            for (var i = 0; i < uls.length; i++) {
+                if (ts_check(uls[i], ts_listclass)) {
+                    var newform = document.createElement('form');
+                    var newselect = document.createElement('select');
+                    for (j = 0; j < uls[i].getElementsByTagName('a').length; j++) {
+                        var newopt = document.createElement('option');
+                        newopt.value = uls[i].getElementsByTagName('a')[j].href;
+                        newopt.appendChild(document.createTextNode(uls[i].getElementsByTagName('a')[j].innerHTML));
+                        newselect.appendChild(newopt);
+                    }
+                    newselect.onchange = function() {
+                        window.location = this.options[this.selectedIndex].value;
+                    }
+                    newform.appendChild(newselect);
+                    uls[i].parentNode.insertBefore(newform, uls[i]);
+                    toreplace[count] = uls[i];
+                    count++;
+                }
+            }
+
+            for (i = 0; i < count; i++) {
+                toreplace[i].parentNode.removeChild(toreplace[i]);
+            }
+
+            function ts_check(o, c) {
+                return new RegExp('\\b' + c + '\\b').test(o.className);
+            }
+
+            function ts_swapclass(o, c1, c2) {
+                var cn = o.className
+                o.className = !ts_check(o, c1) ? cn.replace(c2, c1) : cn.replace(c1, c2);
+            }
+
+            function ts_addclass(o, c) {
+                if (!ts_check(o, c)) {
+                    o.className += o.className == '' ? c : ' ' + c;
+                }
+            }
+
+            // Close dropdown on document click
+            $(document).click(function(e) {
+                if (!$('.dd_trigger, .dd_activetrigger, .dd_container').is(e.target)) { // if the target of the click isn't the trigger nor select options
+                    $('.dd_activetrigger').addClass('dd_trigger').removeClass('dd_activetrigger'); // add closed trigger class
+                    $('.dd_visible').addClass('dd_hidden').removeClass('dd_visible'); // add hide dropdown class
+                    e.stopImmediatePropagation();
+                }
+            });
+
+            $(function() {
+                // Add active li/option class to first-child
+                $('.dd_container li:first-child').addClass('dd_active_item');
+                // Toggle active li/option class
+                $('.dd_container li').click(function(e) {
+                    $(this).parent().find('li').removeClass('dd_active_item');
+                    $(this).addClass('dd_active_item');
+                    e.preventDefault();
+                });
+            });
 
         })
 

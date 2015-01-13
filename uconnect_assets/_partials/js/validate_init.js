@@ -1,6 +1,7 @@
 require([
     'jquery',
-    'validate'
+    'validate',
+    'additional_methods'
 ], function($) {
 
     var ignore_validation = 'input:hidden, input[type=button], input[type=submit], input[type=reset], input.button, .js_ignore_validation, .validation_ignore, .vld_ignore',
@@ -14,7 +15,7 @@ require([
         jQuery.validator.messages, {
             required: "This field is required",
             remote: "Please fix this field",
-            email: "Please enter an email address",
+            email: "Please enter a valid email address",
             url: "Please enter a URL",
             date: "Please enter a valid date",
             dateISO: "Please enter a valid date (ISO)",
@@ -50,11 +51,12 @@ require([
 
                 $error.prependTo($vld_bdy);
 
-                if( element.attr('type') !== 'number'
+                if( $input.attr('type') !== 'number'
+                && $input.attr('type') !== 'date'
                 && ! $input.is('textarea')
                 && ! $wrap.hasClass('vld_no_icon')){
-                        $vld_icon.addClass(this.error_classes[1])
-                            .removeClass(this.success_classes[1]);
+                    $vld_icon.addClass(this.error_classes[1])
+                        .removeClass(this.success_classes[1]);
                 }
             },
             success: function(label, element) {
@@ -67,6 +69,7 @@ require([
                 $vld_msg.addClass(this.success_classes[0]);
 
                 if( $input.attr('type') !== 'number'
+                && $input.attr('type') !== 'date'
                 && ! $input.is('textarea')
                 && ! $wrap.hasClass('vld_no_icon')){
                     $vld_icon.addClass(this.success_classes[1]);
@@ -99,42 +102,35 @@ require([
                 $parents = $this.parent().parent();
                 $pointer = $this.attr('id');
 
-            //Check if Parent(s) has validation class
-            if (! $parent.hasClass('validation')
-            && ! $parents.hasClass('validation')
-            && ! $this.hasClass('validation') ){
-                //If not, add it.
-
-                if (! $parent.siblings('.validation').length
-                && ! $parents.siblings('.validation').length
-                && ! $this.siblings('.validation').length ){
-                  $parent.addClass('validation');
-                }else{
-                  //If siblings have validation, then this is missing a wrapper
-                  $this.wrap('<div class="validation" />');
-                }
-            }
-
             //Redefine parent to closest validation wrapper
             // Useful for validation groups.
             $parent = $this.closest('.validation');
 
+
             //Check for validation message (if not, add it)
             if (! $parent.has('.validation_msg').length){
-                $this.before(validation_insert);
+                if ($this.has('legend').length){
+                    $this.find('legend').addClass('contain').prepend(validation_insert);
+                    $parent.addClass('vld_no_icon');
+                }else {
+                    $this.before(validation_insert);
+                }
             };
             //Check for validation icon (if not, add it)
             if (! $parent.has('.vld_icon').length
                 && ! $parent.hasClass('vld_no_icon')) {
-                $parent.append(vld_icon);
+                $this.after(vld_icon);
             };
 
         });
+        var $validation_msg = $('.validation_msg');
 
+        if(! $validation_msg.parent().hasClass('validation')
+        && ! $validation_msg.parent().parent().hasClass('validation')){
+            $validation_msg.parent().addClass('validation');
+        };
 
-        var $validation_msg = $('.validation_msg'),
-            $validation_labels = $validation_msg.closest('.validation'),
-
+        var $validation_labels = $validation_msg.closest('.validation'),
             //Move validation position instructions down to relevant elements
             trickle_down_classes = function($this, direction_class) {
                 $this.removeClass(direction_class)
@@ -151,19 +147,30 @@ require([
         $validation_labels.each(function() {
             var $this = $(this);
 
+            if ($this.find('input').length > 1){
+                $this.addClass('vld_group');
+            };
+
             if ($this.hasClass('vld_right')){
                 trickle_down_classes($this, 'vld_right');
 
             }else if($this.hasClass('vld_left')){
                 trickle_down_classes($this, 'vld_left');
 
-            }else if($this.is('.vld_top', 'validation_group')){
+            }else if($this.is('.vld_top')){
                 trickle_down_classes($this, 'vld_top');
 
             }else{
                 trickle_down_classes($this, 'vld_bottom');
             };
         });
+
+        $('tr.vld_group').each(function(){
+            $(this).find('td').wrapInner('<div class="contain" style="height: 100%" />');
+        });
+        $('td.vld_group').each(function(){
+            $(this).wrapInner('<div class="contain" style="height: 100%" />');
+        })
 
         // ------------------------------------------------
         // Initialize

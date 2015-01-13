@@ -13,7 +13,7 @@ require.config({
     // 'nodeRequire': 'require',
     // 'optimize': 'none', // for DEV
     // 'urlArgs': 'bust', // DEV
-    'urlArgs': 'bust=v2', // PROD
+    'urlArgs': 'bust=v3', // PROD
     'paths': {
         // ------------------------------------------------
         // Vendor-based

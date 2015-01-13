@@ -1,11 +1,9 @@
 define([
     'jquery',
     'select_dropdown',
-    'mixitup',
-], function($, sd) {
-
-    // Make sure dropdown has been initialized
-    sd.tamingselect();
+    'mixitup'/*,
+    'mixitup_debug'*/
+], function($) {
 
     return {
 

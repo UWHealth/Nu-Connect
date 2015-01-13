@@ -29,22 +29,22 @@ require(dependencies, function($, gf) {
             case 'psb':
             case 'psp':
             case 'ps':
-                return 'image';
+                return 'icon_image';
             break;
             case 'zip':
             case '7zip':
             case 'rar':
-                return 'zip';
+                return 'icon_zip';
             break;
             case 'pdf':
-                return 'pdf';
+                return 'icon_pdf';
             break;
             case 'doc':
             case 'docx':
             case 'docm':
             case 'dot':
             case 'dotx':
-                return 'word';
+                return 'icon_doc';
             break;
             case 'xls':
             case 'xlsx':
@@ -55,10 +55,10 @@ require(dependencies, function($, gf) {
             case 'xltm':
             case 'xla':
             case 'xlam':
-                return 'excel';
+                return 'icon_xls';
             break;
             default:
-                return 'file';
+                return 'icon_file';
         }
     };
 
@@ -71,7 +71,7 @@ require(dependencies, function($, gf) {
             var file = $(this).data('file'),
                 extension = gf.get_extension(file),
                 className = extensionClass(extension);
-            $(this).attr('data-icon', className);
+            $(this).addClass(className);
         });
 
     });

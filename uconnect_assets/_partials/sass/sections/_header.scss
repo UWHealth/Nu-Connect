@@ -771,7 +771,6 @@
 	@extend %one_whole;
 	@extend %lap_one_half;
 	@extend %desk_one_quarter;
-	@extend %smalls_space_b_quarter;
 	@include type-space(height, 4); //Specified height needed for vertical alignment.
 	overflow: hidden;
 	min-width: 160px; //[1]
@@ -800,12 +799,8 @@
 		height: 100%;
 		width: 100%;
 
-		@include mq(lap) {
-			@include type-space(padding-top, .5);
-		}
-
 		@include mq(smalls) {
-			max-width: 240px;
+			@include rems(max-width, 240px);
 			margin-left: auto;
 			margin-right: auto;
 		}
@@ -816,21 +811,18 @@
 	}
 
 	& a {
+		@include rems(max-width, 360px);
 		display: table-cell;
-		max-width: 360px;
 		vertical-align: middle;
 		margin: auto;
 		@media screen and (min-width: 941px) and (max-width: 1110px){
 			text-align: left;
-			// In between common breakpoints, the logo will jump to the top line.
-			// This makes sure it doesn't get too tall for.
 		}
 	}
 
 	& img,
 	& .img {
 		@extend %inline;
-		@extend %pad_b_quarter;
 		max-height: 100%;
 
 		@include mq(desk) {
@@ -838,7 +830,7 @@
 		}
 
 		@include mq(lap) {
-			@include type-space(max-height, 2.5);
+			@include rems(max-height, 62px);
 		}
 	}
 }
@@ -898,13 +890,17 @@
 		@extend %txt_upper;
 		@extend %space_b_half;
 		border: 0 !important;
-		color: $color_white !important;
+		color: tint(color(link), 80%) !important;
 	}
 
 	.column {
 		display: table-cell;
-		border-right: 1px solid tint(color(link), 20%);
+		border-right: 2px solid tint(color(link), 40%);
 		height: 100%;
+
+		.column{
+			border-right: 1px solid tint(color(link), 20%);
+		}
 
 		&:last-child {
 			border-right: 0;
@@ -928,6 +924,9 @@
 		&:hover {
 			text-decoration: underline;
 		}
+	}
+	a:before{
+		color: tint(color(link), 80%);
 	}
 }
 
